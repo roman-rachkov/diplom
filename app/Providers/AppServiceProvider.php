@@ -50,6 +50,5 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PayServiceContract::class, PayService::class);
         $this->app->singleton(AdminSettingsServiceContract::class, AdminSettingsService::class);
         $this->app->singleton(ImportServiceContract::class, ImportService::class);
-
     }
 }
