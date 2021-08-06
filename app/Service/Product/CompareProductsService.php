@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Product;
 
-class CompareProductsService implements \App\Contracts\CompareProductsServiceContract
+use App\Contracts\CompareProductsServiceContract;
+
+class CompareProductsService implements CompareProductsServiceContract
 {
 
     public function add($product)

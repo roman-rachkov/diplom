@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Product;
 
 use Illuminate\Support\Collection;
 
