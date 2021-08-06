@@ -4,16 +4,20 @@
 
 ### _1.1 Модель хранения данных_
 
-![Alt text](project/shop_ver_1.png?raw=true "Модель хранения данных")
+![Alt text](project/shop_schema_ver4.png?raw=true "Модель хранения данных")
 
 В проекте планируется содать следующие модели:
 - Product
-- Seller 
+- ViewedProduct _(Связь с составным внешним ключём product_id-seller_id таблицы product_seller)_
+- Seller
+- Manufacturer
 - User
 - Category 
 - Review 
-- Image _(Полиморфная связь один ко многим, модели: Seller, Product, User, Category)_
+- Image _(Полиморфная связь один ко многим, модели: Seller, Product, User, Category, Banner)_
+- Banner
 - Order
+- OrderItem _(Связь с составным внешним ключём product_id-seller_id таблицы product_seller)_
 - Delivery
 - Discount _(Полиморфная связь многие ко многим через таблицу discountable, модели: Category, Product, CartDiscountCondition)_
 - CartDiscountCondition для хранения условий предоставления скидки на корзину
