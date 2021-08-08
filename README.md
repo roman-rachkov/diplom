@@ -4,7 +4,7 @@
 
 ### _1.1 Модель хранения данных_
 
-![Alt text](project/shop_schema_ver4.png?raw=true "Модель хранения данных")
+![Alt text](project/shop_schema_ver5.png?raw=true "Модель хранения данных")
 
 В проекте планируется содать следующие модели:
 - Product
@@ -13,8 +13,9 @@
 - Manufacturer
 - User
 - Category 
-- Review 
-- Image _(Полиморфная связь один ко многим, модели: Seller, Product, User, Category, Banner)_
+- Review
+- Feedback
+- Image _(Полиморфная связь один ко многим, модели: Seller, User, Category, Banner; Полиморфная связь многие ко многим, модель: Product)_
 - Banner
 - Order
 - OrderItem _(Связь с составным внешним ключём product_id-seller_id таблицы product_seller)_
