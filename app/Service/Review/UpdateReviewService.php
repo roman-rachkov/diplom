@@ -2,7 +2,7 @@
 
 namespace App\Service\Review;
 
-use App\Contracts\Review\UpdateReviewServiceContract;
+use App\Contracts\Service\Review\UpdateReviewServiceContract;
 
 class UpdateReviewService implements UpdateReviewServiceContract
 {

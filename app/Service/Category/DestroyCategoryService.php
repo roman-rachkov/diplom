@@ -2,7 +2,7 @@
 
 namespace App\Service\Category;
 
-use App\Contracts\Category\DestroyCategoryServiceContract;
+use App\Contracts\Service\Category\DestroyCategoryServiceContract;
 
 class DestroyCategoryService implements DestroyCategoryServiceContract
 {

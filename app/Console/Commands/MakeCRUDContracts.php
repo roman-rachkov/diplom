@@ -13,7 +13,10 @@ class MakeCRUDContracts extends Command
      *
      * @var string
      */
-    protected $signature = 'make:crud_contracts {model}';
+    protected $signature = 'make:crud_contracts 
+                            {model : Model name with first capital letter} 
+                            {--only= : Contracts and services should to create (cr - create u - update d - destroy)} 
+                            {--provider : If need to create provider with boot all contracts and services in}';
 
 
     /**
@@ -21,7 +24,7 @@ class MakeCRUDContracts extends Command
      *
      * @var string
      */
-    protected $description = 'Create service contracts, services, provider for given model';
+    protected $description = 'Create CRUD service contracts, services, provider for given model';
 
     /**
      * Create a new command instance.
@@ -47,12 +50,18 @@ class MakeCRUDContracts extends Command
             'destroy' =>'destroy(string $id)'
         ];
 
-        $contractsDirectory = 'Contracts' . DIRECTORY_SEPARATOR . $model;
+        if ($this->option('only')) {
+            foreach (['cr' => 'create', 'u' => 'update', 'd' => 'destroy'] as $abbr => $method) {
+                if (!str_contains($this->option('only'), $abbr)) unset($methodsSignatures[$method]);
+            }
+        }
+
+        $contractsDirectory = 'Contracts' . DIRECTORY_SEPARATOR . 'Service' . DIRECTORY_SEPARATOR . $model;
         $serviceDirectory = 'Service' . DIRECTORY_SEPARATOR . $model;
         $appBindings = '';
         $providerUses = '';
 
-        Storage::makeDirectory($contractsDirectory);
+        //Storage::makeDirectory($contractsDirectory);
 
         foreach ($methodsSignatures as $method => $signature) {
 
@@ -64,13 +73,13 @@ class MakeCRUDContracts extends Command
                 $serviceName . '::class);' .
                 PHP_EOL . '        ';
             $providerUses .=
-                "use App\Contracts\\$model\\$contractName;" . PHP_EOL .
+                "use App\Contracts\Service\\$model\\$contractName;" . PHP_EOL .
                 "use App\Service\\$model\\$serviceName;" . PHP_EOL;
 
             $contractContent = <<<EOT
             <?php
 
-            namespace App\Contracts\\$model;
+            namespace App\Contracts\Service\\$model;
 
             interface $contractName
             {
@@ -83,7 +92,7 @@ class MakeCRUDContracts extends Command
 
             namespace App\Service\\$model;
             
-            use App\Contracts\\$model\\$contractName;
+            use App\Contracts\Service\\$model\\$contractName;
             
             class $serviceName implements $contractName
             {
@@ -107,8 +116,8 @@ class MakeCRUDContracts extends Command
                 );
         }
 
-
-        $providerContent = <<<EOT
+        if ($this->option('provider')) {
+            $providerContent = <<<EOT
         <?php
 
         namespace App\Providers;
@@ -140,11 +149,13 @@ class MakeCRUDContracts extends Command
         }
         EOT;
 
-        Storage::disk('app')
-            ->put(
-                'Providers\\' . "{$model}ServiceProvider.php",
-                $providerContent
-            );
+            Storage::disk('app')
+                ->put(
+                    'Providers\\' . "{$model}ServiceProvider.php",
+                    $providerContent
+                );
+        }
+
 
 
 //        $directory  = 'Contracts';

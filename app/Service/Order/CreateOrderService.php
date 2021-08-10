@@ -2,7 +2,7 @@
 
 namespace App\Service\Order;
 
-use App\Contracts\Order\CreateOrderServiceContract;
+use App\Contracts\Service\Order\CreateOrderServiceContract;
 
 class CreateOrderService implements CreateOrderServiceContract
 {

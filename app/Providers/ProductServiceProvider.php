@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
-use App\Contracts\Product\CompareProductsServiceContract;
-use App\Contracts\Product\CreateProductServiceContract;
-use App\Contracts\Product\DestroyProductServiceContract;
-use App\Contracts\Product\ImportProductServiceContract;
-use App\Contracts\Product\ProductDiscountServiceContract;
-use App\Contracts\Product\ProductsFiltersServiceContract;
-use App\Contracts\Product\ProductsSortServiceContract;
-use App\Contracts\Product\UpdateProductServiceContract;
+use App\Contracts\Service\Product\CompareProductsServiceContract;
+use App\Contracts\Service\Product\CreateProductServiceContract;
+use App\Contracts\Service\Product\DestroyProductServiceContract;
+use App\Contracts\Service\Product\ImportProductServiceContract;
+use App\Contracts\Service\Product\ProductDiscountServiceContract;
+use App\Contracts\Service\Product\ProductsFiltersServiceContract;
+use App\Contracts\Service\Product\ProductsSortServiceContract;
+use App\Contracts\Service\Product\UpdateProductServiceContract;
 use App\Service\Product\CompareProductsService;
 use App\Service\Product\CreateProductService;
 use App\Service\Product\DestroyProductService;

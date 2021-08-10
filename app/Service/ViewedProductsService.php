@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-class ViewedProductsService implements \App\Contracts\ViewedProductsServiceContract
+use App\Contracts\Service\ViewedProductsServiceContract;
+
+class ViewedProductsService implements ViewedProductsServiceContract
 {
 
     public function add($product)

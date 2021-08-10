@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Contracts\Order\CreateOrderServiceContract;
+use App\Contracts\Service\Order\CreateOrderServiceContract;
 use App\Service\Order\CreateOrderService;
-use App\Contracts\Order\UpdateOrderServiceContract;
+use App\Contracts\Service\Order\UpdateOrderServiceContract;
 use App\Service\Order\UpdateOrderService;
-use App\Contracts\Order\DestroyOrderServiceContract;
+use App\Contracts\Service\Order\DestroyOrderServiceContract;
 use App\Service\Order\DestroyOrderService;
 
 use Illuminate\Support\ServiceProvider;

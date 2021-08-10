@@ -2,9 +2,10 @@
 
 namespace App\Service\Product;
 
+use App\Contracts\Service\ProductsFiltersServiceContract;
 use Illuminate\Support\Collection;
 
-class ProductsFiltersService implements \App\Contracts\ProductsFiltersServiceContract
+class ProductsFiltersService implements ProductsFiltersServiceContract
 {
 
     public function filterByFeaturesList(Collection $products, string $featureName, array $featureList)

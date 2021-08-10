@@ -2,7 +2,7 @@
 
 namespace App\Service\Product;
 
-use App\Contracts\ProductDiscountServiceContract;
+use App\Contracts\Service\ProductDiscountServiceContract;
 
 class ProductDiscountService implements ProductDiscountServiceContract
 {

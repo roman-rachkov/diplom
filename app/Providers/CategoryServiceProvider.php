@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Contracts\Category\CreateCategoryServiceContract;
+use App\Contracts\Service\Category\CreateCategoryServiceContract;
 use App\Service\Category\CreateCategoryService;
-use App\Contracts\Category\UpdateCategoryServiceContract;
+use App\Contracts\Service\Category\UpdateCategoryServiceContract;
 use App\Service\Category\UpdateCategoryService;
-use App\Contracts\Category\DestroyCategoryServiceContract;
+use App\Contracts\Service\Category\DestroyCategoryServiceContract;
 use App\Service\Category\DestroyCategoryService;
 
 use Illuminate\Support\ServiceProvider;

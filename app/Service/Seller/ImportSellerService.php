@@ -2,7 +2,9 @@
 
 namespace App\Service\Seller;
 
-class ImportSellerService implements \App\Contracts\Seller\ImportSellerServiceContract
+use App\Contracts\Service\Seller\ImportSellerServiceContract;
+
+class ImportSellerService implements ImportSellerServiceContract
 {
 
     public function import(array $attributes)

@@ -175,7 +175,15 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ProductServiceProvider::class,
-        App\Providers\UserServiceProvider::class
+        App\Providers\UserServiceProvider::class,
+        App\Providers\BannerServiceProvider::class,
+        App\Providers\CategoryServiceProvider::class,
+        App\Providers\DiscountServiceProvider::class,
+        App\Providers\ImageServiceProvider::class,
+        App\Providers\OrderItemServiceProvider::class,
+        App\Providers\OrderServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
+        App\Providers\ReviewServiceProvider::class,
 
     ],
 

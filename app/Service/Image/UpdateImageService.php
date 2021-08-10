@@ -2,7 +2,7 @@
 
 namespace App\Service\Image;
 
-use App\Contracts\Image\UpdateImageServiceContract;
+use App\Contracts\Service\Image\UpdateImageServiceContract;
 
 class UpdateImageService implements UpdateImageServiceContract
 {

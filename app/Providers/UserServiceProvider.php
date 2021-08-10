@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Contracts\User\CreateUserServiceContract;
-use App\Contracts\User\DestroyUserServiceContract;
-use App\Contracts\User\UpdateUserServiceContract;
+use App\Contracts\Service\User\CreateUserServiceContract;
+use App\Contracts\Service\User\DestroyUserServiceContract;
+use App\Contracts\Service\User\UpdateUserServiceContract;
 use App\Service\User\CreateUserService;
 use App\Service\User\DestroyUserService;
 use App\Service\User\UpdateUserService;

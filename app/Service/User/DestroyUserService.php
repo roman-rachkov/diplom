@@ -2,7 +2,7 @@
 
 namespace App\Service\User;
 
-use App\Contracts\User\DestroyUserServiceContract;
+use App\Contracts\Service\User\DestroyUserServiceContract;
 
 class DestroyUserService implements DestroyUserServiceContract
 {

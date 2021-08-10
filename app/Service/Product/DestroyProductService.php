@@ -2,7 +2,7 @@
 
 namespace App\Service\Product;
 
-use App\Contracts\Product\DestroyProductServiceContract;
+use App\Contracts\Service\Product\DestroyProductServiceContract;
 
 class DestroyProductService implements DestroyProductServiceContract
 {

@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Contracts\Review\CreateReviewServiceContract;
+use App\Contracts\Service\Review\CreateReviewServiceContract;
 use App\Service\Review\CreateReviewService;
-use App\Contracts\Review\UpdateReviewServiceContract;
+use App\Contracts\Service\Review\UpdateReviewServiceContract;
 use App\Service\Review\UpdateReviewService;
-use App\Contracts\Review\DestroyReviewServiceContract;
+use App\Contracts\Service\Review\DestroyReviewServiceContract;
 use App\Service\Review\DestroyReviewService;
 
 use Illuminate\Support\ServiceProvider;

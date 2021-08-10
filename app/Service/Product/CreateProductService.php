@@ -2,7 +2,9 @@
 
 namespace App\Service\Product;
 
-class CreateProductService implements \App\Contracts\Product\CreateProductServiceContract
+use App\Contracts\Service\Product\CreateProductServiceContract;
+
+class CreateProductService implements CreateProductServiceContract
 {
 
     public function create(array $attributes)

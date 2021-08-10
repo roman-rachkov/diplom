@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-class DeliveryCostService implements \App\Contracts\DeliveryCostServiceContract
+use App\Contracts\Service\DeliveryCostServiceContract;
+
+class DeliveryCostService implements DeliveryCostServiceContract
 {
 
     public function getCost($products, $deliveryType)

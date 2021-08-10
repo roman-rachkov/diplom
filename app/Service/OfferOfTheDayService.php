@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-class OfferOfTheDayService implements \App\Contracts\OfferOfTheDayServiceContract
+use App\Contracts\Service\OfferOfTheDayServiceContract;
+
+class OfferOfTheDayService implements OfferOfTheDayServiceContract
 {
 
 }

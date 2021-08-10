@@ -2,7 +2,7 @@
 
 namespace App\Service\Product;
 
-use App\Contracts\CompareProductsServiceContract;
+use App\Contracts\Service\CompareProductsServiceContract;
 
 class CompareProductsService implements CompareProductsServiceContract
 {

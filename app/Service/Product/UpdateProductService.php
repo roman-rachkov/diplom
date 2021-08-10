@@ -2,7 +2,9 @@
 
 namespace App\Service\Product;
 
-class UpdateProductService implements \App\Contracts\Product\UpdateProductServiceContract
+use App\Contracts\Service\Product\UpdateProductServiceContract;
+
+class UpdateProductService implements UpdateProductServiceContract
 {
 
     public function update(array $attributes, string $id)

@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Contracts\AdminSettingsServiceContract;
+use App\Contracts\Service\AdminSettingsServiceContract;
 
 class AdminSettingsService implements AdminSettingsServiceContract
 {

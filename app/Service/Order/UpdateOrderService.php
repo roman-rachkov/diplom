@@ -2,7 +2,7 @@
 
 namespace App\Service\Order;
 
-use App\Contracts\Order\UpdateOrderServiceContract;
+use App\Contracts\Service\Order\UpdateOrderServiceContract;
 
 class UpdateOrderService implements UpdateOrderServiceContract
 {

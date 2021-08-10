@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Contracts\PayServiceContract;
+use App\Contracts\Service\PayServiceContract;
 
 class PayService implements PayServiceContract
 {

@@ -2,7 +2,7 @@
 
 namespace App\Service\Category;
 
-use App\Contracts\Category\CreateCategoryServiceContract;
+use App\Contracts\Service\Category\CreateCategoryServiceContract;
 
 class CreateCategoryService implements CreateCategoryServiceContract
 {

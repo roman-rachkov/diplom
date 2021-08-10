@@ -2,7 +2,7 @@
 
 namespace App\Service\Product;
 
-use App\Contracts\ProductsSortServiceContract;
+use App\Contracts\Service\ProductsSortServiceContract;
 use Illuminate\Support\Collection;
 
 class ProductsSortService implements ProductsSortServiceContract

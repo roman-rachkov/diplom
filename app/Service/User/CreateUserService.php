@@ -2,7 +2,7 @@
 
 namespace App\Service\User;
 
-use App\Contracts\User\CreateUserServiceContract;
+use App\Contracts\Service\User\CreateUserServiceContract;
 
 class CreateUserService implements CreateUserServiceContract
 {

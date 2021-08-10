@@ -2,7 +2,7 @@
 
 namespace App\Service\Review;
 
-use App\Contracts\Review\DestroyReviewServiceContract;
+use App\Contracts\Service\Review\DestroyReviewServiceContract;
 
 class DestroyReviewService implements DestroyReviewServiceContract
 {

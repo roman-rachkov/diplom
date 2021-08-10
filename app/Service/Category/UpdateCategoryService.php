@@ -2,7 +2,7 @@
 
 namespace App\Service\Category;
 
-use App\Contracts\Category\UpdateCategoryServiceContract;
+use App\Contracts\Service\Category\UpdateCategoryServiceContract;
 
 class UpdateCategoryService implements UpdateCategoryServiceContract
 {

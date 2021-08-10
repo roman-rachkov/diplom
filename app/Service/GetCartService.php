@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Contracts\GetCartServiceContract;
+use App\Contracts\Service\GetCartServiceContract;
 
 class GetCartService implements GetCartServiceContract
 {

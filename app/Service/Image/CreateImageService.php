@@ -2,7 +2,7 @@
 
 namespace App\Service\Image;
 
-use App\Contracts\Image\CreateImageServiceContract;
+use App\Contracts\Service\Image\CreateImageServiceContract;
 
 class CreateImageService implements CreateImageServiceContract
 {

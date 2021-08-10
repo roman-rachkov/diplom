@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-class AddToCartService implements \App\Contracts\AddToCartServiceContract
+use App\Contracts\Service\AddToCartServiceContract;
+
+class AddToCartService implements AddToCartServiceContract
 {
 
     public function add($product)

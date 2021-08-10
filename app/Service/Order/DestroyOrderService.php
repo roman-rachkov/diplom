@@ -2,7 +2,7 @@
 
 namespace App\Service\Order;
 
-use App\Contracts\Order\DestroyOrderServiceContract;
+use App\Contracts\Service\Order\DestroyOrderServiceContract;
 
 class DestroyOrderService implements DestroyOrderServiceContract
 {
