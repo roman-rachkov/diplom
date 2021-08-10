@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Contracts\AddReviewServiceContract;
+use App\Contracts\Review\AddReviewServiceContract;
 use App\Contracts\AddToCartServiceContract;
 use App\Contracts\AdminSettingsServiceContract;
 use App\Contracts\DeliveryCostServiceContract;
@@ -11,7 +11,7 @@ use App\Contracts\ImportServiceContract;
 use App\Contracts\OfferOfTheDayServiceContract;
 use App\Contracts\PayServiceContract;
 use App\Contracts\ViewedProductsServiceContract;
-use App\Service\AddReviewService;
+use App\Service\Review\AddReviewService;
 use App\Service\AddToCartService;
 use App\Service\AdminSettingsService;
 use App\Service\DeliveryCostService;
@@ -49,6 +49,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(DeliveryCostServiceContract::class, DeliveryCostService::class);
         $this->app->singleton(PayServiceContract::class, PayService::class);
         $this->app->singleton(AdminSettingsServiceContract::class, AdminSettingsService::class);
+
+        //TODO: Remove when not needed
         $this->app->singleton(ImportServiceContract::class, ImportService::class);
     }
 }

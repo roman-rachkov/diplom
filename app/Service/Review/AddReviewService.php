@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Review;
 
 class AddReviewService implements \App\Contracts\AddReviewServiceContract
 {
