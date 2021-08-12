@@ -4,24 +4,24 @@
 
 ### _1.1 Модель хранения данных_
 
-![Alt text](project/shop_schema_ver5.png?raw=true "Модель хранения данных")
+![Alt text](project/shop_schema_ver7.png?raw=true "Модель хранения данных")
 
 В проекте планируется содать следующие модели:
-- Product
-- ViewedProduct _(Связь с составным внешним ключём product_id-seller_id таблицы product_seller)_
-- Seller
-- Manufacturer
-- User
-- Category 
-- Review
+- Banner
+- Category
+- Discount _(Полиморфная связь многие ко многим через таблицу discountable, модели: Category, Product)_
+- Delivery
 - Feedback
 - Image _(Связь один к одному, модели: Seller, User, Category, Banner, Manufacturer; Связь один ко многим и связь один к одному для главного изображения, модель: Product)_
-- Banner
 - Order
 - OrderItem
-- Delivery
-- Discount _(Полиморфная связь многие ко многим через таблицу discountable, модели: Category, Product)_
 - Payment
+- Product
+- Review
+- Seller
+- User
+- ViewedProduct
+- Manufacturer
 
 ### _1.2 Cтруктура url на сайте_
 
@@ -37,15 +37,15 @@
 | Страница о продавце | Детальная страница | Просмотр страницы о продавце | GET | /sellers/\<id> | sellers.show |- |
 | Страница о скидках  | Перечень скидок | Перечень скидок всех товаров | GET | /discounts | discounts.index |- |
 | Страница о скидках  | Детальная страница | Просмотр страницы скидки | GET | /discounts/\<id> | discounts.show |- |
-| Оформление заказа | Детальная страница | Редактирование корзины | GET | /cart | carts.edit |корзина хранится в сессии пользователя и получается из неё  редактирование корзины в сессии |
-| Оформление заказа | Детальная страница | Обновление корзины | PATCH | /cart | carts.update | |
+| Оформление заказа | Детальная страница | Редактирование корзины | GET | /cart | carts.edit |- |
+| Оформление заказа | Детальная страница | Обновление корзины | PATCH | /cart | carts.update |- |
 | Оформление заказа | Детальная страница | Удаление корзины | DELETE | /cart | carts.destroy |удаление корзины из сессии |
-| Оформление заказа | Пошаговая форма заказа | Заполнение формы | GET | /orders | orders.create | |
+| Оформление заказа | Пошаговая форма заказа | Заполнение формы | GET | /orders | orders.create |- |
 | Оформление заказа | Пошаговая форма заказа | Нажатие кнопки "Оплатить" | POST | /orders | orders.store |Создание нового заказа, запись корзины в БД в order_items |
 | Оформление заказа | Детальная страница оплаты | Редактирование формы опалаты(счёт, способ) | GET | /orders/\<id>/checkin | payments.create |- |
 | Оформление заказа | Детальная страница оплаты | Нажатие кнопки "Оплатить" | POST | /orders/\<id>/checkin | payments.store |- |
 | Личный кабинет | Детальная страница | Просмотр кабинета | GET | /account | account.show |- |
-| Личный кабинет | Детальная страница | Редактирование профиля | GET | /account/profile | account.edit | |
+| Личный кабинет | Детальная страница | Редактирование профиля | GET | /account/profile | account.edit |- |
 | Личный кабинет | Детальная страница | Обновление профиля | PATCH | /account/profile | account.update |- |
 | Личный кабинет | Детальная страница | История просмотров | GET | /account/viewed-products | account.viewed-products |- |
 | Личный кабинет | Детальная страница | История заказов | GET | /account/orders-history | account.order-history |- |
