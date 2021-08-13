@@ -1,62 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Дипломная работа PHP разрабочик с 0 до Pro Часть 3
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### _1.1 Модель хранения данных_
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+![Alt text](project/shop_schema_ver7.png?raw=true "Модель хранения данных")
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+В проекте планируется содать следующие модели:
+- Banner
+- Category
+- Discount _(Полиморфная связь многие ко многим через таблицу discountable, модели: Category, Product)_
+- Delivery
+- Feedback
+- Image _(Связь один к одному, модели: Seller, User, Category, Banner, Manufacturer; Связь один ко многим и связь один к одному для главного изображения, модель: Product)_
+- Order
+- OrderItem
+- Payment
+- Product
+- Review
+- Seller
+- User
+- ViewedProduct
+- Manufacturer
 
-## Learning Laravel
+### _1.2 Cтруктура url на сайте_
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Раздел | Страница | Описание | HTTP метод | Route name| URL | Комментарий |
+| ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| Главная | Главная страница | Главный баннер и категории товаров | GET | / | banners |- |
+| Каталог | Перечень товаров | Каталог, популярные товары, скидки | GET | /products/ | products.index |- |
+| Каталог | Детальная страница | Просмотр страницы товара | GET | /products/\<slug> | products.show |- |
+| Каталог | Детальная страница | Форма добавления отзыва | GET | /products/\<slug>/reviews | reviews.create |- |
+| Каталог | Детальная страница | Добавление нового отзыва | POST | /products/\<slug>/reviews | reviews.store |- |
+| Каталог | Детальная страница | Сравнение товаров | GET | /products/comparison | comparison |id сравниваемых товаров добавляются в сессию и выгружаются из неё при сравнении |
+| Страница о продавце | Детальная страница | Просмотр страницы о продавце | GET | /sellers/\<id> | sellers.show |- |
+| Страница о скидках  | Перечень скидок | Перечень скидок всех товаров | GET | /discounts | discounts.index |- |
+| Страница о скидках  | Детальная страница | Просмотр страницы скидки | GET | /discounts/\<id> | discounts.show |- |
+| Оформление заказа | Детальная страница | Редактирование корзины | GET | /cart | carts.edit |- |
+| Оформление заказа | Детальная страница | Обновление корзины | PATCH | /cart | carts.update |- |
+| Оформление заказа | Детальная страница | Удаление корзины | DELETE | /cart | carts.destroy |удаление корзины из сессии |
+| Оформление заказа | Пошаговая форма заказа | Заполнение формы | GET | /orders | orders.create |- |
+| Оформление заказа | Пошаговая форма заказа | Нажатие кнопки "Оплатить" | POST | /orders | orders.store |Создание нового заказа, запись корзины в БД в order_items |
+| Оформление заказа | Детальная страница оплаты | Редактирование формы опалаты(счёт, способ) | GET | /orders/\<id>/checkin | payments.create |- |
+| Оформление заказа | Детальная страница оплаты | Нажатие кнопки "Оплатить" | POST | /orders/\<id>/checkin | payments.store |- |
+| Личный кабинет | Детальная страница | Просмотр кабинета | GET | /account | account.show |- |
+| Личный кабинет | Детальная страница | Редактирование профиля | GET | /account/profile | account.edit |- |
+| Личный кабинет | Детальная страница | Обновление профиля | PATCH | /account/profile | account.update |- |
+| Личный кабинет | Детальная страница | История просмотров | GET | /account/viewed-products | account.viewed-products |- |
+| Личный кабинет | Детальная страница | История заказов | GET | /account/orders-history | account.order-history |- |
+| Контакты | Детальная страница | Страница с контактами и формой обратной связи | GET | /feedbacks | feedbacks.create |- |
+| Контакты | Детальная страница | Отправка формы обратной связи | POST | /feedbacks | feedbacks.store |- |
+| О нас | Детальная страница | Статичная страница с историей компнаии | GET | /about | about |- |
+| Административный раздел | Пользователи | Управление пользователями: CRUD | GET / POST / PATCH / DELETE | /admin/users/... | admin.users. ... |- |
+| Административный раздел | Товары | Управление товарами: CRUD | GET / POST / PATCH / DELETE | /admin/products/... | admin.products. ... |- |
+| Административный раздел | Заказы | Управление заказами: CRUD | GET / POST / PATCH / DELETE | /admin/orders/... | admin.orders. ... |- |
+| Административный раздел | Категории | Управление категориями: CRUD | GET / POST / PATCH / DELETE | /admin/categories/... | admin.categories. ... |- |
+| Административный раздел | Отзывы | Управление отзывами: CRUD | GET / POST / PATCH / DELETE | /admin/reviews/... | admin.reviews. ... |- |
+| Административный раздел | Баннеры | Управление баннерами: CRUD | GET / POST / PATCH / DELETE | /admin/banners/... | admin.banners. ... |- |
+| Административный раздел | Скидки | Управление скидками: CRUD | GET / POST / PATCH / DELETE | /admin/discounts/... | admin.discounts. ... |- |
+| Административный раздел | Обращения | Просмотр обращений | GET | /admin/feedbacks | admin.feedbacks.index |- |
+| Административный раздел | Форма проведения импорта | Выбор параметорв импорта | GET | /admin/import | admin.import |- |
+| Административный раздел | Форма проведения импорта | Нажатие на кнопку "Запустить импорт" | GET | /admin/start-import | admin/start-import |- |
