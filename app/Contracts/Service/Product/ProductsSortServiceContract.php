@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface ProductsSortServiceContract
 {
-    public function sort(Collection $products,string $sortField,string $sortType);
+    public function sort(string $sortField,string $sortType);
 }

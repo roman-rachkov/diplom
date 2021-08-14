@@ -2,23 +2,22 @@
 
 namespace App\Service\Product;
 
-use App\Contracts\Service\ProductsFiltersServiceContract;
-use Illuminate\Support\Collection;
+use App\Contracts\Service\Product\ProductsFiltersServiceContract;
 
 class ProductsFiltersService implements ProductsFiltersServiceContract
 {
 
-    public function filterByFeaturesList(Collection $products, string $featureName, array $featureList)
+    public function filterByFeaturesList(string $featureName, array $featureList)
     {
         // TODO: Implement filterByFeaturesList() method.
     }
 
-    public function filterByExistenceOfFeature(Collection $products, string $featureName)
+    public function filterByExistenceOfFeature(string $featureName)
     {
         // TODO: Implement filterByExistenceOfFeature() method.
     }
 
-    public function filterByText(Collection $products, string $searchField, string $searchText)
+    public function filterByText(string $searchField, string $searchText)
     {
         // TODO: Implement filterByText() method.
     }

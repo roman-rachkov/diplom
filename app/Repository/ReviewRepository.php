@@ -6,15 +6,5 @@ use App\Contracts\Repository\ReviewRepositoryContract;
 
 class ReviewRepository implements ReviewRepositoryContract
 {
-    
-    public function getAdminReviews()
-    {
-    
-    }
-    
-    public function store()
-    {
-    
-    }
-    
+
 }

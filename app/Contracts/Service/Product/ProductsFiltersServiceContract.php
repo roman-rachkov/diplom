@@ -2,13 +2,11 @@
 
 namespace App\Contracts\Service\Product;
 
-use Illuminate\Support\Collection;
-
 interface ProductsFiltersServiceContract
 {
-    public function filterByFeaturesList(Collection $products, string $featureName, array $featureList);
+    public function filterByFeaturesList(string $featureName, array $featureList);
 
-    public function filterByExistenceOfFeature(Collection $products, string $featureName);
+    public function filterByExistenceOfFeature(string $featureName);
 
-    public function filterByText(Collection $products, string $searchField, string $searchText);
+    public function filterByText(string $searchField, string $searchText);
 }
