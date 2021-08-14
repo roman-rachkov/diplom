@@ -6,6 +6,7 @@
 ![Alt text](project/shop_schema_ver7.png?raw=true "Модель хранения данных")
 
 В проекте планируется содать следующие модели:
+- AdminSettings
 - Banner
 - Category
 - Discount _(Полиморфная связь многие ко многим через таблицу discountable, модели: Category, Product)_
