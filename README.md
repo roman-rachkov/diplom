@@ -77,7 +77,7 @@
 |Order|orders|-|OrderRepository|
 |OrderItem|order_item|AddToCartService<br />GetCartService|OrderItemRepository|
 |Payment|payments|PayOrderService|PaymentRepository|
-|Product|products|OfferOfTheDayService<br />CompareProductsService<br />ProductsSortService<br />ProductsFiltersService<br />ProductDiscountService<br />ImportProductService|ProductRepository|
+|Product|products|OfferOfTheDayService<br />CompareProductsService<br />ProductDiscountService<br />ImportProductService|ProductRepository|
 |Review|reviews|AddReviewService|ReviewRepository|
 |Seller|sellers|ImportSellerService|SellerRepository|
 |User|users|-|UserRepository|
