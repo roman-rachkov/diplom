@@ -3,11 +3,12 @@
 namespace App\Service;
 
 use App\Contracts\Service\AddReviewServiceContract;
+use App\Models\Product;
 
 class AddReviewService implements AddReviewServiceContract
 {
 
-    public function add($product, array $attributes)
+    public function add(Product $product, array $attributes)
     {
         // TODO: Implement add() method.
     }

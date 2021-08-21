@@ -2,7 +2,9 @@
 
 namespace App\Contracts\Service;
 
+use App\Models\Product;
+
 interface AddReviewServiceContract
 {
-    public function add($product, array $attributes);
+    public function add(Product $product, array $attributes);
 }
