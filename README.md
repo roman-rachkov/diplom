@@ -1,4 +1,3 @@
-
 ## Дипломная работа PHP разрабочик с 0 до Pro Часть 3
 
 
@@ -7,6 +6,7 @@
 ![Alt text](project/shop_schema_ver7.png?raw=true "Модель хранения данных")
 
 В проекте планируется содать следующие модели:
+- AdminSettings
 - Banner
 - Category
 - Discount _(Полиморфная связь многие ко многим через таблицу discountable, модели: Category, Product)_
@@ -62,3 +62,24 @@
 | Административный раздел | Обращения | Просмотр обращений | GET | /admin/feedbacks | admin.feedbacks.index |- |
 | Административный раздел | Форма проведения импорта | Выбор параметорв импорта | GET | /admin/import | admin.import |- |
 | Административный раздел | Форма проведения импорта | Нажатие на кнопку "Запустить импорт" | GET | /admin/start-import | admin/start-import |- |
+
+### 1.3 Разработка модели сервисов
+
+|Model|DB table|Services|Repository|
+|------|------|------|------|
+|AdminSettings|admin_settings|AdminSettingsService|AdminSettingsRepository|
+|Banner|banners|-|BannerRepository|
+|Category|categories|-|CategoryRepository|
+|Delivery|delivery|DeliveryCostService|DeliveryRepository|
+|Discount|discounts|-|DiscountRepository|
+|Feedback|feedbacks|-|FeedbackRepository|
+|Image|images|-|ImageRepository|
+|Order|orders|-|OrderRepository|
+|OrderItem|order_item|AddToCartService<br />GetCartService|OrderItemRepository|
+|Payment|payments|PayOrderService|PaymentRepository|
+|Product|products|OfferOfTheDayService<br />CompareProductsService<br />ProductsSortService<br />ProductsFiltersService<br />ProductDiscountService<br />ImportProductService|ProductRepository|
+|Review|reviews|AddReviewService|ReviewRepository|
+|Seller|sellers|ImportSellerService|SellerRepository|
+|User|users|-|UserRepository|
+|ViewedProduct|viewed_products|ViewedProductsService|ViewedProductsRepository|
+|Manufacturer|manufacturers|-|ManufacturerRepository|
