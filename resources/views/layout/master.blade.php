@@ -47,7 +47,7 @@ p.error-browser
 @include('layout.header')
 
 <div class="Middle Middle_top">
-    @includeUnless(request()->routeIs('main'), 'breadcrumbs')
+    @includeUnless(request()->routeIs('banners'), 'layout.breadcrumbs')
 
     @yield('content')
 </div>
