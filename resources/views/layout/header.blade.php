@@ -6,6 +6,6 @@
 
     @include('layout.header.categories_menu')
 
-    @yield('banners')
+    @yield('headers_content')
 
 </header>
