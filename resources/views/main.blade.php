@@ -1,14 +1,14 @@
 @extends('layout.master')
 
 @section('banners')
-    @include('layout.banners')
+    <x-banners_main/>
 @endsection
 
 @section('content')
         <div class="Section">
             <div class="wrap">
 
-                @include('main.banners_home')
+                <x-banners_home/>
 
             </div>
         </div>
@@ -17,12 +17,12 @@
 
                 <div class="Section-column">
 
-                    @include('main.limited_deals')
+                    <x-limited_deals/>
 
                 </div>
                 <div class="Section-content">
 
-                    @include('main.popular_products')
+                    <x-popular_products/>
 
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="wrap">
                 <div class="Section-content">
 
-                    @include('main.hot_offers_slider')
+                    <x-hot_offers_slider/>
 
                 </div>
             </div>
@@ -41,12 +41,12 @@
             <div class="wrap">
                 <div class="Section-column">
 
-                    @include('main.quality_banner')
+                    <x-quality_banner/>
 
                 </div>
                 <div class="Section-content">
 
-                    @include('main.limited_edition_slider')
+                    <x-limited_edition_slider/>
 
                 </div>
             </div>

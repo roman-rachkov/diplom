@@ -21,17 +21,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <link href="favicon.ico" rel="shortcut icon">
-    <link rel="preload" href="assets/fonts/Roboto/Roboto-Regular.woff" as="font">
-    <link rel="preload" href="assets/fonts/Roboto/Roboto-Italic.woff" as="font">
-    <link rel="preload" href="assets/fonts/Roboto/Roboto-Bold.woff" as="font">
-    <link rel="preload" href="assets/fonts/Roboto/Roboto-Bold_Italic.woff" as="font">
-    <link rel="preload" href="assets/fonts/Roboto/Roboto-Light.woff" as="font">
-    <link rel="preload" href="assets/fonts/Roboto/Roboto-Light_Italic.woff" as="font">
-    <link rel="stylesheet" href="assets/css/fonts.css?v=65245665">
-    <link rel="stylesheet" href="assets/css/basic.css?v=65245665">
-    <link rel="stylesheet" href="assets/css/extra.css?v=65245665">
-    <script src="assets/plg/CountDown/countdown.js"></script><!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <link rel="preload" href="{{asset('assets/fonts/Roboto/Roboto-Regular.woff')}}" as="font">
+    <link rel="preload" href="{{asset('assets/fonts/Roboto/Roboto-Italic.woff')}}" as="font">
+    <link rel="preload" href="{{asset('assets/fonts/Roboto/Roboto-Bold.woff')}}" as="font">
+    <link rel="preload" href="{{asset('assets/fonts/Roboto/Roboto-Bold_Italic.woff')}}" as="font">
+    <link rel="preload" href="{{asset('assets/fonts/Roboto/Roboto-Light.woff')}}" as="font">
+    <link rel="preload" href="{{asset('assets/fonts/Roboto/Roboto-Light_Italic.woff')}}" as="font">
+    <link rel="stylesheet" href="{{asset('assets/css/fonts.css?v=65245665')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/basic.css?v=65245665')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/extra.css?v=65245665')}}">
+    <script src="{{asset('assets/plg/CountDown/countdown.js')}}"></script><!--[if lt IE 9]>
+    <script src="{{asset('http://html5shiv.googlecode.com/svn/trunk/html5.js')}}"></script><![endif]-->
 </head>
 <body class="Site">
 <!--if lt IE 8
@@ -59,10 +59,10 @@ p.error-browser
 <!--        +breadcrumbs('Главная','Портфолио')-->
 <!--    +Article('portfolio')-->
 <!---->
-<script src="assets/plg/jQuery/jquery-3.5.0.slim.min.js"></script>
-<script src="assets/plg/form/jquery.form.js"></script>
-<script src="assets/plg/form/jquery.maskedinput.min.js"></script>
-<script src="assets/plg/range/ion.rangeSlider.min.js"></script>
-<script src="assets/plg/Slider/slick.min.js"></script>
-<script src="assets/js/scripts.js"></script>
+<script src="{{asset('assets/plg/jQuery/jquery-3.5.0.slim.min.js')}}"></script>
+<script src="{{asset('assets/plg/form/jquery.form.js')}}"></script>
+<script src="{{asset('assets/plg/form/jquery.maskedinput.min.js')}}"></script>
+<script src="{{asset('assets/plg/range/ion.rangeSlider.min.js')}}"></script>
+<script src="{{asset('assets/plg/Slider/slick.min.js')}}"></script>
+<script src="{{asset('assets/js/scripts.js')}}"></script>
 </body></html>
