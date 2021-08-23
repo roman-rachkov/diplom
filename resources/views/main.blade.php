@@ -1,6 +1,6 @@
 @extends('layout.master')
 
-@section('banners')
+@section('headers_content')
     <x-banners_main/>
 @endsection
 
