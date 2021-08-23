@@ -1,5 +1,9 @@
 @extends('layout.master')
 
+@section('banners')
+    @include('layout.banners')
+@endsection
+
 @section('content')
         <div class="Section">
             <div class="wrap">
