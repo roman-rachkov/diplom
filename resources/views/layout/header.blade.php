@@ -6,6 +6,6 @@
 
     @include('layout.header.categories_menu')
 
-    @includeWhen(request()->routeIs('main') ,'layout.banners')
+    @yield('banners')
 
 </header>
