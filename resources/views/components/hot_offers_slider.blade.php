@@ -1,7 +1,6 @@
 <div class="Slider Slider_carousel">
     <header class="Section-header">
-        <h2 class="Section-title">Hot Offers
-        </h2>
+        <h2 class="Section-title">Горячие предложения</h2>
         <div class="Section-control">
             <div class="Slider-navigate">
             </div>
@@ -10,7 +9,7 @@
     <div class="Slider-box Cards Cards_hz">
         <div class="Slider-item">
             <div class="Slider-content">
-                <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/home/card.jpg" alt="card.jpg"/></a>
+                <div class="Card"><a class="Card-picture" href="#"><img src="{{asset('assets/img/content/home/card.jpg')}}" alt="card.jpg"/></a>
                     <div class="Card-content">
                         <strong class="Card-title"><a href="#">Corsair Carbide Series Arctic White Steel</a>
                         </strong>
@@ -19,7 +18,7 @@
                             </div>
                             <div class="Card-category">Games / xbox
                             </div>
-                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="assets/img/icons/card/bookmark.svg" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
+                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{asset('assets/img/icons/card/bookmark.svg')}}" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
                             </div>
                         </div>
                     </div>
@@ -30,7 +29,7 @@
         </div>
         <div class="Slider-item">
             <div class="Slider-content">
-                <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/home/card.jpg" alt="card.jpg"/></a>
+                <div class="Card"><a class="Card-picture" href="#"><img src="{{asset('assets/img/content/home/card.jpg')}}" alt="card.jpg"/></a>
                     <div class="Card-content">
                         <strong class="Card-title"><a href="#">Barand New Phone Smart Business</a>
                         </strong>
@@ -39,7 +38,7 @@
                             </div>
                             <div class="Card-category">Games / xbox
                             </div>
-                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="assets/img/icons/card/bookmark.svg" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
+                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{asset('assets/img/icons/card/bookmark.svg')}}" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
                             </div>
                         </div>
                     </div>
@@ -50,7 +49,7 @@
         </div>
         <div class="Slider-item">
             <div class="Slider-content">
-                <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/home/card.jpg" alt="card.jpg"/></a>
+                <div class="Card"><a class="Card-picture" href="#"><img src="{{asset('assets/img/content/home/card.jpg')}}" alt="card.jpg"/></a>
                     <div class="Card-content">
                         <strong class="Card-title"><a href="#">Mavic PRO Mini Drones Hobby RC Quadcopter</a>
                         </strong>
@@ -59,7 +58,7 @@
                             </div>
                             <div class="Card-category">Digital / xbox
                             </div>
-                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="assets/img/icons/card/bookmark.svg" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
+                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{asset('assets/img/icons/card/bookmark.svg')}}" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
                             </div>
                         </div>
                     </div>
@@ -70,7 +69,7 @@
         </div>
         <div class="Slider-item">
             <div class="Slider-content">
-                <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/home/card.jpg" alt="card.jpg"/></a>
+                <div class="Card"><a class="Card-picture" href="#"><img src="{{asset('assets/img/content/home/card.jpg')}}" alt="card.jpg"/></a>
                     <div class="Card-content">
                         <strong class="Card-title"><a href="#">Corsair Carbide Series Arctic White Steel</a>
                         </strong>
@@ -79,7 +78,7 @@
                             </div>
                             <div class="Card-category">Games / xbox
                             </div>
-                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="assets/img/icons/card/bookmark.svg" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
+                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{asset('assets/img/icons/card/bookmark.svg')}}" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
                             </div>
                         </div>
                     </div>
@@ -90,7 +89,7 @@
         </div>
         <div class="Slider-item">
             <div class="Slider-content">
-                <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/home/card.jpg" alt="card.jpg"/></a>
+                <div class="Card"><a class="Card-picture" href="#"><img src="{{asset('assets/img/content/home/card.jpg')}}" alt="card.jpg"/></a>
                     <div class="Card-content">
                         <strong class="Card-title"><a href="#">Barand New Phone Smart Business</a>
                         </strong>
@@ -99,7 +98,7 @@
                             </div>
                             <div class="Card-category">Games / xbox
                             </div>
-                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="assets/img/icons/card/bookmark.svg" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
+                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{asset('assets/img/icons/card/bookmark.svg')}}" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
                             </div>
                         </div>
                     </div>
@@ -110,7 +109,7 @@
         </div>
         <div class="Slider-item">
             <div class="Slider-content">
-                <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/home/card.jpg" alt="card.jpg"/></a>
+                <div class="Card"><a class="Card-picture" href="#"><img src="{{asset('assets/img/content/home/card.jpg')}}" alt="card.jpg"/></a>
                     <div class="Card-content">
                         <strong class="Card-title"><a href="#">Mavic PRO Mini Drones Hobby RC Quadcopter</a>
                         </strong>
@@ -119,7 +118,7 @@
                             </div>
                             <div class="Card-category">Digital / xbox
                             </div>
-                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="assets/img/icons/card/bookmark.svg" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
+                            <div class="Card-hover"><a class="Card-btn" href="#"><img src="{{asset('assets/img/icons/card/bookmark.svg')}}" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="assets/img/icons/card/cart.svg" alt="cart.svg"/></a><a class="Card-btn" href="compare.html"><img src="assets/img/icons/card/change.svg" alt="change.svg"/></a>
                             </div>
                         </div>
                     </div>
