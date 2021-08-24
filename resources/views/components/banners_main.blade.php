@@ -5,12 +5,9 @@
                 <div class="Slider-content">
                     <div class="row">
                         <div class="row-block">
-                            <strong class="Slider-title">Mavic Pro<span class="text_primary"> 5</span> mini Drone
-                            </strong>
-                            <div class="Slider-text">Get the best phoneyou ever seen with modern Windows OS plus 70% Off this summer.
-                            </div>
-                            <div class="Slider-footer"><a class="btn btn_primary" href="#">Get Started</a>
-                            </div>
+                            <strong class="Slider-title">Mavic Pro<span class="text_primary"> 5</span> mini Drone</strong>
+                            <div class="Slider-text">Get the best phoneyou ever seen with modern Windows OS plus 70% Off this summer. </div>
+                            <div class="Slider-footer"><a class="btn btn_primary" href="#">Подробнее</a></div>
                         </div>
                         <div class="row-block">
                             <div class="Slider-img"><img src="assets/img/content/home/slider.png" alt="slider.png"/>
@@ -23,15 +20,12 @@
                 <div class="Slider-content">
                     <div class="row">
                         <div class="row-block">
-                            <strong class="Slider-title">Mavic Pro<span class="text_primary"> 5</span> mini Drone
-                            </strong>
-                            <div class="Slider-text">Get the best phoneyou ever seen with modern Windows OS plus 70% Off this summer.
-                            </div>
-                            <div class="Slider-footer"><a class="btn btn_primary" href="#">Get Started</a>
-                            </div>
+                            <strong class="Slider-title">Mavic Pro<span class="text_primary"> 5</span> mini Drone</strong>
+                            <div class="Slider-text">Get the best phoneyou ever seen with modern Windows OS plus 70% Off this summer. </div>
+                            <div class="Slider-footer"><a class="btn btn_primary" href="#">Подробнее</a></div>
                         </div>
                         <div class="row-block">
-                            <div class="Slider-img"><img src="assets/img/content/home/slider.png" alt="slider.png"/>
+                            <div class="Slider-img"><img src="{{asset('assets/img/content/home/slider.png')}}" alt="slider.png"/>
                             </div>
                         </div>
                     </div>
