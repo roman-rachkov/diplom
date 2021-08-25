@@ -3,7 +3,7 @@
         <div class="row ControlPanel-row">
             <div class="row-block">
                 <div class="row ControlPanel-rowSplit">
-                    <div class="row-block"><a class="ControlPanel-title" href="sale.html">Скидки</a>
+                    <div class="row-block"><a class="ControlPanel-title" href="{{route('discounts.index')}}">Скидки</a>
                     </div>
                     <div class="row-block hide_700"><span class="ControlPanel-title">Мы в соцсетях</span>
                         <ul class="menu menu_img menu_smallImg ControlPanel-menu">
@@ -16,7 +16,13 @@
             </div>
             <nav class="row-block">
                 <div class="row ControlPanel-rowSplit">
-                    <div class="row-block"><a class="ControlPanel-title" href="login.html">Войти</a>&nbsp;/&nbsp;<a class="ControlPanel-title" href="register.html">Регистрация</a>
+                    <div class="row-block">
+                        @guest
+                            <a class="ControlPanel-title" href="login.html">Войти</a>&nbsp;/&nbsp;<a class="ControlPanel-title" href="register.html">Регистрация</a>
+                        @endguest
+                        @auth
+                            <a class="ControlPanel-title" href="{{route('account.show')}}">Профиль</a>
+                        @endauth
                     </div>
                 </div>
             </nav>
