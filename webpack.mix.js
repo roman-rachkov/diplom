@@ -14,6 +14,4 @@ const path = require("path");
 
 mix.js('resources/js/app.js', 'public/js')
     .sourceMaps()
-    .postCss('resources/css/basic.css', 'public/css')
-    .postCss('resources/css/extra.css', 'public/css')
-    .postCss('resources/css/fonts.css', 'public/css');
+    .postCss('resources/css/app.css', 'public/css');
