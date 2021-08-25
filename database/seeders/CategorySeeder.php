@@ -10,12 +10,16 @@ class CategorySeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * @return void
+     * @return voide
      */
     public function run()
     {
         Category::factory()
-            ->times(20)
+            ->times(10)
+            ->create();
+
+        Category::factory()
+            ->times(10)
             ->create();
     }
 }

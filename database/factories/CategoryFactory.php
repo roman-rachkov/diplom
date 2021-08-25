@@ -21,11 +21,27 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
+        $categoryNames = [
+            'Accessories',
+            'Bags',
+            'Cameras',
+            'Clothing',
+            'Electronics',
+            'Fashion',
+            'Furniture',
+            'Mobile',
+            'Trends',
+            'More'
+        ];
+
+        $randomParentId = Category::all()->isNotEmpty() ? Category::all()->random()->id : null;
+
         return [
-            'name' => $this->faker->unique()->word,
+            'name' => $this->faker->randomElement($categoryNames),
             'image_id' => $this->faker->numberBetween(1,300),
             'sort_index' => $this->faker->numberBetween(0, 101),
-            'is_active' => $this->faker->randomElement([true, false])
+            'is_active' => $this->faker->randomElement([true, false]),
+            'parent_id' => $this->faker->randomElement([null, $randomParentId])
         ];
     }
 }

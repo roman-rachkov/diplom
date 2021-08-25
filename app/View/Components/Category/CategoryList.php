@@ -2,13 +2,14 @@
 
 namespace App\View\Components\Category;
 
+use App\Repository\CategoryRepository;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class CategoryList extends Component
 {
     /**
-     * The collection of categories.
+     * The category repository.
      *
      * @var Collection
      */
@@ -17,12 +18,12 @@ class CategoryList extends Component
     /**
      * Create the component instance.
      *
-     * @param  Collection  $categories
+     * @param  CategoryRepository  $repo
      * @return void
      */
-    public function __construct(Collection $categories)
+    public function __construct(CategoryRepository $repo)
     {
-        $this->categories = $categories;
+        $this->categories = $repo->getCategories();
     }
 
     /**

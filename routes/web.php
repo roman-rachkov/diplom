@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $categories = \App\Models\Category::all();
+Route::get('/', function (\App\Repository\CategoryRepository $repo) {
+    $categories =  $repo->getCategories();
     return view('welcome', ['categories' => $categories]);
 });
