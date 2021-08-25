@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->integer('sort_index');
+            $table->boolean('is_active')->default(false);
             $table->unsignedInteger('image_id');
             $table->timestamps();
         });

@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $categories = \App\Models\Category::all();
+    return view('welcome', ['categories' => $categories]);
 });
