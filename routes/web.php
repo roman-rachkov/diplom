@@ -21,7 +21,6 @@ Route::get('/orders', function () {})->name('orders.create');
 
 Route::get('/cart', function () {})->name('carts.edit');
 
-
 Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/products', function () {})->name('products.index');
@@ -33,3 +32,5 @@ Route::get('/products/comparison', function () {})->name('comparison');
 Route::get('/cart', function () {})->name('carts.edit');
 
 Route::get('/account', function () {})->name('account.show');
+
+Route::get('/about', function () {})->name('about');
