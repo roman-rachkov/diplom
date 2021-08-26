@@ -1,7 +1,7 @@
 <footer class="Footer">
     <div class="wrap">
         <div class="row Footer-main">
-            <div class="row-block"><a class="logo Footer-logo" href="index.html"><img class="logo-image" src="{{asset('assets/img/logo_footer.png')}}" alt="logo_footer.png"/></a>
+            <div class="row-block"><a class="logo Footer-logo" href="{{route('banners')}}"><img class="logo-image" src="{{asset('assets/img/logo_footer.png')}}" alt="logo_footer.png"/></a>
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincid  unt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
                 </p>
                 <ul class="menu menu_img menu_smallImg Footer-menuSoc">
@@ -13,16 +13,16 @@
             <div class="row-block">
                 <strong class="Footer-title">Навигация</strong>
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" href="index.html">Главная</a></li>
-                    <li class="menu-item"><a class="menu-link" href="catalog.html">Каталог</a></li>
-                    <li class="menu-item"><a class="menu-link" href="sale.html">Скидки</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('banners')}}">Главная</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('products.index')}}">Каталог</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('discounts.index')}}">Скидки</a></li>
                 </ul>
             </div>
             <div class="row-block">
                 <strong class="Footer-title">Дополнительно</strong>
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" href="contacts.html">Контакты</a></li>
-                    <li class="menu-item"><a class="menu-link" href="about.html">О нас</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('feedbacks.create')}}">Контакты</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('about')}}">О нас</a></li>
                 </ul>
             </div>
             <div class="row-block">
@@ -34,7 +34,7 @@
     <div class="Footer-copy">
         <div class="wrap">
             <div class="row row_space">
-                <div class="row-block">© <a href="index.html">Megano.</a>&#32;Все права защищены.</div>
+                <div class="row-block">© <a href="{{route('banners')}}">Megano.</a>&#32;Все права защищены.</div>
                 <div class="row-block"><span>Способы оплаты</span>
                     <div class="Footer-payments">
                         <div><img src="{{asset('assets/img/payments/visa.png')}}" alt="visa.png"/></div>
