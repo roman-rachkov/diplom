@@ -29,8 +29,6 @@
     <link rel="preload" href="{{asset('fonts/Roboto-Light.woff')}}" as="font">
     <link rel="preload" href="{{asset('fonts/Roboto-Light_Italic.woff')}}" as="font">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <script src="{{asset('assets/plg/CountDown/countdown.js')}}"></script><!--[if lt IE 9]>
-    <script src="{{asset('http://html5shiv.googlecode.com/svn/trunk/html5.js')}}"></script><![endif]-->
 </head>
 <body class="Site">
 <!--if lt IE 8
@@ -60,5 +58,7 @@ p.error-browser
 <!---->
 
 <script src="{{asset('js/app.js')}}"></script>
+<script src="{{asset('assets/plg/CountDown/countdown.js')}}"></script>
+<!--[if lt IE 9]><script src="{{asset('http://html5shiv.googlecode.com/svn/trunk/html5.js')}}"></script><![endif]-->
 
 </body></html>

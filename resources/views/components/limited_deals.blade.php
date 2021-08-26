@@ -10,7 +10,7 @@
                 <div class="Card-cost"><span class="Card-priceOld">$115.00</span><span class="Card-price">$85.00</span></div>
                 <div class="Card-category">News / xbox</div>
             </div>
-            <div class="CountDown" data-date="31.09.2020 03:59">
+            <div class="CountDown" data-date="31.09.2021 03:59">
                 <div class="CountDown-block">
                     <div class="CountDown-wrap">
                         <div class="CountDown-days"></div><span class="CountDown-label">дней</span>
