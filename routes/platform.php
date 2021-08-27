@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Orchid\Screens\Banner\BannerEditScreen;
+use App\Orchid\Screens\Banner\BannerListScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
 use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
@@ -91,3 +93,6 @@ Route::screen('roles', RoleListScreen::class)
             ->push(__('Roles'), route('platform.systems.roles'));
     });
 
+// Platform > Banners
+Route::screen('banner/{banner?}', BannerEditScreen::class)->name('platform.banner.edit');
+Route::screen('banners', BannerListScreen::class)->name('platform.banner.list');
