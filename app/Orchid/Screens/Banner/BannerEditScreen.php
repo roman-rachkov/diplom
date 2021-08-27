@@ -11,6 +11,7 @@ use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Quill;
 use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
@@ -42,6 +43,8 @@ class BannerEditScreen extends Screen
             $this->name = 'Edit post';
         }
 
+        $banner->load('attachment');
+
         return [
             'banner' => $banner
         ];
@@ -56,7 +59,7 @@ class BannerEditScreen extends Screen
     {
         return [
             Button::make('Create new')
-                ->icon('pencil')
+                ->icon('save')
                 ->method('createOrUpdate')
                 ->canSee(!$this->exists),
 
@@ -81,7 +84,8 @@ class BannerEditScreen extends Screen
     {
         return [
             Layout::rows([
-                Input::make('banner.title')
+                TextArea::make('banner.title')
+                    ->rows(3)
                     ->title('Title')
                     ->placeholder('Banner title'),
 
@@ -107,8 +111,8 @@ class BannerEditScreen extends Screen
                 Cropper::make('banner.image_id')
                     ->targetId()
                     ->title('Large web banner image, generally in the front and center')
-                    ->width(1000)
-                    ->height(500),
+                    ->width(735)
+                    ->height(454),
 
             ])
         ];

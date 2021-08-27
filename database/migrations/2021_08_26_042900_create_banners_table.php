@@ -13,11 +13,11 @@ class CreateBannersTable extends Migration
      */
     public function up()
     {
-        Schema::create('Banner', function (Blueprint $table) {
+        Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 25);
-            $table->string('subtitle', 255);
-            $table->string('button_text', 25);
+            $table->string('title');
+            $table->string('subtitle');
+            $table->string('button_text');
             $table->string('href');
             $table->boolean('is_active');
             $table->unsignedInteger('image_id');
@@ -38,6 +38,6 @@ class CreateBannersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Banner');
+        Schema::dropIfExists('banners');
     }
 }

@@ -41,7 +41,7 @@ class BannerListScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Link::make('Create new')
+            Link::make('Add new banner')
                 ->icon('plus')
                 ->route('platform.banner.edit')
         ];
