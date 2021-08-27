@@ -23,12 +23,17 @@ class BannerEditScreen extends Screen
      *
      * @var string
      */
-    public $name = 'Edit Banners';
+    public $name = '';
 
     /**
      * @var bool
      */
     public $exists = false;
+
+    public function __construct()
+    {
+        $this->name = __('banners.edit_banner');
+    }
 
     /**
      * Query data.
@@ -40,7 +45,7 @@ class BannerEditScreen extends Screen
         $this->exists = $banner->exists;
 
         if ($this->exists) {
-            $this->name = 'Edit post';
+            $this->name = __('banners.edit_banner');
         }
 
         $banner->load('attachment');
@@ -63,7 +68,7 @@ class BannerEditScreen extends Screen
                 ->method('createOrUpdate')
                 ->canSee(!$this->exists),
 
-            Button::make('Update')
+            Button::make('Save')
                 ->icon('note')
                 ->method('createOrUpdate')
                 ->canSee($this->exists),
@@ -86,31 +91,32 @@ class BannerEditScreen extends Screen
             Layout::rows([
                 TextArea::make('banner.title')
                     ->rows(3)
-                    ->title('Title')
-                    ->placeholder('Banner title'),
+                    ->title(__('banners.title'))
+                    ->placeholder(__('banners.title_placeholder')),
 
                 TextArea::make('banner.subtitle')
-                    ->title('Subtitle')
+                    ->title(__('banners.subtitle'))
                     ->rows(3)
-                    ->placeholder('Banner subtitle'),
+                    ->placeholder(__('banners.subtitle_placeholder')),
 
 
                 Input::make('banner.button_text')
-                    ->title('Button text')
-                    ->placeholder('Banner button text'),
+                    ->title(__('banners.button_text'))
+                    ->placeholder(__('banners.button_text_placeholder')),
 
                 Input::make('banner.href')
-                    ->title('Button URL')
-                    ->placeholder('Link where the user will be redirected'),
+                    ->title(__('banners.href'))
+                    ->placeholder(__('banners.href_placeholder')),
 
                 CheckBox::make('banner.is_active')
-                    ->title('Activate banner')
-                    ->placeholder('If the flag is set, the banner will be displayed')
+                    ->title('banners.is_active')
+                    ->placeholder('banners.is_active_placeholder')
                     ->sendTrueOrFalse(),
 
                 Cropper::make('banner.image_id')
                     ->targetId()
-                    ->title('Large web banner image, generally in the front and center')
+                    ->title(__('banners.image'))
+                    ->help(__('banners.image_help'))
                     ->width(735)
                     ->height(454),
 
@@ -132,7 +138,7 @@ class BannerEditScreen extends Screen
             $request->input('banner.attachment', [])
         );
 
-        Alert::info('You have successfully created an banner.');
+        Alert::info(__('banners.success_info'));
 
         return redirect()->route('platform.banner.list');
     }
@@ -147,7 +153,7 @@ class BannerEditScreen extends Screen
     {
         $banner->delete();
 
-        Alert::info('You have successfully deleted the banner.');
+        Alert::info(__('banners.delete_info'));
 
         return redirect()->route('platform.banner.list');
     }

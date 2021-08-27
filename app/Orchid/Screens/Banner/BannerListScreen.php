@@ -14,12 +14,17 @@ class BannerListScreen extends Screen
      *
      * @var string
      */
-    public $name = 'Manage Banners';
+    public $name = "";
 
     /**
      * @var bool
      */
     public $exists = false;
+
+    public function __construct()
+    {
+        $this->name = __('banners.manage_banners');
+    }
 
     /**
      * Query data.
@@ -41,7 +46,7 @@ class BannerListScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Link::make('Add new banner')
+            Link::make(__('banners.add_new_banner'))
                 ->icon('plus')
                 ->route('platform.banner.edit')
         ];
