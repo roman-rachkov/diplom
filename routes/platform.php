@@ -91,3 +91,11 @@ Route::screen('roles', RoleListScreen::class)
             ->push(__('Roles'), route('platform.systems.roles'));
     });
 
+// Platform > Config
+Route::screen('config', \App\Orchid\Screens\ConfigurationScreen::class)
+    ->name('platform.config')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Настройки'), route('platform.config'));
+    });
