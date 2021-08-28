@@ -14,6 +14,8 @@ class CategoryFactory extends Factory
      */
     protected $model = Category::class;
 
+    protected $categoryNames;
+
     /**
      * Define the model's default state.
      *
@@ -34,14 +36,27 @@ class CategoryFactory extends Factory
             'More'
         ];
 
-        $randomParentId = Category::all()->isNotEmpty() ? Category::all()->random()->id : null;
-
         return [
             'name' => $this->faker->randomElement($categoryNames),
             'image_id' => $this->faker->numberBetween(1,300),
             'sort_index' => $this->faker->numberBetween(0, 101),
             'is_active' => $this->faker->randomElement([true, false]),
-            'parent_id' => $this->faker->randomElement([null, $randomParentId])
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Category $category) {
+            $categories = Category::where('is_active', 1)->whereIsRoot()->get();
+            if (
+                $this->faker->boolean(70) &&
+                $categories->isNotEmpty()
+            ) {
+                $parent = $categories->random();
+                if ($parent->id !== $category->id) {
+                    $category->parent()->associate($parent)->save();
+                }
+            }
+        });
     }
 }

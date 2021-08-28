@@ -22,7 +22,9 @@ class CategoryRepository implements CategoryRepositoryContract
         $ttl = $this->adminsSettings->get('categoryCacheTime');
 
         return Cache::remember('categories',$ttl,function () {
-            return Category::where('is_active', 1)->orderByDesc('sort_index')->get();
+
+            return Category::where('is_active', 1)->get()->toTree()->sortBy('sort_index');
+
         });
     }
 }

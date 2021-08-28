@@ -19,7 +19,7 @@ class CategorySeeder extends Seeder
             ->create();
 
         Category::factory()
-            ->times(10)
+            ->count(10)
             ->create();
     }
 }

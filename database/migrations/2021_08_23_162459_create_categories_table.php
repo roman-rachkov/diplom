@@ -19,8 +19,8 @@ class CreateCategoriesTable extends Migration
             $table->integer('sort_index');
             $table->boolean('is_active')->default(false);
             $table->unsignedInteger('image_id');
-            $table->unsignedInteger('parent_id')->nullable()->default(null);
             $table->timestamps();
+            $table->nestedSet();
         });
     }
 
