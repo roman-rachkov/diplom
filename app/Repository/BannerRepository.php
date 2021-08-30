@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Contracts\Repository\AdminSettingsRepositoryContract;
 use App\Contracts\Repository\BannerRepositoryContract;
 use App\Models\Banner;
 use App\Service\AdminSettingsService;
@@ -15,16 +16,16 @@ class BannerRepository implements BannerRepositoryContract
     /**
      * @param AdminSettingsService $adminsSettings
      */
-    public function __construct(AdminSettingsService $adminsSettings)
+    public function __construct(AdminSettingsRepositoryContract $adminsSettings)
     {
         $this->adminsSettings = $adminsSettings;
     }
 
     public function getBanners(): Collection
     {
-        $ttl = $this->adminsSettings->get('bannerCacheTime') ?? 600;
+        $ttl = $this->adminsSettings->get('bannerCacheTime', 600);
 
-        return Cache::remember('categories',$ttl,function () {
+        return Cache::tags(['banners'])->remember('categories',$ttl,function () {
             return Banner::where('is_active', 1)->inRandomOrder()->limit(3)->get();
         });
     }

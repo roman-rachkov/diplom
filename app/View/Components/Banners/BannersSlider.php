@@ -2,7 +2,7 @@
 
 namespace App\View\Components\Banners;
 
-use App\Repository\BannerRepository;
+use App\Contracts\Repository\BannerRepositoryContract;
 use Illuminate\View\Component;
 
 class BannersSlider extends Component
@@ -14,7 +14,7 @@ class BannersSlider extends Component
      *
      * @return void
      */
-    public function __construct(BannerRepository $repo)
+    public function __construct(BannerRepositoryContract $repo)
     {
         $this->banners = $repo->getBanners();
     }
@@ -26,7 +26,6 @@ class BannersSlider extends Component
      */
     public function render()
     {
-//        dd($this->banners);
         return view('components.banners.banners-slider');
     }
 }
