@@ -31,6 +31,12 @@ Route::get('/products/comparison', function () {})->name('comparison');
 
 Route::get('/cart', function () {})->name('carts.edit');
 
-Route::get('/account', function () {})->name('account.show');
+Route::get('/account', function () {
+    echo 'profile';
+})->middleware('account')->name('account.show');
+
+Route::get('login', function () {
+    echo 'login';
+})->name('login');
 
 Route::get('/about', function () {})->name('about');
