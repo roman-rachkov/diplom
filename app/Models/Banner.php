@@ -13,6 +13,8 @@ class Banner extends BaseModel
 {
     use HasFactory, AsSource, Attachable, Filterable;
 
+    public $tagsArr = ['banners'];
+
     protected $fillable = [
         'title',
         'subtitle',
