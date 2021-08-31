@@ -7,16 +7,19 @@ function initialConfigurationFilling() {
         return;
     }
 
-    $options = config('options');
+    $categories = config('options');
 
-    foreach ($options as $option) {
-        \App\Models\AdminSetting::create([
-            'name' => $option['name'],
-            'value' => $option['value'],
-        ]);
+    foreach ($categories as $category => $options) {
+        foreach ($options as $option) {
+            \App\Models\AdminSetting::create([
+                'name' => $option['name'],
+                'value' => $option['value'],
+                'category' => $category,
+            ]);
+        }
     }
 }
 
 function resetConfiguration() {
-    \App\Models\AdminSetting::delete();
+    \Illuminate\Support\Facades\DB::table('admin_settings')->delete();
 }

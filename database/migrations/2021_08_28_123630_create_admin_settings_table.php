@@ -17,6 +17,7 @@ class CreateAdminSettingsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('value');
+            $table->string('category');
             $table->timestamps();
         });
     }

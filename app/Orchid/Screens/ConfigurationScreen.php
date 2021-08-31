@@ -3,7 +3,11 @@
 namespace App\Orchid\Screens;
 
 use App\Models\AdminSetting;
+use App\Orchid\Layouts\Config\ConfigContactsLayout;
+use App\Orchid\Layouts\Config\ConfigDeliversLayout;
+use App\Orchid\Layouts\Config\ConfigUsersLayout;
 use Illuminate\Http\Request;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
@@ -31,7 +35,9 @@ class ConfigurationScreen extends Screen
         initialConfigurationFilling();
 
         return [
-            'options' => AdminSetting::all()
+            'contact' => AdminSetting::where('category', 'contact')->get(),
+            'delivery' => AdminSetting::where('category', 'delivery')->get(),
+            'user' => AdminSetting::where('category', 'user')->get(),
         ];
     }
 
@@ -42,7 +48,9 @@ class ConfigurationScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Button::make('Reset')->method('resetAdminSetting')
+        ];
     }
 
     /**
@@ -53,19 +61,11 @@ class ConfigurationScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::table('options', [
-                TD::make('name', 'Название опции'),
-                TD::make('value', 'Значение опции'),
-                TD::make('action')->render(function (AdminSetting $adminSetting) {
-                    return ModalToggle::make('Редактировать')
-                        ->modal('editOption')
-                        ->method('update')
-                        ->modalTitle('Редактирование опции ' . $adminSetting->name)
-                        ->asyncParameters([
-                            'adminSetting' => $adminSetting->id,
-                        ]);
-                })->align(TD::ALIGN_RIGHT),
-            ]),
+            Layout::tabs([
+                'Контакты' => ConfigContactsLayout::class,
+                'Доставка' => ConfigDeliversLayout::class,
+                'Пользователь' => ConfigUsersLayout::class,
+                ]),
             Layout::modal('editOption', Layout::rows([
                 Input::make('adminSetting.id')->type('hidden'),
                 Input::make('adminSetting.name')->disabled()->title('Название опции'),
@@ -83,5 +83,10 @@ class ConfigurationScreen extends Screen
     public function update(Request $request) {
         $adminSetting = AdminSetting::find($request->input('adminSetting.id'))->update($request->adminSetting);
         Toast::info('Успешно обновлено');
+    }
+
+    public function resetAdminSetting()
+    {
+        resetConfiguration();
     }
 }
