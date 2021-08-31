@@ -13,7 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (\App\Repository\CategoryRepository $repo) {
-    $categories =  $repo->getCategories();
-    return view('welcome', ['categories' => $categories]);
-});
+Route::get('/', function () {
+    return view('main');
+})->name('banners');
+
+Route::get('/orders', function () {})->name('orders.create');
+
+Route::get('/cart', function () {})->name('carts.edit');
+
+Route::get('/discounts', function () {})->name('discounts.index');
+
+Route::get('/products', function () {})->name('products.index');
+
+Route::get('/feedbacks', function () {})->name('feedbacks.create');
+
+Route::get('/products/comparison', function () {})->name('comparison');
+
+Route::get('/cart', function () {})->name('carts.edit');
+
+Route::get('/account', function () {})->name('account.show');
+
+Route::get('/about', function () {})->name('about');
