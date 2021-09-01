@@ -34,7 +34,3 @@ Route::get('/cart', function () {})->name('carts.edit');
 Route::get('/account', function () {})->name('account.show');
 
 Route::get('/about', function () {})->name('about');
-
-Route::get('/test', function () {
-    initialConfigurationFilling();
-});

@@ -7,11 +7,8 @@ use App\Orchid\Layouts\Config\ConfigContactsLayout;
 use App\Orchid\Layouts\Config\ConfigDeliversLayout;
 use App\Orchid\Layouts\Config\ConfigUsersLayout;
 use Illuminate\Http\Request;
-use Orchid\Screen\Actions\Button;
-use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
-use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
@@ -32,13 +29,13 @@ class ConfigurationScreen extends Screen
      */
     public function query(): array
     {
-        initialConfigurationFilling();
+        $options = AdminSetting::all();
 
-        return [
-            'contact' => AdminSetting::where('category', 'contact')->get(),
-            'delivery' => AdminSetting::where('category', 'delivery')->get(),
-            'user' => AdminSetting::where('category', 'user')->get(),
-        ];
+        foreach (array_column($options->unique('category')->toArray(), 'category') as $category) {
+            $categories[$category] = $options->where('category', $category);
+        }
+
+        return $categories;
     }
 
     /**
@@ -48,9 +45,7 @@ class ConfigurationScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [
-            Button::make('Reset')->method('resetAdminSetting')
-        ];
+        return [];
     }
 
     /**
@@ -85,8 +80,4 @@ class ConfigurationScreen extends Screen
         Toast::info('Успешно обновлено');
     }
 
-    public function resetAdminSetting()
-    {
-        resetConfiguration();
-    }
 }

@@ -27,7 +27,7 @@ class ConfigUsersLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('name', 'Название опции'),
+            TD::make('name', 'Название опции')->width('500px'),
             TD::make('value', 'Значение опции'),
             TD::make('action')->render(function (AdminSetting $adminSetting) {
                 return ModalToggle::make('Редактировать')
