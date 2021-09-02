@@ -17,7 +17,7 @@ class ConfigUsersLayout extends Table
      *
      * @var string
      */
-    protected $target = 'user';
+    protected $target = 'categories.user';
 
     /**
      * Get the table cells to be displayed.

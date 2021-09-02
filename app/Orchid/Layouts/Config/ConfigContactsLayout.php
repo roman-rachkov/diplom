@@ -17,7 +17,7 @@ class ConfigContactsLayout extends Table
      *
      * @var string
      */
-    protected $target = 'contact';
+    protected $target = 'categories.contact';
 
     /**
      * Get the table cells to be displayed.

@@ -17,7 +17,7 @@ class ConfigDeliversLayout extends Table
      *
      * @var string
      */
-    protected $target = 'delivery';
+    protected $target = 'categories.delivery';
 
     /**
      * Get the table cells to be displayed.

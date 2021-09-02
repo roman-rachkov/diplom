@@ -29,13 +29,11 @@ class ConfigurationScreen extends Screen
      */
     public function query(): array
     {
-        $options = AdminSetting::all();
-
-        foreach (array_column($options->unique('category')->toArray(), 'category') as $category) {
-            $categories[$category] = $options->where('category', $category);
-        }
-
-        return $categories;
+        $categories = AdminSetting::all()->groupBy('category');
+        
+        return [
+            'categories' => $categories,
+        ];
     }
 
     /**
