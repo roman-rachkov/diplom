@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
-
-//Route::get('/', function () {
-//    return view('main');
-//})->name('banners');
-
 Route::get('/orders', function () {})->name('orders.create');
 
 Route::get('/cart', function () {})->name('carts.edit');
