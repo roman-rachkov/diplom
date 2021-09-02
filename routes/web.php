@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-})->name('banners');
+Route::get('/', [MainPageController::class, 'index'])->name('banners');
+
+
+//Route::get('/', function () {
+//    return view('main');
+//})->name('banners');
 
 Route::get('/orders', function () {})->name('orders.create');
 

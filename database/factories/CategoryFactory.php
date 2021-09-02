@@ -40,7 +40,7 @@ class CategoryFactory extends Factory
             'name' => $this->faker->randomElement($categoryNames),
             'image_id' => $this->faker->numberBetween(1,300),
             'sort_index' => $this->faker->numberBetween(0, 101),
-            'is_active' => $this->faker->randomElement([true, false]),
+            'is_active' => $this->faker->boolean(50),
         ];
     }
 

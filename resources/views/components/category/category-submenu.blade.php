@@ -1,3 +1,5 @@
+@props(['categories'])
+
 <div class="CategoriesButton-submenu">
     @foreach($categories as $category)
         <a class="CategoriesButton-link" href="#">

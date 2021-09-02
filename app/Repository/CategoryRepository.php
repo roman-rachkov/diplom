@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\CategoryRepositoryContract;
+use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Models\Category;
 use App\Service\AdminSettingsService;
 use Illuminate\Support\Collection;
@@ -12,14 +13,14 @@ class CategoryRepository implements CategoryRepositoryContract
 {
     private $adminsSettings;
 
-    public function __construct(AdminSettingsService $adminsSettings)
+    public function __construct(AdminSettingsServiceContract $adminsSettings)
     {
         $this->adminsSettings = $adminsSettings;
     }
 
     public function getCategories(): Collection
     {
-        $ttl = $this->adminsSettings->get('categoryCacheTime');
+        $ttl = $this->adminsSettings->get('categoryCacheTime', 60*60*24);
 
         return Cache::remember('categories',$ttl,function () {
 

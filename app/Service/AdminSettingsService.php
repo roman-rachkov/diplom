@@ -10,9 +10,8 @@ class AdminSettingsService implements AdminSettingsServiceContract
 
     public function get(string $settingName, $default = null)
     {
-        if($settingName === 'categoryCacheTime') {
-            return 60*60*24;
-        }
+
+        if($default) return $default;
     }
 
     public function clearCache()
