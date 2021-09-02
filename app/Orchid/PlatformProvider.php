@@ -27,6 +27,11 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
 
+            Menu::make(__('Banners'))
+                ->icon('layers')
+                ->route('platform.banner.list')
+                ->permission('platform.systems.users'),
+
             Menu::make(__('Users'))
                 ->icon('user')
                 ->route('platform.systems.users')

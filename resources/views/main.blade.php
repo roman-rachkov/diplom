@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('headers_content')
-    <x-banners_main/>
+    <x-banners.banners-slider/>
 @endsection
 
 @section('content')
