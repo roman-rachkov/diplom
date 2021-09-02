@@ -38,7 +38,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
 
-            Menu::make(__('Config'))
+            Menu::make(__('admin_settings.Name'))
                 ->icon('config')
                 ->route('platform.config')
                 ->permission('platform.systems.users'),

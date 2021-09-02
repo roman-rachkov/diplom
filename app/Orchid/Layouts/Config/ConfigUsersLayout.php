@@ -27,13 +27,13 @@ class ConfigUsersLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('name', 'Название опции')->width('500px'),
-            TD::make('value', 'Значение опции'),
-            TD::make('action')->render(function (AdminSetting $adminSetting) {
-                return ModalToggle::make('Редактировать')
+            TD::make('name', __('admin_settings.Title'))->width('500px'),
+            TD::make('value', __('admin_settings.Value')),
+            TD::make('action', __('admin_settings.Action'))->render(function (AdminSetting $adminSetting) {
+                return ModalToggle::make(__('admin_settings.Edit'))
                     ->modal('editOption')
                     ->method('update')
-                    ->modalTitle('Редактирование опции ' . $adminSetting->name)
+                    ->modalTitle(__('admin_settings.editing') . $adminSetting->name)
                     ->asyncParameters([
                         'adminSetting' => $adminSetting->id,
                     ]);

@@ -19,8 +19,14 @@ class ConfigurationScreen extends Screen
      *
      * @var string
      */
-    public $name = 'Настройки';
-    public  $description = 'Страница изменения настроек';
+    public $name;
+    public  $description;
+
+    public function __construct()
+    {
+        $this->name = __('admin_settings.Name');
+        $this->description = __('admin_settings.Description');
+    }
 
     /**
      * Query data.
@@ -30,7 +36,7 @@ class ConfigurationScreen extends Screen
     public function query(): array
     {
         $categories = AdminSetting::all()->groupBy('category');
-        
+
         return [
             'categories' => $categories,
         ];
@@ -55,15 +61,15 @@ class ConfigurationScreen extends Screen
     {
         return [
             Layout::tabs([
-                'Контакты' => ConfigContactsLayout::class,
-                'Доставка' => ConfigDeliversLayout::class,
-                'Пользователь' => ConfigUsersLayout::class,
+                __('admin_settings.Contacts') => ConfigContactsLayout::class,
+                __('admin_settings.Delivery') => ConfigDeliversLayout::class,
+                __('admin_settings.User') => ConfigUsersLayout::class,
                 ]),
             Layout::modal('editOption', Layout::rows([
                 Input::make('adminSetting.id')->type('hidden'),
-                Input::make('adminSetting.name')->disabled()->title('Название опции'),
-                Input::make('adminSetting.value')->required()->title('Значение опции'),
-            ]))->title('Редактирование опции')->applyButton('Редактировать')->async('asyncGetAdminSetting'),
+                Input::make('adminSetting.name')->disabled()->title(__('admin_settings.Title')),
+                Input::make('adminSetting.value')->required()->title(__('admin_settings.Value')),
+            ]))->title(__('admin_config.editing'))->applyButton(__('admin_settings.Update'))->async('asyncGetAdminSetting'),
         ];
     }
 
@@ -75,7 +81,7 @@ class ConfigurationScreen extends Screen
 
     public function update(Request $request) {
         $adminSetting = AdminSetting::find($request->input('adminSetting.id'))->update($request->adminSetting);
-        Toast::info('Успешно обновлено');
+        Toast::info(__('admin_settings.updated'));
     }
 
 }
