@@ -1,0 +1,27 @@
+@extends('layout.master')
+
+@section('content')
+    <div class="Section">
+        <div class="wrap">
+            <form class="form Authorization" action="{{ route('login') }}" method="post">
+                @csrf
+                <div class="row">
+                    <div class="row-block">
+                        <div class="form-group">
+                            <label class="form-label" for="email">{{ __('auth.email_title') }}</label>
+                            <input class="form-input" id="email" name="email" type="text" placeholder="test@test.com"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="password">{{ __('auth.password_title') }}</label>
+                            <input class="form-input" id="password" name="password" type="password" placeholder="{{ __('auth.password_title') }}"/>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn_primary" type="submit">{{ __('auth.login') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+
