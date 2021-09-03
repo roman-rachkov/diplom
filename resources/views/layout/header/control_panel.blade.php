@@ -18,9 +18,9 @@
                 <div class="row ControlPanel-rowSplit">
                     <div class="row-block">
                         @guest
-                            <a class="ControlPanel-title" href="login.html">Войти</a>&nbsp;/&nbsp;<a class="ControlPanel-title" href="register.html">Регистрация</a>
+                            <a class="ControlPanel-title" href="{{route('login')}}">Войти</a>&nbsp;/&nbsp;<a class="ControlPanel-title" href="{{route('register')}}">Регистрация</a>
                         @else
-                            <a class="ControlPanel-title" href="{{route('account.show')}}">Профиль</a>&nbsp;/&nbsp;<a class="ControlPanel-title" href="logout.html">Выход</a>
+                            <a class="ControlPanel-title" href="{{route('account.show')}}">Профиль</a>&nbsp;/&nbsp;<a class="ControlPanel-title" href="{{route('logout')}}">Выход</a>
                         @endguest
                     </div>
                 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccountAccess
 {
@@ -16,7 +17,10 @@ class AccountAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->user() && $request->user()->hasAccess('account')) {
+        if(Auth::user() && $request->user()->hasAccess('account')) {
+            return $next($request);
+        }
+        if (!Auth::user() && trim($request->getRequestUri(), '/') != 'account') {
             return $next($request);
         }
         return redirect()->route('login');
