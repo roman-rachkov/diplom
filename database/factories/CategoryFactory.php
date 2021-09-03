@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Orchid\Attachment\Models\Attachment;
 
 class CategoryFactory extends Factory
 {
@@ -36,18 +37,21 @@ class CategoryFactory extends Factory
             'More'
         ];
 
+
+
+
         return [
             'name' => $this->faker->randomElement($categoryNames),
-            'image_id' => $this->faker->numberBetween(1,300),
+            'image_id' => Attachment::all()->random()->id,
             'sort_index' => $this->faker->numberBetween(0, 101),
-            'is_active' => $this->faker->boolean(50),
+            'is_active' => $this->faker->boolean(90),
         ];
     }
 
     public function configure()
     {
         return $this->afterCreating(function (Category $category) {
-            $categories = Category::where('is_active', 1)->whereIsRoot()->get();
+            $categories = Category::where('is_active', 1)->get();
             if (
                 $this->faker->boolean(70) &&
                 $categories->isNotEmpty()

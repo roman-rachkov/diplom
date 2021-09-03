@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Kalnoy\Nestedset\NodeTrait;
+use Orchid\Attachment\Models\Attachment;
 
 class Category extends Model
 {
@@ -32,4 +33,10 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function image()
+    {
+        return $this->hasOne(Attachment::class, 'id', 'image_id');
+    }
+
 }
