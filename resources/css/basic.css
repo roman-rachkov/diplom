@@ -2536,3 +2536,15 @@ button.link {
 .wrap-content {
   margin: 0 auto;
 }
+
+.link-button.ControlPanel-title {
+    background-color: transparent;
+    border: 0px;
+    cursor: pointer;
+}
+
+.link-button.ControlPanel-title:hover {
+    position: relative;
+    border-bottom: 1px solid #0063d1;
+    transition: border 0.4s;
+}

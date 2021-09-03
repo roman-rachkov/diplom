@@ -4,6 +4,7 @@
     <div class="Section">
         <div class="wrap">
             <form class="form Authorization" action="{{ route('login') }}" method="post">
+                @include('layout.errors')
                 @csrf
                 <div class="row">
                     <div class="row-block">

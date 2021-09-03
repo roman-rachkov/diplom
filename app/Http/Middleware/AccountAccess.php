@@ -20,7 +20,10 @@ class AccountAccess
         if(Auth::user() && $request->user()->hasAccess('account')) {
             return $next($request);
         }
-        if (!Auth::user() && trim($request->getRequestUri(), '/') != 'account') {
+        if(Auth::user() && $request->user()->hasAccess('platform.index')) {
+            return redirect()->route('platform.main');
+        }
+        if (trim($request->getRequestUri() != 'login')) {
             return $next($request);
         }
         return redirect()->route('login');
