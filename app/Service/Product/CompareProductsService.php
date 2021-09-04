@@ -2,18 +2,41 @@
 
 namespace App\Service\Product;
 
-use App\Contracts\Service\CompareProductsServiceContract;
+use App\Contracts\Service\Product\CompareProductsServiceContract;
+use App\Models\ComparedProduct;
+use App\Models\Product;
 
 class CompareProductsService implements CompareProductsServiceContract
 {
 
-    public function add($product)
+    public function add(Product $product)
     {
-        // TODO: Implement add() method.
+        ComparedProduct::create([
+            'user_id' => auth()->id(),
+            'product_id' => $product->id
+
+        ]);
     }
 
-    public function get()
+    public function remove(Product $product)
     {
-        // TODO: Implement get() method.
+        ComparedProduct::where('user_id',  auth()->id())
+            ->where('product_id', $product->id)
+            ->first()
+            ->delete();
+
+    }
+
+    public function get(int $quantity = 3)
+    {
+        return ComparedProduct::where('user_id', auth()->id())
+            ->limit($quantity)
+            ->orderByDesc('id')
+            ->get();
+    }
+
+    public function getCount()
+    {
+        return ComparedProduct::where('user_id', auth()->id())->count();
     }
 }

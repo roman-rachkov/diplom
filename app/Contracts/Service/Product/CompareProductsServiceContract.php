@@ -2,9 +2,15 @@
 
 namespace App\Contracts\Service\Product;
 
+use App\Models\Product;
+
 interface CompareProductsServiceContract
 {
-    public function add($product);
+    public function add(Product $product);
 
-    public function get();
+    public function remove(Product $product);
+
+    public function get(int $quantity = 3);
+
+    public function getCount();
 }
