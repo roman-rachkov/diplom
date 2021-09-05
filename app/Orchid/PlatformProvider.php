@@ -27,6 +27,11 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
 
+            Menu::make(__('Banners'))
+                ->icon('layers')
+                ->route('platform.banner.list')
+                ->permission('platform.systems.users'),
+
             Menu::make(__('Users'))
                 ->icon('user')
                 ->route('platform.systems.users')
@@ -37,6 +42,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('lock')
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
+
+            Menu::make(__('admin_settings.Name'))
+                ->icon('config')
+                ->route('platform.config')
+                ->permission('platform.systems.users'),
         ];
     }
 
