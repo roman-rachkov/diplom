@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Contracts\Repository\AdminSettingsRepositoryContract;
 use App\Contracts\Repository\BannerRepositoryContract;
 use App\Contracts\Repository\CategoryRepositoryContract;
 use App\Contracts\Repository\DeliveryRepositoryContract;
@@ -14,7 +15,7 @@ use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Repository\ViewedProductsRepositoryContract;
-use App\Contracts\Service\AdminSettingsServiceContract;
+use App\Repository\AdminSettingsRepository;
 use App\Repository\BannerRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\DeliveryRepository;
@@ -56,7 +57,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(FeedbackRepositoryContract::class, FeedbackRepository::class);
         $this->app->singleton(OrderRepositoryContract::class, OrderRepository::class);
         $this->app->singleton(ProductRepositoryContract::class, ProductRepository::class);
-        $this->app->singleton(AdminSettingsServiceContract::class, AdminSettingsService::class);
+        $this->app->singleton(AdminSettingsRepositoryContract::class, AdminSettingsRepository::class);
         $this->app->singleton(ImageRepositoryContract::class, ImageRepository::class);
         $this->app->singleton(OrderItemRepositoryContract::class, OrderItemRepository::class);
         $this->app->singleton(PaymentRepositoryContract::class, PaymentRepository::class);
