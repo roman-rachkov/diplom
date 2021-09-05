@@ -7,42 +7,53 @@ use App\Models\Product;
 
 class AddToCartService implements AddToCartServiceContract
 {
-    public $cart = [];
-
-    public function add(Product $product, int $qty)
+    public function add(Product $product, int $qty): bool
     {
-
-        $this->cart[$product->id] = ['product' => $product, 'quantity' => $qty];
-        return $this->getProductsQuantity();
+        return (bool)rand(0, 1);
     }
 
-    public function remove(int $prodId)
+    public function remove(int $prodId): bool
     {
-        unset($this->cart[$prodId]);
-        return $this->getProductsQuantity();
+        return (bool)rand(0, 1);
     }
 
-    public function changeProductQuantity(int $prodId, $newQty = 1)
+    public function changeProductQuantity(int $prodId, int $newQty = 1): bool
     {
-        $this->cart[$prodId]['quantity'] = $newQty;
-        return $this->getProductsQuantity();
+        return (bool)rand(0, 1);
     }
 
-    public function getProductsList()
+    public function getProductsList(): array
     {
-        return $this->cart;
+        return [
+            1 => [
+                'product' => new Product(),
+                'seller' => 'seller1',
+                'quantity' => rand(0, 10)
+            ],
+            15 => [
+                'product' => new Product(),
+                'seller' => 'seller2',
+                'quantity' => rand(0, 10)
+            ],
+            155 => [
+                'product' => new Product(),
+                'seller' => 'seller3',
+                'quantity' => rand(0, 10)
+            ],
+            3050 => [
+                'product' => new Product(),
+                'seller' => 'seller4',
+                'quantity' => rand(0, 10)
+            ],
+        ];
     }
 
-    public function getProductsQuantity()
+    public function getProductsQuantity(): int
     {
-        if ($this->cart) {
-            return array_sum(array_map(fn($value) => $value['quantity'], $this->cart));
-        }
-        return 0;
+        return rand(0, 100);
     }
 
-    public function clear() {
-        $this->cart = [];
-        return $this->getProductsQuantity();
+    public function clear(): bool {
+        return (bool)rand(0, 1);
     }
 }
