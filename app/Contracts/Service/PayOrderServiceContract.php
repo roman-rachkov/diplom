@@ -4,7 +4,16 @@ namespace App\Contracts\Service;
 
 interface PayOrderServiceContract
 {
-    public function pay($payMethod, $cardNumber);
+    /**
+     * @param string $payMethod
+     * @param int $cardNumber
+     * @return array
+     */
+    public function pay(string $payMethod, int $cardNumber): string;
 
-    public function getStatus($paymentId);
+    /**
+     * @param int $paymentId
+     * @return array
+     */
+    public function getStatus(int $paymentId): array;
 }
