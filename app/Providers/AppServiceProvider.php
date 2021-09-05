@@ -9,6 +9,7 @@ use App\Contracts\Service\GetCartServiceContract;
 use App\Contracts\Service\PayOrderServiceContract;
 use App\Contracts\Service\AddReviewServiceContract;
 use App\Contracts\Service\ImportSellerServiceContract;
+use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Contracts\Service\ViewedProductsServiceContract;
 use App\Service\AddToCartService;
 use App\Service\AdminSettingsService;
@@ -17,6 +18,7 @@ use App\Service\GetCartService;
 use App\Service\PayOrderService;
 use App\Service\AddReviewService;
 use App\Service\ImportSellerService;
+use App\Service\Product\ProductDiscountService;
 use App\Service\ViewedProductsService;
 use Illuminate\Support\ServiceProvider;
 
@@ -47,6 +49,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AdminSettingsServiceContract::class, AdminSettingsService::class);
         $this->app->singleton(ImportSellerServiceContract::class, ImportSellerService::class);
         $this->app->singleton(AddReviewServiceContract::class, AddReviewService::class);
-
+        $this->app->singleton(ProductDiscountServiceContract::class, ProductDiscountService::class);
     }
 }
