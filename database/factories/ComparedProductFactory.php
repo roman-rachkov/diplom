@@ -24,8 +24,8 @@ class ComparedProductFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::all()->random()->id,
-            'product_id' => Product::all()->random()->id
+            'user_id' => User::factory()->create(),
+            'product_id' => Product::factory()->create()
         ];
     }
 }

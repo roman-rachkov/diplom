@@ -65,7 +65,7 @@ class User extends Authenticatable
         'created_at',
     ];
 
-    public function compareProducts(): HasMany
+    public function comparedProduct(): HasMany
     {
         return $this->hasMany(ComparedProduct::class);
     }

@@ -5,6 +5,7 @@ namespace App\Service\Product;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Models\ComparedProduct;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
 
 class CompareProductsService implements CompareProductsServiceContract
 {
@@ -27,7 +28,7 @@ class CompareProductsService implements CompareProductsServiceContract
 
     }
 
-    public function get(int $quantity = 3)
+    public function get(int $quantity = 3): Collection
     {
         return ComparedProduct::where('user_id', auth()->id())
             ->limit($quantity)
@@ -35,7 +36,7 @@ class CompareProductsService implements CompareProductsServiceContract
             ->get();
     }
 
-    public function getCount()
+    public function getCount(): int
     {
         return ComparedProduct::where('user_id', auth()->id())->count();
     }
