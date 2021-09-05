@@ -10,6 +10,17 @@ class AddReviewService implements AddReviewServiceContract
 
     public function add(Product $product, array $attributes)
     {
-        // TODO: Implement add() method.
+        $product->reviews()->create($attributes);
+    }
+
+    public function getReviews(Product $product)
+    {
+        $product->refresh();
+        return $product->reviews;
+    }
+
+    public function getReviewsCount(Product $product)
+    {
+        return $this->getReviews($product)->count();
     }
 }
