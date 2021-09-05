@@ -3,17 +3,34 @@
 namespace App\Service;
 
 use App\Contracts\Service\ViewedProductsServiceContract;
+use App\Models\Product;
 
 class ViewedProductsService implements ViewedProductsServiceContract
 {
-
-    public function add($product)
+    
+    public function add(Product $product)
     {
-        // TODO: Implement add() method.
+    
     }
-
-    public function get()
+    
+    public function remove(Product $product)
     {
-        // TODO: Implement get() method.
+    
     }
+    
+    public function isViewed(Product $product)
+    {
+    
+    }
+    
+    public function getViewed()
+    {
+    
+    }
+    
+    public function getViewedCount()
+    {
+    
+    }
+    
 }
