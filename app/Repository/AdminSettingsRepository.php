@@ -15,13 +15,13 @@ class AdminSettingsRepository implements AdminSettingsRepositoryContract
 
     public function get(string $variable, $default=null)
     {
-        $optionValue = cache()->tags($variable)->remember($variable, 600, function () use ($variable, $default) {
+        $optionValue = cache()->tags(['admin_settings', $variable])->remember($variable, 600, function () use ($variable) {
 
-            $this->model->setCacheTag($variable);
+            $variable = $this->model->where('variable', $variable)->first();
 
-            return $this->model->where('variable', $variable)->first()->value ?? $default;
+            return isset($variable) ? $variable->value : null;
         });
 
-        return $optionValue;
+        return $optionValue ?? $default;
     }
 }

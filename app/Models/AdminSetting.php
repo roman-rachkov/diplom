@@ -15,10 +15,5 @@ class AdminSetting extends Model
     use FlushTagCache;
 
     protected $guarded = [];
-    public $tagsArr = [];
-
-    public function setCacheTag(string $tag)
-    {
-        $this->tagsArr[] = $tag;
-    }
+    public $tagsArr = ['admin_settings'];
 }
