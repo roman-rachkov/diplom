@@ -36,9 +36,7 @@ class AddToCartService implements AddToCartServiceContract
     public function getProductsQuantity()
     {
         if ($this->cart) {
-            return array_sum(array_map(function ($value) {
-                return $value['quantity'];
-            }, $this->cart));
+            return array_sum(array_map(fn($value) => $value['quantity'], $this->cart));
         }
         return 0;
     }

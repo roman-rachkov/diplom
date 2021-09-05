@@ -11,4 +11,5 @@ interface AddToCartServiceContract
     public function changeProductQuantity(int $prodId, $newQty = 1);
     public function getProductsList();
     public function getProductsQuantity();
+    public function clear();
 }
