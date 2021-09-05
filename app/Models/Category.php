@@ -11,24 +11,11 @@ use Orchid\Attachment\Models\Attachment;
 
 class Category extends Model
 {
-    use HasFactory;
-    use NodeTrait;
+    use HasFactory, NodeTrait, FlushTagCache;
+
+    public $tagsArr = ['categories'];
 
     public $guarded = [];
-
-    protected static function booted()
-    {
-        static::updated(function () {
-            Cache::forget('categories');
-        });
-        static::created(function () {
-            Cache::forget('categories');
-        });
-
-        static::saved(function () {
-            Cache::forget('categories');
-        });
-    }
 
     public function products()
     {
