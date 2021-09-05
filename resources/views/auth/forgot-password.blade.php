@@ -11,7 +11,7 @@
                     <div class="row-block">
                         <div class="form-group">
                             <label class="form-label" for="email">{{ __('auth.email_title') }}</label>
-                            <input class="form-input" id="mail" name="email" type="text" placeholder="send@test.test"/>
+                            <input class="form-input" id="mail" name="email" type="text" placeholder="{{ __('auth.email_placeholder') }}"/>
                         </div>
                         <div class="form-group">
                             <button class="btn btn_primary" type="submit">{{ __('auth.reset_password') }}</button>

@@ -15,13 +15,10 @@ class AccountAccess
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $permission)
     {
-        if(Auth::user() && $request->user()->hasAccess('account')) {
+        if(Auth::user() && $request->user()->hasAccess($permission)) {
             return $next($request);
-        }
-        if(Auth::user() && $request->user()->hasAccess('platform.index')) {
-            return redirect()->route('platform.main');
         }
         if (trim($request->getRequestUri() != 'login')) {
             return $next($request);

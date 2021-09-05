@@ -8,10 +8,10 @@ use App\Models\User;
 class UserRepository implements UserRepositoryContract
 {
     /**
-     * @param $email
-     * @return User
+     * @param string $email
+     * @return User|null
      */
-    public function getUserByEmail($email)
+    public function getUserByEmail(string $email): ?User
     {
         return User::where('email', $email)->first();
     }

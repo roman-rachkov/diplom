@@ -2,7 +2,13 @@
 
 namespace App\Contracts\Repository;
 
+use App\Models\User;
+
 interface UserRepositoryContract
 {
-    public function getUserByEmail($email);
+    /**
+     * @param string $email
+     * @return User|null
+     */
+    public function getUserByEmail(string $email): ?User;
 }

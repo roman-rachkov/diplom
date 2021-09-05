@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label class="form-label" for="password">{{ __('auth.password_title') }}</label>
                             <input class="form-input" id="password" name="password" type="password"
-                                   placeholder="Выберите пароль"/>
+                                   placeholder="{{ __('auth.password_placeholder') }}"/>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="passwordReply">{{ __('auth.password_confirm_title') }}</label>

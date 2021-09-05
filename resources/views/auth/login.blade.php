@@ -10,11 +10,11 @@
                     <div class="row-block">
                         <div class="form-group">
                             <label class="form-label" for="email">{{ __('auth.email_title') }}</label>
-                            <input class="form-input" id="email" name="email" type="text" placeholder="test@test.com"/>
+                            <input class="form-input" id="email" name="email" type="text" placeholder="{{ __('auth.email_placeholder') }}"/>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="password">{{ __('auth.password_title') }}</label>
-                            <input class="form-input" id="password" name="password" type="password" placeholder="{{ __('auth.password_title') }}"/>
+                            <input class="form-input" id="password" name="password" type="password" placeholder="{{ __('auth.password_placeholder') }}"/>
                         </div>
                         <div class="form-group">
                             <button class="btn btn_primary" type="submit">{{ __('auth.login') }}</button>

@@ -17,9 +17,11 @@ return [
     'password' => 'Предоставленный пароль неверен.',
     'throttle' => 'Слишком много попыток входа в систему. Повторите попытку через: секунды секунды.',
     'email_title' => 'Ваш Email',
+    'email_placeholder' => 'send@test.test',
     'name_title' => 'Ваше Имя',
     'name_placeholder' => 'Введите имя',
     'password_title' => 'Ваш пароль',
+    'password_placeholder' => 'Введите пароль',
     'password_confirm_title' => 'Введите пароль повторно',
     'password_confirm_placeholder' => 'Введите пароль повторно',
     'forgot_password' => 'Забыли пароль?',
@@ -28,4 +30,5 @@ return [
     'login' => 'Войти',
     'logout' => 'Выйти',
     'register' => 'Зарегистрироваться',
+    'profile' => 'Профиль',
 ];

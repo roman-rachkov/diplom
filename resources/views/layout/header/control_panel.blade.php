@@ -18,16 +18,16 @@
                 <div class="row ControlPanel-rowSplit">
                     <div class="row-block">
                         @guest
-                            <a class="ControlPanel-title" href="{{route('login')}}">{{ __('auth.login') }}</a>&nbsp;/&nbsp;<a class="ControlPanel-title" href="{{route('register')}}">Регистрация</a>
+                            <a class="ControlPanel-title" href="{{route('login')}}">{{ __('auth.login') }}</a>&nbsp;/&nbsp;
+                            <a class="ControlPanel-title" href="{{route('register')}}">{{ __('auth.register') }}</a>
                         @else
-                            <a class="ControlPanel-title" href="{{route('account.show')}}">Профиль</a>&nbsp;/&nbsp;
+                            <a class="ControlPanel-title" href="{{route('account.show')}}">{{ __('auth.profile') }}</a>&nbsp;/&nbsp;
                             <form method="post" action="{{route('logout')}}" class="inline">
                                 @csrf
                                 <button type="submit" name="submit_param" value="submit_value" class="link-button ControlPanel-title">
                                     {{ __('auth.logout') }}
                                 </button>
                             </form>
-{{--                            <a class="ControlPanel-title" href="{{route('logout')}}">Выход</a>--}}
                         @endguest
                     </div>
                 </div>
