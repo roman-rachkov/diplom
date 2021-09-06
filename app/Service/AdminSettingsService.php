@@ -3,12 +3,13 @@
 namespace App\Service;
 
 use App\Contracts\Service\AdminSettingsServiceContract;
+use Illuminate\Support\Facades\Cache;
 
 class AdminSettingsService implements AdminSettingsServiceContract
 {
 
     public function get(string $settingName, $default = null)
     {
-        // TODO: Implement get() method.
+        if($default) return $default;
     }
 }
