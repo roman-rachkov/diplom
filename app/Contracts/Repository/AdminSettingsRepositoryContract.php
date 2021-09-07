@@ -4,5 +4,5 @@ namespace App\Contracts\Repository;
 
 interface AdminSettingsRepositoryContract
 {
-    public function get(string $variable, $default=null);
+    public function get(string $variable);
 }
