@@ -3,6 +3,7 @@
 namespace App\Contracts\Service;
 
 use App\Models\Product;
+use \Illuminate\Support\Collection;
 
 interface AddToCartServiceContract
 {
@@ -29,7 +30,7 @@ interface AddToCartServiceContract
     /**
      * @return array
      */
-    public function getProductsList(): array;
+    public function getProductsList(): Collection;
 
     /**
      * @return int

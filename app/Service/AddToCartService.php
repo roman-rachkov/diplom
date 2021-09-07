@@ -22,30 +22,9 @@ class AddToCartService implements AddToCartServiceContract
         return (bool)rand(0, 1);
     }
 
-    public function getProductsList(): array
+    public function getProductsList(): \Illuminate\Support\Collection
     {
-        return [
-            1 => [
-                'product' => new Product(),
-                'seller' => 'seller1',
-                'quantity' => rand(0, 10)
-            ],
-            15 => [
-                'product' => new Product(),
-                'seller' => 'seller2',
-                'quantity' => rand(0, 10)
-            ],
-            155 => [
-                'product' => new Product(),
-                'seller' => 'seller3',
-                'quantity' => rand(0, 10)
-            ],
-            3050 => [
-                'product' => new Product(),
-                'seller' => 'seller4',
-                'quantity' => rand(0, 10)
-            ],
-        ];
+        return collect();
     }
 
     public function getProductsQuantity(): int
