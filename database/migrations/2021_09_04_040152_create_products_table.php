@@ -20,9 +20,9 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->string('slug');
             $table->unsignedBigInteger('category_id');
-            $table->integer('sort_index');
+            $table->integer('sort_index')->nullable();
             $table->tinyInteger('limited');
-            $table->integer('sales_count');
+            $table->integer('sales_count')->nullable();
             $table->unsignedBigInteger('manufacturer_id');
             $table->unsignedBigInteger('main_img_id');
         });
