@@ -7,9 +7,9 @@ use Illuminate\Support\Collection;
 interface ProductDiscountServiceContract
 {
 
-    public function getAllDiscounts(Collection $products): array;
+    public function getAllDiscounts(Collection $products): Collection;
 
-    public function getGeneralDiscount(Collection $products): array;
+    public function getGeneralDiscount(Collection $products): Collection;
 
     public function getPriceWithDiscount(Collection $products): int;
 
