@@ -16,6 +16,7 @@ class CreateAdminSettingsTable extends Migration
         Schema::create('admin_settings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('variable');
             $table->string('value');
             $table->string('category');
             $table->timestamps();

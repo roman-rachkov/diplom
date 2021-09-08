@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-})->name('banners');
+Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
 Route::get('/orders', function () {})->name('orders.create');
 
@@ -31,6 +30,8 @@ Route::get('/products/comparison', function () {})->name('comparison');
 
 Route::get('/cart', function () {})->name('carts.edit');
 
-Route::get('/account', function () {})->name('account.show');
+Route::get('/account', function () {})->middleware('account')->name('account.show');
+
+Route::get('login', function () {})->name('login');
 
 Route::get('/about', function () {})->name('about');

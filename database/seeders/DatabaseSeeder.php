@@ -13,6 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        \App\Models\User::factory(10)->create();
+
+        $this->call([
+            AttachmentSeeder::class,
+            CategorySeeder::class
+        ]);
+
         \App\Models\ComparedProduct::factory(20)->create();
     }
 }

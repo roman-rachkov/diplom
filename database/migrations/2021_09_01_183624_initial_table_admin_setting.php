@@ -19,6 +19,7 @@ class InitialTableAdminSetting extends Migration
             foreach ($options as $option) {
                 \App\Models\AdminSetting::create([
                     'name' => $option['name'],
+                    'variable' => $option['variable'],
                     'value' => $option['value'],
                     'category' => $category,
                 ]);

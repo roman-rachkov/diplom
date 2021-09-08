@@ -9,5 +9,14 @@ class Product extends Model
 {
     use HasFactory;
 
-    private mixed $id;
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 }
