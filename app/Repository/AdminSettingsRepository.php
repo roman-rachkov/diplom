@@ -8,12 +8,13 @@ use App\Models\AdminSetting;
 class AdminSettingsRepository implements AdminSettingsRepositoryContract
 {
     protected $model;
+
     public function __construct(AdminSetting $adminSetting)
     {
         $this->model = $adminSetting;
     }
 
-    public function get(string $variable, $default=null)
+    public function get(string $variable)
     {
         $optionValue = cache()->tags(['admin_settings', $variable])->remember($variable, 600, function () use ($variable) {
 
@@ -22,6 +23,6 @@ class AdminSettingsRepository implements AdminSettingsRepositoryContract
             return isset($variable) ? $variable->value : null;
         });
 
-        return $optionValue ?? $default;
+        return $optionValue;
     }
 }
