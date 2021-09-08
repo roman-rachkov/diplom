@@ -40,7 +40,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->singleton(AddToCartServiceContract::class, AddToCartService::class);
-        $this->app->singleton(ViewedProductsServiceContract::class, ViewedProductsService::class);
         $this->app->singleton(GetCartServiceContract::class, GetCartService::class);
         $this->app->singleton(DeliveryCostServiceContract::class, DeliveryCostService::class);
         $this->app->singleton(PayOrderServiceContract::class, PayOrderService::class);

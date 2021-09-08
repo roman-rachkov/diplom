@@ -22,7 +22,8 @@ class ViewedProductFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'customer_id' => $this->faker->numberBetween(1,100),
+            'product_id' => $this->faker->numberBetween(1,100)
         ];
     }
 }
