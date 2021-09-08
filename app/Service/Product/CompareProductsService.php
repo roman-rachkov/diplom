@@ -24,7 +24,10 @@ class CompareProductsService implements CompareProductsServiceContract
 
     public function get(int $quantity = 3): Collection
     {
-        return ComparedProduct::factory()->count(5)->make();
+        return ComparedProduct::factory()
+            ->count($quantity)
+            ->make()
+            ->sortBy([['id', 'desc']]);
 
 
 //        return ComparedProduct::where('user_id', auth()->id())

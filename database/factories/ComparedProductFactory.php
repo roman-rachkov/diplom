@@ -25,8 +25,8 @@ class ComparedProductFactory extends Factory
     public function definition()
     {
         return [
-            'customer_id' => Customer::factory()->make(),
-            'product_id' => Product::factory()->make()
+            'customer_id' => $this->faker->numberBetween(1, 100),
+            'product_id' => $this->faker->numberBetween(1, 100)
         ];
     }
 }
