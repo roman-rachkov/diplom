@@ -24,8 +24,7 @@ class ReviewFactory extends Factory
     {
         return [
             'text' => $this->faker->sentence(),
-            'rank' => $this->faker->numberBetween(1,10),
-            'product_id' => Product::all()->random()
+            'product_id' => Product::factory()->make()
         ];
     }
 }
