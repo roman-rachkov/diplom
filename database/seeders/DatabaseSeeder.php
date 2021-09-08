@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class
         ]);
 
+        \App\Models\Product::factory(50)->create();
         \App\Models\ComparedProduct::factory(20)->create();
+        \App\Models\Review::factory(70)->create();
     }
 }
