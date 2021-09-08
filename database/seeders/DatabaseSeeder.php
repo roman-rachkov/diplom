@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AttachmentSeeder::class,
             CategorySeeder::class
-            ]);
+        ]);
+
+        \App\Models\ComparedProduct::factory(20)->create();
     }
 }
