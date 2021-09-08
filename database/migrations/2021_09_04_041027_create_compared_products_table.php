@@ -15,13 +15,13 @@ class CreateComparedProductsTable extends Migration
     {
         Schema::create('compared_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('product_id');
             $table->timestamps();
 
-            $table->foreign('user_id')
+            $table->foreign('customer_id')
                 ->references('id')
-                ->on('users')
+                ->on('customers')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('product_id')

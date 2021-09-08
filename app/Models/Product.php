@@ -9,6 +9,16 @@ class Product extends Model
 {
     use HasFactory;
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);

@@ -15,6 +15,7 @@ use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Repository\ViewedProductsRepositoryContract;
+use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Repository\AdminSettingsRepository;
 use App\Repository\BannerRepository;
 use App\Repository\CategoryRepository;

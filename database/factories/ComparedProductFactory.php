@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\ComparedProduct;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,8 +25,8 @@ class ComparedProductFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::all()->random()->id,
-            'product_id' => Product::all()->random()->id
+            'customer_id' => $this->faker->numberBetween(1, 100),
+            'product_id' => $this->faker->numberBetween(1, 100)
         ];
     }
 }
