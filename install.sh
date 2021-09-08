@@ -4,7 +4,7 @@ release=$1
 task=$2
 
 git branch "$release"
-git pull "$release"
+git pull origin "$release"
 git branch "$task"
 git checkout "$task"
 bash ./vendor/bin/sail up
