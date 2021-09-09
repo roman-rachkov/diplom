@@ -40,7 +40,6 @@ p.error-browser
         | браузера здесь&nbsp;
     | для правильного отображения сайта.
 -->
-
 @include('layout.header')
 
 <div class="Middle Middle_top">
