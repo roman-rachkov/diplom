@@ -13,9 +13,6 @@ class BannerRepository implements BannerRepositoryContract
 {
     private $adminsSettings;
 
-    /**
-     * @param AdminSettingsService $adminsSettings
-     */
     public function __construct(AdminSettingsRepositoryContract $adminsSettings)
     {
         $this->adminsSettings = $adminsSettings;
