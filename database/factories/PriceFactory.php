@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Price;
+use App\Models\Product;
+use App\Models\Seller;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PriceFactory extends Factory
@@ -22,7 +24,9 @@ class PriceFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'price' => $this->faker->randomFloat(2,100,10000),
+            'product_id' => Product::factory()->make(),
+            'seller_id' => Seller::factory()->make()
         ];
     }
 }
