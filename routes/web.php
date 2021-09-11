@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
+use Tabuna\Breadcrumbs\Trail;
 
 /*
 |--------------------------------------------------------------------------
