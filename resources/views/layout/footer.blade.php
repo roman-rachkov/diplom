@@ -21,7 +21,7 @@
             <div class="row-block">
                 <strong class="Footer-title">Дополнительно</strong>
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" href="{{route('feedbacks.create')}}">Контакты</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('feedbacks.index')}}">Контакты</a></li>
                     <li class="menu-item"><a class="menu-link" href="{{route('about')}}">О нас</a></li>
                 </ul>
             </div>

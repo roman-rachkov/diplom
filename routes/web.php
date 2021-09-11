@@ -24,7 +24,7 @@ Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/products', function () {})->name('products.index');
 
-Route::get('/feedbacks', function () {})->name('feedbacks.create');
+Route::get('/feedbacks', function () {})->name('feedbacks.index');
 
 Route::get('/products/comparison', function () {})->name('comparison');
 
