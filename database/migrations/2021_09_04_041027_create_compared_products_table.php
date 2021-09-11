@@ -19,11 +19,11 @@ class CreateComparedProductsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->timestamps();
 
-            $table->foreign('customer_id')
-                ->references('id')
-                ->on('customers')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+//            $table->foreign('customer_id')
+//                ->references('id')
+//                ->on('customers')
+//                ->onUpdate('cascade')
+//                ->onDelete('cascade');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products')
