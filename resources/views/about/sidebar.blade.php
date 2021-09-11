@@ -4,8 +4,8 @@
             <div class="media-image"><img src="{{asset('assets/img/icons/advantages/shipping.svg')}}" alt="shipping.svg"/>
             </div>
             <div class="media-content">
-                <strong class="media-title">Доставка</strong>
-                <p class="media-text">Доставка по всему миру</p>
+                <strong class="media-title">{{__('about.sidebar.delivery.header')}}</strong>
+                <p class="media-text">{{__('about.sidebar.delivery.text')}}</p>
             </div>
         </div>
     </div>
@@ -14,8 +14,8 @@
             <div class="media-image"><img src="{{asset('assets/img/icons/advantages/moneyBack.svg')}}" alt="moneyBack.svg"/>
             </div>
             <div class="media-content">
-                <strong class="media-title">Возврат денег</strong>
-                <p class="media-text">Не даем никаких гарантий</p>
+                <strong class="media-title">{{__('about.sidebar.refunds.header')}}</strong>
+                <p class="media-text">{{__('about.sidebar.refunds.text')}}</p>
             </div>
         </div>
     </div>
@@ -24,8 +24,8 @@
             <div class="media-image"><img src="{{asset('assets/img/icons/advantages/support.svg')}}" alt="support.svg"/>
             </div>
             <div class="media-content">
-                <strong class="media-title">Поддержка</strong>
-                <p class="media-text">Денег нет, но вы держитесь</p>
+                <strong class="media-title">{{__('about.sidebar.support.header')}}</strong>
+                <p class="media-text">{{__('about.sidebar.support.text')}}</p>
             </div>
         </div>
     </div>
@@ -34,14 +34,14 @@
             <div class="media-image"><img src="{{asset('assets/img/icons/advantages/quality.svg')}}" alt="quality.svg"/>
             </div>
             <div class="media-content">
-                <strong class="media-title">Гарантия качества</strong>
-                <p class="media-text">Наш завхоз рекомендует</p>
+                <strong class="media-title">{{__('about.sidebar.quality.header')}}</strong>
+                <p class="media-text">{{__('about.sidebar.quality.text')}}</p>
             </div>
         </div>
     </div>
     <div class="Section-columnSection">
         <header class="Section-header">
-            <strong class="Section-title">Мы в соцсетях</strong>
+            <strong class="Section-title">{{__('about.sidebar.socials')}}</strong>
         </header>
         <div class="Section-columnContent">
             <div class="Footer-payments Footer-payments_column">

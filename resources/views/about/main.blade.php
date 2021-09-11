@@ -9,12 +9,12 @@
                     <div class="Article-section">
                         <div class="row row_verticalCenter row_maxHalf">
                             <div class="row-block">
-                                <h2>Товарный агругатор Megano</h2>
+                                <h2>{{__('about.main.about.header')}}</h2>
                                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit doli. Aenean commodo ligula eget dolor. Aenean massa. Cumtipsu sociis natoque penatibus et magnis dis parturient montesti, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eutu, pretiumem.
                                 </p>
                                 <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justotuio, rhoncus ut loret, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus element semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae  ligula eget dolor. Aenean massa. Cumtipsu sociis natoque pena tibusetm t semper ni.
                                 </p>
-                                <div><a class="btn btn_primary" href="{{route('products.index')}}">Дайте я уже что-нибудь куплю</a></div>
+                                <div><a class="btn btn_primary" href="{{route('products.index')}}">{{__('about.main.about.button')}}</a></div>
                             </div>
                             <div class="row-block">
                                 <div class="pict"><img src="{{asset('assets/img/content/home/slider.png')}}" alt="slider.png"/>
@@ -29,8 +29,7 @@
                                 </div>
                             </div>
                             <div class="row-block">
-                                <h2>Megano Store Hystory
-                                </h2>
+                                <h2>{{__('about.main.history.header')}}</h2>
                                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit doli. Aenean commodo ligula eget dolor. Aenean massa. Cumtipsu sociis natoque penatibus et magnis dis parturient montesti, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eutu, pretiumem.
                                 </p>
                                 <ul>
@@ -47,7 +46,7 @@
                                     <li>quam felis, ultricies nec, pellentesque eutu
                                     </li>
                                 </ul>
-                                <div><a class="btn btn_primary" href="{{route('products.index')}}">А теперь-то можно покупать?</a></div>
+                                <div><a class="btn btn_primary" href="{{route('products.index')}}">{{__('about.main.history.button')}}</a></div>
                             </div>
                         </div>
                     </div>

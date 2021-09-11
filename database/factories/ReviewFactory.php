@@ -24,7 +24,7 @@ class ReviewFactory extends Factory
     {
         return [
             'text' => $this->faker->sentence(),
-            'product_id' => Product::factory()->create()
+            'product_id' => Product::factory()
         ];
     }
 }
