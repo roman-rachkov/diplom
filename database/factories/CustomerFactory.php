@@ -2,20 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\ComparedProduct;
 use App\Models\Customer;
-use App\Models\Product;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
-class ComparedProductFactory extends Factory
+class CustomerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ComparedProduct::class;
+    protected $model = Customer::class;
 
     /**
      * Define the model's default state.
@@ -25,8 +23,7 @@ class ComparedProductFactory extends Factory
     public function definition()
     {
         return [
-            'customer_id' => Customer::factory(),
-            'product_id' => Product::factory()
+            'cookie_hash' => Hash::make($this->faker->word)
         ];
     }
 }

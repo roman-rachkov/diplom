@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Customer;
+use App\Models\Product;
 use App\Models\ViewedProduct;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,8 +24,8 @@ class ViewedProductFactory extends Factory
     public function definition()
     {
         return [
-            'customer_id' => $this->faker->numberBetween(1,100),
-            'product_id' => $this->faker->numberBetween(1,100)
+            'customer_id' => Customer::factory(),
+            'product_id' => Product::factory(),
         ];
     }
 }

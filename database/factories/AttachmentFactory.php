@@ -34,7 +34,7 @@ class AttachmentFactory extends Factory
             'size' => stat($dir . '/' . $image)['size'],
             'sort' => 0,
             'path' => $datePath,
-            'description' => 'Add from BannerAttachmentSeeder',
+            'description' => $this->faker->sentence(),
             'alt' => $image,
             'hash' => Hash::make($name),
             'disk' => 'public',

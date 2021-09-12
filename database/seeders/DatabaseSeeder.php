@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\ComparedProduct;
+use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -15,7 +18,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\User::factory([
-                    'name' => 'Admininstrator',
+                    'name' => 'Administrator',
                     'email' => 'admin@admin.com',
                     'email_verified_at' => now(),
                     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -30,13 +33,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
 
         $this->call([
-            BannersSeeder::class
-//            AttachmentSeeder::class,
-//            CategorySeeder::class
+            BannersSeeder::class,
+
         ]);
-//
-        \App\Models\Product::factory(50)->create();
-        \App\Models\ComparedProduct::factory(20)->create();
-        \App\Models\Review::factory(70)->create();
+        Product::factory(10)->hasAttachment(3)->create();
+        ComparedProduct::factory(4)->create();
+        Review::factory(10)->create();
     }
 }

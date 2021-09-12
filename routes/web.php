@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
 
@@ -23,7 +24,7 @@ Route::get('/cart', function () {})->name('carts.edit');
 
 Route::get('/discounts', function () {})->name('discounts.index');
 
-Route::get('/products', function () {})->name('products.index');
+Route::resource('/products', ProductsController::class)->only('index', 'show');
 
 Route::get('/feedbacks', function () {})->name('feedbacks.create');
 

@@ -2,20 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\ComparedProduct;
-use App\Models\Customer;
-use App\Models\Product;
-use App\Models\User;
+use App\Models\Manufacturer;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Orchid\Attachment\Models\Attachment;
 
-class ComparedProductFactory extends Factory
+class ManufacturerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ComparedProduct::class;
+    protected $model = Manufacturer::class;
 
     /**
      * Define the model's default state.
@@ -25,8 +23,10 @@ class ComparedProductFactory extends Factory
     public function definition()
     {
         return [
-            'customer_id' => Customer::factory(),
-            'product_id' => Product::factory()
+            'name' => $this->faker->company(),
+            'email' => $this->faker->email(),
+            'address' => $this->faker->address(),
+            'logo_id' => Attachment::factory()
         ];
     }
 }
