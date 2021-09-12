@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
@@ -23,7 +24,9 @@ Route::get('/cart', function () {})->name('carts.edit');
 
 Route::get('/discounts', function () {})->name('discounts.index');
 
-Route::get('/products', function () {})->name('products.index');
+Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.index');
+
+Route::get('/product/{slug}', [CatalogPageController::class, 'getByCategory'])->name('product.show');
 
 Route::get('/feedbacks', function () {})->name('feedbacks.create');
 
