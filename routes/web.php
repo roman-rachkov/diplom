@@ -36,4 +36,4 @@ Route::get('/cart', function () {})->name('carts.edit');
 
 Route::get('/account', function () {})->middleware('access:account')->name('account.show');
 
-Route::get('/about', function () {})->name('about');
+Route::view('/about', 'about.main')->name('about');
