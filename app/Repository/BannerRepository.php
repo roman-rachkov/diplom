@@ -22,7 +22,7 @@ class BannerRepository implements BannerRepositoryContract
     {
         $ttl = $this->adminsSettings->get('bannerCacheTime', 600);
 
-        return Cache::tags(['banners'])->remember('categories',$ttl,function () {
+        return Cache::tags(['banners'])->remember('banners',$ttl,function () {
             return Banner::where('is_active', 1)->inRandomOrder()->limit(3)->get();
         });
     }
