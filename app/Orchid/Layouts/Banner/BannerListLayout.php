@@ -31,7 +31,7 @@ class BannerListLayout extends Table
                 ->width('150')
                 ->render(function (Banner $banner) {
                     return "<img src='{$banner->image->getRelativeUrlAttribute()}'
-                              alt='sample'
+                              alt='{$banner->image->getTitleAttribute()}'
                               class='mw-100 d-block img-fluid'>
                             <span class='small text-muted mt-1 mb-0'># {$banner->id}</span>";
                 }),

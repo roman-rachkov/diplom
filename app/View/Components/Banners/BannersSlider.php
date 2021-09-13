@@ -26,6 +26,7 @@ class BannersSlider extends Component
      */
     public function render()
     {
+
         return view('components.banners.banners-slider');
     }
 }

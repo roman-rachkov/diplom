@@ -2,14 +2,22 @@
 
 namespace App\Service;
 
+use App\Contracts\Repository\AdminSettingsRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
-use Illuminate\Support\Facades\Cache;
 
 class AdminSettingsService implements AdminSettingsServiceContract
 {
+    private $adminSettingsRepository;
+
+    public function __construct(AdminSettingsRepositoryContract $adminSettingsRepository)
+    {
+        $this->adminSettingsRepository = $adminSettingsRepository;
+    }
 
     public function get(string $settingName, $default = null)
     {
-        if($default) return $default;
+        $value = $this->adminSettingsRepository->get($settingName);
+
+        return $value ?? $default;
     }
 }

@@ -17,28 +17,30 @@ class AttachmentFactory extends Factory
      */
     protected $model = Attachment::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition()
     {
-        $svgName = $this->faker->numberBetween(1,7) . '.svg';
+        $datePath = \Illuminate\Support\Carbon::now()->format('Y/m/d/');
+        $dir = storage_path('app/public/' . $datePath) ;
+        if(!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+        $image = $this->faker->image($dir,640,480, null, false);
+        list($name, $extension) = explode('.', $image);
         return [
-            'name' => 'image',
-            'original_name' => 'image_' . $this->faker->numberBetween(1,300),
-            'mime' => 'image/jpeg',
-            'extension' => '__',
-            'size' => 2000,
-            'sort' => $this->faker->numberBetween(1,100),
-            'path' => 'assets/img/icons/departments/' . $svgName,
-            'description' => 'some image',
-            'alt' => $svgName,
-            'hash' => Hash::make('image'),
-            'disk' => '__',
+            'name' => $name,
+            'original_name' => $image,
+            'mime' => mime_content_type($dir . '/' . $image),
+            'extension' => $extension,
+            'size' => stat($dir . '/' . $image)['size'],
+            'sort' => 0,
+            'path' => $datePath,
+            'description' => 'Add from BannerAttachmentSeeder',
+            'alt' => $image,
+            'hash' => Hash::make($name),
+            'disk' => 'public',
             'user_id' => User::all()->random()->id,
-            'group' => 'anonymous'
+            'group' => 0
         ];
     }
+
 }
