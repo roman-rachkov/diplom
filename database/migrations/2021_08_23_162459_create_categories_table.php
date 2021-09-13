@@ -22,12 +22,6 @@ class CreateCategoriesTable extends Migration
             $table->timestamps();
             $table->nestedSet();
 
-            $table->foreign('image_id')
-                ->references('id')
-                ->on('attachments')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
         });
     }
 

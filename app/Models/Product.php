@@ -11,7 +11,7 @@ use Orchid\Attachment\Models\Attachment;
 
 class Product extends Model
 {
-    use HasFactory, Attachable;
+    use HasFactory;
 
     public function getRouteKeyName(): string
     {

@@ -15,9 +15,9 @@ class Catalog extends Component
      *
      * @return void
      */
-    public function __construct(ProductRepository $repo)
+    public function __construct($products)
     {
-        $this->products = $repo->getAllProducts();
+        $this->products = $products;
     }
 
     /**

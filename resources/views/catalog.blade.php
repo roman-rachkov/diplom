@@ -7,12 +7,8 @@
                 <x-catalog.filter/>
             </div>
             <div class="Section-content">
-                <x-catalog.sort/>
-
-                <div class="Cards">
-
-                    <x-catalog.catalog/>
-                </div>
+                <x-sort/>
+                <x-catalog.catalog :products="$products"/>
             </div>
         </div>
     </div>

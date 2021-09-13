@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             BannersSeeder::class,
-            AttachmentSeeder::class,
             CategorySeeder::class,
         ]);
 

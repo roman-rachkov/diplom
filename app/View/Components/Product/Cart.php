@@ -4,7 +4,7 @@ namespace App\View\Components\Product;
 
 use Illuminate\View\Component;
 
-class cart extends Component
+class Cart extends Component
 {
     public $product;
     /**

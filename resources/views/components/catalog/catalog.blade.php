@@ -1,5 +1,7 @@
-@foreach($products as $product)
-    <x-product.cart :product="$product"/>
-@endforeach
+<div class="Cards">
+    @foreach($products as $product)
+        <x-product.cart :product="$product"/>
+    @endforeach
+</div>
 
-{{ $products->links('components.catalog.pagination') }}
+{{ $products->links('components.pagination') }}

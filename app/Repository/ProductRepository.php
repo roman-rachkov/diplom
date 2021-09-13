@@ -16,13 +16,21 @@ class ProductRepository implements ProductRepositoryContract
         $this->adminsSettings = $adminsSettings;
     }
 
-    public function getAllProducts($currentPage = 1)
+    public function getAllProducts($curPage)
     {
-
         $ttl = $this->adminsSettings->get('productsInCatalogCacheTime', 60*60*24);
+        $itemOnPage = $this->adminsSettings->get('productOnCatalogPage', 8);
+        return Cache::tags(['products'])->remember('allProducts_page_' . $curPage ,$ttl, function () use ($itemOnPage) {
+            return Product::paginate($itemOnPage);
+        });
+    }
 
-        return Cache::tags(['products'])->remember('allProducts',$ttl, function ($perPage, $currentPage) {
-            return Product::all();
+    public function getProductsForCategory($catId, $curPage)
+    {
+        $ttl = $this->adminsSettings->get('productsInCatalogCacheTime', 60*60*24);
+        $itemOnPage = $this->adminsSettings->get('productOnCatalogPage', 8);
+        return Cache::tags(['products'])->remember('allProductsByCat_'. $catId .'_page_' . $curPage , $ttl, function() use ($catId, $itemOnPage) {
+            return Product::where('category_id', $catId)->paginate($itemOnPage);
         });
     }
 }
