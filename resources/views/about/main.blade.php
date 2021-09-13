@@ -3,29 +3,7 @@
 @section('content')
     <div class="Section Section_column Section_columnLeft Section_columnWide">
         <div class="wrap">
-            <x-sidebar>
-                <x-achivements
-                    :image="asset('assets/img/icons/advantages/shipping.svg')"
-                    :header="__('about.sidebar.delivery.header')"
-                    :message="__('about.sidebar.delivery.text')"
-                ></x-achivements>
-                <x-achivements
-                    :image="asset('assets/img/icons/advantages/moneyBack.svg')"
-                    :header="__('about.sidebar.refunds.header')"
-                    :message="__('about.sidebar.refunds.text')"
-                ></x-achivements>
-                <x-achivements
-                    :image="asset('assets/img/icons/advantages/support.svg')"
-                    :header="__('about.sidebar.support.header')"
-                    :message="__('about.sidebar.support.text')"
-                ></x-achivements>
-                <x-achivements
-                    :image="asset('assets/img/icons/advantages/quality.svg')"
-                    :header="__('about.sidebar.quality.header')"
-                    :message="__('about.sidebar.quality.text')"
-                ></x-achivements>
-                <x-sidebar-socials></x-sidebar-socials>
-            </x-sidebar>
+            <x-benefits></x-benefits>
             <div class="Section-content">
                 <article class="Article">
                     <div class="Article-section">
