@@ -16,12 +16,12 @@
 
                     @include('feedbacks.map')
 
-                    <x-feedbacks.contacts_horizontal/>
+                    <x-feedbacks.contacts_horizontal :phone="$phone" :address="$address" :email="$email"/>
 
                     <header class="Section-header Section-header_sm">
                         <h2 class="Section-title">Обратная связь</h2>
                     </header>
-
+                    @include('layout.errors')
                     @include('feedbacks.form')
 
                 </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\FeedbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,8 @@ Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/products', function () {})->name('products.index');
 
-Route::get('/feedbacks', [\App\Http\Controllers\FeedbackController::class, 'index'])->name('feedbacks.index');
+Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
+Route::post('/feedbacks/send-message', [FeedbackController::class, 'sendMessage'])->name('feedbacks.send_message');
 
 Route::get('/products/comparison', function () {})->name('comparison');
 
