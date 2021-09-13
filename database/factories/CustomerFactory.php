@@ -2,18 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Product;
-use App\Models\Review;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ReviewFactory extends Factory
+class CustomerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Review::class;
+    protected $model = Customer::class;
 
     /**
      * Define the model's default state.
@@ -23,8 +22,7 @@ class ReviewFactory extends Factory
     public function definition()
     {
         return [
-            'text' => $this->faker->sentence(),
-            'product_id' => Product::factory()
+            //
         ];
     }
 }
