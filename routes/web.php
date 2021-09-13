@@ -35,7 +35,4 @@ Route::get('/account', function () {})->middleware('access:account')->name('acco
 
 Route::get('/about', function () {})->name('about');
 
-Route::get('sellers/{id}', function ($id) {
-    $seller = \App\Models\Seller::find($id);
-    return view('seller.show', compact('seller'));
-});
+Route::get('sellers/{id}', [\App\Http\Controllers\SellerController::class, 'show']);

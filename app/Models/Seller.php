@@ -17,7 +17,7 @@ class Seller extends Model
     {
         return $this->hasOne(Attachment::class, 'id', 'logo_id');
     }
-    
+
     public function prices(): HasMany
     {
         return $this->hasMany(Price::class);
