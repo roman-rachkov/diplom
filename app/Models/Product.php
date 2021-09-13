@@ -31,9 +31,4 @@ class Product extends Model
     {
         return $this->hasMany(Price::class);
     }
-
-    public function image()
-    {
-        return $this->hasOne(Attachment::class, 'id', 'image_id');
-    }
 }

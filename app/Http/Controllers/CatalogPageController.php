@@ -7,15 +7,8 @@ use Illuminate\Http\Request;
 
 class CatalogPageController extends Controller
 {
-    public function index(ProductRepositoryContract $repo)
+    public function index(Request $request)
     {
-        $products = $repo->getAllProducts();
-
-        return view('catalog', compact('products'));
-    }
-
-    public function getByGategory(ProductRepositoryContract $repo, $category)
-    {
-
+        return view('catalog');
     }
 }

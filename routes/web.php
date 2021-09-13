@@ -25,6 +25,7 @@ Route::get('/cart', function () {})->name('carts.edit');
 Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.index');
+Route::get('/catalog/{id}', [CatalogPageController::class, 'getByGategory'])->name('catalog.category');
 
 Route::get('/product/{slug}', [CatalogPageController::class, 'getByCategory'])->name('product.show');
 
