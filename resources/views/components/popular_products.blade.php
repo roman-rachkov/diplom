@@ -1,5 +1,5 @@
 <header class="Section-header">
-    <h2 class="Section-title">{{$title ?? 'Каталог Топ товаров'}}</h2>
+    <h2 class="Section-title">{{$title ?? __('components.top-products')}}</h2>
 </header>
 
 <div class="Cards">

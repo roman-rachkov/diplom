@@ -21,7 +21,7 @@
                     </div>
                 </div>
 
-                <x-popular_products :title="'Популярные товары продавца'"/>
+                <x-popular_products :title="__('seller.popular-products')"/>
 
              </div>
 

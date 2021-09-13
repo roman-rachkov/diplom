@@ -35,3 +35,8 @@ Route::get('/account', function () {})->middleware('account')->name('account.sho
 Route::get('login', function () {})->name('login');
 
 Route::get('/about', function () {})->name('about');
+
+Route::get('sellers/{id}', function ($id) {
+    $seller = \App\Models\Seller::find($id);
+    return view('seller.show', compact('seller'));
+});
