@@ -1,6 +1,6 @@
 @props(['product'])
 <div class="Card">
-    <a class="Card-picture" href="#"><img src="assets/img/content/home/card.jpg" alt="card.jpg"/></a>
+    <a class="Card-picture" href="#"><img src="{{ $product->image->getRelativeUrlAttribute() }}" alt="card.jpg"/></a>
     <div class="Card-content">
         <strong class="Card-title"><a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a>
         </strong>

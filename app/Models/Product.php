@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Orchid\Attachment\Attachable;
 use Orchid\Attachment\Models\Attachment;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Attachable;
 
     public function getRouteKeyName(): string
     {
@@ -30,5 +31,10 @@ class Product extends Model
     public function prices(): HasMany
     {
         return $this->hasMany(Price::class);
+    }
+
+    public function image()
+    {
+        return $this->hasOne(Attachment::class, 'id', 'main_img_id');
     }
 }
