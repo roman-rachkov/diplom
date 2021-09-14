@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repository\FeedbackRepositoryContract;
 use App\Http\Requests\CreateFeedbackRequest;
 use App\Service\AdminSettingsService;
 
 class FeedbackController extends Controller
 {
+    public $feedbackRepository;
+
+    public function __construct(FeedbackRepositoryContract $feedbackRepository)
+    {
+        $this->feedbackRepository = $feedbackRepository;
+
+    }
     public function index(AdminSettingsService $adminSettingsService)
     {
         $phone = $adminSettingsService->get('contactPhone');
@@ -20,8 +28,10 @@ class FeedbackController extends Controller
     {
         $request->validated();
 
-        $request->flash();
+        $attributes = $request->all();
 
-        redirect(route('feedbacks.index'));
+        $this->feedbackRepository->create($attributes);
+
+        return redirect(route('feedbacks.index'))->with('success', 'Сообщение отправлено');
     }
 }
