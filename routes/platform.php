@@ -107,3 +107,11 @@ Route::screen('config', \App\Orchid\Screens\ConfigurationScreen::class)
 Route::screen('banner/{banner?}', BannerEditScreen::class)->name('platform.banner.edit');
 Route::screen('banners', BannerListScreen::class)->name('platform.banner.list');
 
+
+Route::screen('settings', AdminSettingsScreen::class)
+    ->name('platform.settings.main')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Main settings'));
+    });
