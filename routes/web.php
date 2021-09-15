@@ -3,7 +3,9 @@
 use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\FeedbackController;
 use Tabuna\Breadcrumbs\Trail;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +32,8 @@ Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatal
 
 Route::get('/product/{slug}', [CatalogPageController::class, 'getByCategory'])->name('product.show');
 
-Route::get('/feedbacks', function () {})->name('feedbacks.create');
+Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
+Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('feedbacks.send_message');
 
 Route::get('/products/comparison', function () {})->name('comparison');
 

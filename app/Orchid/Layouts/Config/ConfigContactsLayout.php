@@ -27,13 +27,13 @@ class ConfigContactsLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('name', __('admin_settings.Title'))->width('500px'),
-            TD::make('value', __('admin_settings.Value')),
-            TD::make('action', __('admin_settings.Action'))->render(function (AdminSetting $adminSetting) {
-                return ModalToggle::make(__('admin_settings.Edit'))
+            TD::make('name', __('admin.settings.Title'))->width('500px'),
+            TD::make('value', __('admin.settings.Value')),
+            TD::make('action', __('admin.settings.Action'))->render(function (AdminSetting $adminSetting) {
+                return ModalToggle::make(__('admin.settings.Edit'))
                     ->modal('editOption')
                     ->method('update')
-                    ->modalTitle(__('admin_settings.editing') . $adminSetting->name)
+                    ->modalTitle(__('admin.settings.editing') . $adminSetting->name)
                     ->asyncParameters([
                         'adminSetting' => $adminSetting->id,
                     ]);

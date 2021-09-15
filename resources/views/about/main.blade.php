@@ -3,7 +3,7 @@
 @section('content')
     <div class="Section Section_column Section_columnLeft Section_columnWide">
         <div class="wrap">
-            @include('about.sidebar')
+            <x-benefits></x-benefits>
             <div class="Section-content">
                 <article class="Article">
                     <div class="Article-section">

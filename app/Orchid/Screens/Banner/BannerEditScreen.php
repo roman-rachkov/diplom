@@ -30,9 +30,11 @@ class BannerEditScreen extends Screen
      */
     public $exists = false;
 
+    public $permission = 'platform.elements.banners';
+
     public function __construct()
     {
-        $this->name = __('banners.edit_banner');
+        $this->name = __('admin.banners.edit_banner');
     }
 
     /**
@@ -45,7 +47,7 @@ class BannerEditScreen extends Screen
         $this->exists = $banner->exists;
 
         if ($this->exists) {
-            $this->name = __('banners.edit_banner');
+            $this->name = __('admin.banners.edit_banner');
         }
 
         $banner->load('attachment');
@@ -63,7 +65,7 @@ class BannerEditScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Button::make('Create new')
+            Button::make(__('Save'))
                 ->icon('save')
                 ->method('createOrUpdate')
                 ->canSee(!$this->exists),
@@ -91,32 +93,32 @@ class BannerEditScreen extends Screen
             Layout::rows([
                 TextArea::make('banner.title')
                     ->rows(3)
-                    ->title(__('banners.title'))
-                    ->placeholder(__('banners.title_placeholder')),
+                    ->title(__('admin.banners.title'))
+                    ->placeholder(__('admin.banners.title_placeholder')),
 
                 TextArea::make('banner.subtitle')
-                    ->title(__('banners.subtitle'))
+                    ->title(__('admin.banners.subtitle'))
                     ->rows(3)
-                    ->placeholder(__('banners.subtitle_placeholder')),
+                    ->placeholder(__('admin.banners.subtitle_placeholder')),
 
 
                 Input::make('banner.button_text')
-                    ->title(__('banners.button_text'))
-                    ->placeholder(__('banners.button_text_placeholder')),
+                    ->title(__('admin.banners.button_text'))
+                    ->placeholder(__('admin.banners.button_text_placeholder')),
 
                 Input::make('banner.href')
-                    ->title(__('banners.href'))
-                    ->placeholder(__('banners.href_placeholder')),
+                    ->title(__('admin.banners.href'))
+                    ->placeholder(__('admin.banners.href_placeholder')),
 
                 CheckBox::make('banner.is_active')
-                    ->title('banners.is_active')
-                    ->placeholder('banners.is_active_placeholder')
+                    ->title('admin.banners.is_active')
+                    ->placeholder('admin.banners.is_active_placeholder')
                     ->sendTrueOrFalse(),
 
                 Cropper::make('banner.image_id')
                     ->targetId()
-                    ->title(__('banners.image'))
-                    ->help(__('banners.image_help'))
+                    ->title(__('admin.banners.image'))
+                    ->help(__('admin.banners.image_help'))
                     ->width(735)
                     ->height(454),
 
@@ -138,7 +140,7 @@ class BannerEditScreen extends Screen
             $request->input('banner.attachment', [])
         );
 
-        Alert::info(__('banners.success_info'));
+        Alert::info(__('admin.banners.success_info'));
 
         return redirect()->route('platform.banner.list');
     }
@@ -153,7 +155,7 @@ class BannerEditScreen extends Screen
     {
         $banner->delete();
 
-        Alert::info(__('banners.delete_info'));
+        Alert::info(__('admin.banners.delete_info'));
 
         return redirect()->route('platform.banner.list');
     }
