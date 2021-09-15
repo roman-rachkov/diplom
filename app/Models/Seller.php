@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\FlushTagCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,9 @@ class Seller extends Model
 {
     use HasFactory;
     use Attachable;
+    use FlushTagCache;
+
+    public $tagsArr = ['sellers'];
 
     public function logo()
     {

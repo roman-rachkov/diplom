@@ -16,6 +16,10 @@ class SellerRepository implements SellerRepositoryContract
 
     public function find($id)
     {
-        return $this->model->find($id);
+        $seller = cache()->tags(['sellers'])->remember('seller' . $id, 600, function () use ($id) {
+
+            return $this->model->find($id);
+        });
+        return $seller;
     }
 }
