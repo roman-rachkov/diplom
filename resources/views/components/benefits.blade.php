@@ -1,0 +1,23 @@
+<div class="Section-column">
+    <x-achivement
+        :image="asset('assets/img/icons/advantages/shipping.svg')"
+        :header="__('about.sidebar.delivery.header')"
+        :message="__('about.sidebar.delivery.text')"
+    ></x-achivement>
+    <x-achivement
+        :image="asset('assets/img/icons/advantages/moneyBack.svg')"
+        :header="__('about.sidebar.refunds.header')"
+        :message="__('about.sidebar.refunds.text')"
+    ></x-achivement>
+    <x-achivement
+        :image="asset('assets/img/icons/advantages/support.svg')"
+        :header="__('about.sidebar.support.header')"
+        :message="__('about.sidebar.support.text')"
+    ></x-achivement>
+    <x-achivement
+        :image="asset('assets/img/icons/advantages/quality.svg')"
+        :header="__('about.sidebar.quality.header')"
+        :message="__('about.sidebar.quality.text')"
+    ></x-achivement>
+    <x-benefits-socials></x-benefits-socials>
+</div>
