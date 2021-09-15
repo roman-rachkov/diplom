@@ -3,6 +3,8 @@
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\FeedbackController;
+use Tabuna\Breadcrumbs\Trail;
+
 
 /*
 |--------------------------------------------------------------------------

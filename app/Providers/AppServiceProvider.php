@@ -44,6 +44,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        require base_path('routes/breadcrumbs.php');
+
         $this->app->singleton(AddToCartServiceContract::class, AddToCartService::class);
         $this->app->singleton(GetCartServiceContract::class, GetCartService::class);
         $this->app->singleton(DeliveryCostServiceContract::class, DeliveryCostService::class);
