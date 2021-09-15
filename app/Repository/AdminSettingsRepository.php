@@ -16,7 +16,7 @@ class AdminSettingsRepository implements AdminSettingsRepositoryContract
 
     public function get(string $variable)
     {
-        $optionValue = cache()->tags(['admin_settings', $variable])->remember($variable, 600, function () use ($variable) {
+        $optionValue = cache()->tags(['admin.settings', $variable])->remember($variable, 600, function () use ($variable) {
 
             $variable = $this->model->where('variable', $variable)->first();
 

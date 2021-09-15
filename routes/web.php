@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\FeedbackController;
 use Tabuna\Breadcrumbs\Trail;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,8 @@ Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/products', function () {})->name('products.index');
 
-Route::get('/feedbacks', function () {})->name('feedbacks.create');
+Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
+Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('feedbacks.send_message');
 
 Route::get('/products/comparison', function () {})->name('comparison');
 
