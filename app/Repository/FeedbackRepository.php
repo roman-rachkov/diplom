@@ -27,7 +27,7 @@ class FeedbackRepository implements FeedbackRepositoryContract
      */
     public function create(array $attributes): Model
     {
-        return $this->model::create($attributes);
+        return $this->model->create($attributes);
     }
 
 }

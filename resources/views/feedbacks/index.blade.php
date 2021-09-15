@@ -21,7 +21,7 @@
                 <x-feedbacks.contacts_horizontal :phone="$phone" :address="$address" :email="$email"/>
 
                 <header class="Section-header Section-header_sm">
-                    <h2 class="Section-title">Обратная связь</h2>
+                    <h2 class="Section-title">{{__('feedback.Feedback')}}</h2>
                 </header>
                 @include('feedbacks.form')
 

@@ -11,31 +11,31 @@
                 </ul>
             </div>
             <div class="row-block">
-                <strong class="Footer-title">Навигация</strong>
+                <strong class="Footer-title">{{__('footer.Navigation')}}</strong>
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" href="{{route('banners')}}">Главная</a></li>
-                    <li class="menu-item"><a class="menu-link" href="{{route('products.index')}}">Каталог</a></li>
-                    <li class="menu-item"><a class="menu-link" href="{{route('discounts.index')}}">Скидки</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('banners')}}">{{__('footer.Main')}}</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('products.index')}}">{{__('footer.Catalog')}}</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('discounts.index')}}">{{__('footer.Discounts')}}</a></li>
                 </ul>
             </div>
             <div class="row-block">
-                <strong class="Footer-title">Дополнительно</strong>
+                <strong class="Footer-title">{{__('footer.Additionally')}}</strong>
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" href="{{route('feedbacks.index')}}">Контакты</a></li>
-                    <li class="menu-item"><a class="menu-link" href="{{route('about')}}">О нас</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('feedbacks.index')}}">{{__('footer.Contacts')}}</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('about')}}">{{__('footer.About')}}</a></li>
                 </ul>
             </div>
             <div class="row-block">
-                <strong class="Footer-title">Контакты</strong>
-                <p>Тел: 8-800-200-600<br>Email: megano@skillbox_diploma.com<br>Адрес: Каменск-Уральский<br>Заводской проезд, 1</p>
+                <strong class="Footer-title">{{__('footer.Contacts')}}</strong>
+                <p>Тел: 8-800-200-600<br>{{__('footer.Email')}}: megano@skillbox_diploma.com<br>{{__('footer.Address')}}: Каменск-Уральский<br>Заводской проезд, 1</p>
             </div>
         </div>
     </div>
     <div class="Footer-copy">
         <div class="wrap">
             <div class="row row_space">
-                <div class="row-block">© <a href="{{route('banners')}}">Megano.</a>&#32;Все права защищены.</div>
-                <div class="row-block"><span>Способы оплаты</span>
+                <div class="row-block">© <a href="{{route('banners')}}">Megano.</a>&#32;{{__('footer.Right')}}.</div>
+                <div class="row-block"><span>{{__('footer.Payment')}}</span>
                     <div class="Footer-payments">
                         <div><img src="{{asset('assets/img/payments/visa.png')}}" alt="visa.png"/></div>
                         <div><img src="{{asset('assets/img/payments/mastercard.png')}}" alt="mastercard.png"/></div>

@@ -1,7 +1,7 @@
 
 <div class="Section-columnSection">
     <header class="Section-header">
-        <strong class="Section-title">Мы в соцсетях</strong>
+        <strong class="Section-title">{{__('feedback.SocialNetwork')}}</strong>
     </header>
     <div class="Section-columnContent">
         <div class="Footer-payments Footer-payments_column">

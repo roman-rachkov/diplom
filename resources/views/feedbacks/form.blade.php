@@ -8,7 +8,7 @@
                     class="form-input"
                     id="name" name="name"
                     type="text"
-                    placeholder="Ваше Имя"
+                    placeholder="{{__('feedback.YourName')}}"
                     value="{{old('name')}}"
                 />
             </div>
@@ -18,7 +18,7 @@
                     id="mail"
                     name="email"
                     type="text"
-                    placeholder="Ваш Email"
+                    placeholder="{{__('feedback.YourEmail')}}"
                     value="{{old('email')}}"
                 />
             </div>
@@ -29,10 +29,10 @@
             class="form-textarea"
             name="message"
             id="message"
-            placeholder="Сообщение...">{{old('message')}}
+            placeholder="{{__('feedback.Message')}}...">{{old('message')}}
         </textarea>
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn_muted form-btn">Отправить</button>
+        <button type="submit" class="btn btn_muted form-btn">{{__('feedback.Send')}}</button>
     </div>
 </form>

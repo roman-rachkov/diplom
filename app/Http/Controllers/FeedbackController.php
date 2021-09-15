@@ -26,9 +26,7 @@ class FeedbackController extends Controller
 
     public function sendMessage(CreateFeedbackRequest $request)
     {
-        $request->validated();
-
-        $attributes = $request->all();
+        $attributes = $request->validated();
 
         $this->feedbackRepository->create($attributes);
 
