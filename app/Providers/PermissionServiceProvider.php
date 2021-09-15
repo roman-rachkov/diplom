@@ -23,8 +23,8 @@ class PermissionServiceProvider extends ServiceProvider
      */
     public function boot(Dashboard $dashboard)
     {
-        $permissions = ItemPermission::group('Account')
-            ->addPermission('account', 'Access to authenticated user account/profile on frontend');
+        $permissions = ItemPermission::group(__('admin.permissions.customer.group_name'))
+            ->addPermission('customer.discounts', __('admin.permissions.customer.discounts'));
 
         $dashboard->registerPermissions($permissions);
     }

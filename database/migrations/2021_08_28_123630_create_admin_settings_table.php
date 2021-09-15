@@ -30,6 +30,6 @@ class CreateAdminSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admin_settings');
+        Schema::dropIfExists('admin.settings');
     }
 }

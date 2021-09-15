@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Orchid\Platform\Models\Role;
 
 class UserFactory extends Factory
 {
@@ -42,6 +43,15 @@ class UserFactory extends Factory
             return [
                 'email_verified_at' => null,
             ];
+        });
+    }
+
+    public function configure()
+    {
+        $roleId = Role::where('slug', 'customer')->first()?->id;
+        return $this->afterCreating(function (User $user) use ($roleId) {
+            if($user->id === 1) return;
+            $user->roles()->attach($roleId);
         });
     }
 }

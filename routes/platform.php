@@ -100,18 +100,78 @@ Route::screen('config', \App\Orchid\Screens\ConfigurationScreen::class)
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
-            ->push(__('admin_settings.Name'), route('platform.config'));
+            ->push(__('admin.settings.Name'));
+    });
+
+Route::screen('import', \App\Orchid\Screens\ImportScreen::class)
+    ->name('platform.import')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.import.panel_name'));
     });
 
 // Platform > Banners
-Route::screen('banner/{banner?}', BannerEditScreen::class)->name('platform.banner.edit');
-Route::screen('banners', BannerListScreen::class)->name('platform.banner.list');
-
-
-Route::screen('settings', AdminSettingsScreen::class)
-    ->name('platform.settings.main')
+Route::screen('banner/{banner?}', BannerEditScreen::class)
+    ->name('platform.banner.edit')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.banner.list')
+            ->push(__('admin.banners.edit_banner'));
+    });
+Route::screen('banners', BannerListScreen::class)
+    ->name('platform.banner.list')
     ->breadcrumbs(function (Trail $trail){
         return $trail
             ->parent('platform.index')
-            ->push(__('Main settings'));
+            ->push(__('admin.banners.panel_name'), route('platform.banner.list'));
+    });
+
+//Platform > Category
+Route::screen('category', \App\Orchid\Screens\Category\CategoryListScreen::class)
+    ->name('platform.category')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.category.panel_name'));
+    });
+
+
+//Platform > Product
+Route::screen('product', \App\Orchid\Screens\Product\ProductListScreen::class)
+    ->name('platform.products')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.products.panel_name'));
+    });
+
+
+//Platform > Sellsers
+Route::screen('sellers', \App\Orchid\Screens\Seller\SellerListScreen::class)
+    ->name('platform.sellers')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.sellers.panel_name'));
+    });
+
+
+//Platform > Discounts
+Route::screen('discounts', \App\Orchid\Screens\Discount\DiscountListScreen::class)
+    ->name('platform.discounts')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.discounts.panel_name'));
+    });
+
+
+//Platform > orders
+Route::screen('orders', \App\Orchid\Screens\Order\OrderListScreen::class)
+    ->name('platform.orders')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.orders.panel_name'));
     });
