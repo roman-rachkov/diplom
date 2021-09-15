@@ -40,7 +40,8 @@ class CategoryFactory extends Factory
 
         return [
             'name' => $this->faker->randomElement($categoryNames),
-            'image_id' => rand(1, 12),
+            'slug' => $this->faker->word,
+            'icon' => rand(1, 12),
             'sort_index' => $this->faker->numberBetween(0, 101),
             'is_active' => $this->faker->boolean(90),
         ];

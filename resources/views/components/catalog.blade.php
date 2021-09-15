@@ -1,6 +1,6 @@
 <div class="Cards">
     @foreach($products as $product)
-        <x-product.cart :product="$product"/>
+        <x-cart :product="$product"/>
     @endforeach
 </div>
 

@@ -37,4 +37,11 @@ class Product extends Model
     {
         return $this->hasOne(Attachment::class, 'id', 'main_img_id');
     }
+
+    public function scopeFindByCategorySlug($query, $slug)
+    {
+        return $query->whereHas('category', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        });
+    }
 }

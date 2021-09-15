@@ -15,10 +15,10 @@ class CatalogPageController extends Controller
         return view('catalog', compact('products'));
     }
 
-    public function getGategoryById(ProductRepositoryContract $repo, Request $request, $id)
+    public function getProductForCatalogByCategorySlug(ProductRepositoryContract $repo, Request $request, $slug)
     {
         $curPage = $request->get('page') ?? 1;
-        $products = $repo->getProductsForCategory($id, $curPage);
+        $products = $repo->getProductsForCategory($slug, $curPage);
         return view('catalog', compact('products'));
     }
 }
