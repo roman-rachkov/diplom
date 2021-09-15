@@ -14,7 +14,7 @@
                 <strong class="Footer-title">Навигация</strong>
                 <ul class="menu menu_vt Footer-menu">
                     <li class="menu-item"><a class="menu-link" href="{{route('banners')}}">Главная</a></li>
-                    <li class="menu-item"><a class="menu-link" href="{{route('products.index')}}">Каталог</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('catalog.index')}}">Каталог</a></li>
                     <li class="menu-item"><a class="menu-link" href="{{route('discounts.index')}}">Скидки</a></li>
                 </ul>
             </div>

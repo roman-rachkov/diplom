@@ -34,9 +34,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             BannersSeeder::class,
+            ProductSeeder::class
 
         ]);
-        Product::factory(10)->hasAttachment(3)->create();
+
         ComparedProduct::factory(4)->create();
         Review::factory(10)->create();
     }

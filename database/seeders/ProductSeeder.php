@@ -17,6 +17,9 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-
+        Product::factory(10)
+            ->hasAttachment(3)
+            ->hasPrices(3)
+            ->create();
     }
 }

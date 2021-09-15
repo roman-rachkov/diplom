@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Service\Product;
 
+use App\Models\Product;
 use Illuminate\Support\Collection;
 
 interface ProductDiscountServiceContract
@@ -11,6 +12,8 @@ interface ProductDiscountServiceContract
 
     public function getGeneralDiscount(Collection $products): Collection;
 
-    public function getPriceWithDiscount(Collection $products): int;
+    public function getPriceWithDiscount(Collection $products): float;
+
+    public function getProductDiscounts( Product $product): float;
 
 }

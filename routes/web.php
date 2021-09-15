@@ -18,13 +18,21 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
+Route::get('/catalog', [ProductsController::class, 'index'])->name('catalog.index');
+
 Route::get('/orders', function () {})->name('orders.create');
 
 Route::get('/cart', function () {})->name('carts.edit');
 
 Route::get('/discounts', function () {})->name('discounts.index');
 
-Route::resource('/products', ProductsController::class)->only('index', 'show');
+Route::get('/products/{slug}', [ProductsController::class, 'show'])->name('product.show');
+
+Route::post('/products/{slug}/add_to_cart', [ProductsController::class, 'addToCart'])
+    ->name('product.addToCart');
+
+Route::post('/products/{slug}/add_to_comparison', [ProductsController::class, 'addToComparison'])
+    ->name('product.addToComparison');
 
 Route::get('/feedbacks', function () {})->name('feedbacks.create');
 

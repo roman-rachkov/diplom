@@ -22,7 +22,7 @@ class ProductRepository implements ProductRepositoryContract
 
         return Cache::tags(['products'])->remember($slug,$ttl,function () use ($slug) {
 
-            return Product::with('attachment')->where('slug', $slug)->first();
+            return Product::with('attachment', 'prices.seller')->where('slug', $slug)->first();
 
         });
     }
