@@ -34,6 +34,6 @@ class InitialTableAdminSetting extends Migration
      */
     public function down()
     {
-        \Illuminate\Support\Facades\DB::table('admin.settings')->delete();
+        \Illuminate\Support\Facades\DB::table('admin_settings')->delete();
     }
 }
