@@ -39,7 +39,7 @@ class CategoryFactory extends Factory
 
         return [
             'name' => $this->faker->randomElement($categoryNames),
-            'image_id' => Attachment::factory(),
+            'image_id' => Attachment::all()->random(),
             'sort_index' => $this->faker->numberBetween(0, 100),
             'is_active' => $this->faker->boolean(90),
         ];

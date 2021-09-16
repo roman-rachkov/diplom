@@ -24,7 +24,7 @@ class BannerFactory extends Factory
             'button_text' => 'Подробнее',
             'href' => $this->faker->url(),
             'is_active' => $this->faker->boolean,
-            'image_id' => Attachment::factory()
+            'image_id' => Attachment::all()->random()
         ];
     }
 

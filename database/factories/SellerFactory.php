@@ -28,7 +28,7 @@ class SellerFactory extends Factory
             'email' => $this->faker->email(),
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
-            'logo_id' => Attachment::factory(['user_id' => null])
+            'logo_id' => Attachment::where('user_id', null)->random()
         ];
     }
 }

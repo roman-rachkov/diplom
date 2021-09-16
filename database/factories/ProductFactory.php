@@ -2,8 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\Manufacturer;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use Orchid\Attachment\Models\Attachment;
 
 class ProductFactory extends Factory
 {
@@ -31,7 +35,7 @@ class ProductFactory extends Factory
             'limited' => $this->faker->boolean(90),
             'sales_count' => $this->faker->numberBetween(1, 200),
             'manufacturer_id' => Manufacturer::factory(),
-            'main_img_id' => Attachment::factory()
+            'main_img_id' => Attachment::all()->random()
         ];
     }
 }

@@ -15,7 +15,10 @@ class AttachmentSeeder extends Seeder
     public function run()
     {
         Attachment::factory()
-            ->times(40)
+            ->times(10)
+            ->create();
+        Attachment::factory(['user_id' => null])
+            ->times(5)
             ->create();
     }
 }

@@ -45,14 +45,13 @@ class DatabaseSeeder extends Seeder
             ->has(Role::factory())
             ->create();
 
-        \App\Models\User::factory(10)->create();
-
         $this->call([
+            AttachmentSeeder::class,
             BannersSeeder::class
-//            AttachmentSeeder::class,
 //            CategorySeeder::class
         ]);
-//
+
+        \App\Models\User::factory(10)->create();
         \App\Models\Product::factory(50)->create();
         \App\Models\Customer::factory(50)->create();
         \App\Models\ComparedProduct::factory(20)->create();
