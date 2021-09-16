@@ -48,10 +48,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
 
         $this->call([
-//            AttachmentSeeder::class,
-//            CategorySeeder::class,
-//            SellerSeeder::class,
-            BannersSeeder::class
+            BannersSeeder::class,
+            CategorySeeder::class,
         ]);
 
         \App\Models\Product::factory(50)->create();

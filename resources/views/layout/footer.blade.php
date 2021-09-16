@@ -14,7 +14,7 @@
                 <strong class="Footer-title">{{__('footer.Navigation')}}</strong>
                 <ul class="menu menu_vt Footer-menu">
                     <li class="menu-item"><a class="menu-link" href="{{route('banners')}}">{{__('footer.Main')}}</a></li>
-                    <li class="menu-item"><a class="menu-link" href="{{route('products.index')}}">{{__('footer.Catalog')}}</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{{route('catalog.index')}}">{{__('footer.Catalog')}}</a></li>
                     <li class="menu-item"><a class="menu-link" href="{{route('discounts.index')}}">{{__('footer.Discounts')}}</a></li>
                 </ul>
             </div>
