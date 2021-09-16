@@ -36,7 +36,7 @@ class BannerListLayout extends Table
                             <span class='small text-muted mt-1 mb-0'># {$banner->id}</span>";
                 }),
 
-            TD::make('title', __('banners.title'))
+            TD::make('title', __('admin.banners.title'))
                 ->sort()
                 ->filter(TD::FILTER_TEXT)
                 ->render(function (Banner $banner) {
@@ -44,7 +44,7 @@ class BannerListLayout extends Table
                         ->route('platform.banner.edit', $banner);
                 }),
 
-            TD::make('is_active', __('banners.active'))
+            TD::make('is_active', __('admin.banners.active'))
                 ->sort()
                 ->filter(TD::FILTER_NUMERIC)
                 ->render(function (Banner $banner) {

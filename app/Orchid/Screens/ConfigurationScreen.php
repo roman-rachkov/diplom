@@ -22,10 +22,12 @@ class ConfigurationScreen extends Screen
     public $name;
     public  $description;
 
+    public $permission = 'platform.systems.settings';
+
     public function __construct()
     {
-        $this->name = __('admin_settings.Name');
-        $this->description = __('admin_settings.Description');
+        $this->name = __('admin.settings.Name');
+        $this->description = __('admin.settings.Description');
     }
 
     /**
@@ -61,15 +63,15 @@ class ConfigurationScreen extends Screen
     {
         return [
             Layout::tabs([
-                __('admin_settings.Contacts') => ConfigContactsLayout::class,
-                __('admin_settings.Delivery') => ConfigDeliversLayout::class,
-                __('admin_settings.User') => ConfigUsersLayout::class,
+                __('admin.settings.Contacts') => ConfigContactsLayout::class,
+                __('admin.settings.Delivery') => ConfigDeliversLayout::class,
+                __('admin.settings.User') => ConfigUsersLayout::class,
                 ]),
             Layout::modal('editOption', Layout::rows([
                 Input::make('adminSetting.id')->type('hidden'),
-                Input::make('adminSetting.name')->disabled()->title(__('admin_settings.Title')),
-                Input::make('adminSetting.value')->required()->title(__('admin_settings.Value')),
-            ]))->title(__('admin_config.editing'))->applyButton(__('admin_settings.Update'))->async('asyncGetAdminSetting'),
+                Input::make('adminSetting.name')->disabled()->title(__('admin.settings.Title')),
+                Input::make('adminSetting.value')->required()->title(__('admin.settings.Value')),
+            ]))->title(__('admin_config.editing'))->applyButton(__('admin.settings.Update'))->async('asyncGetAdminSetting'),
         ];
     }
 
@@ -81,7 +83,7 @@ class ConfigurationScreen extends Screen
 
     public function update(Request $request) {
         $adminSetting = AdminSetting::find($request->input('adminSetting.id'))->update($request->adminSetting);
-        Toast::info(__('admin_settings.updated'));
+        Toast::info(__('admin.settings.updated'));
     }
 
 }

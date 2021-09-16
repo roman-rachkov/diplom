@@ -37,9 +37,6 @@ class CategoryFactory extends Factory
             'More'
         ];
 
-
-
-
         return [
             'name' => $this->faker->randomElement($categoryNames),
             'image_id' => Attachment::factory(),
@@ -57,7 +54,7 @@ class CategoryFactory extends Factory
                 $categories->isNotEmpty()
             ) {
                 $parent = $categories->random();
-                if ($parent->id !== $category->id) {
+                if ($parent->id !== $category->id && !$parent->isDescendantOf($category)) {
                     $category->parent()->associate($parent)->save();
                 }
             }

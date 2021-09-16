@@ -2,12 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
-use App\Models\Manufacturer;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
-use Orchid\Attachment\Models\Attachment;
 
 class ProductFactory extends Factory
 {
@@ -23,7 +19,7 @@ class ProductFactory extends Factory
      *
      * @return array
      */
-    public function definition(): array
+    public function definition()
     {
         $name = $this->faker->unique()->word();
         return [
@@ -37,7 +33,5 @@ class ProductFactory extends Factory
             'manufacturer_id' => Manufacturer::factory(),
             'main_img_id' => Attachment::factory()
         ];
-
     }
-
 }
