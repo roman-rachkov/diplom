@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\RoleFactory;
+use App\Models\OrderItem;
+use App\Models\Payment;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Orchid\Platform\Models\Role;
@@ -57,5 +58,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\Customer::factory(50)->create();
         \App\Models\ComparedProduct::factory(20)->create();
         \App\Models\Review::factory(70)->create();
+
+        Payment::factory(5)->create();
+        OrderItem::factory(50)->create();
     }
 }
