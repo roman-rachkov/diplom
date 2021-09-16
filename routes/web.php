@@ -41,4 +41,6 @@ Route::get('/cart', function () {})->name('carts.edit');
 
 Route::get('/account', function () {})->middleware('access:account')->name('account.show');
 
+Route::get('sellers/{id}', [\App\Http\Controllers\SellerController::class, 'show']);
+
 Route::view('/about', 'about.main')->name('about');

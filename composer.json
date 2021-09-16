@@ -17,11 +17,11 @@
     },
     "require-dev": {
         "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
+        "fakerphp/faker": "^1.16",
+        "laravel/sail": "^1.10",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3",
-        "laravel/sail": "^1.10"
+        "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
         "psr-4": {
