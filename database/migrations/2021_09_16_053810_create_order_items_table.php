@@ -21,6 +21,7 @@ class CreateOrderItemsTable extends Migration
             $table->decimal('sum', 6, 2);
             $table->unsignedBigInteger('customer_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('order_id')
                 ->references('id')
