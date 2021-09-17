@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->string('method');
-            $table->string('status');
+            $table->enum('status', ['pending', 'waiting_for_capture', 'succeeded', 'canceled']);
             $table->date('payed_at')->nullable();
             $table->timestamps();
 

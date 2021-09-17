@@ -17,10 +17,17 @@ class Customer extends Model
         return $this->hasMany(Order::class, 'customer_id', 'id');
     }
 
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     public function cart()
     {
-        return $this->orders()->whereHas('payment', function (Builder $query) {
-            $query->where('payed_at', null);
-        })->with('items');
+        return $this->items()->where('order_id', null);
+
+//        return $this->orders()->whereHas('payment', function (Builder $query) {
+//            $query->where('payed_at', null);
+//        })->with('items');
     }
 }

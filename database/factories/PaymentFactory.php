@@ -26,7 +26,7 @@ class PaymentFactory extends Factory
         return [
             'order_id' => Order::factory(),
             'method' => $this->faker->word(),
-            'status' => $this->faker->word(),
+            'status' => $this->faker->randomElement(['pending', 'waiting_for_capture', 'succeeded', 'canceled']),
             'payed_at' => $this->faker->randomElement([Carbon::now(), null]),
         ];
     }
