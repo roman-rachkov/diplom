@@ -60,4 +60,6 @@ p.error-browser
 <script src="{{asset('assets/plg/CountDown/countdown.js')}}"></script>
 <!--[if lt IE 9]><script src="{{asset('http://html5shiv.googlecode.com/svn/trunk/html5.js')}}"></script><![endif]-->
 
+@stack('scripts')
+
 </body></html>

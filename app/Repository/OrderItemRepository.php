@@ -32,6 +32,7 @@ class OrderItemRepository implements OrderItemRepositoryContract
             return $this->setQuantity($product, $quantity);
         }
         $item->quantity = $quantity;
+        $item->sum = $item->quantity * $product->price;
         return $item->save();
     }
 
@@ -53,6 +54,7 @@ class OrderItemRepository implements OrderItemRepositoryContract
         }
 
         $item->quantity += $quantity;
+        $item->sum = $item->quantity * $product->price;
         return $item->save();
     }
 

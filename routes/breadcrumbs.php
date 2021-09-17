@@ -27,8 +27,8 @@ Breadcrumbs::for('orders.create', fn (Trail $trail) =>
 $trail->parent('banners')->push(__('breadcrumbs.orders'), route('orders.create'))
 );
 
-Breadcrumbs::for('carts.edit', fn (Trail $trail) =>
-$trail->parent('banners')->push(__('breadcrumbs.carts'), route('carts.edit'))
+Breadcrumbs::for('cart.index', fn (Trail $trail) =>
+$trail->parent('banners')->push(__('breadcrumbs.cart'))
 );
 
 Breadcrumbs::for('discounts.index', fn (Trail $trail) =>

@@ -1,7 +1,7 @@
 <div class="Middle-top">
     <div class="wrap">
         <div class="Middle-header">
-            <h1 class="Middle-title">О нас</h1>
+            <h1 class="Middle-title">@yield('title')</h1>
             @if(Breadcrumbs::has())
                 <ul class="breadcrumbs Middle-breadcrumbs">
                     @foreach (Breadcrumbs::current() as $crumbs)

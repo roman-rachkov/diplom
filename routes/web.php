@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\FeedbackController;
@@ -32,8 +33,20 @@ Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('fee
 
 Route::get('/products/comparison', function () {})->name('comparison');
 
-Route::get('/cart', function () {})->name('carts.edit');
-
-Route::get('/account', function () {})->middleware('access:account')->name('account.show');
+Route::get('/account', function () {
+})->middleware('access:account')->name('account.show');
 
 Route::view('/about', 'about.main')->name('about');
+
+Route::prefix('cart')->group(function (){
+    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+
+    Route::delete('/{item}', [CartController::class, 'delete'])->name('cart.delete');
+
+//    Route::get('/test', function (){
+//        $cart = app(\App\Contracts\Service\CartServiceContract::class);
+//
+//        $cart->add(\App\Models\Price::find(10), 3);
+//
+//    });
+});

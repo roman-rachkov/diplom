@@ -25,9 +25,5 @@ class Customer extends Model
     public function cart()
     {
         return $this->items()->where('order_id', null);
-
-//        return $this->orders()->whereHas('payment', function (Builder $query) {
-//            $query->where('payed_at', null);
-//        })->with('items');
     }
 }

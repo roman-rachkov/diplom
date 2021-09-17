@@ -18,9 +18,9 @@
                     <img class="CartBlock-img" src="{{asset('assets/img/icons/exchange.svg')}}" alt="exchange.svg"/>
                     <span class="CartBlock-amount">4</span>
                 </a>
-                <a class="CartBlock-block" href="{{route('carts.edit')}}">
+                <a class="CartBlock-block" href="{{route('cart.index')}}">
                     <img class="CartBlock-img" src="{{asset('assets/img/icons/cart.svg')}}" alt="cart.svg"/>
-                    <span class="CartBlock-amount">0</span>
+                    <span class="CartBlock-amount">{{app(\App\Contracts\Service\CartServiceContract::class)->getProductsQuantity()}}</span>
                 </a>
                 <div class="CartBlock-block">
                     <span class="CartBlock-price">0.00$</span>
