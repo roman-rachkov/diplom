@@ -6,16 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Orchid\Attachment\Attachable;
-use Orchid\Attachment\Models\Attachment;
 
 class Product extends Model
 {
     use HasFactory;
-    use Attachable;
 
     public function getRouteKeyName(): string
     {
@@ -37,8 +31,15 @@ class Product extends Model
         return $this->hasMany(Price::class);
     }
 
-    public function mainImage(): HasOne
+    public function image(): HasOne
     {
-        return $this->hasOne(Attachment::class, 'id');
+        return $this->hasOne(Attachment::class, 'id', 'main_img_id');
+    }
+
+    public function scopeFindByCategorySlug($query, $slug)
+    {
+        return $query->whereHas('category', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        });
     }
 }

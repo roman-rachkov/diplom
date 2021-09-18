@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Seller;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchid\Attachment\Models\Attachment;
 
 class SellerFactory extends Factory
 {
@@ -23,12 +22,12 @@ class SellerFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->company(),
-            'description' => $this->faker->sentence(),
-            'email' => $this->faker->email(),
-            'phone' => $this->faker->phoneNumber(),
-            'address' => $this->faker->address(),
-            'logo_id' => Attachment::where('user_id', null)->get()->random()
+            'name' => $this->faker->company,
+            'description' => $this->faker->paragraph(),
+            'email' => $this->faker->email,
+            'phone' => $this->faker->phoneNumber,
+            'address' => $this->faker->address,
+            'logo_id' => Attachment::factory(),
         ];
     }
 }
