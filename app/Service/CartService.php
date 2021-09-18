@@ -5,7 +5,11 @@ namespace App\Service;
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\CartServiceContract;
 use App\Models\Customer;
+use App\Models\OrderItem;
 use App\Models\Price;
+use App\Models\Product;
+use App\Models\Seller;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class CartService implements CartServiceContract
@@ -19,35 +23,59 @@ class CartService implements CartServiceContract
         $this->customer = $customer;
     }
 
-    public function add(Price $product, int $qty): bool
+    public function add(Product $product, int $qty, Seller $seller = null): bool
     {
-        return $this->repository->add($product, $qty);
+        $params = ['product_id' => $product->id];
+        if($seller){
+            $params[] = ['seller_id' => $seller->id];
+        }
+        $price = Price::firstWhere($params);
+        return $this->repository->add($price, $qty);
     }
 
-    public function changeProductQuantity(Price $product, int $newQty = 1): bool
+    public function changeProductQuantity(Product $product, int $newQty = 1): bool
     {
-        return $this->repository->setQuantity($product, $newQty);
+        $price = OrderItem::whereHas('price',function (Builder $query) use($product){
+            return $query->where('product_id', $product->id);
+        })->where([
+            'order_id' => null,
+            'customer_id' => $this->customer->id,
+        ])->first()->price;
+        return $this->repository->setQuantity($price, $newQty);
     }
 
-    public function getProductsList(): Collection
+    public function getItemsList(): Collection
     {
         return $this->customer->cart;
     }
 
-    public function getProductsQuantity(): int
+    public function getProductsList(): Collection
     {
-        return $this->getProductsList()->sum('quantity');
+        return $this->getItemsList()->map(function ($item){
+            return $item->price->product;
+        });
     }
 
-    public function remove(Price $product): bool
+    public function getProductsQuantity(): int
     {
-        return $this->repository->remove($product);
+        return $this->getItemsList()->sum('quantity');
+    }
+
+    public function remove(Product $product): bool
+    {
+        $price = OrderItem::whereHas('price',function (Builder $query) use($product){
+            return $query->where('product_id', $product->id);
+        })->where([
+            'order_id' => null,
+            'customer_id' => $this->customer->id,
+        ])->first()->price;
+        return $this->repository->remove($price);
     }
 
     public function clear(): bool
     {
         foreach ($this->customer->cart as $item) {
-            if (!$this->remove($item->price)) {
+            if (!$this->remove($item->price->product)) {
                 return false;
             }
         }

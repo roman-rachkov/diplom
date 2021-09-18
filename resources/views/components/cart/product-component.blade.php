@@ -1,9 +1,11 @@
 @props(['item'])
 
+{{--@dd($item->price->product->image->url)--}}
+
 <div class="Cart-product">
     <div class="Cart-block Cart-block_row">
         <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img"
-                                                                                   src="{{$item->price->product->image}}"
+                                                                                   src="{{$item->price->product->image->relativeUrl}}"
                                                                                    alt="{{$item->price->product->name}}"/></a>
         </div>
         <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">{{$item->price->product->name}}</a>
@@ -15,7 +17,7 @@
     </div>
     <div class="Cart-block Cart-block_row">
         <div class="Cart-block Cart-block_seller">
-            <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
+
             <select class="form-select">
                 @foreach($item->price->product->sellers as $seller)
                     <option value="good" selected="{{$seller->id}}">{{$seller->name}}</option>
@@ -34,7 +36,7 @@
             </div>
         </div>
         <div class="Cart-block Cart-block_delete">
-            <a class="Cart-delete" href="{{route('cart.delete', $item)}}">
+            <a class="Cart-delete" href="{{route('cart.delete', $item->price->product)}}">
                 <img src="{{asset('assets/img/icons/card/delete.svg')}}" alt="delete.svg"/>
             </a>
         </div>

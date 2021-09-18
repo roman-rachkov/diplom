@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\FeedbackController;
@@ -42,14 +44,21 @@ Route::get('sellers/{id}', [\App\Http\Controllers\SellerController::class, 'show
 Route::view('/about', 'about.main')->name('about');
 
 Route::prefix('cart')->group(function (){
+
+    Route::get('/test', function (){
+        $cart = app(\App\Contracts\Service\CartServiceContract::class);
+        dd($cart->getItemsList(), $cart->getProductsList());
+        $cart->add(\App\Models\Product::has('prices')->get()->random(), random_int(-5, 10));
+
+    });
+
+    Route::prefix('add')->group(function (){
+        Route::get('/{product}/{seller}', [CartController::class, 'add'])->name('cart.addwithseller');
+        Route::get('/{product}', [CartController::class, 'add'])->name('cart.add');
+    });
+
     Route::get('/', [CartController::class, 'index'])->name('cart.index');
 
-    Route::delete('/{item}', [CartController::class, 'delete'])->name('cart.delete');
+    Route::delete('/{product}', [CartController::class, 'delete'])->name('cart.delete');
 
-//    Route::get('/test', function (){
-//        $cart = app(\App\Contracts\Service\CartServiceContract::class);
-//
-//        $cart->add(\App\Models\Price::find(10), 3);
-//
-//    });
 });

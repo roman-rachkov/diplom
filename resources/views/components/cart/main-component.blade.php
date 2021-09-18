@@ -4,7 +4,7 @@
             <p>{{__('cart.empty')}}</p>
         @else
             <form class="form Cart" action="#" method="post">
-                @foreach($cartService->getProductsList() as $item)
+                @foreach($cartService->getItemsList() as $item)
                     <x-cart.product-component :item="$item"></x-cart.product-component>
                 @endforeach
                 <div class="Cart-total">

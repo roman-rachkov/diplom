@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Service\CartServiceContract;
-use App\Models\OrderItem;
-use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Seller;
 
 class CartController extends Controller
 {
@@ -12,8 +12,11 @@ class CartController extends Controller
         return view('cart.main');
     }
 
-    public function delete(OrderItem $item){
-        $status = app(CartServiceContract::class)->remove($item->price);
-        return response()->json(['status' => $status]);
+    public function delete(CartServiceContract $cart,Product $product){
+        return response()->json(['status' => $cart->remove($product)]);
+    }
+
+    public function add(CartServiceContract $cart, Product $product, Seller $seller = null){
+//        $cart->
     }
 }

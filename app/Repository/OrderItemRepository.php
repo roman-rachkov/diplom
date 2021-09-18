@@ -20,27 +20,27 @@ class OrderItemRepository implements OrderItemRepositoryContract
         $this->customer = $customer;
     }
 
-    public function add(Price $product, int $quantity): bool
+    public function add(Price $price, int $quantity): bool
     {
         $item = OrderItem::firstOrNew(
             [
-                'product_id' => $product->id,
+                'price_id' => $price->id,
                 'customer_id' => $this->customer->id
             ]
         );
         if ($item->id !== null) {
-            return $this->setQuantity($product, $quantity);
+            return $this->setQuantity($price, $quantity);
         }
         $item->quantity = $quantity;
-        $item->sum = $item->quantity * $product->price;
+        $item->sum = $item->quantity * $price->price;
         return $item->save();
     }
 
-    public function setQuantity(Price $product, $quantity): bool
+    public function setQuantity(Price $price, $quantity): bool
     {
         $item = OrderItem::firstWhere(
             [
-                'product_id' => $product->id,
+                'price_id' => $price->id,
                 'customer_id' => $this->customer->id
             ]
         );
@@ -50,18 +50,18 @@ class OrderItemRepository implements OrderItemRepositoryContract
         }
 
         if ($item->quantity + $quantity <= 0) {
-            return $this->remove($product);
+            return $this->remove($price);
         }
 
         $item->quantity += $quantity;
-        $item->sum = $item->quantity * $product->price;
+        $item->sum = $item->quantity * $price->price;
         return $item->save();
     }
 
-    public function remove(Price $product): bool
+    public function remove(Price $price): bool
     {
         return OrderItem::where([
-            'product_id' => $product->id,
+            'price_id' => $price->id,
             'customer_id' => $this->customer->id
         ])->first()?->delete();
     }

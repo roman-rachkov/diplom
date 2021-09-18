@@ -2,24 +2,25 @@
 
 namespace App\Contracts\Service;
 
-use App\Models\Price;
+use App\Models\Product;
+use App\Models\Seller;
 use Illuminate\Support\Collection;
 
 interface CartServiceContract
 {
     /**
-     * @param Price $product
+     * @param Product $product
      * @param int $qty
      * @return bool
      */
-    public function add(Price $product, int $qty): bool;
+    public function add(Product $product, int $qty, Seller $seller = null): bool;
 
     /**
-     * @param int $prodId
+     * @param Product $product
      * @param int $newQty
      * @return bool
      */
-    public function changeProductQuantity(Price $product, int $newQty = 1): bool;
+    public function changeProductQuantity(Product $product, int $newQty = 1): bool;
 
     /**
      * @return array
@@ -32,10 +33,10 @@ interface CartServiceContract
     public function getProductsQuantity(): int;
 
     /**
-     * @param int $prodId
+     * @param Product $product
      * @return bool
      */
-    public function remove(Price $product): bool;
+    public function remove(Product $product): bool;
 
     /**
      * @return bool
