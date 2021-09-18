@@ -6,7 +6,7 @@
             <div class="menuModal" id="navigate">
                 <ul class="menu menu_main">
                     <li class="menu-item"><a class="menu-link" href="{{route('banners')}}">{{__('main_menu.Main')}}</a></li>
-                    <li class="menu-item"><span class="menu-label menu-label_danger">Hot</span><a class="menu-link" href="{{route('products.index')}}">{{__('main_menu.Catalog')}}</a></li>
+                    <li class="menu-item"><span class="menu-label menu-label_danger">Hot</span><a class="menu-link" href="{{route('catalog.index')}}">{{__('main_menu.Catalog')}}</a></li>
                     <li class="menu-item"><span class="menu-label menu-label_success">New</span><a class="menu-link" href="{{route('discounts.index')}}">{{__('main_menu.Discounts')}}</a></li>
                     <li class="menu-item"><a class="menu-link" href="{{route('feedbacks.index')}}">{{__('main_menu.Contacts')}}</a></li>
                 </ul>

@@ -49,11 +49,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
 
         $this->call([
-            BannersSeeder::class
-//            AttachmentSeeder::class,
-//            CategorySeeder::class
+            BannersSeeder::class,
+            CategorySeeder::class,
         ]);
-//
+
         \App\Models\Product::factory(50)->create();
         \App\Models\Customer::factory(50)->create();
         \App\Models\ComparedProduct::factory(20)->create();

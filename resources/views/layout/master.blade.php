@@ -21,7 +21,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="favicon.ico" rel="shortcut icon">
+    <link href="{{ asset('/favicon.ico') }}" rel="shortcut icon">
     <link rel="preload" href="{{asset('fonts/Roboto-Regular.woff')}}" as="font">
     <link rel="preload" href="{{asset('fonts/Roboto-Italic.woff')}}" as="font">
     <link rel="preload" href="{{asset('fonts/Roboto-Bold.woff')}}" as="font">

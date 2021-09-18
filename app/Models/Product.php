@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Orchid\Attachment\Models\Attachment;
 
 class Product extends Model
 {
@@ -36,8 +35,15 @@ class Product extends Model
         return $this->belongsToMany(Seller::class, Price::class);
     }
 
-    public function mainImage(){
+    public function image()
+    {
         return $this->hasOne(Attachment::class, 'id', 'main_img_id');
     }
 
+    public function scopeFindByCategorySlug($query, $slug)
+    {
+        return $query->whereHas('category', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        });
+    }
 }

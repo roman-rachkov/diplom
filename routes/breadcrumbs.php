@@ -35,8 +35,8 @@ Breadcrumbs::for('discounts.index', fn (Trail $trail) =>
 $trail->parent('banners')->push(__('breadcrumbs.discounts'), route('discounts.index'))
 );
 
-Breadcrumbs::for('products.index', fn (Trail $trail) =>
-$trail->parent('banners')->push(__('breadcrumbs.products'), route('products.index'))
+Breadcrumbs::for('catalog.index', fn (Trail $trail) =>
+$trail->parent('banners')->push(__('breadcrumbs.products'), route('catalog.index'))
 );
 
 Breadcrumbs::for('feedbacks.create', fn (Trail $trail) =>

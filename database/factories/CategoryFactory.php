@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchid\Attachment\Models\Attachment;
 
+
 class CategoryFactory extends Factory
 {
     /**
@@ -39,7 +40,8 @@ class CategoryFactory extends Factory
 
         return [
             'name' => $this->faker->randomElement($categoryNames),
-            'image_id' => Attachment::all()->random()->id,
+            'slug' => $this->faker->word,
+            'icon' => rand(1, 12),
             'sort_index' => $this->faker->numberBetween(0, 101),
             'is_active' => $this->faker->boolean(90),
         ];
