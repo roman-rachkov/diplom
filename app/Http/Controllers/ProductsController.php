@@ -28,16 +28,6 @@ class ProductsController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param ProductDiscountServiceContract $discountService
@@ -68,9 +58,9 @@ class ProductsController extends Controller
         $qty = request('amount') ? : 1;
 
         if ($addToCartService->add($product, $qty, $seller)) {
-            $this->flashService->flash('Товар успешно добавлен в корзину!');
+            $this->flashService->flash(__('add_to_cart_service.on_success_msg'));
         } else {
-            $this->flashService->flash('Не получилось добавить товар, попробуйте позднее', 'danger');
+            $this->flashService->flash(__('add_to_cart_service.on_error_msg'), 'danger');
         }
         return back();
     }
@@ -83,9 +73,9 @@ class ProductsController extends Controller
         $product = $this->productRepository->find($slug);
 
         if ($compareService->add($product)) {
-            $this->flashService->flash('Товар успешно добавлен!');
+            $this->flashService->flash(__('add_to_comparison_service.on_success_msg'));
         } else {
-            $this->flashService->flash('Не получилось добавить товар, попробуйте позднее', 'danger');
+            $this->flashService->flash(__('add_to_comparison_service.on_error_msg'), 'danger');
         }
         return back();
     }

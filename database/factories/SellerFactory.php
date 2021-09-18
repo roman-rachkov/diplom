@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Seller;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Orchid\Attachment\Models\Attachment;
 
 class SellerFactory extends Factory
 {

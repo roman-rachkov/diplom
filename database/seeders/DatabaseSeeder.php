@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\ComparedProduct;
+use App\Models\Customer;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Models\Review;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Orchid\Platform\Models\Role;
@@ -53,9 +56,9 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class
         ]);
 //
-        \App\Models\Customer::factory(50)->create();
-        \App\Models\ComparedProduct::factory(20)->create();
-        \App\Models\Review::factory(70)->create();
+        Customer::factory(50)->create();
+        ComparedProduct::factory(20)->create();
+        Review::factory(70)->create();
 
         Payment::factory(5)->create();
         OrderItem::factory(50)->create();

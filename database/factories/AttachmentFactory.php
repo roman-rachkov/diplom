@@ -20,7 +20,7 @@ class AttachmentFactory extends Factory
     public function definition()
     {
         $datePath = \Illuminate\Support\Carbon::now()->format('Y/m/d/');
-        $dir = storage_path('app/public/' . $datePath) ;
+        $dir = storage_path('app/public/' . $datePath);
         if(!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }

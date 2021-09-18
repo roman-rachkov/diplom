@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Orchid\Attachment\Attachable;
+use Orchid\Attachment\Models\Attachment;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Attachable;
 
     public function getRouteKeyName(): string
     {
