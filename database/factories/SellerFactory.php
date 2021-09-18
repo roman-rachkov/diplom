@@ -23,12 +23,12 @@ class SellerFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->company(),
-            'description' => $this->faker->sentence(),
-            'email' => $this->faker->email(),
-            'phone' => $this->faker->phoneNumber(),
-            'address' => $this->faker->address(),
-            'logo_id' => Attachment::where('user_id', null)->random()
+            'name' => $this->faker->company,
+            'description' => $this->faker->paragraph(),
+            'email' => $this->faker->email,
+            'phone' => $this->faker->phoneNumber,
+            'address' => $this->faker->address,
+            'logo_id' => Attachment::factory(),
         ];
     }
 }

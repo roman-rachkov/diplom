@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Service\AddToCartServiceContract;
+use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Contracts\Service\Product\ViewedProductsServiceContract;
@@ -18,19 +19,12 @@ class ProductsController extends Controller
 {
     private ProductRepositoryContract $productRepository;
 
-    public function __construct(ProductRepositoryContract $productRepository)
+    private FlashMessageServiceContract $flashService;
+
+    public function __construct(ProductRepositoryContract $productRepository, FlashMessageServiceContract $flashService)
     {
         $this->productRepository = $productRepository;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
+        $this->flashService = $flashService;
     }
 
     /**
@@ -44,8 +38,8 @@ class ProductsController extends Controller
     {
         $product = $this->productRepository->find($slug);
         $discount = $discountService->getProductDiscounts($product);
-        $avgPrice = $product->prices->avg('value');
-        $avgDiscountPrice = $avgPrice * (1 - $discount);
+        $avgPrice = round($product->prices->avg('value'), 2);
+        $avgDiscountPrice = round($avgPrice * (1 - $discount),2);
         $discount = intval($discount * 100);
 
         return view('products.show', compact('product', 'avgDiscountPrice', 'avgPrice', 'discount'));
@@ -64,9 +58,9 @@ class ProductsController extends Controller
         $qty = request('amount') ? : 1;
 
         if ($addToCartService->add($product, $qty, $seller)) {
-            flash('Товар успешно добавлен в корзину!');
+            $this->flashService->flash(__('add_to_cart_service.on_success_msg'));
         } else {
-            flash('Не получилось добавить товар, попробуйте позднее', 'danger');
+            $this->flashService->flash(__('add_to_cart_service.on_error_msg'), 'danger');
         }
         return back();
     }
@@ -79,9 +73,9 @@ class ProductsController extends Controller
         $product = $this->productRepository->find($slug);
 
         if ($compareService->add($product)) {
-            flash('Товар успешно добавлен!');
+            $this->flashService->flash(__('add_to_comparison_service.on_success_msg'));
         } else {
-            flash('Не получилось добавить товар, попробуйте позднее', 'danger');
+            $this->flashService->flash(__('add_to_comparison_service.on_error_msg'), 'danger');
         }
         return back();
     }

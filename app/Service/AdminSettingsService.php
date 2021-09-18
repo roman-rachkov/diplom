@@ -16,8 +16,8 @@ class AdminSettingsService implements AdminSettingsServiceContract
 
     public function get(string $settingName, $default = null)
     {
-        $value = $this->adminSettingsRepository->get($settingName);
+        if ($default) return $default;
 
-        return $value ?? $default;
+        return $this->adminSettingsRepository->get($settingName);
     }
 }

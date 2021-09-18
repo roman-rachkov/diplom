@@ -15,7 +15,11 @@
                 <div class="Categories-block Categories-price">
                     <strong>€&#32;{{$price->value}}</strong>
                 </div>
-                <div class="Categories-block Categories-button"><button class="btn btn_primary"  type="submit"><img class="btn-icon" src={{asset("assets/img/icons/card/cart_white.svg")}} alt="cart_white.svg"/><span class="btn-content">Купить</span></button>
+                <div class="Categories-block Categories-button">
+                    <button class="btn btn_primary"  type="submit">
+                        <img class="btn-icon" src={{asset("assets/img/icons/card/cart_white.svg")}} alt="cart_white.svg"/>
+                        <span class="btn-content">{{__('product.buy_btn')}}</span>
+                    </button>
             </div>
         </form>
         @endforeach
