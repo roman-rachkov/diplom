@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\UserController;
 use Tabuna\Breadcrumbs\Trail;
 
 
@@ -34,6 +35,7 @@ Route::get('/products/comparison', function () {})->name('comparison');
 
 Route::get('/cart', function () {})->name('carts.edit');
 
-Route::get('/account', function () {})->middleware('access:account')->name('account.show');
+Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 
 Route::view('/about', 'about.main')->name('about');
