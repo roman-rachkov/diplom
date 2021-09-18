@@ -38,7 +38,7 @@ class AttachmentFactory extends Factory
             'alt' => $image,
             'hash' => Hash::make($name),
             'disk' => 'public',
-            'user_id' => User::all()->random()->id,
+            'user_id' => User::all()->random(),
             'group' => 0
         ];
     }

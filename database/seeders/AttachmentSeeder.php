@@ -18,7 +18,7 @@ class AttachmentSeeder extends Seeder
             ->times(10)
             ->create();
         Attachment::factory(['user_id' => null])
-            ->times(5)
+            ->count(5)
             ->create();
     }
 }
