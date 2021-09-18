@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Orchid\Attachment\Models\Attachment;
 
 class ProductFactory extends Factory
 {
@@ -30,7 +31,7 @@ class ProductFactory extends Factory
             'limited' => $this->faker->boolean(90),
             'sales_count' => $this->faker->numberBetween(1, 200),
             'manufacturer_id' => $this->faker->numberBetween(1, 25),
-            'main_img_id' => $this->faker->numberBetween(1, 30)
+            'main_img_id' => Attachment::factory()
         ];
     }
 }

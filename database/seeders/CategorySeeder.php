@@ -10,7 +10,7 @@ class CategorySeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * @return voide
+     * @return void
      */
     public function run()
     {
