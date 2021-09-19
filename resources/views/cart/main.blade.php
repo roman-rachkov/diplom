@@ -1,7 +1,7 @@
 @extends('layout.master')
 
-@section('title', __('breadcrumbs.cart'))
+@section('title', __('cart.title'))
 
 @section('content')
-    <x-cart.main-component></x-cart.main-component>
+    <x-cart.main-component />
 @endsection

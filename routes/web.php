@@ -45,21 +45,14 @@ Route::view('/about', 'about.main')->name('about');
 
 Route::prefix('cart')->group(function (){
 
-    Route::get('/test', function (\App\Contracts\Service\Cart\AddCartServiceContract $cart){
-//        dd($cart->getItemsList(), $cart->getProductsList());
-        $cart->add(\App\Models\Product::has('prices')->get()->random(), random_int(-5, 10));
-
-    });
-
-    Route::post('quantity/{product}', [CartController::class, 'setQuantity'])->name('cart.setQuantity');
-
     Route::prefix('add')->group(function (){
-        Route::get('/{product}/{seller}', [CartController::class, 'add'])->name('cart.addwithseller');
+        Route::get('/{product}/{seller}', [CartController::class, 'add'])->name('cart.addWithSeller');
         Route::get('/{product}', [CartController::class, 'add'])->name('cart.add');
     });
 
-    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+    Route::put('/{product}', [CartController::class, 'update'])->name('cart.update');
 
     Route::delete('/{product}', [CartController::class, 'delete'])->name('cart.delete');
+    Route::get('/', [CartController::class, 'index'])->name('cart.index');
 
 });

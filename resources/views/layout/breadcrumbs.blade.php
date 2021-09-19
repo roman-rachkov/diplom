@@ -6,13 +6,13 @@
                 <ul class="breadcrumbs Middle-breadcrumbs">
                     @foreach (Breadcrumbs::current() as $crumbs)
                         @if ($crumbs->url() && !$loop->last)
-                            <li class="breadcrumb-item">
+                            <li class="breadcrumbs-item">
                                 <a href="{{ $crumbs->url() }}">
                                     {{ $crumbs->title() }}
                                 </a>
                             </li>
                         @else
-                            <li class="breadcrumb-item breadcrumbs-item_current">
+                            <li class="breadcrumbs-item breadcrumbs-item_current">
                                 <span>
                                     {{ $crumbs->title() }}
                                 </span>

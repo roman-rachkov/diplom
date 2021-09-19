@@ -26,7 +26,7 @@ class AddCartService implements AddCartServiceContract
     public function add(Product $product, int $qty, Seller $seller = null): bool
     {
         $params = ['product_id' => $product->id];
-        if($seller){
+        if ($seller) {
             $params[] = ['seller_id' => $seller->id];
         }
         $price = Price::firstWhere($params);
@@ -35,7 +35,7 @@ class AddCartService implements AddCartServiceContract
 
     public function changeProductQuantity(Product $product, int $newQty = 1): bool
     {
-        $price = OrderItem::whereHas('price',function (Builder $query) use($product){
+        $price = OrderItem::whereHas('price', function (Builder $query) use ($product) {
             return $query->where('product_id', $product->id);
         })->where([
             'order_id' => null,
@@ -44,41 +44,30 @@ class AddCartService implements AddCartServiceContract
         return $this->repository->setQuantity($price, $newQty);
     }
 
-    public function getItemsList(): Collection
+    public function update(Product $product, array $data)
     {
-        return $this->customer->cart;
+        $status = true;
+        foreach ($data as $key => $value) {
+            if (!$this->$key($product, $value)) {
+                $statu = false;
+            }
+        }
+        return true;
     }
 
-    public function getProductsList(): Collection
+    public function quantity(Product $product, int $value)
     {
-        return $this->getItemsList()->map(function ($item){
-            return $item->price->product;
-        });
+        return $this->changeProductQuantity($product, $value);
     }
 
-    public function getProductsQuantity(): int
+    public function seller(Product $product, int $id)
     {
-        return $this->getItemsList()->sum('quantity');
-    }
-
-    public function remove(Product $product): bool
-    {
-        $price = OrderItem::whereHas('price',function (Builder $query) use($product){
+        $item = OrderItem::whereHas('price', function (Builder $query) use ($product) {
             return $query->where('product_id', $product->id);
         })->where([
             'order_id' => null,
             'customer_id' => $this->customer->id,
-        ])->first()->price;
-        return $this->repository->remove($price);
-    }
-
-    public function clear(): bool
-    {
-        foreach ($this->customer->cart as $item) {
-            if (!$this->remove($item->price->product)) {
-                return false;
-            }
-        }
-        return true;
+        ])->first();
+        return $this->repository->setSeller($item, Price::where(['product_id' => $product->id, 'seller_id' => $id])->first());
     }
 }
