@@ -22,7 +22,7 @@
                 </div>
                 <div class="Section-content">
 
-                    <x-popular_products/>
+                    <x-top-products-component/>
 
                 </div>
             </div>
