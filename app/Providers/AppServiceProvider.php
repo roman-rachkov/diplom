@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Contracts\Service\AdminSettingsServiceContract;
-use App\Contracts\Service\CartServiceContract;
+use App\Contracts\Service\Cart\AddCartServiceContract;
+use App\Contracts\Service\Cart\GetCartServiceContract;
+use App\Contracts\Service\Cart\RemoveCartServiceContract;
 use App\Contracts\Service\DeliveryCostServiceContract;
 use App\Contracts\Service\PayOrderServiceContract;
 use App\Contracts\Service\AddReviewServiceContract;
@@ -11,7 +13,9 @@ use App\Contracts\Service\ImportSellerServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Models\Customer;
 use App\Service\AdminSettingsService;
-use App\Service\CartService;
+use App\Service\Cart\AddCartService;
+use App\Service\Cart\GetCartService;
+use App\Service\Cart\RemoveCartService;
 use App\Service\DeliveryCostService;
 use App\Service\PayOrderService;
 use App\Service\AddReviewService;
@@ -49,7 +53,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ImportSellerServiceContract::class, ImportSellerService::class);
         $this->app->singleton(AddReviewServiceContract::class, AddReviewService::class);
         $this->app->singleton(ProductDiscountServiceContract::class, ProductDiscountService::class);
-        $this->app->singleton(CartServiceContract::class, CartService::class);
+        $this->app->singleton(AddCartServiceContract::class, AddCartService::class);
+        $this->app->singleton(GetCartServiceContract::class, GetCartService::class);
+        $this->app->singleton(RemoveCartServiceContract::class, RemoveCartService::class);
 
         $this->app->singleton(Customer::class, function (){
 

@@ -2,19 +2,19 @@
 
 namespace App\View\Components\Cart;
 
-use App\Contracts\Service\CartServiceContract;
+use App\Contracts\Service\Cart\GetCartServiceContract;
 use Illuminate\View\Component;
 
 class MainComponent extends Component
 {
-    public CartServiceContract $cartService;
+    public GetCartServiceContract $cartService;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(CartServiceContract $contract)
+    public function __construct(GetCartServiceContract $contract)
     {
         $this->cartService = $contract;
     }

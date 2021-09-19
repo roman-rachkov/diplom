@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Contracts\Service;
+namespace App\Contracts\Service\Cart;
 
 use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Support\Collection;
 
-interface CartServiceContract
+interface AddCartServiceContract
 {
     /**
      * @param Product $product
@@ -22,24 +22,4 @@ interface CartServiceContract
      */
     public function changeProductQuantity(Product $product, int $newQty = 1): bool;
 
-    /**
-     * @return array
-     */
-    public function getProductsList(): Collection;
-
-    /**
-     * @return int
-     */
-    public function getProductsQuantity(): int;
-
-    /**
-     * @param Product $product
-     * @return bool
-     */
-    public function remove(Product $product): bool;
-
-    /**
-     * @return bool
-     */
-    public function clear(): bool;
 }

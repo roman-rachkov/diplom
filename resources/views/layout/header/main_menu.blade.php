@@ -20,10 +20,10 @@
                 </a>
                 <a class="CartBlock-block" href="{{route('cart.index')}}">
                     <img class="CartBlock-img" src="{{asset('assets/img/icons/cart.svg')}}" alt="cart.svg"/>
-                    <span class="CartBlock-amount">{{app(\App\Contracts\Service\CartServiceContract::class)->getProductsQuantity()}}</span>
+                    <span class="CartBlock-amount">{{app(\App\Contracts\Service\Cart\GetCartServiceContract::class)->getProductsQuantity()}}</span>
                 </a>
                 <div class="CartBlock-block">
-                    <span class="CartBlock-price">0.00$</span>
+                    <span class="CartBlock-price">{{app(\App\Contracts\Service\Cart\GetCartServiceContract::class)->getTotalCost()}}$</span>
                 </div>
             </div>
         </div>

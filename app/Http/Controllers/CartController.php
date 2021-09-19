@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Service\CartServiceContract;
+use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Models\Product;
 use App\Models\Seller;
+use App\Service\Cart\RemoveCartService;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -14,18 +15,18 @@ class CartController extends Controller
         return view('cart.main');
     }
 
-    public function delete(CartServiceContract $cart, Product $product)
+    public function delete(RemoveCartService $cart, Product $product)
     {
         return response()->json(['status' => $cart->remove($product)]);
     }
 
-    public function add(CartServiceContract $cart, Product $product, Seller $seller = null)
+    public function add(AddCartServiceContract $cart, Product $product, Seller $seller = null)
     {
         $cart->add($product, 1, $seller);
         return back();
     }
 
-    public function setQuantity(Request $request, CartServiceContract $cart, Product $product){
+    public function setQuantity(Request $request, AddCartServiceContract $cart, Product $product){
         $request->validate([
             'quantity' => 'required|integer'
         ]);

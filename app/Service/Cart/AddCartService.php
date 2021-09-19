@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Cart;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
-use App\Contracts\Service\CartServiceContract;
+use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Models\Customer;
 use App\Models\OrderItem;
 use App\Models\Price;
@@ -12,7 +12,7 @@ use App\Models\Seller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-class CartService implements CartServiceContract
+class AddCartService implements AddCartServiceContract
 {
     protected OrderItemRepositoryContract $repository;
     protected Customer $customer;

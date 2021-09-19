@@ -45,8 +45,7 @@ Route::view('/about', 'about.main')->name('about');
 
 Route::prefix('cart')->group(function (){
 
-    Route::get('/test', function (){
-        $cart = app(\App\Contracts\Service\CartServiceContract::class);
+    Route::get('/test', function (\App\Contracts\Service\Cart\GetCartServiceContract $cart){
         dd($cart->getItemsList(), $cart->getProductsList());
         $cart->add(\App\Models\Product::has('prices')->get()->random(), random_int(-5, 10));
 
