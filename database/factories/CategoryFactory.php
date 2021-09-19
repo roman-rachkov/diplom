@@ -56,7 +56,7 @@ class CategoryFactory extends Factory
                 $categories->isNotEmpty()
             ) {
                 $parent = $categories->random();
-                $category = Category::find($category->id);
+                $category->refresh();
                 if (!$parent->isSelfOrDescendantOf($category)) {
                     $parent->appendNode($category);
                 }

@@ -5,18 +5,32 @@ namespace App\Http\Controllers;
 use App\Contracts\Service\CartServiceContract;
 use App\Models\Product;
 use App\Models\Seller;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('cart.main');
     }
 
-    public function delete(CartServiceContract $cart,Product $product){
+    public function delete(CartServiceContract $cart, Product $product)
+    {
         return response()->json(['status' => $cart->remove($product)]);
     }
 
-    public function add(CartServiceContract $cart, Product $product, Seller $seller = null){
-//        $cart->
+    public function add(CartServiceContract $cart, Product $product, Seller $seller = null)
+    {
+        $cart->add($product, 1, $seller);
+        return back();
     }
+
+    public function setQuantity(Request $request, CartServiceContract $cart, Product $product){
+        $request->validate([
+            'quantity' => 'required|integer'
+        ]);
+        $cart->changeProductQuantity($product, $request->quantity);
+        return back();
+    }
+
 }

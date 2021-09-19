@@ -52,6 +52,8 @@ Route::prefix('cart')->group(function (){
 
     });
 
+    Route::post('quantity/{product}', [CartController::class, 'setQuantity'])->name('cart.setQuantity');
+
     Route::prefix('add')->group(function (){
         Route::get('/{product}/{seller}', [CartController::class, 'add'])->name('cart.addwithseller');
         Route::get('/{product}', [CartController::class, 'add'])->name('cart.add');
