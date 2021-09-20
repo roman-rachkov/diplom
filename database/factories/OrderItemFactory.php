@@ -26,10 +26,10 @@ class OrderItemFactory extends Factory
     {
         return [
             'order_id' => $this->faker->randomElement([Order::all()->random()->id, null]),
-            'product_id' => Price::factory(),
+            'product_id' => Price::all()->random()->id,
             'quantity' => $this->faker->randomDigitNotZero(),
             'sum' => $this->faker->randomFloat(2, 1, 1000),
-            'customer_id' => Customer::factory(),
+            'customer_id' => Customer::all()->random()->id,
         ];
     }
 }

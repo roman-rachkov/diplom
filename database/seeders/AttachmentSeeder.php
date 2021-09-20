@@ -15,7 +15,7 @@ class AttachmentSeeder extends Seeder
     public function run()
     {
         Attachment::factory()
-            ->times(40)
+            ->count(25)
             ->create();
     }
 }

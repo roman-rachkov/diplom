@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Banner;
+use App\Models\Payment;
 use Illuminate\Database\Seeder;
-use Orchid\Attachment\Models\Attachment;
 
-class BannersSeeder extends Seeder
+class PaymentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +14,6 @@ class BannersSeeder extends Seeder
      */
     public function run()
     {
-        Banner::factory()->count(5)->create();
+        Payment::factory(5)->create();
     }
 }
