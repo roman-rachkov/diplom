@@ -5,50 +5,48 @@
 @endsection
 
 @section('content')
-        <div class="Section">
-            <div class="wrap">
+    <div class="Section">
+        <div class="wrap">
 
-                <x-banners_home/>
+            <x-banners_home/>
+
+        </div>
+    </div>
+    <div class="Section Section_column Section_columnLeft Section_columnDesktop">
+        <div class="wrap">
+
+            <div class="Section-column">
+
+                <x-limited_deals/>
+
+            </div>
+            <div class="Section-content">
+                <x-top-products-component :products="$topProducts"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="Section Section_dark">
+        <div class="wrap">
+            <div class="Section-content">
+
+                <x-hot_offers_slider/>
 
             </div>
         </div>
-        <div class="Section Section_column Section_columnLeft Section_columnDesktop">
-            <div class="wrap">
+    </div>
+    <div class="Section Section_column Section_columnRight">
+        <div class="wrap">
+            <div class="Section-column">
 
-                <div class="Section-column">
+                <x-quality_banner/>
 
-                    <x-limited_deals/>
+            </div>
+            <div class="Section-content">
 
-                </div>
-                <div class="Section-content">
+                <x-limited_edition_slider/>
 
-                    <x-top-products-component/>
-
-                </div>
             </div>
         </div>
-
-        <div class="Section Section_dark">
-            <div class="wrap">
-                <div class="Section-content">
-
-                    <x-hot_offers_slider/>
-
-                </div>
-            </div>
-        </div>
-        <div class="Section Section_column Section_columnRight">
-            <div class="wrap">
-                <div class="Section-column">
-
-                    <x-quality_banner/>
-
-                </div>
-                <div class="Section-content">
-
-                    <x-limited_edition_slider/>
-
-                </div>
-            </div>
-        </div>
+    </div>
 @endsection

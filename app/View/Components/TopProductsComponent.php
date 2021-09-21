@@ -17,9 +17,9 @@ class TopProductsComponent extends Component
      *
      * @return void
      */
-    public function __construct(ProductRepositoryContract $products)
+    public function __construct(Collection $products)
     {
-        $this->products = $products->getTopProducts();
+        $this->products = $products;
     }
 
     /**
