@@ -13,5 +13,13 @@ return [
     'error' => [
         'product_add_cart' => 'Товар не был добавлен в корзину',
         'product_add_compare' => 'Товар не был добавлен к сравнению',
-    ]
+    ],
+    'filter' => [
+        'filter' => 'Фильтр',
+        'product_title' => 'Название',
+        'seller' => 'Продавец',
+        'button' => 'Применить',
+        'search' => 'Поиск',
+        'price' => 'Цена',
+    ],
 ];

@@ -8,20 +8,23 @@ use App\Contracts\Repository\SellerRepositoryContract;
 use App\Contracts\Service\AddToCartServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
+use App\Http\Requests\CatalogGetRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CatalogPageController extends Controller
 {
-    public function index(ProductRepositoryContract $repo,
-                          ProductDiscountServiceContract $discountRepo,
-                          PriceRepositoryContract $prices,
-                          SellerRepositoryContract $sellers,
-                          Request $request)
+    public function index(
+            ProductRepositoryContract $repo,
+            ProductDiscountServiceContract $discountRepo,
+            PriceRepositoryContract $prices,
+            SellerRepositoryContract $sellers,
+            CatalogGetRequest $request
+        )
     {
         $sellers = $sellers->getAllSellers();
-        $curPage = $request->get('page') ?? 1;
-        $products = $repo->getAllProducts($curPage);
+        $products = $repo->getProductsForCatalog($request);
         $discounts = $discountRepo->getCatalogDiscounts(collect($products->items()));
         $minPrice = $prices->getMinPrice();
         $maxPrice = $prices->getMaxPrice();
@@ -32,12 +35,11 @@ class CatalogPageController extends Controller
         ));
     }
 
-    public function getProductForCatalogByCategorySlug(ProductRepositoryContract $repo, Request $request, $slug)
+    public function getProductForCatalogByCategorySlug()
     {
-        $curPage = $request->get('page') ?? 1;
-        $products = $repo->getProductsForCategory($slug, $curPage);
-        return view('catalog', compact('products'));
+
     }
+
 
     public function addToCart(AddToCartServiceContract $addToCart, Product $product)
     {

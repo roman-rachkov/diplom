@@ -2,17 +2,17 @@
 
 namespace App\Repository;
 
-use App\Contracts\Repository\AdminSettingsRepositoryContract;
 use App\Contracts\Repository\PriceRepositoryContract;
 use App\Models\Price;
 use Illuminate\Support\Collection;
 
 class PriceRepository implements PriceRepositoryContract
 {
-    public function __construct(Price $price, AdminSettingsRepositoryContract $adminsSettings)
+    private $model;
+
+    public function __construct(Price $price)
     {
         $this->model = $price;
-        $this->adminsSettings = $adminsSettings;
     }
 
     public function getAllPrices(): Collection

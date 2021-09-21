@@ -13,7 +13,7 @@ class CatalogGetRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,5 +26,30 @@ class CatalogGetRequest extends FormRequest
         return [
             //
         ];
+    }
+
+    public function getCurrentPage(): int
+    {
+        return $this->get('page') ?? 1;
+    }
+
+    public function getMinRice(): ?float
+    {
+        return $this->get('minPriceChoice') ?? null;
+    }
+
+    public function getMaxPrice(): ?float
+    {
+        return $this->get('maxPriceChoice') ?? null;
+    }
+
+    public function getSearch(): ?string
+    {
+        return $this->get('search') ?? null;
+    }
+
+    public function getSeller(): ?string
+    {
+        return $this->get('seller') ?? null;
     }
 }

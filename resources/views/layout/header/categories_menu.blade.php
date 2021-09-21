@@ -7,9 +7,9 @@
         </div>
         <div class="Header-search">
             <div class="search">
-                <form class="form form_search" action="#" method="post">
-                    <input class="search-input" id="query" name="query" type="text" placeholder="Найти..."/>
-                    <button class="search-button" type="submit" name="search" id="search"><img src="{{asset('assets/img/icons/search.svg')}}" alt="search.svg"/>Поиск</button>
+                <form class="form form_search" action="#" method="get">
+                    <input class="search-input" id="query" name="search" type="text" placeholder="{{ __('catalog.filter.product_title') }}"/>
+                    <button class="search-button" type="submit" name="submit" id="search"><img src="{{asset('assets/img/icons/search.svg')}}" alt="search.svg"/>{{ __('catalog.filter.search') }}</button>
                 </form>
             </div>
         </div>
