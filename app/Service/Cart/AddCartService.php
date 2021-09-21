@@ -25,23 +25,12 @@ class AddCartService implements AddCartServiceContract
 
     public function add(Product $product, int $qty, Seller $seller = null): bool
     {
-        $params = ['product_id' => $product->id];
-        if ($seller) {
-            $params[] = ['seller_id' => $seller->id];
-        }
-        $price = Price::firstWhere($params);
-        return $this->repository->add($price, $qty);
+        return $this->repository->add($product, $qty, $seller);
     }
 
     public function changeProductQuantity(Product $product, int $newQty = 1): bool
     {
-        $price = OrderItem::whereHas('price', function (Builder $query) use ($product) {
-            return $query->where('product_id', $product->id);
-        })->where([
-            'order_id' => null,
-            'customer_id' => $this->customer->id,
-        ])->first()->price;
-        return $this->repository->setQuantity($price, $newQty);
+        return $this->repository->setQuantity($product, $newQty);
     }
 
     public function update(Product $product, array $data)
@@ -49,10 +38,15 @@ class AddCartService implements AddCartServiceContract
         $status = true;
         foreach ($data as $key => $value) {
             if (!$this->$key($product, $value)) {
-                $statu = false;
+                $status = false;
             }
         }
-        return true;
+        return $status;
+    }
+
+    public function setSeller(Product $product, int $newSellerId): bool
+    {
+        return $this->repository->setSeller($product, $newSellerId);
     }
 
     public function quantity(Product $product, int $value)
@@ -60,14 +54,8 @@ class AddCartService implements AddCartServiceContract
         return $this->changeProductQuantity($product, $value);
     }
 
-    public function seller(Product $product, int $id)
+    public function seller(Product $product, int $value)
     {
-        $item = OrderItem::whereHas('price', function (Builder $query) use ($product) {
-            return $query->where('product_id', $product->id);
-        })->where([
-            'order_id' => null,
-            'customer_id' => $this->customer->id,
-        ])->first();
-        return $this->repository->setSeller($item, Price::where(['product_id' => $product->id, 'seller_id' => $id])->first());
+        return $this->changeProductQuantity($product, $value);
     }
 }

@@ -4,9 +4,11 @@ namespace App\Repository;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Models\Customer;
-use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Price;
+use App\Models\Product;
+use App\Models\Seller;
+use Illuminate\Database\Eloquent\Builder;
 
 class OrderItemRepository implements OrderItemRepositoryContract
 {
@@ -21,8 +23,14 @@ class OrderItemRepository implements OrderItemRepositoryContract
         $this->customer = $customer;
     }
 
-    public function add(Price $price, int $quantity): bool
+    public function add(Product $product, int $quantity, Seller $seller = null): bool
     {
+        $params = ['product_id' => $product->id];
+        if ($seller) {
+            $params[] = ['seller_id' => $seller->id];
+        }
+        $price = Price::where($params)->inRandomOrder()->first();
+
         $item = OrderItem::firstOrNew(
             [
                 'price_id' => $price->id,
@@ -33,44 +41,53 @@ class OrderItemRepository implements OrderItemRepositoryContract
             return $this->setQuantity($price, $quantity);
         }
         $item->quantity = $quantity;
-        $item->sum = $item->quantity * $price->price;
         return $item->save();
     }
 
-    public function setSeller(OrderItem $item, Price $price)
+    public function setSeller(Product $product, int $sellerId)
     {
-        $item->price_id = $price->id;
-        $item->sum = $item->quantity * $price->price;
+        $item = $this->getCartItem($product);
+        $price = Price::firstWhere([
+            'product_id' => $product->id,
+            'seller_id' => $sellerId,
+        ]);
+        $item->price()->associate($price);
         return $item->save();
     }
 
-    public function setQuantity(Price $price, $quantity): bool
+    public function setQuantity(Product $product, $quantity): bool
     {
-        $item = OrderItem::firstWhere(
-            [
-                'price_id' => $price->id,
-                'customer_id' => $this->customer->id
-            ]
-        );
+        $item = $this->getCartItem($product);
 
         if ($item === null) {
             return false;
         }
 
         if ($quantity <= 0) {
-            return $this->remove($price);
+            return $this->remove($product);
         }
 
         $item->quantity = $quantity;
-        $item->sum = $item->quantity * $price->price;
         return $item->save();
     }
 
-    public function remove(Price $price): bool
+    public function remove(Product $product): bool
     {
-        return OrderItem::where([
-            'price_id' => $price->id,
-            'customer_id' => $this->customer->id
-        ])->first()?->delete();
+        return $this->getCartItem($product)?->delete();
+    }
+
+    public function getPrice(Product $product)
+    {
+        return $this->getCartItem($product)->price;
+    }
+
+    public function getCartItem(Product $product)
+    {
+        return OrderItem::whereHas('price', function (Builder $query) use ($product) {
+            return $query->where('product_id', $product->id);
+        })->where([
+            'order_id' => null,
+            'customer_id' => $this->customer->id,
+        ])->first();
     }
 }

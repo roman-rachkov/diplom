@@ -22,4 +22,10 @@ interface AddCartServiceContract
      */
     public function changeProductQuantity(Product $product, int $newQty = 1): bool;
 
+    /**
+     * @param Product $product
+     * @param int $newSellerId
+     * @return bool
+     */
+    public function setSeller(Product $product, int $newSellerId): bool;
 }

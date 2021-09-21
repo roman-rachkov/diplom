@@ -22,13 +22,7 @@ class RemoveCartService implements RemoveCartServiceContract
 
     public function remove(Product $product): bool
     {
-        $price = OrderItem::whereHas('price',function (Builder $query) use($product){
-            return $query->where('product_id', $product->id);
-        })->where([
-            'order_id' => null,
-            'customer_id' => $this->customer->id,
-        ])->first()->price;
-        return $this->repository->remove($price);
+        return $this->repository->remove($product);
     }
 
     public function clear(): bool

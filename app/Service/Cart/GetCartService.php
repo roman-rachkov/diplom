@@ -40,36 +40,18 @@ class GetCartService implements GetCartServiceContract
 
     public function getProductsList(): Collection
     {
-        return cache()->tags(['cart', 'orderItems', 'products'])->remember(
-            'cart-' . $this->customer->id . '-products',
-            $this->settings->get('cartCacheLifeTime', 20 * 60),
-            function () {
-                return $this->getItemsList()->map(function ($item) {
-                    return $item->price->product;
-                });
-            }
-        );
+        return $this->getItemsList()->map(function ($item) {
+            return $item->price->product;
+        });
     }
 
     public function getProductsQuantity(): int
     {
-        return cache()->tags(['cart', 'orderItems', 'products'])->remember(
-            'cart-' . $this->customer->id . '-products-quantity',
-            $this->settings->get('cartCacheLifeTime', 20 * 60),
-            function () {
-                return $this->getItemsList()->sum('quantity');
-            }
-        );
+        return $this->getItemsList()->sum('quantity');
     }
 
     public function getTotalCost(): float
     {
-        return cache()->tags(['cart', 'orderItems'])->remember(
-            'cart-' . $this->customer->id . '-cost',
-            $this->settings->get('cartCacheLifeTime', 20 * 60),
-            function () {
-                return $this->getItemsList()->sum('sum');
-            }
-        );
+        return $this->getItemsList()->sum('sum');
     }
 }

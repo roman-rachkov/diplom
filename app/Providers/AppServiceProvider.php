@@ -57,10 +57,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(GetCartServiceContract::class, GetCartService::class);
         $this->app->singleton(RemoveCartServiceContract::class, RemoveCartService::class);
 
-        $this->app->singleton(Customer::class, function (){
+        $this->app->singleton(Customer::class, function () {
 
             if (session('customer_token')) {
-                $customer = Customer::firstWhere('hash', session('customer_token'));
+                $customer = Customer::firstOrCreate(['hash' => session('customer_token')]);
             } else {
                 $customer = Customer::create();
                 $customer->hash = hash('sha256', $customer);

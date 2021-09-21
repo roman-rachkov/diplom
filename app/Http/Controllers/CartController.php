@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Service\Cart\AddCartServiceContract;
+use App\Contracts\Service\Cart\RemoveCartServiceContract;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Seller;
@@ -16,7 +17,7 @@ class CartController extends Controller
         return view('cart.main');
     }
 
-    public function delete(Request $request, RemoveCartService $cart, Product $product)
+    public function delete(Request $request, RemoveCartServiceContract $cart, Product $product)
     {
         $status = $cart->remove($product);
         if ($request->ajax()) {
@@ -25,9 +26,12 @@ class CartController extends Controller
         return back();
     }
 
-    public function add(AddCartServiceContract $cart, Product $product, Seller $seller = null)
+    public function add(Request $request, AddCartServiceContract $cart, Product $product, Seller $seller = null)
     {
-        $cart->add($product, 1, $seller);
+        $status = $cart->add($product, 1, $seller);
+        if ($request->ajax()) {
+            return response()->json(['status' => $status]);
+        }
         return back();
     }
 
@@ -36,13 +40,23 @@ class CartController extends Controller
         $request->validate([
             'quantity' => 'required|integer'
         ]);
-        $cart->changeProductQuantity($product, $request->quantity);
+        $status = $cart->changeProductQuantity($product, $request->quantity);
+        if ($request->ajax()) {
+            return response()->json(['status' => $status]);
+        }
         return back();
     }
 
     public function setSeller(Request $request, AddCartServiceContract $cart, Product $product)
     {
-        dd($request->all());
+        $request->validate([
+            'seller' => 'required|integer'
+        ]);
+        $status = $cart->setSeller($product, $request->quantity);
+        if ($request->ajax()) {
+            return response()->json(['status' => $status]);
+        }
+        return back();
     }
 
     public function update(Request $request, AddCartServiceContract $cart, Product $product)
