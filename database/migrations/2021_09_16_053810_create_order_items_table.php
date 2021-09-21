@@ -18,7 +18,6 @@ class CreateOrderItemsTable extends Migration
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('price_id');
             $table->integer('quantity');
-            $table->decimal('sum', 6, 2);
             $table->unsignedBigInteger('customer_id');
             $table->timestamps();
             $table->softDeletes();

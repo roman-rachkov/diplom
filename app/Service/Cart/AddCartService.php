@@ -5,12 +5,8 @@ namespace App\Service\Cart;
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Models\Customer;
-use App\Models\OrderItem;
-use App\Models\Price;
 use App\Models\Product;
 use App\Models\Seller;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 
 class AddCartService implements AddCartServiceContract
 {
@@ -49,13 +45,13 @@ class AddCartService implements AddCartServiceContract
         return $this->repository->setSeller($product, $newSellerId);
     }
 
-    public function quantity(Product $product, int $value)
+    public function quantity(Product $product, int $newQty)
     {
-        return $this->changeProductQuantity($product, $value);
+        return $this->changeProductQuantity($product, $newQty);
     }
 
-    public function seller(Product $product, int $value)
+    public function seller(Product $product, int $newSellerId)
     {
-        return $this->changeProductQuantity($product, $value);
+        return $this->setSeller($product, $newSellerId);
     }
 }

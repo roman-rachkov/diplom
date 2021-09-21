@@ -18,13 +18,7 @@
                     <img class="CartBlock-img" src="{{asset('assets/img/icons/exchange.svg')}}" alt="exchange.svg"/>
                     <span class="CartBlock-amount">4</span>
                 </a>
-                <a class="CartBlock-block" href="{{route('cart.index')}}">
-                    <img class="CartBlock-img" src="{{asset('assets/img/icons/cart.svg')}}" alt="cart.svg"/>
-                    <span class="CartBlock-amount">{{app(\App\Contracts\Service\Cart\GetCartServiceContract::class)->getProductsQuantity()}}</span>
-                </a>
-                <div class="CartBlock-block">
-                    <span class="CartBlock-price">{{app(\App\Contracts\Service\Cart\GetCartServiceContract::class)->getTotalCost()}}$</span>
-                </div>
+                <x-cart.header-component/>
             </div>
         </div>
         <div class="row-block Header-trigger">

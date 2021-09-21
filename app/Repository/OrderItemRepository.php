@@ -25,26 +25,29 @@ class OrderItemRepository implements OrderItemRepositoryContract
 
     public function add(Product $product, int $quantity, Seller $seller = null): bool
     {
-        $params = ['product_id' => $product->id];
-        if ($seller) {
-            $params[] = ['seller_id' => $seller->id];
+        $item = OrderItem::where([
+            ['order_id', '=', null],
+            ['customer_id', '=', $this->customer->id]
+        ])->whereHas('price', fn($query) => $query->where('product_id', $product->id))->firstOrNew();
+
+        if ($item->id !== null) {
+            return $this->setQuantity($product, $quantity);
         }
+
+        $params[] = ['product_id', '=', $product->id];
+        if ($seller) {
+            $params[] = ['seller_id', '=', $seller->id];
+        }
+
         $price = Price::where($params)->inRandomOrder()->first();
 
-        $item = OrderItem::firstOrNew(
-            [
-                'price_id' => $price->id,
-                'customer_id' => $this->customer->id
-            ]
-        );
-        if ($item->id !== null) {
-            return $this->setQuantity($price, $quantity);
-        }
+        $item->price()->associate($price);
+        $item->customer()->associate($this->customer);
         $item->quantity = $quantity;
         return $item->save();
     }
 
-    public function setSeller(Product $product, int $sellerId)
+    public function setSeller(Product $product, int $sellerId): bool
     {
         $item = $this->getCartItem($product);
         $price = Price::firstWhere([
@@ -55,7 +58,7 @@ class OrderItemRepository implements OrderItemRepositoryContract
         return $item->save();
     }
 
-    public function setQuantity(Product $product, $quantity): bool
+    public function setQuantity(Product $product, int $quantity): bool
     {
         $item = $this->getCartItem($product);
 
@@ -76,12 +79,7 @@ class OrderItemRepository implements OrderItemRepositoryContract
         return $this->getCartItem($product)?->delete();
     }
 
-    public function getPrice(Product $product)
-    {
-        return $this->getCartItem($product)->price;
-    }
-
-    public function getCartItem(Product $product)
+    public function getCartItem(Product $product): OrderItem
     {
         return OrderItem::whereHas('price', function (Builder $query) use ($product) {
             return $query->where('product_id', $product->id);

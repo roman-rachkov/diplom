@@ -28,7 +28,6 @@ class OrderItemFactory extends Factory
             'order_id' => $this->faker->randomElement([Order::all()->random()->id, null]),
             'price_id' => Price::factory(),
             'quantity' => $this->faker->randomDigitNotZero(),
-            'sum' => $this->faker->randomFloat(2, 1, 1000),
             'customer_id' => Customer::factory(),
         ];
     }
