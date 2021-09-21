@@ -3,6 +3,7 @@
 namespace App\Service\Product;
 
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
+use App\Models\Product;
 use Illuminate\Support\Collection;
 
 class ProductDiscountService implements ProductDiscountServiceContract
@@ -48,6 +49,17 @@ class ProductDiscountService implements ProductDiscountServiceContract
         $priceWithDiscount = $priceWithoutDiscount - $discount->max();
 
         return $priceWithDiscount > 0 ? $priceWithDiscount : 1;
+    }
+
+    public function getCatalogDiscounts(Collection $products): Collection
+    {
+        $result = [];
+
+        foreach ($products as $product) {
+            $result[$product->id] = rand(500, 2500);
+        }
+
+        return new Collection($result);
     }
 
     protected function getProductDiscount($products): Collection

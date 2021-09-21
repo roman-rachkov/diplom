@@ -13,4 +13,6 @@ interface ProductDiscountServiceContract
 
     public function getPriceWithDiscount(Collection $products): int;
 
+    public function getCatalogDiscounts(Collection $products): Collection;
+
 }
