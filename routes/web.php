@@ -37,5 +37,6 @@ Route::get('/cart', function () {})->name('carts.edit');
 
 Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
 
 Route::view('/about', 'about.main')->name('about');

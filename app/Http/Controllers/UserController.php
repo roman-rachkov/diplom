@@ -16,8 +16,6 @@ class UserController extends Controller
 
     public function show($user)
     {
-//        $user = auth()->user();
-
         $user = $this->userRepository->find($user);
 
         return view('users.show', compact('user'));
@@ -27,7 +25,11 @@ class UserController extends Controller
     {
         $user = $this->userRepository->find($user);
 
-        dd($user);
         return view('users.edit', compact('user'));
+    }
+
+    public function update(Request $request, $user)
+    {
+
     }
 }
