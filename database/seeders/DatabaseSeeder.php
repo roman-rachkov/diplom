@@ -6,6 +6,7 @@ use App\Models\OrderItem;
 use App\Models\Payment;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Orchid\Attachment\Models\Attachment;
 use Orchid\Platform\Models\Role;
 
 class DatabaseSeeder extends Seeder
@@ -53,7 +54,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
         ]);
 
-        \App\Models\Product::factory(50)->create();
+        \App\Models\Product::factory(50)->create(['main_img_id' => Attachment::all()]);
         \App\Models\Customer::factory(50)->create();
         \App\Models\ComparedProduct::factory(20)->create();
         \App\Models\Review::factory(70)->create();
