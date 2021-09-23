@@ -35,7 +35,8 @@ class OrderItem extends Model
         return $this->price->product();
     }
 
-    public function getSumAttribute(){
+    public function getSumAttribute()
+    {
         return $this->quantity * $this->price->price;
     }
 
