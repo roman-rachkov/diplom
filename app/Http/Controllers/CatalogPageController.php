@@ -35,9 +35,22 @@ class CatalogPageController extends Controller
         ));
     }
 
-    public function getProductForCatalogByCategorySlug()
+    public function getProductForCatalogByCategorySlug(ProductRepositoryContract $repo,
+                                                       ProductDiscountServiceContract $discountRepo,
+                                                       PriceRepositoryContract $prices,
+                                                       SellerRepositoryContract $sellers,
+                                                       CatalogGetRequest $request)
     {
+        $sellers = $sellers->getAllSellers();
+        $products = $repo->getProductsForCatalog($request);
+        $discounts = $discountRepo->getCatalogDiscounts(collect($products->items()));
+        $minPrice = $prices->getMinPrice();
+        $maxPrice = $prices->getMaxPrice();
 
+        return view('catalog', compact(
+            'products', 'discounts', 'sellers',
+            'maxPrice', 'minPrice', 'request',
+        ));
     }
 
 

@@ -33,7 +33,7 @@ class CatalogGetRequest extends FormRequest
         return $this->get('page') ?? 1;
     }
 
-    public function getMinRice(): ?float
+    public function getMinPrice(): ?float
     {
         return $this->get('minPriceChoice') ?? null;
     }
@@ -52,4 +52,15 @@ class CatalogGetRequest extends FormRequest
     {
         return $this->get('seller') ?? null;
     }
+
+    public function getOrderBy(): ?string
+    {
+        return $this->get('order_by') ?? null;
+    }
+
+    public function getOrderDirection(): ?string
+    {
+        return $this->get('order_direction') ?? null;
+    }
+
 }

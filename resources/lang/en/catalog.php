@@ -21,5 +21,6 @@ return [
         'button' => 'Apply',
         'search' => 'Search',
         'price' => 'Price',
+        'clear' => 'Clear',
     ],
 ];

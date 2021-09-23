@@ -41,10 +41,10 @@ class ProductRepository implements ProductRepositoryContract
         $currentPage = $request->getCurrentPage();
         $key .= 'page_' . $request->getCurrentPage();
 
-        if($request->getMinRice() || $request->getMaxPrice()) {
-            $key .= '_price-range_' . $request->getMinRice() . '-' . $request->getMaxPrice();
+        if($request->getMinPrice() || $request->getMaxPrice()) {
+            $key .= '_price-range_' . $request->getMinPrice() . '-' . $request->getMaxPrice();
             $query->whereHas('prices', function ($q) use ($request) {
-                return $q->whereBetween('price', [$request->getMinRice(), $request->getMaxPrice()]);
+                return $q->whereBetween('price', [$request->getMinPrice(), $request->getMaxPrice()]);
             });
         }
 
@@ -59,6 +59,17 @@ class ProductRepository implements ProductRepositoryContract
         if($request->getSearch()) {
             $key .= '_search_' . $request->getSearch();
             $query->where('name', '=', $request->getSearch());
+        }
+
+        if ($request->getOrderBy()) {
+            $key .= '_order_by_' . $request->getOrderBy() . '_order_direction' . $request->getOrderDirection();
+            if ($request->getOrderBy() == 'price') {
+                $query->with('prices', function ($q) use ($request) {
+                    return $q->orderBy($request->getOrderBy(), $request->getOrderDirection());
+                });
+            } else {
+                $query->orderBy($request->getOrderBy(), $request->getOrderDirection());
+            }
         }
 
         return $query->paginate($itemOnPage, ['*'], 'page', $currentPage);

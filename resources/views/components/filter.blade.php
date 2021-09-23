@@ -9,7 +9,8 @@
                 <div class="range Section-columnRange">
                     <input class="range-line" id="price" type="text" data-type="double"
                            data-min="{{ $minPrice }}" data-max="{{ $maxPrice }}"
-                           data-from="{{ $minPrice }}" data-to="2700.75"/>
+                           data-from="{{ $request->getMinPrice() ?? $minPrice }}"
+                           data-to="{{ $request->getMaxPrice() ?? $maxPrice }}"/>
                     <div class="range-price">{{ __('catalog.filter.price') }}:&#32;
                         <div class="rangePrice"></div>
                     </div>
@@ -26,15 +27,24 @@
             </div>
             <div class="form-group">
                 <select name="seller" class="form-select">
-                    <option selected="selected" disabled="disabled">{{ __('catalog.filter.seller') }}</option>
+                    <option {{ $request->getSeller() ? '' : 'selected="selected"' }} disabled="disabled"
+                            >{{ __('catalog.filter.seller') }}</option>
                     @foreach($sellers as $seller)
-                        <option value="{{ $seller->id }}">{{ $seller->name }}</option>
+                        <option {{ $seller->id == $request->getSeller() ? 'selected="selected"' : '' }}
+                                value="{{ $seller->id }}">{{ $seller->name }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group">
                 <div class="buttons">
-                    <button type="submit" class="btn btn_square btn_dark btn_narrow">{{ __('catalog.filter.button') }}</button>
+                    <button type="submit"
+                            class="btn btn_square btn_dark btn_narrow">{{ __('catalog.filter.button') }}</button>
+
+                    @if($request->getSeller() || $request->getSearch() || $request->getMinPrice() || $request->getMaxPrice())
+                        <a href="{{ Request::url() }}" class="btn btn_square btn_dark btn_narrow">
+                            {{ __('catalog.filter.clear') }}
+                        </a>
+                    @endif
                 </div>
             </div>
         </form>

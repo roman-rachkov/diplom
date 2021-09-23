@@ -6,11 +6,11 @@
     <div class="Section Section_column Section_columnLeft">
         <div class="wrap">
             <div class="Section-column">
-                <x-filter :minPrice="$minPrice" :maxPrice="$maxPrice" :sellers="$sellers" :request="$request"/>
+                <x-filter :minPrice="$minPrice" :maxPrice="$maxPrice" :sellers="$sellers" :request="$request" />
             </div>
             <div class="Section-content">
-                <x-sort/>
-                <x-catalog :products="$products" :discounts="$discounts"/>
+                <x-sort :request="$request" />
+                <x-catalog :products="$products" :discounts="$discounts" />
             </div>
         </div>
     </div>
