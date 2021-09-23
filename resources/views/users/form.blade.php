@@ -1,3 +1,4 @@
+@dump($errors->messages())
 <form class="form Profile-form" action="{{route('users.update', $user)}}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="row">
@@ -23,12 +24,12 @@
             <div class="form-group">
                 <label class="form-label" for="phone">Телефон
                 </label>
-                <input class="form-input" id="phone" name="phone" type="text" value="{{$user->phone}}"/>
+                <input class="form-input" id="phone" name="phone" type="text" value="{{$user->phone ?? old('phone')}} " data-inputmask="'mask': '99-9999999'"/>
             </div>
             <div class="form-group">
                 <label class="form-label" for="mail">E-mail
                 </label>
-                <input class="form-input" id="mail" name="mail" type="text" value="{{$user->email}}" data-validate="require"/>
+                <input class="form-input" id="mail" name="email" type="text" value="{{$user->email}}" data-validate="require"/>
             </div>
             <div class="form-group">
                 <label class="form-label" for="password">Пароль
@@ -38,7 +39,7 @@
             <div class="form-group">
                 <label class="form-label" for="passwordReply">Подтверждение пароля
                 </label>
-                <input class="form-input" id="passwordReply" name="passwordReply" type="password" placeholder="Введите пароль повторно"/>
+                <input class="form-input" id="passwordReply" name="password_confirmation" type="password" placeholder="Введите пароль повторно"/>
             </div>
             <div class="form-group">
                 <div class="Profile-btn">

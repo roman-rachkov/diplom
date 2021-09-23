@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repository\UserRepositoryContract;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -28,8 +29,10 @@ class UserController extends Controller
         return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request, $user)
+    public function update(UpdateUserRequest $request, $user)
     {
+        $attributes = $request->validated();
+        dump($attributes);
 
     }
 }
