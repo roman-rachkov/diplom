@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repository\ProductRepositoryContract;
+use App\Contracts\Service\AddReviewServiceContract;
 use App\Contracts\Service\AddToCartServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
@@ -34,15 +35,30 @@ class ProductsController extends Controller
      * @param string $slug
      * @return Application|Factory|View
      */
-    public function show(ProductDiscountServiceContract $discountService, string $slug): Application|Factory|View
+    public function show(
+        ProductDiscountServiceContract $discountService,
+        AddReviewServiceContract $reviewService,
+        string $slug
+    ): Application|Factory|View
     {
         $product = $this->productRepository->find($slug);
         $discount = $discountService->getProductDiscounts($product);
         $avgPrice = round($product->prices->avg('value'), 2);
         $avgDiscountPrice = round($avgPrice * (1 - $discount),2);
         $discount = intval($discount * 100);
+        $reviewsCount = $reviewService->getReviewsCount($product);
+        $reviews = $reviewService->getReviews($product);
 
-        return view('products.show', compact('product', 'avgDiscountPrice', 'avgPrice', 'discount'));
+        return view(
+            'products.show',
+            compact(
+                'product',
+                'avgDiscountPrice',
+                'avgPrice',
+                'discount',
+            'reviewsCount',
+            'reviews')
+        );
     }
 
     public function addToCart

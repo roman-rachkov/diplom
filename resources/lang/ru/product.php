@@ -12,6 +12,7 @@ return [
         'review_placeholder' => 'Ваш комментарий...',
         'name_placeholder' => 'Ваше Имя',
         'email_placeholder' => 'Ваш Email',
-        'submit_comment' => 'Оставить отзыв'
+        'submit_comment' => 'Оставить отзыв',
+        'guest_link_to_register' => 'Чтобы оставить комментарий, пожалуйста зарегистрируйтесь!'
     ]
 ];

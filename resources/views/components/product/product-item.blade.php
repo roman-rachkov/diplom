@@ -1,4 +1,4 @@
-@props(['product', 'avgPrice', 'avgDiscountPrice', 'discount'])
+@props(['product', 'reviews', 'avgPrice', 'avgDiscountPrice', 'discount', 'reviewsCount'])
 
 <div class="Product">
     <div class="ProductCard">
@@ -58,7 +58,7 @@
                 <span>{{__('product.tabs_links.addit')}}</span>
             </a>
             <a class="Tabs-link" href="#reviews">
-                <span>{{__('product.tabs_links.reviews')}} (3)</span>
+                <span>{{__('product.tabs_links.reviews')}} ({{$reviewsCount}})</span>
             </a>
         </div>
         <div class="Tabs-wrap">
@@ -121,7 +121,7 @@
                     </div>
                 </div>
             </div>
-            <x-review.reviews :reviews="$product->reviews"/>
+            <x-review.reviews :reviews="$reviews" :product="$product"/>
         </div>
     </div>
 </div>

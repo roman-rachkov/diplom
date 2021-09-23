@@ -16,6 +16,11 @@ class ProductRepository implements ProductRepositoryContract
         $this->adminSettings = $adminSettings;
     }
 
+    public function storeReview(Product $product, array $attributes): bool
+    {
+        $product->reviews()->create($attributes);
+    }
+
     public function find($slug): Product
     {
         $ttl = $this->adminSettings->get('productsCacheTime', 60*60*24);

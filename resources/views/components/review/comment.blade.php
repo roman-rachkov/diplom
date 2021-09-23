@@ -10,6 +10,6 @@
                 </strong><span class="Comment-date">{{ $getCommentDate() }}</span>
             </div>
         </header>
-        <div class="Comment-content">{{$comment->text}}</div>
+        <div class="Comment-content">{{$comment->review}}</div>
     </div>
 </div>
