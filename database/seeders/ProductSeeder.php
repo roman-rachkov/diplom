@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use Illuminate\Database\Seeder;
+use Orchid\Attachment\Models\Attachment;
 
 class ProductSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        Product::factory(50)->create();
+        $attachment = Attachment::all();
+        for ($i=0; $i<50; $i++) {
+            Product::factory()->create(['main_img_id' => $attachment->random()->id]);
+        }
     }
 }

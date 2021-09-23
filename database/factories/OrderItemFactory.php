@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Price;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderItemFactory extends Factory
@@ -25,11 +26,11 @@ class OrderItemFactory extends Factory
     public function definition()
     {
         return [
-            'order_id' => $this->faker->randomElement([Order::all()->random()->id, null]),
-            'product_id' => Price::all()->random()->id,
+            'order_id' => $this->faker->randomElement([Order::factory(), null]),
+            'product_id' => Product::factory(),
             'quantity' => $this->faker->randomDigitNotZero(),
             'sum' => $this->faker->randomFloat(2, 1, 1000),
-            'customer_id' => Customer::all()->random()->id,
+            'customer_id' => Customer::factory(),
         ];
     }
 }

@@ -15,6 +15,9 @@ class BannersSeeder extends Seeder
      */
     public function run()
     {
-        Banner::factory()->count(5)->create();
+        $attachment = Attachment::all();
+        for ($i=0; $i<rand(5, 8); $i++) {
+            Banner::factory()->create(['image_id' => $attachment->random()->id]);
+        }
     }
 }

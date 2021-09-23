@@ -24,7 +24,7 @@ class PaymentFactory extends Factory
     public function definition()
     {
         return [
-            'order_id' => Order::all()->random()->id,
+            'order_id' => Order::factory(),
             'method' => $this->faker->word(),
             'status' => $this->faker->randomElement(['pending', 'waiting_for_capture', 'succeeded', 'canceled']),
             'payed_at' => $this->faker->randomElement([Carbon::now(), null]),

@@ -29,7 +29,7 @@ class SellerFactory extends Factory
             'email' => $this->faker->email,
             'phone' => $this->faker->phoneNumber,
             'address' => $this->faker->address,
-            'logo_id' => Attachment::all()->random()->id,
+            'logo_id' => Attachment::factory(),
         ];
     }
 }

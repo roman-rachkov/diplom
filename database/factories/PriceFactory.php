@@ -25,8 +25,8 @@ class PriceFactory extends Factory
     {
         return [
             'price' => $this->faker->randomFloat(2, 100, 10000),
-            'product_id' => Product::all()->random()->id,
-            'seller_id' => Seller::all()->random()->id,
+            'product_id' => Product::factory(),
+            'seller_id' => Seller::factory(),
         ];
     }
 }

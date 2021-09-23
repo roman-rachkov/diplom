@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,9 @@ class PaymentSeeder extends Seeder
      */
     public function run()
     {
-        Payment::factory(5)->create();
+        $order = Order::all();
+        for ($i=0; $i<10; $i++) {
+            Payment::factory()->create(['order_id' => $order->random()->id]);
+        }
     }
 }

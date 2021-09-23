@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,9 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        Review::factory(70)->create();
+        $product = Product::all();
+        for ($i=0; $i<70; $i++) {
+            Review::factory()->create(['product_id' => $product->random()->id]);
+        }
     }
 }
