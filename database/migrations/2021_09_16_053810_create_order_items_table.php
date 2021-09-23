@@ -16,11 +16,11 @@ class CreateOrderItemsTable extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id')->nullable();
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('price_id');
             $table->integer('quantity');
-            $table->decimal('sum', 6, 2);
             $table->unsignedBigInteger('customer_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('order_id')
                 ->references('id')
@@ -32,7 +32,7 @@ class CreateOrderItemsTable extends Migration
                 ->on('customers')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreign('product_id')
+            $table->foreign('price_id')
                 ->references('id')
                 ->on('prices')
                 ->cascadeOnUpdate()

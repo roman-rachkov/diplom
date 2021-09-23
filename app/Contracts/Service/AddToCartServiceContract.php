@@ -3,7 +3,6 @@
 namespace App\Contracts\Service;
 
 use App\Models\Product;
-use App\Models\Seller;
 use \Illuminate\Support\Collection;
 
 interface AddToCartServiceContract
@@ -13,7 +12,7 @@ interface AddToCartServiceContract
      * @param int $qty
      * @return bool
      */
-    public function add(Product $product, int $qty, Seller $seller = null): bool;
+    public function add(Product $product, int $qty): bool;
 
     /**
      * @param int $prodId

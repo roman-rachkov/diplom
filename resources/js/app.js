@@ -7,3 +7,6 @@ require('ion-rangeslider');
 require('slick-carousel');
 
 require('./scripts');
+
+window.axios = require('axios')
+require('./backend');

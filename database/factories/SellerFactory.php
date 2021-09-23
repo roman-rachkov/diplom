@@ -24,7 +24,7 @@ class SellerFactory extends Factory
     {
         return [
             'name' => $this->faker->company,
-            'description' => $this->faker->paragraph(),
+            'description' => $this->faker->text(255),
             'email' => $this->faker->email,
             'phone' => $this->faker->phoneNumber,
             'address' => $this->faker->address,

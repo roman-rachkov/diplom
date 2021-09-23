@@ -14,7 +14,7 @@ class Banner extends Model
 {
     use HasFactory, AsSource, Attachable, Filterable, FlushTagCache;
 
-    public $tagsArr = ['banners'];
+    public static $tagsArr = ['banners'];
 
     protected $fillable = [
         'title',
