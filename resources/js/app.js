@@ -7,3 +7,4 @@ require('ion-rangeslider');
 require('slick-carousel');
 
 require('./scripts');
+require('./ajax');

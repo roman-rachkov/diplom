@@ -28,7 +28,7 @@
             <div class="ProductCard-text">
                 {{$product->description}}
             </div>
-            <form class="ProductCard-cart" method="post" action="{{route('product.addToCart', ['slug' => $product->slug])}}">
+            <form class="ProductCard-cart" method="post" action="{{route('product.show', ['slug' => $product->slug])}}">
                 @csrf
                 <div class="ProductCard-cartElement ProductCard-cartElement_amount">
                     <div class="Amount Amount_product">

@@ -6,8 +6,8 @@
         @foreach($reviews as $comment)
             <x-review.comment :comment="$comment"/>
         @endforeach
-        <button type="button" class="btn btn-outline-secondary">Показать ещё</button>
     </div>
+    <a type="button" class="Tabs-link Add-reviews" href="#" data-myval="1" data-route="{{route('product.addToCart', ['slug' => $product->slug])}}">Показать ещё</a>
     @auth
         <header class="Section-header Section-header_product">
             <h3 class="Section-title">{{__('product.tabs_addComment.submit_comment')}}</h3>
@@ -23,9 +23,11 @@
         @endif
     @endauth
     @guest
-        <a class="Tabs-link_ACTIVE Tabs-link" href="{{route('register')}}">
-            <span>{{__('product.tabs_addComment.guest_link_to_register')}}</span>
-        </a>
+        <div class="row row_space">
+            <a class="menu-link" href="{{route('register')}}">
+                <span>{{__('product.tabs_addComment.guest_link_to_register')}}</span>
+            </a>
+        </div>
     @endguest
 
     @auth

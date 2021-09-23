@@ -95,4 +95,9 @@ class ProductsController extends Controller
         }
         return back();
     }
+
+    public function addReviewsToView(AddReviewServiceContract $reviewService)
+    {
+
+    }
 }
