@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Orchid\Attachment\Attachable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Orchid\Attachment\Models\Attachment;
 
 class Product extends Model
@@ -33,7 +34,12 @@ class Product extends Model
         return $this->hasMany(Price::class);
     }
 
-    public function image()
+    public function sellers(): BelongsToMany
+    {
+        return $this->belongsToMany(Seller::class, Price::class);
+    }
+
+    public function image(): HasOne
     {
         return $this->hasOne(Attachment::class, 'id', 'main_img_id');
     }

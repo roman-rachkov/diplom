@@ -12,7 +12,7 @@ class Category extends Model
 {
     use HasFactory, NodeTrait, FlushTagCache;
 
-    public $tagsArr = ['categories'];
+    public static $tagsArr = ['categories'];
 
     public $guarded = [];
 
