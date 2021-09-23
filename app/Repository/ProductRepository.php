@@ -9,16 +9,16 @@ use Illuminate\Support\Facades\Cache;
 
 class ProductRepository implements ProductRepositoryContract
 {
-    private AdminSettingsServiceContract $adminSettings;
+    private AdminSettingsServiceContract $adminsSettings;
 
-    public function __construct(AdminSettingsServiceContract $adminSettings)
+    public function __construct(AdminSettingsServiceContract $adminsSettings)
     {
-        $this->adminSettings = $adminSettings;
+        $this->adminsSettings = $adminsSettings;
     }
 
     public function find($slug): Product
     {
-        $ttl = $this->adminSettings->get('productsCacheTime', 60*60*24);
+        $ttl = $this->adminsSettings->get('productsCacheTime', 60*60*24);
 
         return Cache::tags(['products', 'categories', 'reviews', 'prices', 'manufacturers', 'sellers'])->remember($slug,$ttl,function () use ($slug) {
 
@@ -49,11 +49,11 @@ class ProductRepository implements ProductRepositoryContract
     {
         return Cache::tags(['products', 'topCatalog'])->remember(
             'mainTopCatalog',
-            $this->adminSettings->get('productsInCatalogCacheTime', 60 * 60 * 24),
+            $this->adminsSettings->get('productsInCatalogCacheTime', 60 * 60 * 24),
             function () {
                 return Product::orderBy('sort_index', 'asc')
                     ->orderBy('sales_count', 'asc')
-                    ->take($this->adminSettings->get('topProductsCount', 8))
+                    ->take($this->adminsSettings->get('topProductsCount', 8))
                     ->get();
             });
     }
