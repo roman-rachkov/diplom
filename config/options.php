@@ -10,7 +10,7 @@ return [
             [
                 'name' => 'Адрес',
                 'variable' => 'contactAddress',
-                'value' => 'Москва, ул. FЛенина',
+                'value' => 'Москва, ул. Ленина',
             ],
             [
                 'name' => 'Email',
