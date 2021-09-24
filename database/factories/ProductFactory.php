@@ -2,8 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\Manufacturer;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Orchid\Attachment\Models\Attachment;
 
 class ProductFactory extends Factory
@@ -22,16 +25,17 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->unique()->word();
         return [
-            'name' => $this->faker->unique()->word(),
-            'description' => $this->faker->sentence(),
-            'slug' => $this->faker->slug(),
-            'category_id' => $this->faker->numberBetween(1, 20),
+            'name' => $name,
+            'description' => $this->faker->paragraph(),
+            'slug' => Str::slug($name),
+            'category_id' => Category::factory(),
             'sort_index' => $this->faker->numberBetween(1,100),
             'limited' => $this->faker->boolean(90),
             'sales_count' => $this->faker->numberBetween(1, 200),
-            'manufacturer_id' => $this->faker->numberBetween(1, 25),
-            'main_img_id' => Attachment::all()->random()
+            'manufacturer_id' => Manufacturer::factory(),
+            'main_img_id' => Attachment::factory()
         ];
     }
 }

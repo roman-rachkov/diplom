@@ -14,7 +14,7 @@
                                 </p>
                                 <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justotuio, rhoncus ut loret, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus element semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae  ligula eget dolor. Aenean massa. Cumtipsu sociis natoque pena tibusetm t semper ni.
                                 </p>
-                                <div><a class="btn btn_primary" href="{{route('products.index')}}">{{__('about.main.about.button')}}</a></div>
+                                <div><a class="btn btn_primary" href="{{route('catalog.index')}}">{{__('about.main.about.button')}}</a></div>
                             </div>
                             <div class="row-block">
                                 <div class="pict"><img src="{{asset('assets/img/content/home/slider.png')}}" alt="slider.png"/>
@@ -46,7 +46,7 @@
                                     <li>quam felis, ultricies nec, pellentesque eutu
                                     </li>
                                 </ul>
-                                <div><a class="btn btn_primary" href="{{route('products.index')}}">{{__('about.main.history.button')}}</a></div>
+                                <div><a class="btn btn_primary" href="{{route('catalog.index')}}">{{__('about.main.history.button')}}</a></div>
                             </div>
                         </div>
                     </div>

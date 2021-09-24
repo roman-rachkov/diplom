@@ -28,4 +28,7 @@
             </a>
         </div>
     </div>
+    @if (session()->has('alert'))
+        <x-alert :message="session('alert')->message" :type="session('alert')->type" />
+    @endif
 </div>
