@@ -22,6 +22,7 @@ use App\Service\AddReviewService;
 use App\Service\ImportSellerService;
 use App\Service\Product\ProductDiscountService;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -59,12 +60,18 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(Customer::class, function () {
             $customer = Customer::firstOrNew(['hash' => session('customer_token')]);;
-            if($customer->hash === null){
+            if ($customer->hash === null) {
                 $customer->hash = hash('sha256', $customer);
                 session(['customer_token' => $customer->hash]);
             }
             $customer->save();
             return $customer;
+        });
+
+        Blade::directive('settings', function ($expression) {
+            eval("\$params = [$expression];");
+            list($key, $default) = $params;
+            return "<?php echo app(\App\Contracts\Service\AdminSettingsServiceContract::class)->get('$key', $default); ?>";
         });
     }
 }

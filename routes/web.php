@@ -22,7 +22,8 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.create');
+Route::get('/checkout', [OrderController::class, 'index'])->name('order.index');
+Route::post('/checkout', [OrderController::class, 'add'])->name('order.add');
 
 Route::get('/discounts', function () {
 })->name('discounts.index');
@@ -47,12 +48,6 @@ Route::get('sellers/{id}', [\App\Http\Controllers\SellerController::class, 'show
 Route::view('/about', 'about.main')->name('about');
 
 Route::prefix('cart')->group(function () {
-
-    Route::get('/test', function (\App\Contracts\Service\Cart\AddCartServiceContract $addCart, \App\Contracts\Service\Cart\GetCartServiceContract $getCart) {
-//        dd(\App\Models\Product::has('prices')->get());
-        $addCart->add(\App\Models\Product::has('prices')->inRandomOrder()->first(), random_int(1, 10));
-        dd($getCart->getProductsList());
-    });
 
     Route::prefix('add')->group(function () {
         Route::get('/{product}/{seller}', [CartController::class, 'add'])->name('cart.addWithSeller');
