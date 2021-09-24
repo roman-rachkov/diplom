@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\ProductsController;
@@ -25,8 +26,6 @@ Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
 Route::get('/orders', function () {})->name('orders.create');
 
-Route::get('/cart', function () {})->name('carts.edit');
-
 Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/products/{slug}', [ProductsController::class, 'show'])
@@ -44,10 +43,11 @@ Route::post('/products/add_reviews/{product}', [ProductsController::class, 'addR
 Route::middleware('auth')->put('/reviews/{product}', [ReviewsController::class, 'store'])
     ->name('review.store');
 
-Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.index');
+Route::get('/catalog', [CatalogPageController::class, 'index'])
+    ->name('catalog.index');
 
-Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])
-    ->name('catalog.category');
+Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
+
 
 Route::get('/feedbacks', [FeedbackController::class, 'index'])
     ->name('feedbacks.index');
@@ -56,13 +56,24 @@ Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
 
 Route::get('/products/comparison', function () {})->name('comparison');
 
-Route::get('/cart', function () {})
-    ->name('carts.edit');
-
-Route::get('/account', function () {})->middleware('access:account')
+Route::get('/account', function () {})
+    ->middleware('access:account')
     ->name('account.show');
 
 Route::get('sellers/{id}', [SellerController::class, 'show']);
 
-Route::view('/about', 'about.main')
-    ->name('about');
+Route::view('/about', 'about.main')->name('about');
+
+Route::prefix('cart')->group(function (){
+
+    Route::prefix('add')->group(function (){
+        Route::get('/{product}/{seller}', [CartController::class, 'add'])->name('cart.addWithSeller');
+        Route::get('/{product}', [CartController::class, 'add'])->name('cart.add');
+    });
+
+    Route::put('/{product}', [CartController::class, 'update'])->name('cart.update');
+
+    Route::delete('/{product}', [CartController::class, 'delete'])->name('cart.delete');
+    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+
+});

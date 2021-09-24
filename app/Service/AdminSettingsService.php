@@ -7,7 +7,7 @@ use App\Contracts\Service\AdminSettingsServiceContract;
 
 class AdminSettingsService implements AdminSettingsServiceContract
 {
-    private $adminSettingsRepository;
+    private AdminSettingsRepositoryContract $adminSettingsRepository;
 
     public function __construct(AdminSettingsRepositoryContract $adminSettingsRepository)
     {
@@ -16,8 +16,8 @@ class AdminSettingsService implements AdminSettingsServiceContract
 
     public function get(string $settingName, $default = null)
     {
-        if ($default) return $default;
+        $value = $this->adminSettingsRepository->get($settingName);
 
-        return $this->adminSettingsRepository->get($settingName);
+        return $value ?? $default;
     }
 }

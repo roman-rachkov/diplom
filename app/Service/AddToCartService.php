@@ -4,11 +4,10 @@ namespace App\Service;
 
 use App\Contracts\Service\AddToCartServiceContract;
 use App\Models\Product;
-use App\Models\Seller;
 
 class AddToCartService implements AddToCartServiceContract
 {
-    public function add(Product $product, int $qty, Seller $seller = null): bool
+    public function add(Product $product, int $qty): bool
     {
         return (bool)rand(0, 1);
     }

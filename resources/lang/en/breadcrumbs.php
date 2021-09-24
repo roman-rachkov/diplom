@@ -7,7 +7,7 @@ return [
     'password_request' => 'Password recovery',
     'password_reset' => 'Password reset',
     'orders' => 'Orders',
-    'carts' => 'cart',
+    'cart' => 'Cart',
     'discounts' => 'Discounts',
     'products' => 'Products',
     'feedbacks' => 'Feedbacks',
