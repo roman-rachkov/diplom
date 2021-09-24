@@ -7,7 +7,7 @@
             <x-review.comment :comment="$comment"/>
         @endforeach
     </div>
-    <a type="button" class="Tabs-link Add-reviews" href="#" data-myval="1" data-route="{{route('product.addToCart', ['slug' => $product->slug])}}">Показать ещё</a>
+    <a type="button" class="Tabs-link Add-reviews" href="#" data-next-page-url="{{$reviews->nextPageUrl()}}">Показать ещё</a>
     @auth
         <header class="Section-header Section-header_product">
             <h3 class="Section-title">{{__('product.tabs_addComment.submit_comment')}}</h3>

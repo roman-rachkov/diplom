@@ -8,7 +8,9 @@ use App\Models\Product;
 use App\Models\User;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+
 
 class AddReviewService implements AddReviewServiceContract
 {
@@ -38,7 +40,12 @@ class AddReviewService implements AddReviewServiceContract
         return true;
     }
 
-    public function getReviews(Product $product, $count = 3) : Collection
+    public function getPaginatedReviews(Product $product, int $perPage = 3,int $currentPage = 1): LengthAwarePaginator
+    {
+        return $this->repository->getPaginatedReviews($product->id, $perPage, $currentPage);
+    }
+
+    public function getReviews(Product $product, $count = 3): Collection
     {
         return $this->repository->getReviews($product->id, $count);
     }

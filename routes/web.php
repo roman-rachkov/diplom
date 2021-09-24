@@ -29,7 +29,8 @@ Route::get('/cart', function () {})->name('carts.edit');
 
 Route::get('/discounts', function () {})->name('discounts.index');
 
-Route::get('/products/{slug}', [ProductsController::class, 'show'])->name('product.show');
+Route::get('/products/{slug}', [ProductsController::class, 'show'])
+    ->name('product.show');
 
 Route::post('/products/{slug}/add_to_cart', [ProductsController::class, 'addToCart'])
     ->name('product.addToCart');
@@ -37,21 +38,31 @@ Route::post('/products/{slug}/add_to_cart', [ProductsController::class, 'addToCa
 Route::post('/products/{slug}/add_to_comparison', [ProductsController::class, 'addToComparison'])
     ->name('product.addToComparison');
 
-Route::middleware('auth')->put('/reviews/{product}', [ReviewsController::class, 'store'])->name('review.store');
+Route::post('/products/add_reviews/{product}', [ProductsController::class, 'addReviewsToView'])
+    ->name('product.addReviewsToView');
+
+Route::middleware('auth')->put('/reviews/{product}', [ReviewsController::class, 'store'])
+    ->name('review.store');
 
 Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.index');
 
-Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
+Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])
+    ->name('catalog.category');
 
-Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
-Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('feedbacks.send_message');
+Route::get('/feedbacks', [FeedbackController::class, 'index'])
+    ->name('feedbacks.index');
+Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
+    ->name('feedbacks.send_message');
 
 Route::get('/products/comparison', function () {})->name('comparison');
 
-Route::get('/cart', function () {})->name('carts.edit');
+Route::get('/cart', function () {})
+    ->name('carts.edit');
 
-Route::get('/account', function () {})->middleware('access:account')->name('account.show');
+Route::get('/account', function () {})->middleware('access:account')
+    ->name('account.show');
 
 Route::get('sellers/{id}', [SellerController::class, 'show']);
 
-Route::view('/about', 'about.main')->name('about');
+Route::view('/about', 'about.main')
+    ->name('about');

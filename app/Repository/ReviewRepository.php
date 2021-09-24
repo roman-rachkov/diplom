@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Contracts\Repository\ReviewRepositoryContract;
 use App\Models\Review;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class ReviewRepository implements ReviewRepositoryContract
@@ -16,5 +17,10 @@ class ReviewRepository implements ReviewRepositoryContract
     public  function getReviews(string $productId, int $count): Collection
     {
         return Review::where('product_id', $productId)->limit($count)->get();
+    }
+
+    public function getPaginatedReviews(string $productId, int $perPage, int $currentPage): LengthAwarePaginator
+    {
+        return Review::where('product_id',$productId)->paginate(perPage: $perPage, page: $currentPage);
     }
 }

@@ -7,8 +7,8 @@
       init: function () {
         $addReviewsButton.on('click', function(e){
           e.preventDefault();
-          var route = $(this).data('route');
-          axios.post(route, {'add_reviews': true}).then(res => {console.log(res)});
+          var route = $(this).data('nextPageUrl');
+          axios.post(route).then(res => {console.log(res)});
         })
       }
     }
