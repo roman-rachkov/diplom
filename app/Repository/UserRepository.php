@@ -22,4 +22,11 @@ class UserRepository implements UserRepositoryContract
     {
         return User::find($id);
     }
+
+    public function update(int $user, array $attribute): User
+    {
+        $user = $this->find($user);
+        $user->update($attribute);
+        return  $user;
+    }
 }

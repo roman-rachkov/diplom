@@ -24,10 +24,11 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone' => 'numeric|size:10|nullable|unique:users,phone,' . auth()->id() . ',id',
+            'phone' => 'digits:10|nullable|unique:users,phone,' . auth()->id() . ',id',
             'name' => 'required|min:4',
             'email' => 'required|unique:users,email,' . auth()->id() . ',id|email:filter',
             'password' => 'nullable|confirmed|min:6',
+            'avatar' => 'file|image|nullable|max:2048'
         ];
     }
 }

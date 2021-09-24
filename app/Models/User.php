@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Orchid\Attachment\Models\Attachment;
+use Orchid\Platform\Dashboard;
 use Orchid\Platform\Models\User as Authenticatable;
 use Orchid\Attachment\Attachable;
 use App\Traits\FlushTagCache;
@@ -75,10 +76,5 @@ class User extends Authenticatable
     public function comparedProduct(): HasMany
     {
         return $this->hasMany(ComparedProduct::class);
-    }
-
-    public function avatar()
-    {
-        return $this->hasOne(Attachment::class, 'id', 'avatar');
     }
 }
