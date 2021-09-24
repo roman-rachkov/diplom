@@ -19,8 +19,13 @@ class ReviewRepository implements ReviewRepositoryContract
         return Review::where('product_id', $productId)->limit($count)->get();
     }
 
-    public function getPaginatedReviews(string $productId, int $perPage, int $currentPage): LengthAwarePaginator
+    public function getPaginatedReviews(
+        string  $productId,
+        int     $perPage,
+        int     $currentPage
+    ): LengthAwarePaginator
     {
-        return Review::where('product_id',$productId)->paginate(perPage: $perPage, page: $currentPage);
+        return Review::where('product_id',$productId)->with('user:id,name')
+            ->paginate(perPage: $perPage, page: $currentPage);
     }
 }

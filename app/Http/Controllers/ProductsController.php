@@ -54,7 +54,7 @@ class ProductsController extends Controller
         $avgDiscountPrice = round($avgPrice * (1 - $discount),2);
         $discount = intval($discount * 100);
         $reviewsCount = $this->reviewService->getReviewsCount($product);
-        $reviews = $this->reviewService->getPaginatedReviews($product);//$reviewService->getReviews($product);
+        $reviews = $this->reviewService->getPaginatedReviews($product);
 
         return view(
             'products.show',
@@ -103,8 +103,10 @@ class ProductsController extends Controller
         return back();
     }
 
-    public function addReviewsToView(Product $product, int $currentPage, int $perPage = 3): LengthAwarePaginator
+    public function addReviewsToView(Product $product): LengthAwarePaginator
     {
+        $perPage = request('per_page')?: 3;
+        $currentPage = request('current_page')?: 1;
         return $this->reviewService->getPaginatedReviews($product, $perPage, $currentPage);
     }
 }
