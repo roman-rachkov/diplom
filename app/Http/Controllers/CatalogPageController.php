@@ -16,12 +16,12 @@ use Illuminate\Http\Request;
 class CatalogPageController extends Controller
 {
     public function index(
-            ProductRepositoryContract $repo,
-            ProductDiscountServiceContract $discountRepo,
-            PriceRepositoryContract $prices,
-            SellerRepositoryContract $sellers,
-            CatalogGetRequest $request
-        )
+        ProductRepositoryContract      $repo,
+        ProductDiscountServiceContract $discountRepo,
+        PriceRepositoryContract        $prices,
+        SellerRepositoryContract       $sellers,
+        CatalogGetRequest              $request
+    )
     {
         $sellers = $sellers->getAllSellers();
         $products = $repo->getProductsForCatalog($request);
@@ -35,17 +35,21 @@ class CatalogPageController extends Controller
         ));
     }
 
-    public function getProductForCatalogByCategorySlug(ProductRepositoryContract $repo,
-                                                       ProductDiscountServiceContract $discountRepo,
-                                                       PriceRepositoryContract $prices,
-                                                       SellerRepositoryContract $sellers,
-                                                       CatalogGetRequest $request)
+    public function getProductForCatalogByCategorySlug(
+        Category $category,
+        ProductRepositoryContract      $repo,
+        ProductDiscountServiceContract $discountRepo,
+        PriceRepositoryContract        $prices,
+        SellerRepositoryContract       $sellers,
+        CatalogGetRequest              $request
+    )
     {
-        $sellers = $sellers->getAllSellers();
-        $products = $repo->getProductsForCatalog($request);
+        $catIds = $repo->getProductsByCategory($category);
+        $sellers = $repo->getSellersForProducts($category->id);
+        $products = $repo->getProductsForCatalogByCategory($request, $category->slug);
         $discounts = $discountRepo->getCatalogDiscounts(collect($products->items()));
-        $minPrice = $prices->getMinPrice();
-        $maxPrice = $prices->getMaxPrice();
+        $minPrice = $prices->getMinPriceForCategory($catIds);
+        $maxPrice = $prices->getMaxPriceForCategory($catIds);
 
         return view('catalog', compact(
             'products', 'discounts', 'sellers',

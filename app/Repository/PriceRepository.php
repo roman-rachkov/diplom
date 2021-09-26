@@ -29,4 +29,14 @@ class PriceRepository implements PriceRepositoryContract
     {
         return $this->getAllPrices()->min('price');
     }
+
+    public function getMaxPriceForCategory(Collection $arr): float
+    {
+        return $this->model->whereIn('product_id', $arr)->max('price');
+    }
+
+    public function getMinPriceForCategory(Collection $arr): float
+    {
+        return $this->model->whereIn('product_id', $arr)->min('price');
+    }
 }

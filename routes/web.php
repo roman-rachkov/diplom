@@ -28,7 +28,7 @@ Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.index');
 
-Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
+Route::get('/catalog/{category}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
 
 Route::get('/catalog/add_to_cart/{slug}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
