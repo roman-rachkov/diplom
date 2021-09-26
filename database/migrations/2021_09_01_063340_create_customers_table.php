@@ -15,6 +15,7 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
+            $table->string('cookie_hash');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ class CreateCustomersTable extends Migration
      */
     public function down()
     {
-            Schema::dropIfExists('customers');
+        Schema::dropIfExists('customers');
     }
 }

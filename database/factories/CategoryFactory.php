@@ -6,7 +6,6 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchid\Attachment\Models\Attachment;
 
-
 class CategoryFactory extends Factory
 {
     /**
@@ -56,8 +55,9 @@ class CategoryFactory extends Factory
                 $categories->isNotEmpty()
             ) {
                 $parent = $categories->random();
-                if ($parent->id !== $category->id && !$parent->isDescendantOf($category)) {
-                    $category->parent()->associate($parent)->save();
+                $category->refresh();
+                if (!$parent->isSelfOrDescendantOf($category)) {
+                    $parent->appendNode($category);
                 }
             }
         });

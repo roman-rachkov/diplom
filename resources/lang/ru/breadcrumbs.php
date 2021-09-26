@@ -7,7 +7,7 @@ return [
     'password_request' => 'Восстановление пароля',
     'password_reset' => 'Обновление пароля',
     'orders' => 'Заказы',
-    'carts' => 'Корзина',
+    'cart' => 'Корзина',
     'discounts' => 'Скидки',
     'products' => 'Продукты',
     'feedbacks' => 'Обратная связь',

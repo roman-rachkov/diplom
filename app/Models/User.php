@@ -92,4 +92,9 @@ class User extends Authenticatable
         $attachment = $file->load();
         $this->attachment()->sync($attachment);
     }
+
+    public function reviews(): hasMany
+    {
+        return  $this->hasMany(Review::class);
+    }
 }

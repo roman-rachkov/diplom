@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Cache;
 
 trait FlushTagCache
 {
-    public static function bootFlushCache()
+    public static function bootFlushTagCache()
     {
-        static::creating(fn() => Cache::tags($this->tagsArr)->flush());
-        static::updating(fn() => Cache::tags($this->tagsArr)->flush());
-        static::deleting(fn() => Cache::tags($this->tagsArr)->flush());
+        static::creating(fn() => Cache::tags(self::$tagsArr)->flush());
+        static::updating(fn() => Cache::tags(self::$tagsArr)->flush());
+        static::deleting(fn() => Cache::tags(self::$tagsArr)->flush());
     }
 }

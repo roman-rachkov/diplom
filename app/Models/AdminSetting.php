@@ -15,5 +15,5 @@ class AdminSetting extends Model
     use FlushTagCache;
 
     protected $guarded = [];
-    public $tagsArr = ['admin_settings'];
+    public static $tagsArr = ['admin_settings'];
 }
