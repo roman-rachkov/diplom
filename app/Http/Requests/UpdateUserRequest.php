@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -30,5 +31,18 @@ class UpdateUserRequest extends FormRequest
             'password' => 'nullable|confirmed|min:6',
             'avatar' => 'file|image|nullable|max:2048'
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $phone = $this->input('phone');
+        $phone = str_replace(['+','(',')','-','_'], '', $phone);
+        $phone = substr($phone, 1);
+
+        if (!$this->input('avatar'))
+        $this->merge([
+            'avatar' => null,
+            'phone' => $phone,
+        ]);
     }
 }

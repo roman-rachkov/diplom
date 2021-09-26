@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Http\UploadedFile;
+use Orchid\Attachment\File;
 use Orchid\Attachment\Models\Attachment;
-use Orchid\Platform\Dashboard;
 use Orchid\Platform\Models\User as Authenticatable;
 use Orchid\Attachment\Attachable;
 use App\Traits\FlushTagCache;
@@ -76,5 +78,18 @@ class User extends Authenticatable
     public function comparedProduct(): HasMany
     {
         return $this->hasMany(ComparedProduct::class);
+    }
+
+    public function avatar(): HasOne
+    {
+        return $this->hasOne(Attachment::class)->withDefault();
+    }
+
+    public function addAvatar(UploadedFile $file): void
+    {
+        $this->avatar()->delete();
+        $file = new File($file);
+        $attachment = $file->load();
+        $this->attachment()->sync($attachment);
     }
 }

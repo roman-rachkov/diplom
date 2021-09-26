@@ -6,7 +6,7 @@
     </div>
     <div class="CategoriesButton-content">
         @foreach($categories as $category)
-{{--            <x-category.category-item :category="$category" />--}}
+            <x-category.category-item :category="$category" />
         @endforeach
     </div>
 </div>
