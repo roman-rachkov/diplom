@@ -2,6 +2,7 @@
 
 namespace App\Service\Product;
 
+use App\Contracts\Repository\CompareProductsRepositoryContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Models\ComparedProduct;
 use App\Models\Product;
@@ -9,6 +10,12 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CompareProductsService implements CompareProductsServiceContract
 {
+    private CompareProductsRepositoryContract $repository;
+
+    public function __construct(CompareProductsRepositoryContract $repository)
+    {
+        $this->repository = $repository;
+    }
 
     public function add(Product $product): bool
     {
