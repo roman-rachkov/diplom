@@ -46,6 +46,10 @@ Route::get('sellers/{id}', [\App\Http\Controllers\SellerController::class, 'show
 Route::view('/about', 'about.main')->name('about');
 
 Route::prefix('/checkout')->group(function () {
+    Route::prefix('/user')->group(function () {
+        Route::post('/login', [OrderController::class, 'login'])->name('order.login');
+        Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
+    });
     Route::get('/', [OrderController::class, 'index'])->name('order.index');
     Route::post('/', [OrderController::class, 'add'])->name('order.add');
 });

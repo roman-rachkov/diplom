@@ -8,6 +8,6 @@
 
 @guest
     <x-modal-component id="loginModal">
-        <x-login-component/>
+        <x-login-component :link="route('order.login')"/>
     </x-modal-component>
 @endguest

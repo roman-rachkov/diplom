@@ -60,7 +60,14 @@ $(document).ready($ => {
         console.log(event);
     });
 
-    $(window).keydown(function (event) {
+    form.find("input[name=mail]").change(function (event){
+        axios.get('/checkout/user/'+$(this).val())
+            .then(json => {
+               console.log(json);
+            });
+    });
+
+    form.keydown(function (event) {
         if (event.keyCode === 13) {
             event.preventDefault();
             form.find('.btn.btn_success:visible').click();

@@ -1,6 +1,7 @@
+@props(['link' => route('login')])
 <div class="Section">
     <div class="wrap">
-        <form class="form Authorization" action="{{ route('login') }}" method="post">
+        <form class="form Authorization" action="{{ $link }}" method="post">
             @include('layout.errors')
             @csrf
             <div class="row">
