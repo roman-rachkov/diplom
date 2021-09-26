@@ -18,15 +18,6 @@ class OrderItemSeeder extends Seeder
      */
     public function run()
     {
-        $order = Order::all();
-        $product = Product::all();
-        $customer = Customer::all();
-        for ($i=0; $i<50; $i++) {
-            OrderItem::factory()->create([
-                'order_id' => $order->random()->id,
-                'product_id' => $product->random()->id,
-                'customer_id' => $customer->random()->id,
-            ]);
-        }
+
     }
 }

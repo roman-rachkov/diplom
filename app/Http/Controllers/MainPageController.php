@@ -12,9 +12,9 @@ use Illuminate\Http\Request;
 
 class MainPageController extends Controller
 {
-    public function index(ProductRepositoryContract $products): Factory|View|Application
+    public function index(ProductRepositoryContract $products, CatalogGetRequest $request): Factory|View|Application
     {
         $topProducts = $products->getTopProducts();
-        return view('main')->with(compact('topProducts'));
+        return view('main')->with(compact('topProducts', 'request'));
     }
 }

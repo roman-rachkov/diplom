@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Product;
 use Orchid\Attachment\Models\Attachment;
+use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
@@ -16,8 +18,12 @@ class ProductSeeder extends Seeder
     {
 
         $attachment = Attachment::all();
-        for ($i=0; $i<50; $i++) {
-            Product::factory()->create(['main_img_id' => $attachment->random()->id]);
+        $categories = Category::all();
+        foreach ($categories as $cat) {
+            Product::factory(rand(3, 10))->create([
+                'main_img_id' => $attachment->random()->id,
+                'category_id' => $cat->id
+                ]);
         }
 
     }
