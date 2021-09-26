@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Banner;
 use App\Models\Seller;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchid\Attachment\Models\Attachment;
@@ -25,7 +24,7 @@ class SellerFactory extends Factory
     {
         return [
             'name' => $this->faker->company,
-            'description' => $this->faker->paragraph(),
+            'description' => $this->faker->text(255),
             'email' => $this->faker->email,
             'phone' => $this->faker->phoneNumber,
             'address' => $this->faker->address,

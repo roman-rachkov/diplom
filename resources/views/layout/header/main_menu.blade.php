@@ -18,13 +18,7 @@
                     <img class="CartBlock-img" src="{{asset('assets/img/icons/exchange.svg')}}" alt="exchange.svg"/>
                     <span class="CartBlock-amount">4</span>
                 </a>
-                <a class="CartBlock-block" href="{{route('carts.edit')}}">
-                    <img class="CartBlock-img" src="{{asset('assets/img/icons/cart.svg')}}" alt="cart.svg"/>
-                    <span class="CartBlock-amount">0</span>
-                </a>
-                <div class="CartBlock-block">
-                    <span class="CartBlock-price">0.00$</span>
-                </div>
+                <x-cart.header-component/>
             </div>
         </div>
         <div class="row-block Header-trigger">
@@ -34,4 +28,7 @@
             </a>
         </div>
     </div>
+    @if (session()->has('alert'))
+        <x-alert :message="session('alert')->message" :type="session('alert')->type" />
+    @endif
 </div>

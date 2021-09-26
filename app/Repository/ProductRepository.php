@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 
 class ProductRepository implements ProductRepositoryContract
 {
+
     private $model;
     private $adminsSettings;
 
@@ -29,19 +30,19 @@ class ProductRepository implements ProductRepositoryContract
         $query->with('prices');
         $query->with('sellers');
         $key = 'allProductsForCatalogPageByCategory_' . $slug . '_';
-        $ttl = $this->adminsSettings->get('productsInCatalogCacheTime', 60*60*24);
+        $ttl = $this->adminsSettings->get('productsInCatalogCacheTime', 60 * 60 * 24);
         $itemOnPage = $this->adminsSettings->get('productOnCatalogPage', 8);
         $currentPage = $request->getCurrentPage();
         $key .= 'page_' . $request->getCurrentPage();
 
-        if($request->getMinPrice() || $request->getMaxPrice()) {
+        if ($request->getMinPrice() || $request->getMaxPrice()) {
             $key .= '_price-range_' . $request->getMinPrice() . '-' . $request->getMaxPrice();
             $query->whereHas('prices', function ($q) use ($request) {
                 return $q->whereBetween('price', [$request->getMinPrice(), $request->getMaxPrice()]);
             });
         }
 
-        if($request->getSeller()) {
+        if ($request->getSeller()) {
             $key .= '_seller_' . $request->getSeller();
             $query->whereHas('sellers', function ($q) use ($request) {
                 return $q->where('id', $request->getSeller());
@@ -49,7 +50,7 @@ class ProductRepository implements ProductRepositoryContract
         }
 
 
-        if($request->getSearch()) {
+        if ($request->getSearch()) {
             $key .= '_search_' . $request->getSearch();
             $query->when('name', '=', $request->getSearch());
         }
@@ -65,13 +66,49 @@ class ProductRepository implements ProductRepositoryContract
             }
         }
 
-        return Cache::tags(['products', 'catalog', 'category'])->remember($key, $ttl,function () use($query, $itemOnPage, $currentPage) {
+        return Cache::tags(['products', 'catalog', 'category'])->remember($key, $ttl, function () use ($query, $itemOnPage, $currentPage) {
             return $query->paginate($itemOnPage, ['*'], 'page', $currentPage);
         });
     }
 
+    public function find($slug): Product
+    {
+        $ttl = $this->adminsSettings->get('productsCacheTime', 60 * 60 * 24);
+
+        return Cache::tags(
+            [
+                'products',
+                'categories',
+                'reviews',
+                'prices',
+                'manufacturers',
+                'sellers'
+            ])
+            ->remember($slug, $ttl, function () use ($slug) {
+
+            return Product::with('attachment', 'prices.seller')
+                ->where('slug', $slug)
+                ->first();
+
+        });
+    }
+
+    public function getAllProducts($curPage)
+    {
+        $ttl = $this->adminsSettings->get('productsInCatalogCacheTime', 60 * 60 * 24);
+        $itemOnPage = $this->adminsSettings->get('productOnCatalogPage', 8);
+        return Cache::tags(['products'])
+            ->remember(
+                'allProducts_page_' . $curPage . '_itemOnPage_' . $itemOnPage ,
+                $ttl,
+                function () use ($itemOnPage, $curPage) {
+                    return Product::paginate($itemOnPage, ['*'], 'page', $curPage);
+                });
+    }
+
     public function getProductsForCatalog(CatalogGetRequest $request)
     {
+
         $query = $this->model->newQuery();
         $query->with('prices');
         $query->with('sellers');
@@ -115,6 +152,19 @@ class ProductRepository implements ProductRepositoryContract
         return Cache::tags(['products', 'catalog'])->remember($key, $ttl,function () use($query, $itemOnPage, $currentPage) {
             return $query->paginate($itemOnPage, ['*'], 'page', $currentPage);
         });
+    }
+
+    public function getTopProducts()
+    {
+        return Cache::tags(['products', 'topCatalog'])->remember(
+            'mainTopCatalog',
+            $this->adminsSettings->get('productsInCatalogCacheTime', 60 * 60 * 24),
+            function () {
+                return Product::orderBy('sort_index', 'asc')
+                    ->orderBy('sales_count', 'asc')
+                    ->take($this->adminsSettings->get('topProductsCount', 8))
+                    ->get();
+            });
     }
 
     public function getProductsByCategory(Category $category): Collection

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerFactory extends Factory
 {
@@ -22,7 +23,7 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'cookie_hash' => Hash::make($this->faker->word)
         ];
     }
 }

@@ -5,12 +5,15 @@ namespace App\Service\Product;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Models\Product;
 use Illuminate\Support\Collection;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ProductDiscountService implements ProductDiscountServiceContract
 {
     public function getAllDiscounts(Collection $products): Collection
     {
-       $discounts['products'] = $this->getProductDiscount($products);
+       if ($products->count() === 1) {
+           $discounts['products'] = $this->getProductDiscounts($products->first());
+       }
        $discounts['groups'] = $this->getGroupDiscount($products);
        $discounts['category'] = $this->getCategoryDiscount($products);
 
@@ -40,7 +43,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
         return $generalDiscount;
     }
 
-    public function getPriceWithDiscount(Collection $products): int
+    public function getPriceWithDiscount(Collection $products): float
     {
         $discount = $this->getGeneralDiscount($products);
 
@@ -62,25 +65,25 @@ class ProductDiscountService implements ProductDiscountServiceContract
         return new Collection($result);
     }
 
-    protected function getProductDiscount($products): Collection
+    public function getProductDiscounts( Product $product): float
     {
         $discounts = new Collection();
 
-        return $discounts;
+        return $discounts->max() ?: round(rand(5,70)/100, 2);
     }
 
-    protected function getGroupDiscount($product): Collection
+    protected function getGroupDiscount($product): float
     {
         $discounts = new Collection();
 
-        return $discounts;
+        return $discounts->max() ?: round(rand(5,70)/100, 2);
     }
 
-    protected function getCategoryDiscount($products): Collection
+    protected function getCategoryDiscount($products): float
     {
         $discounts = new Collection();
 
-        return $discounts;
+        return $discounts->max() ?: round(rand(5,70)/100, 2);
     }
 
 }

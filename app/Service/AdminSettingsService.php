@@ -7,7 +7,7 @@ use App\Contracts\Service\AdminSettingsServiceContract;
 
 class AdminSettingsService implements AdminSettingsServiceContract
 {
-    private $adminSettingsRepository;
+    private AdminSettingsRepositoryContract $adminSettingsRepository;
 
     public function __construct(AdminSettingsRepositoryContract $adminSettingsRepository)
     {

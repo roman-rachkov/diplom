@@ -15,7 +15,7 @@ class Seller extends Model
     use Attachable;
     use FlushTagCache;
 
-    public $tagsArr = ['sellers'];
+    public static $tagsArr = ['sellers'];
 
     public function logo()
     {
