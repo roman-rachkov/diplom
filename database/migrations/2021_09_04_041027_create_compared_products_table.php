@@ -24,7 +24,6 @@ class CreateComparedProductsTable extends Migration
                 ->on('products')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-
         });
     }
 

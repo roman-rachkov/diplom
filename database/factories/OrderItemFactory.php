@@ -25,7 +25,7 @@ class OrderItemFactory extends Factory
     public function definition()
     {
         return [
-            'order_id' => $this->faker->randomElement([Order::all()->random()->id, null]),
+            'order_id' => Order::factory(),
             'price_id' => Price::factory(),
             'quantity' => $this->faker->randomDigitNotZero(),
             'customer_id' => Customer::factory(),

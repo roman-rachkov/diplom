@@ -5,6 +5,7 @@ namespace App\Service\Product;
 use App\Contracts\Repository\CompareProductsRepositoryContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Models\ComparedProduct;
+use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -17,9 +18,9 @@ class CompareProductsService implements CompareProductsServiceContract
         $this->repository = $repository;
     }
 
-    public function add(Product $product): bool
+    public function add(Product $product, Customer $customer): bool
     {
-        return  (bool)rand(0, 1);
+        return $this->repository->store($product, $customer);
     }
 
     public function remove(Product $product): bool
