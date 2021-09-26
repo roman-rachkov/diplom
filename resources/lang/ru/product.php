@@ -13,6 +13,7 @@ return [
         'name_placeholder' => 'Ваше Имя',
         'email_placeholder' => 'Ваш Email',
         'submit_comment' => 'Оставить отзыв',
-        'guest_link_to_register' => 'Чтобы оставить комментарий, пожалуйста зарегистрируйтесь!'
+        'guest_link_to_register' => 'Чтобы оставить комментарий, пожалуйста зарегистрируйтесь!',
+        'show_more_btn' => 'Показать ещё'
     ]
 ];

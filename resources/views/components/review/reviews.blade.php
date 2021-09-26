@@ -13,7 +13,7 @@
             href=""
             data-page="{{$reviews->currentPage()}}"
             data-route="{{route('product.addReviewsToView', ['product' => $product])}}"
-    >Показать ещё
+    >{{__('product.tabs_addComment.show_more_btn')}}
     </a>
     @auth
         <header class="Section-header Section-header_product">

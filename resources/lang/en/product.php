@@ -13,6 +13,7 @@ return [
         'name_placeholder' => 'Your Name',
         'email_placeholder' => 'Your Email',
         'submit_comment' => 'Leave comment',
-        'guest_link_to_register' => 'Please sign up before leave a comment'
+        'guest_link_to_register' => 'Please sign up before leave a comment',
+        'show_more_btn' => 'Show more'
     ]
 ];
