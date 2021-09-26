@@ -48,15 +48,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-$(document).ready($=>{
-    console.log(1);
+$(document).ready($ => {
     const form = $('form#checkout');
-    form.find('input, textarea').on('change', function (event){
-        $('#type-'+this.name).text($(this).val());
+    form.find('input, textarea').on('change', function (event) {
+        $('#type-' + this.name).text($(this).val());
     });
-    form.find("input[type=radio]").on('change', function (event){
-        console.log($(this));
-        console.log($(this).nextAll('.toggle-text'));
-        $('#type-'+this.name).text($(this).nextAll('.toggle-text').text());
+    form.find("input[type=radio]").on('change', function (event) {
+        $('#type-' + this.name).text($(this).nextAll('.toggle-text').text());
+    });
+    form.find('.btn.btn-success').click(function (event) {
+        console.log(event);
+    });
+
+    $(window).keydown(function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            form.find('.btn.btn_success:visible').click();
+            return false;
+        }
     });
 });

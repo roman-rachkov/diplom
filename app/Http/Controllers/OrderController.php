@@ -15,7 +15,8 @@ class OrderController extends Controller
         return view('cart.checkout');
     }
 
-    public function add(){
-
+    public function add(Request $request, GetCartServiceContract $cart)
+    {
+        dd($request->all());
     }
 }

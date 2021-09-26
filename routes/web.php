@@ -22,8 +22,6 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
-Route::get('/checkout', [OrderController::class, 'index'])->name('order.index');
-Route::post('/checkout', [OrderController::class, 'add'])->name('order.add');
 
 Route::get('/discounts', function () {
 })->name('discounts.index');
@@ -46,6 +44,11 @@ Route::get('/account', function () {
 Route::get('sellers/{id}', [\App\Http\Controllers\SellerController::class, 'show']);
 
 Route::view('/about', 'about.main')->name('about');
+
+Route::prefix('/checkout')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('order.index');
+    Route::post('/', [OrderController::class, 'add'])->name('order.add');
+});
 
 Route::prefix('cart')->group(function () {
 

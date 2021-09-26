@@ -28,24 +28,28 @@
             <div class="row-block">
                 <div class="form-group">
                     <label class="form-label" for="password">{{__('checkout.password.title')}}</label>
-                    <input class="form-input" id="password" name="password" type="password"
+                    <input class="form-input" id="pass" name="password" type="password"
                            placeholder="{{__('checkout.password.placeholder')}}"
                            data-validate="require"
                     />
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="passwordReply">{{__('checkout.password.confirm')}}</label>
-                    <input class="form-input" id="passwordReply" name="passwordReply" type="password"
+                    <input class="form-input" id="passReply" name="passwordReply" type="password"
                            placeholder="{{__('checkout.password.confirm_placeholder')}}"
                            data-validate="require"
                     />
                 </div>
                 <div class="form-group">
-                    <a class="btn btn_muted Order-btnReg" href="#">{{__('checkout.registered')}}</a>
+                    <a class="btn btn_muted Order-btnReg trigger" href="#loginModal">{{__('checkout.registered')}}</a>
                 </div>
+
             </div>
         @endguest
     </div>
-    <div class="Order-footer"><a class="btn btn_success Order-next" href="#step2">{{__('checkout.next')}}</a>
+    <div class="Order-footer">
+        <a class="btn btn_success Order-next" href="#step3">{{__('checkout.next')}}</a>
     </div>
+
+
 </div>

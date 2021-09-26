@@ -9,6 +9,8 @@ require('slick-carousel');
 require('./scripts');
 require('./backend');
 
+require('../css/backend.css')
+
 $(document).ready($ => {
     $('[name=phone]').mask('+7(999) 999-99-99');
 })

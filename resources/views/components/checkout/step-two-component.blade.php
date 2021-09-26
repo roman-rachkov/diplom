@@ -25,6 +25,7 @@
         <label class="form-label" for="address">{{__('checkout.delivery.address')}}</label>
         <textarea class="form-textarea" name="address" id="address" data-validate="require"></textarea>
     </div>
-    <div class="Order-footer"><a class="btn btn_success Order-next" href="#step3">{{__('checkout.next')}}</a>
+    <div class="Order-footer">
+        <a class="btn btn_success Order-next" href="#step3">{{__('checkout.next')}}</a>
     </div>
 </div>
