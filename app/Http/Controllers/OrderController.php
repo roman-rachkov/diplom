@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
-use App\Providers\FortifyServiceProvider;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
 use Illuminate\Database\Seeder;
@@ -54,12 +56,17 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
         ]);
 
-        \App\Models\Product::factory(50)->create(['main_img_id' => Attachment::all()]);
         \App\Models\Customer::factory(50)->create();
+        \App\Models\Product::factory(50)->create([
+            'main_img_id' => Attachment::all()->random(),
+            'category_id' => Category::all()->random(),
+        ]);
         \App\Models\ComparedProduct::factory(20)->create();
         \App\Models\Review::factory(70)->create();
 
         Payment::factory(5)->create();
-        OrderItem::factory(50)->create();
+        OrderItem::factory(50)->create([
+            'order_id' => [Order::all()->random()->id, null][random_int(0, 1)],
+        ]);
     }
 }
