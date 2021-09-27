@@ -72,8 +72,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::directive('settings', function ($expression) {
-            eval("\$params = [$expression];");
-            list($key, $default) = $params;
+            list($key, $default) = explode(',', $expression);
+            $key = trim($key, ' \'');
+            $default = trim($default, ' \'');
             return "<?php echo app(\App\Contracts\Service\AdminSettingsServiceContract::class)->get('$key', $default); ?>";
         });
     }

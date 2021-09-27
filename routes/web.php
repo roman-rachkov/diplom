@@ -3,7 +3,8 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\MainPageController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\FeedbackController;
 use Tabuna\Breadcrumbs\Trail;
@@ -26,6 +27,11 @@ Route::get('/', [MainPageController::class, 'index'])->name('banners');
 Route::get('/discounts', function () {
 })->name('discounts.index');
 
+Route::post('/products/{slug}/add_to_cart', [ProductsController::class, 'addToCart'])
+    ->name('product.addToCart');
+
+Route::post('/products/{slug}/add_to_comparison', [ProductsController::class, 'addToComparison'])
+    ->name('product.addToComparison');
 Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.index');
 
 Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
@@ -35,13 +41,12 @@ Route::get('/product/{slug}', [CatalogPageController::class, 'getByCategory'])->
 Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
 Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('feedbacks.send_message');
 
-Route::get('/products/comparison', function () {
-})->name('comparison');
+Route::get('/products/comparison', function () {})->name('comparison');
 
 Route::get('/account', function () {
 })->middleware('access:account')->name('account.show');
 
-Route::get('sellers/{id}', [\App\Http\Controllers\SellerController::class, 'show']);
+Route::get('sellers/{id}', [SellerController::class, 'show']);
 
 Route::view('/about', 'about.main')->name('about');
 
@@ -55,6 +60,11 @@ Route::prefix('/checkout')->group(function () {
 });
 
 Route::prefix('cart')->group(function () {
+
+    Route::get('/test', function (\App\Contracts\Service\Cart\GetCartServiceContract $getCart, \App\Contracts\Service\Cart\AddCartServiceContract $addCart) {
+        $addCart->add(\App\Models\Product::has('prices')->inRandomOrder()->first(), rand(1, 10));
+        dd($getCart->getProductsList());
+    });
 
     Route::prefix('add')->group(function () {
         Route::get('/{product}/{seller}', [CartController::class, 'add'])->name('cart.addWithSeller');
