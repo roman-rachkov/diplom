@@ -8,6 +8,10 @@
 
 @guest
     <x-modal-component id="loginModal">
-        <x-login-component :link="route('order.login')"/>
+        <div class="card">
+            <div class="card-body">
+                <x-login-component />
+            </div>
+        </div>
     </x-modal-component>
 @endguest

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateNewUserInOrder;
+use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
+use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class OrderController extends Controller
 {
@@ -15,15 +20,26 @@ class OrderController extends Controller
         return view('cart.checkout');
     }
 
-    public function login(Request $request)
+    public function checkUserEmail(Request $request, UserRepositoryContract $userRepository, string $email)
     {
-        dd($request);
+        $status = (bool)$userRepository->getUserByEmail($email) && !auth()->check();
+        if ($request->ajax()) {
+            return response()->json(['status' => $status]);
+        }
+        return back();
     }
 
-    public function checkUserEmail(Request $request, User $email)
+    public function registerUser(Request $request, StatefulGuard $guard, CreateNewUserInOrder $creator)
     {
-        dd($email);
-        return (bool)$userRepository->getUserByEmail($request->email);
+        event(new Registered($user = $creator->create($request->all())));
+
+        $guard->login($user);
+
+        if($request->json()){
+            return response()->json(['status' => (bool)$user]);
+        }
+
+        return back();
     }
 
     public function add(Request $request, GetCartServiceContract $cart)

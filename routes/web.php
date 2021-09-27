@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,6 @@ use Tabuna\Breadcrumbs\Trail;
 */
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
-
 
 Route::get('/discounts', function () {
 })->name('discounts.index');
@@ -52,8 +52,8 @@ Route::view('/about', 'about.main')->name('about');
 
 Route::prefix('/checkout')->group(function () {
     Route::prefix('/user')->group(function () {
-        Route::post('/login', [OrderController::class, 'login'])->name('order.login');
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
+        Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
     });
     Route::get('/', [OrderController::class, 'index'])->name('order.index');
     Route::post('/', [OrderController::class, 'add'])->name('order.add');

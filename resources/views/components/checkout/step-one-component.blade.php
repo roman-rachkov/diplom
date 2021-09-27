@@ -27,15 +27,15 @@
         @guest
             <div class="row-block">
                 <div class="form-group">
-                    <label class="form-label" for="password">{{__('checkout.password.title')}}</label>
+                    <label class="form-label" for="pass">{{__('checkout.password.title')}}</label>
                     <input class="form-input" id="pass" name="password" type="password"
                            placeholder="{{__('checkout.password.placeholder')}}"
                            data-validate="require"
                     />
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="passwordReply">{{__('checkout.password.confirm')}}</label>
-                    <input class="form-input" id="passReply" name="passwordReply" type="password"
+                    <label class="form-label" for="password_confirmation">{{__('checkout.password.confirm')}}</label>
+                    <input class="form-input" id="password_confirmation" name="password_confirmation" type="password"
                            placeholder="{{__('checkout.password.confirm_placeholder')}}"
                            data-validate="require"
                     />
@@ -48,7 +48,7 @@
         @endguest
     </div>
     <div class="Order-footer">
-        <a class="btn btn_success Order-next" href="#step3">{{__('checkout.next')}}</a>
+        <a class="btn btn_success Order-next" href="#step2">{{__('checkout.next')}}</a>
     </div>
 
 
