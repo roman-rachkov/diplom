@@ -49,6 +49,7 @@ class ProductsController extends Controller
     ): Application|Factory|View
     {
         $product = $this->productRepository->find($slug);
+        if (is_null($product)) abort(404);
         $discount = $discountService->getProductDiscounts($product);
         $avgPrice = round($product->prices->avg('price'), 2);
         $avgDiscountPrice = round($avgPrice * (1 - $discount),2);

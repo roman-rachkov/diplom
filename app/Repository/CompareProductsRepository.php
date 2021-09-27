@@ -40,9 +40,4 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
         return ComparedProduct::where('customer_id', $customer->id)->get();
     }
     
-    public function getComparedProductsCount(Customer $customer): int
-    {
-        return $this->getComparedProducts($customer)->count();
-    }
-    
 }

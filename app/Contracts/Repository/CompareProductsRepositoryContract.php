@@ -15,6 +15,4 @@ interface CompareProductsRepositoryContract
 
     public function getComparedProducts(Customer $customer): Collection;
     
-    public function getComparedProductsCount(Customer $customer):int;
-    
 }

@@ -4,10 +4,9 @@ namespace App\Service\Product;
 
 use App\Contracts\Repository\CompareProductsRepositoryContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
-use App\Models\ComparedProduct;
 use App\Models\Customer;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class CompareProductsService implements CompareProductsServiceContract
 {
@@ -23,21 +22,22 @@ class CompareProductsService implements CompareProductsServiceContract
         return $this->repository->store($product, $customer);
     }
 
-    public function remove(Product $product): bool
+    public function remove(Product $product, Customer $customer): bool
     {
-        return (bool)rand(0, 1);
+        return $this->repository->delete($product, $customer);
     }
 
-    public function get(int $quantity = 3): Collection
+    public function get(Customer $customer, int $quantity = 3): Collection
     {
-        return ComparedProduct::factory()
-            ->count($quantity)
-            ->make()
+        return $this->repository->getComparedProducts($customer)
+            ->take($quantity)
             ->sortBy([['id', 'desc']]);
     }
 
-    public function getCount(): int
+    public function getCount(Customer $customer): int
     {
-        return rand(1, 100);
+        return $this->repository
+            ->getComparedProducts($customer)
+            ->count();
     }
 }
