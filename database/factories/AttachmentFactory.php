@@ -20,7 +20,7 @@ class AttachmentFactory extends Factory
     public function definition()
     {
         $datePath = \Illuminate\Support\Carbon::now()->format('Y/m/d/');
-        $dir = storage_path('app/public/' . $datePath) ;
+        $dir = storage_path('app/public/' . $datePath);
         if(!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
@@ -34,11 +34,11 @@ class AttachmentFactory extends Factory
             'size' => stat($dir . '/' . $image)['size'],
             'sort' => 0,
             'path' => $datePath,
-            'description' => 'Add from BannerAttachmentSeeder',
+            'description' => $this->faker->sentence(),
             'alt' => $image,
             'hash' => Hash::make($name),
             'disk' => 'public',
-            'user_id' => User::all()->random()->id,
+            'user_id' => User::all()->random(),
             'group' => 0
         ];
     }

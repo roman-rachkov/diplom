@@ -6,7 +6,6 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchid\Attachment\Models\Attachment;
 
-
 class CategoryFactory extends Factory
 {
     /**

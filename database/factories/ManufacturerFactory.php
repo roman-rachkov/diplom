@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Seller;
+use App\Models\Manufacturer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchid\Attachment\Models\Attachment;
 
-class SellerFactory extends Factory
+class ManufacturerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Seller::class;
+    protected $model = Manufacturer::class;
 
     /**
      * Define the model's default state.
@@ -23,12 +23,10 @@ class SellerFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->company,
-            'description' => $this->faker->text(255),
-            'email' => $this->faker->email,
-            'phone' => $this->faker->phoneNumber,
-            'address' => $this->faker->address,
-            'logo_id' => Attachment::factory(),
+            'name' => $this->faker->company(),
+            'email' => $this->faker->email(),
+            'address' => $this->faker->address(),
+            'logo_id' => Attachment::all()->random()
         ];
     }
 }

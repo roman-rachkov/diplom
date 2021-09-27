@@ -2,10 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\ComparedProduct;
+use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Database\Seeder;
 use Orchid\Attachment\Models\Attachment;
 
-class AttachmentSeeder extends Seeder
+class ProductSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,11 +17,9 @@ class AttachmentSeeder extends Seeder
      */
     public function run()
     {
-        Attachment::factory()
-            ->times(10)
-            ->create();
-        Attachment::factory(['user_id' => null])
-            ->count(5)
+        Product::factory(10)
+            ->hasAttachment(3)
+            ->hasPrices(3)
             ->create();
     }
 }
