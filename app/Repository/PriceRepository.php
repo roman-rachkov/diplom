@@ -37,7 +37,6 @@ class PriceRepository implements PriceRepositoryContract
 
     public function getMinPriceForCategory(Collection $arr): float
     {
-        dd($arr);
         return $this->model->whereIn('product_id', $arr)->min('price');
     }
 }

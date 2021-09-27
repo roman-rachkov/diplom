@@ -26,8 +26,4 @@ class Category extends Model
         return $this->hasOne(Attachment::class, 'id', 'image_id');
     }
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 }

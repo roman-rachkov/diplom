@@ -36,7 +36,7 @@ Route::post('/products/{slug}/add_to_comparison', [ProductsController::class, 'a
     ->name('product.addToComparison');
 Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.index');
 
-Route::get('/catalog/{category}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
+Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
 
 Route::get('/catalog/add_to_cart/{slug}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
