@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class ProductRepository implements ProductRepositoryContract
@@ -16,12 +19,12 @@ class ProductRepository implements ProductRepositoryContract
         $this->adminsSettings = $adminsSettings;
     }
 
-    public function storeReview(Product $product, array $attributes): bool
+    public function storeReview(Product $product, array $attributes): bool|Model
     {
-        $product->reviews()->create($attributes);
+        return $product->reviews()->create($attributes);
     }
 
-    public function find($slug): Product
+    public function find($slug): Product|null
     {
         $ttl = $this->adminsSettings->get('productsCacheTime', 60 * 60 * 24);
 
@@ -43,7 +46,7 @@ class ProductRepository implements ProductRepositoryContract
         });
     }
 
-    public function getAllProducts($curPage)
+    public function getAllProducts($curPage): LengthAwarePaginator
     {
         $ttl = $this->adminsSettings->get('productsInCatalogCacheTime', 60 * 60 * 24);
         $itemOnPage = $this->adminsSettings->get('productOnCatalogPage', 8);
@@ -56,7 +59,7 @@ class ProductRepository implements ProductRepositoryContract
                 });
     }
 
-    public function getProductsForCategory($slug, $curPage)
+    public function getProductsForCategory($slug, $curPage): LengthAwarePaginator
     {
         $ttl = $this->adminsSettings
             ->get('productsInCatalogCacheTime', 60 * 60 * 24);
@@ -72,7 +75,7 @@ class ProductRepository implements ProductRepositoryContract
                 });
     }
 
-    public function getTopProducts()
+    public function getTopProducts(): Collection
     {
         return Cache::tags(['products', 'topCatalog'])->remember(
             'mainTopCatalog',
