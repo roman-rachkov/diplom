@@ -65,7 +65,8 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.reset-password', ['request' => $request]);
         });
 
-        Fortify::authenticateUsing(function (Request $request, UserRepositoryContract $repo) {
+        Fortify::authenticateUsing(function (Request $request) {
+            $repo = app(UserRepositoryContract::class);
             $user = $repo->getUserByEmail($request->email);
 
             if ($user &&

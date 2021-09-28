@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Models\PaymentsService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Orchid\Attachment\Models\Attachment;
@@ -64,7 +65,18 @@ class DatabaseSeeder extends Seeder
         \App\Models\ComparedProduct::factory(20)->create();
         \App\Models\Review::factory(70)->create();
 
-        Payment::factory(5)->create();
+        PaymentsService::factory()->create([
+            'name' => 'Онлайн картой',
+            'service' => '\App\Service\OnlinePaymentService'
+        ]);
+        PaymentsService::factory()->create([
+            'name' => 'Онлайн со случайного чужого счета',
+            'service' => '\App\Service\SomeonePaymentService'
+        ]);
+
+        Payment::factory(5)->create([
+            'payments_service_id' => PaymentsService::all()->random(),
+        ]);
         OrderItem::factory(50)->create([
             'order_id' => [Order::all()->random()->id, null][random_int(0, 1)],
         ]);

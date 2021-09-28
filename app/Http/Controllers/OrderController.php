@@ -44,6 +44,8 @@ class OrderController extends Controller
 
     public function add(Request $request, GetCartServiceContract $cart)
     {
-        dd($request->all());
+        $data = $request->all();
+        $data['phone'] = str_replace(['+7','(',')','-',' '], '', $data['phone']);
+        dd($data);
     }
 }

@@ -66,15 +66,15 @@ $(document).ready($ => {
                 phone: form.find('input[name=phone]').mask(),
             })
                 .then(json => {
-                    if(json.data.status){
+                    if (json.data.status) {
                         location.reload();
                     }
 
                 })
                 .catch(error => {
-                    if(error.response.data.errors){
-                        $.each(error.response.data.errors, function (key, message){
-                            const field = form.find('input[name='+key+']');
+                    if (error.response.data.errors) {
+                        $.each(error.response.data.errors, function (key, message) {
+                            const field = form.find('input[name=' + key + ']');
                             field.addClass('form-input_error');
                             $(document.createElement('div')).addClass('form-error').text(message).insertAfter(field);
                         });
@@ -102,4 +102,5 @@ $(document).ready($ => {
             return false;
         }
     });
+
 });
