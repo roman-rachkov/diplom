@@ -13,6 +13,7 @@ use App\Contracts\Service\PayOrderServiceContract;
 use App\Contracts\Service\AddReviewServiceContract;
 use App\Contracts\Service\ImportSellerServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
+use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Models\Customer;
 use App\Service\AdminSettingsService;
 use App\Service\Cart\AddCartService;
@@ -41,9 +42,7 @@ class AppServiceProvider extends ServiceProvider
             return 'Database\\Factories\\' . class_basename($class) . 'Factory';
         });
 
-        $this->app->singleton(UsersAvatarService::class, function () {
-            return new UsersAvatarService();
-        });
+        $this->app->singleton(UsersAvatarServiceContract::class, UsersAvatarService::class);
     }
 
     /**
