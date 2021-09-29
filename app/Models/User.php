@@ -16,6 +16,8 @@ class User extends Authenticatable
 {
     use Attachable, FlushTagCache;
 
+    public static $tagsArr = ['users'];
+
     /**
      * The attributes that are mass assignable.
      *
