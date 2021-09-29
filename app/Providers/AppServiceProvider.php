@@ -57,9 +57,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AddCartServiceContract::class, AddCartService::class);
         $this->app->singleton(GetCartServiceContract::class, GetCartService::class);
         $this->app->singleton(RemoveCartServiceContract::class, RemoveCartService::class);
-        $this->app->singleton(UserRepositoryContract::class, UserRepository::class);
         $this->app->singleton(FlashMessageServiceContract::class, FlashMessageService::class);
-        $this->app->singleton(PaymentsServiceRepositoryContract::class, PaymentsServiceRepository::class);
         $this->app->singleton(PaymentsIntegratorServiceContract::class, PaymentsIntegratorService::class);
 
         $this->app->singleton(Customer::class, function () {

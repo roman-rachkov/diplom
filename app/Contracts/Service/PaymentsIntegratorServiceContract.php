@@ -2,7 +2,6 @@
 
 namespace App\Contracts\Service;
 
-use App\Models\PaymentsService;
 use Illuminate\Support\Collection;
 
 interface PaymentsIntegratorServiceContract
@@ -11,6 +10,6 @@ interface PaymentsIntegratorServiceContract
 
     public function getAllPaymentsServices(): Collection;
 
-    public function getPaymentsServiceById(int $id): bool|PaymentsService;
+    public function getPaymentsServiceById(int $id): bool|PaymentServiceContract;
 
 }

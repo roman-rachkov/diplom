@@ -5,18 +5,20 @@ namespace App\View\Components\Checkout;
 use App\Contracts\Service\Cart\GetCartServiceContract;
 use Illuminate\View\Component;
 
-class FormComponent extends Component
+class StepFourComponent extends Component
 {
-    public GetCartServiceContract $cart;
+    public $inputs;
+    public GetCartServiceContract $cartService;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(GetCartServiceContract $cart)
+    public function __construct($inputs, GetCartServiceContract $contract)
     {
-        $this->cart = $cart;
+        $this->inputs = $inputs;
+        $this->cartService = $contract;
     }
 
     /**
@@ -26,6 +28,6 @@ class FormComponent extends Component
      */
     public function render()
     {
-        return view('components.checkout.form-component');
+        return view('components.checkout.step-four-component');
     }
 }

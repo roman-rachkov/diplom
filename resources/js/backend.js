@@ -50,12 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 $(document).ready($ => {
     const form = $('form#checkout');
-    form.find('input, textarea').on('change', function () {
-        $('#type-' + this.name).text($(this).val());
-    });
-    form.find("input[type=radio]").on('change', function () {
-        $('#type-' + this.name).text($(this).nextAll('.toggle-text').text());
-    });
     form.find('.btn.btn_success:visible').click(function () {
         if ($(this).attr('href') === '#step2' && form.find('input[name=password]').length > 0) {
             axios.post('/checkout/user', {

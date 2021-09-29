@@ -3,5 +3,5 @@
 @section('title', __('checkout.title'))
 
 @section('sub-content')
-    <x-checkout.form-component/>
+    <x-checkout.step-four-component :inputs="$data"/>
 @endsection

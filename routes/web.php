@@ -41,7 +41,8 @@ Route::get('/product/{slug}', [CatalogPageController::class, 'getByCategory'])->
 Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
 Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('feedbacks.send_message');
 
-Route::get('/products/comparison', function () {})->name('comparison');
+Route::get('/products/comparison', function () {
+})->name('comparison');
 
 Route::get('/account', function () {
 })->middleware('access:account')->name('account.show');
@@ -51,12 +52,17 @@ Route::get('sellers/{id}', [SellerController::class, 'show']);
 Route::view('/about', 'about.main')->name('about');
 
 Route::prefix('/checkout')->group(function () {
+
+//    dd(app(\App\Contracts\Service\Cart\GetCartServiceContract::class)->getProductsQuantity());
     Route::prefix('/user')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
         Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
     });
+    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::view('/confirm', 'cart.step-four')->name('order.confirm');
+    Route::post('/',)->name('order.add');
     Route::get('/', [OrderController::class, 'index'])->name('order.index');
-    Route::post('/', [OrderController::class, 'add'])->name('order.add');
+//    Route::get('/', fn(\App\Contracts\Service\Cart\GetCartServiceContract $cartServiceContract)=>dd($cartServiceContract->getItemsList()))->name('order.index');
 });
 
 Route::prefix('cart')->group(function () {

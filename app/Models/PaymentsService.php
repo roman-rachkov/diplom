@@ -16,9 +16,9 @@ class PaymentsService extends Model
         return $this->hasMany(Payment::class);
     }
 
-    public function getServiceAttrubute()
-    {
-        return app($this->service);
-    }
+//    public function getServiceAttribute()
+//    {
+//        return app($this->service);
+//    }
 
 }

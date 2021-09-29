@@ -3,8 +3,8 @@
 namespace App\Service;
 
 use App\Contracts\Repository\PaymentsServiceRepositoryContract;
+use App\Contracts\Service\PaymentServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
-use App\Models\PaymentsService;
 use Illuminate\Support\Collection;
 
 class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
@@ -20,6 +20,7 @@ class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
     public function addPayment(float $cost): bool
     {
         // TODO: Implement addPayment() method.
+        return false;
     }
 
     public function getAllPaymentsServices(): Collection
@@ -27,8 +28,8 @@ class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
         return $this->repository->getPaymentsServicesList();
     }
 
-    public function getPaymentsServiceById(int $id): bool|PaymentsService
+    public function getPaymentsServiceById(int $id): bool|PaymentServiceContract
     {
-        return $this->repository->getPaymentsServiceById($id);
+        return app($this->repository->getPaymentsServiceById($id)->service);
     }
 }

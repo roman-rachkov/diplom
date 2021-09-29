@@ -26,7 +26,7 @@ class PaymentsServiceRepository implements PaymentsServiceRepositoryContract
     public function getPaymentsServiceById(int $id): bool|PaymentsService
     {
         try {
-            return PaymentsService::firstOrFail($id);
+            return PaymentsService::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return false;
         }

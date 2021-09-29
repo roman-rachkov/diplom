@@ -3,20 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateNewUserInOrder;
+use App\Contracts\Repository\AdminSettingsRepositoryContract;
+use App\Contracts\Repository\PaymentsServiceRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
+use App\Contracts\Service\PaymentsIntegratorServiceContract;
+use Closure;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
-use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class OrderController extends Controller
 {
-    public function index(GetCartServiceContract $contract)
+
+    public function __construct()
     {
-        if ($contract->getProductsQuantity() <= 0) {
-            return redirect(route('cart.index'));
-        }
+        $this->middleware(function (Request $request, Closure $next) {
+            if (app(GetCartServiceContract::class)->getProductsQuantity() <= 0) {
+                return redirect()->route('cart.index');
+            }
+            return $next($request);
+        });
+    }
+
+    public function index()
+    {
         return view('cart.checkout');
     }
 
@@ -35,17 +46,47 @@ class OrderController extends Controller
 
         $guard->login($user);
 
-        if($request->json()){
+        if ($request->json()) {
             return response()->json(['status' => (bool)$user]);
         }
 
         return back();
     }
 
-    public function add(Request $request, GetCartServiceContract $cart)
+    public function confirm(
+        Request                           $request,
+        PaymentsServiceRepositoryContract $repository,
+        GetCartServiceContract            $cart,
+        AdminSettingsRepositoryContract   $settings
+    )
     {
-        $data = $request->all();
-        $data['phone'] = str_replace(['+7','(',')','-',' '], '', $data['phone']);
-        dd($data);
+        $data = $request->validate([
+            'name' => 'required',
+            'phone' => 'required|regex:/^\+7\(\d{3}\) \d{3}-\d{2}-\d{2}$/i',
+            'email' => 'required|email:rfc',
+            'delivery' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+            'payment' => 'required|exists:payments_services,id'
+        ]);
+        $data['payService'] = $repository->getPaymentsServiceById($data['payment'])->name;
+        $data['totalCost'] = $cart->getTotalCost();
+        $data['totalCost'] += $data['delivery'] == 'express' ? $settings->get('deliveryExpress', 500)
+            : ($cart->getTotalCost() < $settings->get('minimalCartCost', 2000) ? $settings->get('deliveryPrice', 200) : 0);
+
+        session(['order_data' => $data]);
+
+        return view('cart.step-four')->with(compact('data'));
+    }
+
+    public function add(Request $request, PaymentsIntegratorServiceContract $payments)
+    {
+        if (!session('order_data')) {
+            return redirect()->route('order.index');
+        }
+
+        $data = session('order_data');
+        $data['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $data['phone']);
+        dd($payments->getPaymentsServiceById($data['payment']), $data);
     }
 }
