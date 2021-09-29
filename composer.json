@@ -13,9 +13,11 @@
         "laravel/fortify": "^1.8",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
-        "orchid/platform": "^10.12"
+        "orchid/platform": "^10.12",
+        "propaganistas/laravel-phone": "^4.3"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.10",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.16",
         "laravel/sail": "^1.10",
