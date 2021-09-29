@@ -3,12 +3,22 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\ReviewRepositoryContract;
+use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Models\Review;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class ReviewRepository implements ReviewRepositoryContract
 {
+    private AdminSettingsServiceContract $adminsSettings;
+
+    public function __construct(AdminSettingsServiceContract $adminsSettings)
+    {
+        $this->adminsSettings = $adminsSettings;
+    }
+
+
     public function store(array $attributes): bool
     {
         return (new Review($attributes))->save();
@@ -25,7 +35,20 @@ class ReviewRepository implements ReviewRepositoryContract
         int     $currentPage
     ): LengthAwarePaginator
     {
-        return Review::where('product_id',$productId)->with('user:id,name')
-            ->paginate(perPage: $perPage, page: $currentPage);
+        $ttl = $this->adminsSettings->get('reviewTimeCache', 60 * 60 * 24);
+
+       return Cache::tags(
+            [
+                'reviews',
+                'products',
+                'users',
+            ])
+            ->remember(
+                'reviews_page=' . $currentPage,
+                $ttl,
+                function () use ($productId, $perPage, $currentPage) {
+                    return Review::where('product_id', $productId)->with('user:id,name')
+                    ->paginate(perPage: $perPage, page: $currentPage);
+            });
     }
 }

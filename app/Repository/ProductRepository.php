@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class ProductRepository implements ProductRepositoryContract
@@ -16,9 +17,9 @@ class ProductRepository implements ProductRepositoryContract
         $this->adminsSettings = $adminsSettings;
     }
 
-    public function storeReview(Product $product, array $attributes): bool
+    public function storeReview(Product $product, array $attributes): Model
     {
-        $product->reviews()->create($attributes);
+        return $product->reviews()->create($attributes);
     }
 
     public function find($slug): Product

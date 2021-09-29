@@ -104,7 +104,7 @@ class ProductsController extends Controller
         return back();
     }
 
-    public function addReviewsToView(Product $product): LengthAwarePaginator
+    public function showReviews(Product $product): LengthAwarePaginator
     {
         $perPage = request('per_page')?: 3;
         $currentPage = request('current_page')?: 1;

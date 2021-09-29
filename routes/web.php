@@ -37,8 +37,8 @@ Route::post('/products/{slug}/add_to_cart', [ProductsController::class, 'addToCa
 Route::post('/products/{slug}/add_to_comparison', [ProductsController::class, 'addToComparison'])
     ->name('product.addToComparison');
 
-Route::post('/products/add_reviews/{product}', [ProductsController::class, 'addReviewsToView'])
-    ->name('product.addReviewsToView');
+Route::post('/products/show_reviews/{product}', [ProductsController::class, 'showReviews'])
+    ->name('product.showReviews');
 
 Route::middleware('auth')->put('/reviews/{product}', [ReviewsController::class, 'store'])
     ->name('review.store');
