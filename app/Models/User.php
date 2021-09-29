@@ -85,14 +85,6 @@ class User extends Authenticatable
         return $this->hasOne(Attachment::class)->withDefault();
     }
 
-    public function addAvatar(UploadedFile $file): void
-    {
-        $this->avatar()->delete();
-        $file = new File($file);
-        $attachment = $file->load();
-        $this->attachment()->sync($attachment);
-    }
-
     public function reviews(): hasMany
     {
         return  $this->hasMany(Review::class);

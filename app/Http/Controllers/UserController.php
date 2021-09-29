@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Http\Requests\UpdateUserRequest;
+use App\Service\UsersAvatarService;
 
 class UserController extends Controller
 {
     private $userRepository;
+    private $userAvatarService;
 
-    public function __construct(UserRepositoryContract $userRepository)
+    public function __construct(UserRepositoryContract $userRepository, UsersAvatarService $userAvatarService)
     {
         $this->userRepository = $userRepository;
+        $this->userAvatarService = $userAvatarService;
     }
 
     public function show($user)
@@ -36,7 +39,7 @@ class UserController extends Controller
         $user = $this->userRepository->update($user, array_filter($attributes));
 
         if ($attributes['avatar']) {
-            $user->addAvatar($attributes['avatar']);
+            $this->userAvatarService->addAvatar($user, $attributes['avatar']);
         }
 
         return redirect()->route('users.edit', $user)->with('success', true);

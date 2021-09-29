@@ -17,7 +17,7 @@
                         </div>
                         <div class="Account-column">
                             <div class="Account-name">{{$user->name}}
-                            </div><a class="Account-editLink" href="{{route('users.edit', $user)}}">Редактировать профиль</a>
+                            </div><a class="Account-editLink" href="{{route('users.edit', $user)}}">{{__('profile.edit')}}</a>
                         </div>
                     </div>
 

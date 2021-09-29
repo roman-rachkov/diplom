@@ -24,6 +24,7 @@ use App\Service\PayOrderService;
 use App\Service\AddReviewService;
 use App\Service\ImportSellerService;
 use App\Service\Product\ProductDiscountService;
+use App\Service\UsersAvatarService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Factory::guessFactoryNamesUsing(function ($class) {
             return 'Database\\Factories\\' . class_basename($class) . 'Factory';
+        });
+
+        $this->app->singleton(UsersAvatarService::class, function () {
+            return new UsersAvatarService();
         });
     }
 

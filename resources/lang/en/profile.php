@@ -12,4 +12,5 @@ return [
     'password_confirmation' => 'Enter the password again',
     'save' => 'Save',
     'save_success' => 'The profile was saved successfully',
+    'edit' => 'Edit profile',
 ];
