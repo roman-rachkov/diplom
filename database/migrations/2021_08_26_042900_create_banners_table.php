@@ -22,6 +22,7 @@ class CreateBannersTable extends Migration
             $table->boolean('is_active');
             $table->unsignedInteger('image_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('image_id')
                 ->references('id')
