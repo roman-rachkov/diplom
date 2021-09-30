@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
 use Illuminate\Database\Seeder;
-use Orchid\Attachment\Models\Attachment;
 
-class AttachmentSeeder extends Seeder
+class CustomerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,6 @@ class AttachmentSeeder extends Seeder
      */
     public function run()
     {
-        Attachment::factory()
-            ->count(25)
-            ->create();
+        Customer::factory(50)->create();
     }
 }

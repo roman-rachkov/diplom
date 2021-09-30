@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Seller;
+use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Database\Seeder;
-use Orchid\Attachment\Models\Attachment;
 
-class SellerSeeder extends Seeder
+class PaymentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +15,9 @@ class SellerSeeder extends Seeder
      */
     public function run()
     {
-        $attachment = Attachment::all();
+        $order = Order::all();
         for ($i=0; $i<10; $i++) {
-            Seller::factory()->create(['logo_id' => $attachment->random()->id]);
+            Payment::factory()->create(['order_id' => $order->random()->id]);
         }
     }
 }

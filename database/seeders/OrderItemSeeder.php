@@ -2,10 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
+use Cassandra\Custom;
 use Illuminate\Database\Seeder;
-use Orchid\Attachment\Models\Attachment;
 
-class AttachmentSeeder extends Seeder
+class OrderItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +18,6 @@ class AttachmentSeeder extends Seeder
      */
     public function run()
     {
-        Attachment::factory()
-            ->count(25)
-            ->create();
+
     }
 }
