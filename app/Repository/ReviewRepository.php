@@ -19,9 +19,9 @@ class ReviewRepository implements ReviewRepositoryContract
     }
 
 
-    public function store(array $attributes): bool
+    public function store(array $attributes): null|Review
     {
-        return (new Review($attributes))->save();
+        return Review::create($attributes);
     }
 
     public  function getReviews(string $productId, int $count): Collection

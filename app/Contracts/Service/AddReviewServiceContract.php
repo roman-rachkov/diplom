@@ -14,6 +14,4 @@ interface AddReviewServiceContract
     public function getReviews(Product $product);
 
     public function getReviewsCount(Product $product);
-
-    public function getPaginatedReviews(Product $product, int $perPage = 3, int $currentPage = 1): LengthAwarePaginator;
 }

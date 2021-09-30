@@ -40,11 +40,6 @@ class AddReviewService implements AddReviewServiceContract
         return true;
     }
 
-    public function getPaginatedReviews(Product $product, int $perPage = 3, int $currentPage = 1): LengthAwarePaginator
-    {
-        return $this->repository->getPaginatedReviews($product->id, $perPage, $currentPage);
-    }
-
     public function getReviews(Product $product, $count = 3): Collection
     {
         return $this->repository->getReviews($product->id, $count);
