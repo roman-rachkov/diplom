@@ -39,7 +39,7 @@ class ProductRepository implements ProductRepositoryContract
             ])
             ->remember($slug, $ttl, function () use ($slug) {
 
-            return Product::with('attachment', 'prices.seller')
+            return Product::with('attachment', 'prices.seller', 'category')
                 ->where('slug', $slug)
                 ->first();
 
