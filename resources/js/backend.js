@@ -80,7 +80,7 @@ $(document).ready($ => {
         }
     });
 
-    form.find("input[name=mail]").change(function () {
+    form.find("input[name=email]").change(function () {
         axios.get('/checkout/user/' + $(this).val())
             .then(json => {
                 if (json.data.status) {

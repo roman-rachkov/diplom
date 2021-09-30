@@ -6,6 +6,6 @@ class OnlinePaymentService extends AbstractPaymentService
 {
     public function render()
     {
-        return view('');
+        return view('payment.online');
     }
 }

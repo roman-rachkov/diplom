@@ -68,11 +68,11 @@ class DatabaseSeeder extends Seeder
 
         PaymentsService::factory()->create([
             'name' => 'Онлайн картой',
-            'service' => '\App\Service\SomeonePaymentService'
+            'service' => '\App\Service\Payment\SomeonePaymentService'
         ]);
         PaymentsService::factory()->create([
             'name' => 'Онлайн со случайного чужого счета',
-            'service' => '\App\Service\SomeonePaymentService'
+            'service' => '\App\Service\Payment\SomeonePaymentService'
         ]);
 
         Payment::factory(5)->create([
