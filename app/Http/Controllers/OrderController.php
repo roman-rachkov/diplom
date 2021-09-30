@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateNewUserInOrder;
 use App\Contracts\Repository\AdminSettingsRepositoryContract;
+use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentsServiceRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
+use App\Contracts\Service\DeliveryCostServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
+use App\DTO\OrderDTO;
 use Closure;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -57,7 +60,7 @@ class OrderController extends Controller
         Request                           $request,
         PaymentsServiceRepositoryContract $repository,
         GetCartServiceContract            $cart,
-        AdminSettingsRepositoryContract   $settings
+        DeliveryCostServiceContract       $delivery
     )
     {
         $data = $request->validate([
@@ -70,23 +73,25 @@ class OrderController extends Controller
             'payment' => 'required|exists:payments_services,id'
         ]);
         $data['payService'] = $repository->getPaymentsServiceById($data['payment'])->name;
-        $data['totalCost'] = $cart->getTotalCost();
-        $data['totalCost'] += $data['delivery'] == 'express' ? $settings->get('deliveryExpress', 500)
-            : ($cart->getTotalCost() < $settings->get('minimalCartCost', 2000) ? $settings->get('deliveryPrice', 200) : 0);
-
+        $data['totalCost'] = $cart->getTotalCost() + $delivery->getCost($data['delivery']);
         session(['order_data' => $data]);
 
         return view('cart.step-four')->with(compact('data'));
     }
 
-    public function add(Request $request, PaymentsIntegratorServiceContract $payments)
+    public function add(Request $request, PaymentsIntegratorServiceContract $payments, OrderRepositoryContract $orderRepository)
     {
         if (!session('order_data')) {
             return redirect()->route('order.index');
         }
-
-        $data = session('order_data');
+        $data = collect(session('order_data'));
+        $paymentsService = $payments->getPaymentsServiceById($data['payment']);
         $data['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $data['phone']);
-        dd($payments->getPaymentsServiceById($data['payment']), $data);
+        unset($data['payment']);
+        unset($data['payService']);
+        $order = $orderRepository->add(OrderDTO::create($data));
+
+        dd($order);
+
     }
 }

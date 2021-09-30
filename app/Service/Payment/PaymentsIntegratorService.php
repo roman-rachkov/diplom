@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Payment;
 
 use App\Contracts\Repository\PaymentsServiceRepositoryContract;
 use App\Contracts\Service\PaymentServiceContract;

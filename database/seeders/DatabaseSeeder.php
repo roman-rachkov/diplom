@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admininstrator',
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
+            'phone' => '9876543210',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ])
@@ -67,7 +68,7 @@ class DatabaseSeeder extends Seeder
 
         PaymentsService::factory()->create([
             'name' => 'Онлайн картой',
-            'service' => '\App\Service\OnlinePaymentService'
+            'service' => '\App\Service\SomeonePaymentService'
         ]);
         PaymentsService::factory()->create([
             'name' => 'Онлайн со случайного чужого счета',

@@ -32,4 +32,13 @@ class PaymentsServiceRepository implements PaymentsServiceRepositoryContract
         }
     }
 
+    public function getPaymentsServiceByService(string $namespace): bool|PaymentsService
+    {
+        try {
+            return PaymentsService::firstWhere('service', $namespace);
+        } catch (ModelNotFoundException $e) {
+            return false;
+        }
+    }
+
 }

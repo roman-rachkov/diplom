@@ -5,7 +5,7 @@
     <div class="form-group">
         <div>
             <label class="toggle">
-                <input type="radio" name="delivery" value="ordinary" checked="checked"/><span
+                <input type="radio" name="delivery" value="default" checked="checked"/><span
                     class="toggle-box"></span><span class="toggle-text">{{__('checkout.delivery.default')}}</span>
             </label>
         </div>

@@ -15,10 +15,4 @@ class PaymentsService extends Model
     {
         return $this->hasMany(Payment::class);
     }
-
-//    public function getServiceAttribute()
-//    {
-//        return app($this->service);
-//    }
-
 }

@@ -13,4 +13,6 @@ interface PaymentsServiceRepositoryContract
 
     public function getPaymentsServiceById(int $id): bool | PaymentsService;
 
+    public function getPaymentsServiceByService(string $namespace): bool|PaymentsService;
+
 }

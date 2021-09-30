@@ -1,4 +1,5 @@
 <form action="{{route('order.add')}}" method="post">
+    @csrf
     <div class="Order-block Order-block_OPEN" id="step4">
         <header class="Section-header Section-header_sm">
             <h2 class="Section-title">{{__('checkout.step4')}}</h2>

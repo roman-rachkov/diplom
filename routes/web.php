@@ -60,7 +60,7 @@ Route::prefix('/checkout')->group(function () {
     });
     Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
     Route::view('/confirm', 'cart.step-four')->name('order.confirm');
-    Route::post('/',)->name('order.add');
+    Route::post('/',[OrderController::class, 'add'])->name('order.add');
     Route::get('/', [OrderController::class, 'index'])->name('order.index');
 //    Route::get('/', fn(\App\Contracts\Service\Cart\GetCartServiceContract $cartServiceContract)=>dd($cartServiceContract->getItemsList()))->name('order.index');
 });
