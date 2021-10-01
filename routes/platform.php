@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\Banner\BannerEditScreen;
 use App\Orchid\Screens\Banner\BannerListScreen;
+use App\Orchid\Screens\Category\CategoryListScreen;
+use App\Orchid\Screens\CategoryEditScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
 use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
@@ -128,14 +130,21 @@ Route::screen('banners', BannerListScreen::class)
     });
 
 //Platform > Category
-Route::screen('category', \App\Orchid\Screens\Category\CategoryListScreen::class)
-    ->name('platform.category')
+
+Route::screen('category', CategoryListScreen::class)
+    ->name('platform.category.list')
     ->breadcrumbs(function (Trail $trail){
         return $trail
             ->parent('platform.index')
             ->push(__('admin.category.panel_name'));
     });
-
+Route::screen('category/{category?}', CategoryEditScreen::class)
+    ->name('platform.category.edit')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.category.list')
+            ->push(__('admin.category.edit'));
+    });
 
 //Platform > Product
 Route::screen('product', \App\Orchid\Screens\Product\ProductListScreen::class)

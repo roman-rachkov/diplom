@@ -2,6 +2,9 @@
 
 namespace App\Orchid\Screens\Category;
 
+use App\Models\Category;
+use App\Orchid\Layouts\Category\CategoryListLayout;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
 class CategoryListScreen extends Screen
@@ -21,7 +24,9 @@ class CategoryListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        return [
+            'categories' => Category::paginate()
+        ];
     }
 
     /**
@@ -31,7 +36,11 @@ class CategoryListScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make(__('admin.category.add_new'))
+                ->icon('plus')
+                ->route('platform.category.edit')
+        ];
     }
 
     /**
@@ -41,6 +50,8 @@ class CategoryListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            CategoryListLayout::class
+        ];
     }
 }
