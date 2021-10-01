@@ -51,4 +51,9 @@ class Product extends Model
             $query->where('slug', $slug);
         });
     }
+
+    public function characteristicValues(): HasMany
+    {
+        return $this->hasMany(CharacteristicValue::class);
+    }
 }
