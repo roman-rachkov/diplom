@@ -9,6 +9,7 @@ use App\Exceptions\PaymentException;
 use App\Models\Order;
 use App\Models\Payment;
 use Faker\Generator;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
 abstract class AbstractPaymentService implements PaymentServiceContract
@@ -44,18 +45,22 @@ abstract class AbstractPaymentService implements PaymentServiceContract
                 $this->paymentRepository->setStatus($payment->id, 'waiting_for_capture');
                 if ($this->validateCard($card)) {
                     $url = route('payment.complete');
-                    $data['_token'] = csrf_token();
                     $data['payment'] = $payment->id;
-                    $response = Http::post($url, $data);
-                    dd($response);
+//                    $response = Http::withHeaders([
+//                        'XSRF-TOKEN' => csrf_token(),
+//                    ])->post($url, $data);
+                    $response = Http::get($url, $data);
+                    return $response->json('status');
                 }
             } catch (PaymentException $exception) {
                 $url = route('payment.cancel');
                 $data['message'] = $exception->getMessage();
-                $data['_token'] = csrf_token();
                 $data['payment'] = $payment->id;
-                $response = Http::post($url, $data);
-                dd($response);
+//                $response = Http::withHeaders([
+//                    'XSRF-TOKEN' => csrf_token(),
+//                ])->post($url, $data);
+                $response = Http::get($url, $data);
+                return $response->json('status');
             }
         }
         return false;

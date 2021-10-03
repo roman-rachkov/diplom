@@ -93,6 +93,6 @@ Route::prefix('cart')->group(function () {
 
 Route::prefix('payment')->group(function (){
     Route::post('/', [PaymentController::class, 'create'])->name('payment.create');
-    Route::post('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
-    Route::post('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+    Route::get('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
+    Route::get('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });

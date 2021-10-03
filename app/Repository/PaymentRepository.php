@@ -49,7 +49,7 @@ class PaymentRepository implements PaymentRepositoryContract
 
     public function complete(int $id)
     {
-        $this->setStatus($id, 'completed');
+        $this->setStatus($id, 'succeeded');
         $payment = $this->getPaymentById($id);
         $payment->payed_at = Carbon::now();
         return $payment->save();
