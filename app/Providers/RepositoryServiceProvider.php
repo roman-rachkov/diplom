@@ -13,11 +13,11 @@ use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentRepositoryContract;
 use App\Contracts\Repository\PaymentsServiceRepositoryContract;
+use App\Contracts\Repository\PriceRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
-use App\Contracts\Repository\SellerRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
+use App\Contracts\Repository\SellerRepositoryContract;
 use App\Contracts\Repository\ViewedProductsRepositoryContract;
-use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Repository\AdminSettingsRepository;
 use App\Repository\BannerRepository;
 use App\Repository\CategoryRepository;
@@ -28,10 +28,11 @@ use App\Repository\ManufacturerRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderRepository;
 use App\Repository\PaymentRepository;
+use App\Repository\PriceRepository;
 use App\Repository\PaymentsServiceRepository;
 use App\Repository\ProductRepository;
-use App\Repository\SellerRepository;
 use App\Repository\UserRepository;
+use App\Repository\SellerRepository;
 use App\Repository\ViewedProductsRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -59,6 +60,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(SellerRepositoryContract::class, SellerRepository::class);
         $this->app->singleton(UserRepositoryContract::class, UserRepository::class);
         $this->app->singleton(PaymentsServiceRepositoryContract::class, PaymentsServiceRepository::class);
+        $this->app->singleton(PriceRepositoryContract::class, PriceRepository::class);
 
     }
 
