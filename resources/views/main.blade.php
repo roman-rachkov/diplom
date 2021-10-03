@@ -21,7 +21,7 @@
 
             </div>
             <div class="Section-content">
-                <x-top-products-component :products="$topProducts"/>
+                <x-top-products-component :products="$topProducts" :discounts="$discounts"/>
             </div>
         </div>
     </div>

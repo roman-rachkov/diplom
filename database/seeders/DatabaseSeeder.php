@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\PaymentsService;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Redis;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Redis::flushall();
         $this->call([
             UserSeeder::class,
             AttachmentSeeder::class,
@@ -27,6 +30,7 @@ class DatabaseSeeder extends Seeder
             OrderSeeder::class,
             OrderItemSeeder::class,
             ComparedSeeder::class,
+            PaymentsServiceSeeder::class,
             PaymentSeeder::class
         ]);
 

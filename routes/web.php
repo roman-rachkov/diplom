@@ -28,11 +28,14 @@ Route::get('/', [MainPageController::class, 'index'])->name('banners');
 Route::get('/discounts', function () {
 })->name('discounts.index');
 
+Route::get('/products/{slug}', [ProductsController::class, 'show'])->name('product.show');
+
 Route::post('/products/{slug}/add_to_cart', [ProductsController::class, 'addToCart'])
     ->name('product.addToCart');
 
 Route::post('/products/{slug}/add_to_comparison', [ProductsController::class, 'addToComparison'])
     ->name('product.addToComparison');
+
 Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.index');
 
 Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
@@ -57,7 +60,6 @@ Route::view('/about', 'about.main')->name('about');
 
 Route::prefix('/checkout')->group(function () {
 
-//    dd(app(\App\Contracts\Service\Cart\GetCartServiceContract::class)->getProductsQuantity());
     Route::prefix('/user')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
         Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
@@ -66,7 +68,7 @@ Route::prefix('/checkout')->group(function () {
     Route::view('/confirm', 'cart.step-four')->name('order.confirm');
     Route::post('/',[OrderController::class, 'add'])->name('order.add');
     Route::get('/', [OrderController::class, 'index'])->name('order.index');
-//    Route::get('/', fn(\App\Contracts\Service\Cart\GetCartServiceContract $cartServiceContract)=>dd($cartServiceContract->getItemsList()))->name('order.index');
+
 });
 
 Route::prefix('cart')->group(function () {
