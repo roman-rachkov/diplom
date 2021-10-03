@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->enum('delivery_type', ['default', 'express']);
             $table->string('city');
             $table->string('address');
-            $table->decimal('total', 6, 2);
+            $table->decimal('total', 10, 2);
             $table->text('comment');
             $table->timestamps();
 

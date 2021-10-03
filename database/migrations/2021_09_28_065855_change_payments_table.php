@@ -15,6 +15,7 @@ class ChangePaymentsTable extends Migration
     {
         Schema::table('payments', function (Blueprint $table) {
             $table->dropColumn('method');
+            $table->string('comment')->nullable();
             $table->unsignedBigInteger('payments_service_id');
             $table->foreign('payments_service_id')
                 ->references('id')
