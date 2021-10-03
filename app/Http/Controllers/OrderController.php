@@ -90,8 +90,9 @@ class OrderController extends Controller
         unset($data['payment']);
         unset($data['payService']);
         $order = $orderRepository->add(OrderDTO::create($data));
+        session(['order' => $order]);
+        session(['payService' => $paymentsService]);
 
-        return $paymentsService->render()->with(compact('order'));
-
+        return $paymentsService->render(compact('order'));
     }
 }

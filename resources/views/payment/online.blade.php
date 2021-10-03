@@ -5,7 +5,8 @@
 @section('content')
     <div class="Section">
         <div class="wrap">
-            <form class="form Payment" action="#" method="post">
+            <form class="form Payment" action="{{route('payment.create')}}" method="post">
+                @csrf
                 <div class="Payment-card">
                     <div class="form-group">
                         <label class="form-label">{{__('payment.card_number')}}</label>
@@ -14,7 +15,7 @@
                     </div>
                 </div>
                 <div class="Payment-pay">
-                    <a class="btn btn_primary" href="paymentprogress.html">{{__('payment.pay')}} ${{$order->total}}</a>
+                    <button class="btn btn_primary" type="submit">{{__('payment.pay')}} ${{$order->total}}</button>
                 </div>
             </form>
         </div>

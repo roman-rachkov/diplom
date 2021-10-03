@@ -2,25 +2,34 @@
 
 namespace App\Service\Payment;
 
+use App\Contracts\Repository\PaymentRepositoryContract;
 use App\Contracts\Repository\PaymentsServiceRepositoryContract;
 use App\Contracts\Service\PaymentServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
+use App\Jobs\GoPaymentJob;
+use App\Models\Order;
 use Illuminate\Support\Collection;
 
 class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
 {
 
     public PaymentsServiceRepositoryContract $repository;
+    private PaymentRepositoryContract $payment;
 
-    public function __construct(PaymentsServiceRepositoryContract $repository)
+    public function __construct(PaymentsServiceRepositoryContract $repository, PaymentRepositoryContract $payment)
     {
         $this->repository = $repository;
+        $this->payment = $payment;
     }
 
-    public function addPayment(float $cost): bool
+    public function addPayment(int $card, Order $order, PaymentServiceContract $paymentService): bool
     {
-        // TODO: Implement addPayment() method.
-        return false;
+        GoPaymentJob::dispatch(
+            $card,
+            $order,
+            $paymentService
+        );
+        return true;
     }
 
     public function getAllPaymentsServices(): Collection
@@ -32,4 +41,20 @@ class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
     {
         return app($this->repository->getPaymentsServiceById($id)->service);
     }
+
+    public function getPaymentById(int $id)
+    {
+        return $this->payment->getPaymentById($id);
+    }
+
+    public function canceled(int $id, string $message)
+    {
+        return $this->payment->cancel($id, $message);
+    }
+
+    public function completed(int $id)
+    {
+        return $this->payment->complete($id);
+    }
+
 }

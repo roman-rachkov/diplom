@@ -4,8 +4,10 @@ namespace App\Service\Payment;
 
 class OnlinePaymentService extends AbstractPaymentService
 {
-    public function render()
+    protected string $class = '\\' . __CLASS__;
+
+    public function render($inputs = null)
     {
-        return view('payment.online');
+        return view('payment.online')->with($inputs);
     }
 }

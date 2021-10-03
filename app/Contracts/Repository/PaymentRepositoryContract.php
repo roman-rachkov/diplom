@@ -13,4 +13,8 @@ interface PaymentRepositoryContract
     public function getPaymentById(int $id): bool|Payment;
 
     public function setStatus(int $paymentId, string $status): bool;
+
+    public function cancel(int $id, string $message);
+
+    public function complete(int $id);
 }

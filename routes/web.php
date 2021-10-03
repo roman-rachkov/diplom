@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
@@ -40,7 +41,7 @@ Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.i
 
 Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
 
-Route::get('/catalog/add_to_cart/{slug}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
+Route::get('/catalog/add_to_cart/{product}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
 Route::get('/catalog/compare/{slug}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
 
@@ -88,4 +89,10 @@ Route::prefix('cart')->group(function () {
     Route::delete('/{product}', [CartController::class, 'delete'])->name('cart.delete');
     Route::get('/', [CartController::class, 'index'])->name('cart.index');
 
+});
+
+Route::prefix('payment')->group(function (){
+    Route::post('/', [PaymentController::class, 'create'])->name('payment.create');
+    Route::post('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
+    Route::post('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });

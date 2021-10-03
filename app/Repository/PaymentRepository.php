@@ -6,6 +6,7 @@ use App\Contracts\Repository\PaymentRepositoryContract;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentsService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PaymentRepository implements PaymentRepositoryContract
@@ -36,5 +37,21 @@ class PaymentRepository implements PaymentRepositoryContract
             return $payment->save();
         }
         return false;
+    }
+
+    public function cancel(int $id, string $message)
+    {
+        $this->setStatus($id, 'canceled');
+        $payment = $this->getPaymentById($id);
+        $payment->comment = $message;
+        return $payment->save();
+    }
+
+    public function complete(int $id)
+    {
+        $this->setStatus($id, 'completed');
+        $payment = $this->getPaymentById($id);
+        $payment->payed_at = Carbon::now();
+        return $payment->save();
     }
 }

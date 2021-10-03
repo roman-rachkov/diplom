@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repository\ProductRepositoryContract;
-use App\Contracts\Service\AddToCartServiceContract;
+use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
@@ -47,7 +47,7 @@ class ProductsController extends Controller
 
     public function addToCart
     (
-        AddToCartServiceContract $addToCartService,
+        AddCartServiceContract $addToCartService,
         ViewedProductsServiceContract $viewedService,
         string $slug, Seller
         $seller = null

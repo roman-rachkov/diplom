@@ -9,9 +9,8 @@ interface PaymentServiceContract
 {
     public function add(Order $order): bool|Payment;
 
-    public function cancel(): bool;
+    public function pay(int $card, Order $order): bool|Payment;
 
-    public function complete(): bool;
+    public function render($inputs = null);
 
-    public function render();
 }
