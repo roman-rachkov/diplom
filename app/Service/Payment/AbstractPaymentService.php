@@ -6,73 +6,59 @@ use App\Contracts\Repository\PaymentRepositoryContract;
 use App\Contracts\Repository\PaymentsServiceRepositoryContract;
 use App\Contracts\Service\PaymentServiceContract;
 use App\Exceptions\PaymentException;
-use App\Models\Order;
 use App\Models\Payment;
 use Faker\Generator;
-use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 abstract class AbstractPaymentService implements PaymentServiceContract
 {
-
     private PaymentRepositoryContract $paymentRepository;
-    private PaymentsServiceRepositoryContract $paymentsServiceRepository;
-    protected string $class = '\\' . __CLASS__;
 
+    abstract public function namespace(): string;
 
-    public function __construct(
-        PaymentRepositoryContract         $paymentRepository,
-        PaymentsServiceRepositoryContract $paymentsServiceRepository
-    )
+    abstract public function render($inputs = null);
+
+    public function __construct(PaymentRepositoryContract $paymentRepository)
     {
         $this->paymentRepository = $paymentRepository;
-        $this->paymentsServiceRepository = $paymentsServiceRepository;
     }
 
-    public function add(Order $order): bool|Payment
+    public function pay(int $card, Payment $payment): bool
     {
-        return $this->paymentRepository->add(
-            $order,
-            $this->paymentsServiceRepository->getPaymentsServiceByService($this->class)
-        );
-    }
-
-    public function pay(int $card, Order $order): bool
-    {
-        $payment = $this->add($order);
-        if ($payment) {
-            try {
-                $this->paymentRepository->setStatus($payment->id, 'waiting_for_capture');
-                if ($this->validateCard($card)) {
-                    $url = route('payment.complete');
-                    $data['payment'] = $payment->id;
-//                    $response = Http::withHeaders([
-//                        'XSRF-TOKEN' => csrf_token(),
-//                    ])->post($url, $data);
-                    $response = Http::get($url, $data);
-                    return $response->json('status');
-                }
-            } catch (PaymentException $exception) {
-                $url = route('payment.cancel');
-                $data['message'] = $exception->getMessage();
+        app(UrlGenerator::class)->forceRootUrl(request()->server('SERVER_NAME') . ':' . request()->server('SERVER_PORT'));
+        try {
+            $this->paymentRepository->setStatus($payment->id, 'waiting_for_capture');
+            if ($this->validateCard($card)) {
+                $url = route('payment.complete');
                 $data['payment'] = $payment->id;
-//                $response = Http::withHeaders([
-//                    'XSRF-TOKEN' => csrf_token(),
-//                ])->post($url, $data);
-                $response = Http::get($url, $data);
+                $response = Http::put($url, $data);
                 return $response->json('status');
             }
+        } catch (PaymentException $exception) {
+            $url = route('payment.cancel');
+            $data['message'] = $exception->getMessage();
+            $data['payment'] = $payment->id;
+            $response = Http::put($url, $data);
+            return $response->json('status');
         }
         return false;
     }
 
     public function validateCard(int $card)
     {
-        if (collect(str_split($card, 1))->count() != 8) {
-            throw new PaymentException('Invalid Card Number');
-        }
-        if ($card % 2 != 0 || collect(str_split($card, 1))->last() == 0) {
-            throw new PaymentException(app(Generator::class)->realText(10));
+        $validator = Validator::make(
+            ['card' => $card],
+            ['card' => 'digits:8|multiple_of:2|not_regex:/^\d{7}[0]$/i'],
+            [
+                'digits' => 'Invalid Card Number',
+                'multiple_of' => app(Generator::class)->realText(50),
+                'not_regex' => app(Generator::class)->realText(50)
+            ]
+        );
+        if ($validator->fails()) {
+            throw new PaymentException($validator->getMessageBag()->getMessages()['card'][0]);
         }
         return true;
     }

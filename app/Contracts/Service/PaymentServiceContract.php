@@ -7,10 +7,10 @@ use App\Models\Payment;
 
 interface PaymentServiceContract
 {
-    public function add(Order $order): bool|Payment;
-
-    public function pay(int $card, Order $order): bool|Payment;
+    public function pay(int $card, Payment $payment): bool;
 
     public function render($inputs = null);
+
+    public function namespace(): string;
 
 }

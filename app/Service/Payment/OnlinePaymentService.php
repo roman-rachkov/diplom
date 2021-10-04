@@ -10,4 +10,9 @@ class OnlinePaymentService extends AbstractPaymentService
     {
         return view('payment.online')->with($inputs);
     }
+
+    public function namespace(): string
+    {
+        return $this->class;
+    }
 }

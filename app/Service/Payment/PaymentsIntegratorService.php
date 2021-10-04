@@ -24,9 +24,11 @@ class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
 
     public function addPayment(int $card, Order $order, PaymentServiceContract $paymentService): bool
     {
+        $service = $this->repository->getPaymentsServiceByService($paymentService->namespace());
+        $payment = $this->payment->add($order, $service);
         GoPaymentJob::dispatch(
             $card,
-            $order,
+            $payment,
             $paymentService
         );
         return true;

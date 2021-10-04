@@ -74,11 +74,6 @@ Route::prefix('/checkout')->group(function () {
 
 Route::prefix('cart')->group(function () {
 
-    Route::get('/test', function (\App\Contracts\Service\Cart\GetCartServiceContract $getCart, \App\Contracts\Service\Cart\AddCartServiceContract $addCart) {
-        $addCart->add(\App\Models\Product::has('prices')->inRandomOrder()->first(), rand(1, 10));
-        dd($getCart->getProductsList());
-    });
-
     Route::prefix('add')->group(function () {
         Route::get('/{product}/{seller}', [CartController::class, 'add'])->name('cart.addWithSeller');
         Route::get('/{product}', [CartController::class, 'add'])->name('cart.add');
@@ -93,6 +88,6 @@ Route::prefix('cart')->group(function () {
 
 Route::prefix('payment')->group(function (){
     Route::post('/', [PaymentController::class, 'create'])->name('payment.create');
-    Route::get('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
-    Route::get('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+    Route::put('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
+    Route::put('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });

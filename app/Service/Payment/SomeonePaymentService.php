@@ -10,4 +10,9 @@ class SomeonePaymentService extends AbstractPaymentService
     {
         return view('payment.someone')->with($inputs);
     }
+
+    public function namespace(): string
+    {
+        return $this->class;
+    }
 }
