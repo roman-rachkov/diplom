@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Contracts\Service\AddToCartServiceContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
@@ -54,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
     {
         require base_path('routes/breadcrumbs.php');
 
-        $this->app->singleton(AddToCartServiceContract::class, AddToCartService::class);
+        $this->app->singleton(AddCartServiceContract::class, AddCartService::class);
         $this->app->singleton(GetCartServiceContract::class, GetCartService::class);
         $this->app->singleton(DeliveryCostServiceContract::class, DeliveryCostService::class);
         $this->app->singleton(PayOrderServiceContract::class, PayOrderService::class);

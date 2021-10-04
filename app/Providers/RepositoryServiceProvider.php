@@ -19,7 +19,6 @@ use App\Contracts\Repository\ReviewRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Repository\SellerRepositoryContract;
 use App\Contracts\Repository\ViewedProductsRepositoryContract;
-use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Repository\AdminSettingsRepository;
 use App\Repository\BannerRepository;
 use App\Repository\CategoryRepository;
@@ -33,10 +32,10 @@ use App\Repository\OrderRepository;
 use App\Repository\PaymentRepository;
 use App\Repository\PriceRepository;
 use App\Repository\ProductRepository;
+use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Repository\SellerRepository;
 use App\Repository\ViewedProductsRepository;
-use App\Service\AdminSettingsService;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

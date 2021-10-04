@@ -6,7 +6,7 @@ use App\Contracts\Repository\CategoryRepositoryContract;
 use App\Contracts\Repository\PriceRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Repository\SellerRepositoryContract;
-use App\Contracts\Service\AddToCartServiceContract;
+use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Http\Requests\CatalogGetRequest;
@@ -58,7 +58,7 @@ class CatalogPageController extends Controller
     }
 
 
-    public function addToCart(AddToCartServiceContract $addToCart, Product $product)
+    public function addToCart(AddCartServiceContract $addToCart, Product $product)
     {
         if ($addToCart->add($product, 1)) {
             return back()->with('success', __('catalog.success.product_add_cart'));
