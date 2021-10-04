@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Contracts\Repository\AdminSettingsRepositoryContract;
 use App\Contracts\Repository\SellerRepositoryContract;
 use App\Models\Seller;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class SellerRepository implements SellerRepositoryContract
@@ -27,5 +28,10 @@ class SellerRepository implements SellerRepositoryContract
             return $this->model->find($id);
         });
         return $seller;
+    }
+
+    public function getAllSellers(): Collection
+    {
+        return $this->model->all(['id', 'name']);
     }
 }

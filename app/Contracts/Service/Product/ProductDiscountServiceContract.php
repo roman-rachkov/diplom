@@ -16,4 +16,6 @@ interface ProductDiscountServiceContract
 
     public function getProductDiscounts( Product $product): float;
 
+    public function getCatalogDiscounts(Collection $products): Collection;
+
 }

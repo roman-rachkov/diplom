@@ -55,4 +55,9 @@ class Product extends Model
             $query->where('slug', $slug);
         });
     }
+
+    public function manufacturer(): BelongsTo
+    {
+        return $this->belongsTo(Manufacturer::class);
+    }
 }

@@ -54,6 +54,16 @@ class ProductDiscountService implements ProductDiscountServiceContract
         return $priceWithDiscount > 0 ? $priceWithDiscount : 1;
     }
 
+    public function getCatalogDiscounts(Collection $products): Collection
+    {
+        $result = [];
+
+        foreach ($products as $product) {
+            $result[$product->id] = rand(500, 2500);
+        }
+
+        return new Collection($result);
+    }
 
     public function getProductDiscounts( Product $product): float
     {

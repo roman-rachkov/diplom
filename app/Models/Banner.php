@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\FlushTagCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Filters\Filterable;
@@ -12,7 +13,7 @@ use Orchid\Screen\AsSource;
 
 class Banner extends Model
 {
-    use HasFactory, AsSource, Attachable, Filterable, FlushTagCache;
+    use HasFactory, AsSource, Attachable, Filterable, FlushTagCache, SoftDeletes;
 
     public static $tagsArr = ['banners'];
 
