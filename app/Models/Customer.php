@@ -26,4 +26,9 @@ class Customer extends Model
     {
         return $this->items()->where('order_id', null);
     }
+
+    public function viewedProducts()
+    {
+        return $this->hasMany(ViewedProduct::class);
+    }
 }
