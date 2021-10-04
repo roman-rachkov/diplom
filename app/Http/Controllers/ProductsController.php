@@ -34,13 +34,15 @@ class ProductsController extends Controller
      * @param string $slug
      * @return Application|Factory|View
      */
-    public function show(ProductDiscountServiceContract $discountService, string $slug): Application|Factory|View
+    public function show(ProductDiscountServiceContract $discountService, string $slug, ViewedProductsServiceContract $viewedProductsService): Application|Factory|View
     {
         $product = $this->productRepository->find($slug);
         $discount = $discountService->getProductDiscounts($product);
         $avgPrice = round($product->prices->avg('price'), 2);
         $avgDiscountPrice = round($avgPrice * (1 - $discount),2);
         $discount = intval($discount * 100);
+
+        $viewedProductsService->add($product);
 
         return view('products.show', compact('product', 'avgDiscountPrice', 'avgPrice', 'discount'));
     }

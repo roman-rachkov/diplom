@@ -13,6 +13,7 @@ use App\Contracts\Service\PayOrderServiceContract;
 use App\Contracts\Service\AddReviewServiceContract;
 use App\Contracts\Service\ImportSellerServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
+use App\Contracts\Service\Product\ViewedProductsServiceContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Models\Customer;
 use App\Service\AdminSettingsService;
@@ -25,6 +26,7 @@ use App\Service\PayOrderService;
 use App\Service\AddReviewService;
 use App\Service\ImportSellerService;
 use App\Service\Product\ProductDiscountService;
+use App\Service\Product\ViewedProductsService;
 use App\Service\UsersAvatarService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
@@ -43,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(UsersAvatarServiceContract::class, UsersAvatarService::class);
+        $this->app->singleton(ViewedProductsServiceContract::class, ViewedProductsService::class);
     }
 
     /**
