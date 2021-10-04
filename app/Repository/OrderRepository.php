@@ -37,4 +37,9 @@ class OrderRepository implements OrderRepositoryContract
         $order->items()->saveMany($this->cart->getItemsList());
         return $order;
     }
+
+    public function getLastOrder(): Order
+    {
+        return $this->customer->orders->last();
+    }
 }

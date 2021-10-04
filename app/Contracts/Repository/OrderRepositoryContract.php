@@ -8,4 +8,6 @@ use App\Models\Order;
 interface OrderRepositoryContract
 {
     public function add(OrderDTO $DTO): Order;
+
+    public function getLastOrder(): Order;
 }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\PaymentRepositoryContract;
+use App\Events\ChangePaymentStatus;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentsService;
@@ -44,6 +45,7 @@ class PaymentRepository implements PaymentRepositoryContract
         $this->setStatus($id, 'canceled');
         $payment = $this->getPaymentById($id);
         $payment->comment = $message;
+        event(new ChangePaymentStatus($payment));
         return $payment->save();
     }
 
@@ -52,6 +54,7 @@ class PaymentRepository implements PaymentRepositoryContract
         $this->setStatus($id, 'succeeded');
         $payment = $this->getPaymentById($id);
         $payment->payed_at = Carbon::now();
+        event(new ChangePaymentStatus($payment));
         return $payment->save();
     }
 }

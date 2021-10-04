@@ -1,5 +1,8 @@
 <?php
 
+use App\Contracts\Repository\OrderRepositoryContract;
+use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -13,6 +16,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('payment.{payment}', function (User $user, Payment $payment) {
+    return $payment->is(app(OrderRepositoryContract::class)->getLastOrder()->payment);
 });

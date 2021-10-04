@@ -67,7 +67,7 @@ Route::prefix('/checkout')->group(function () {
     });
     Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
     Route::view('/confirm', 'cart.step-four')->name('order.confirm');
-    Route::post('/',[OrderController::class, 'add'])->name('order.add');
+    Route::post('/', [OrderController::class, 'add'])->name('order.add');
     Route::get('/', [OrderController::class, 'index'])->name('order.index');
 
 });
@@ -86,7 +86,7 @@ Route::prefix('cart')->group(function () {
 
 });
 
-Route::prefix('payment')->group(function (){
+Route::prefix('payment')->group(function () {
     Route::post('/', [PaymentController::class, 'create'])->name('payment.create');
     Route::put('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
     Route::put('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');

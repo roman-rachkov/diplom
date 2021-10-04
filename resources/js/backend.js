@@ -37,6 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    if (location.pathname === '/payment') {
+        const paymentId = parseInt(document.querySelector('[data-payment]').dataset.payment);
+        checkPaymentStatus(paymentId);
+    }
+
     function updateProduct(item, data) {
         axios.put(item.closest('[data-link]').dataset.link, data)
             .then(response => {
@@ -45,6 +50,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
         ;
+    }
+
+    function checkPaymentStatus(paymentId) {
+        Echo.private('payment.' + paymentId)
+            .listen('ChangePaymentStatus', e => {
+                setPaymentStatus(e.payment);
+            });
+    }
+
+    function setPaymentStatus(payment) {
+        const element = document.querySelector('.ProgressPayment');
+        element.innerHTML = '';
+        const header = document.createElement('h3');
+        header.textContent = "Статус оплаты: " + payment.status
+        header.style.textAlign = "center";
+        element.appendChild(header);
+        const message = document.createElement('p');
+        message.textContent = "Комментарий к оплате: " + payment.comment
+        element.appendChild(message);
     }
 });
 
@@ -98,3 +122,4 @@ $(document).ready($ => {
     });
 
 });
+

@@ -3,7 +3,7 @@
 @section('title', __('payment.waiting').$order->id)
 
 @section('content')
-    <div class="Section">
+    <div class="Section" data-payment="{{$order->payment->id}}">
         <div class="wrap">
             <div class="ProgressPayment">
                 <div class="ProgressPayment-title">{{__('payment.wait')}}</div>
