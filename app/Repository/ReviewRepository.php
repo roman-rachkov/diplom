@@ -44,7 +44,9 @@ class ReviewRepository implements ReviewRepositoryContract
                 'users',
             ])
             ->remember(
-                'reviews_page=' . $currentPage,
+                'reviews:page=' . $currentPage .
+                '|per_page='. $perPage .
+                '|product_id=' . $productId,
                 $ttl,
                 function () use ($productId, $perPage, $currentPage) {
                     return Review::where('product_id', $productId)->with('user:id,name')
