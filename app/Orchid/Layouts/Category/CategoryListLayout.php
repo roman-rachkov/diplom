@@ -17,7 +17,7 @@ class CategoryListLayout extends Table
      *
      * @var string
      */
-    protected $target = '';
+    protected $target = 'categories';
 
     /**
      * Get the table cells to be displayed.
@@ -30,14 +30,13 @@ class CategoryListLayout extends Table
             TD::make('id', 'ID')
                 ->width('150')
                 ->render(function (Category $category) {
-                    dd($category);
-                    "<img src='" . asset('assets/img/icons/departments/'. $category->icon . '.svg') . "
-                              alt='{$category->name}'
+                    return '<img src="' . asset('assets/img/icons/departments/'. $category->icon . '.svg"')
+                              . "alt='{$category->name}'
                               class='mw-100 d-block img-fluid'>
                             <span class='small text-muted mt-1 mb-0'># {$category->id}</span>";
                 }),
 
-            TD::make('title', __('admin.category.title'))
+            TD::make('name', __('admin.category.title'))
                 ->sort()
                 ->filter(TD::FILTER_TEXT)
                 ->render(function (Category $category) {
@@ -45,12 +44,22 @@ class CategoryListLayout extends Table
                         ->route('platform.category.edit', $category);
                 }),
 
+            TD::make('parent_id', __('admin.category.parent'))
+                ->sort()
+                ->filter(TD::FILTER_TEXT)
+                ->render(function (Category $category) {
+                    if ($category->parent) {
+                        return Link::make("ID: " . $category->parent->id . " - " .$category->parent->name)
+                        ->route('platform.category.edit', $category->parent);
+                    }
+                }),
 
             TD::make('created_at', __('Created'))
                 ->sort()
                 ->render(function (Category $category) {
                     return $category->created_at;
                 }),
+
             TD::make('updated_at', __('Last edit'))
                 ->sort()
                 ->render(function (Category $category) {

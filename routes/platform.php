@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\Banner\BannerEditScreen;
 use App\Orchid\Screens\Banner\BannerListScreen;
+use App\Orchid\Screens\Category\CategoryEditScreen;
 use App\Orchid\Screens\Category\CategoryListScreen;
-use App\Orchid\Screens\CategoryEditScreen;
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
-use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -130,6 +123,13 @@ Route::screen('banners', BannerListScreen::class)
     });
 
 //Platform > Category
+Route::screen('category/add', CategoryEditScreen::class)
+    ->name('platform.category.add')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.category.edit'));
+    });
 
 Route::screen('category', CategoryListScreen::class)
     ->name('platform.category.list')
@@ -138,6 +138,7 @@ Route::screen('category', CategoryListScreen::class)
             ->parent('platform.index')
             ->push(__('admin.category.panel_name'));
     });
+
 Route::screen('category/{category?}', CategoryEditScreen::class)
     ->name('platform.category.edit')
     ->breadcrumbs(function (Trail $trail){
