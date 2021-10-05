@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateNewUserInOrder;
+use App\Actions\CreateNewUserWithPhone;
 use App\Contracts\Repository\AdminSettingsRepositoryContract;
 use App\Contracts\Repository\OrderRepositoryContract;
-use App\Contracts\Repository\PaymentsServiceRepositoryContract;
+use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\DeliveryCostServiceContract;
@@ -15,6 +15,7 @@ use Closure;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
+use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class OrderController extends Controller
 {
@@ -43,7 +44,7 @@ class OrderController extends Controller
         return back();
     }
 
-    public function registerUser(Request $request, StatefulGuard $guard, CreateNewUserInOrder $creator)
+    public function registerUser(Request $request, StatefulGuard $guard, CreatesNewUsers $creator)
     {
         event(new Registered($user = $creator->create($request->all())));
 
@@ -57,10 +58,10 @@ class OrderController extends Controller
     }
 
     public function confirm(
-        Request                           $request,
-        PaymentsServiceRepositoryContract $repository,
-        GetCartServiceContract            $cart,
-        DeliveryCostServiceContract       $delivery
+        Request                            $request,
+        PaymentsServicesRepositoryContract $repository,
+        GetCartServiceContract             $cart,
+        DeliveryCostServiceContract        $delivery
     )
     {
         $data = $request->validate([

@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Orchid\Screen\Repository;
 
-class CreateNewUserInOrder implements CreatesNewUsers
+class CreateNewUserWithPhone implements CreatesNewUsers
 {
     use PasswordValidationRules;
 

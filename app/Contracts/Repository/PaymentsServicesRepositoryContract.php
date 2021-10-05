@@ -5,7 +5,7 @@ namespace App\Contracts\Repository;
 use App\Models\PaymentsService;
 use Illuminate\Support\Collection;
 
-interface PaymentsServiceRepositoryContract
+interface PaymentsServicesRepositoryContract
 {
     public function add(string $name, string $namespace);
 

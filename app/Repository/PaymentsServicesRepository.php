@@ -2,12 +2,12 @@
 
 namespace App\Repository;
 
-use App\Contracts\Repository\PaymentsServiceRepositoryContract;
+use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Models\PaymentsService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
-class PaymentsServiceRepository implements PaymentsServiceRepositoryContract
+class PaymentsServicesRepository implements PaymentsServicesRepositoryContract
 {
 
     public function add(string $name, string $namespace)

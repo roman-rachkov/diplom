@@ -12,7 +12,7 @@ use App\Contracts\Repository\ManufacturerRepositoryContract;
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentRepositoryContract;
-use App\Contracts\Repository\PaymentsServiceRepositoryContract;
+use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Repository\PriceRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
@@ -29,7 +29,7 @@ use App\Repository\OrderItemRepository;
 use App\Repository\OrderRepository;
 use App\Repository\PaymentRepository;
 use App\Repository\PriceRepository;
-use App\Repository\PaymentsServiceRepository;
+use App\Repository\PaymentsServicesRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use App\Repository\SellerRepository;
@@ -59,7 +59,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(ManufacturerRepositoryContract::class, ManufacturerRepository::class);
         $this->app->singleton(SellerRepositoryContract::class, SellerRepository::class);
         $this->app->singleton(UserRepositoryContract::class, UserRepository::class);
-        $this->app->singleton(PaymentsServiceRepositoryContract::class, PaymentsServiceRepository::class);
+        $this->app->singleton(PaymentsServicesRepositoryContract::class, PaymentsServicesRepository::class);
         $this->app->singleton(PriceRepositoryContract::class, PriceRepository::class);
 
     }

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Contracts\Service\AddToCartServiceContract;
+use App\Actions\CreateNewUserWithPhone;
 use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
@@ -29,6 +29,7 @@ use App\Service\UsersAvatarService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,10 +44,9 @@ class AppServiceProvider extends ServiceProvider
             return 'Database\\Factories\\' . class_basename($class) . 'Factory';
         });
 
+        $this->app->singleton(CreatesNewUsers::class, CreateNewUserWithPhone::class);
         $this->app->singleton(UsersAvatarServiceContract::class, UsersAvatarService::class);
-
         $this->app->singleton(DeliveryCostServiceContract::class, DeliveryCostService::class);
-        $this->app->singleton(PayOrderServiceContract::class, PayOrderService::class);
         $this->app->singleton(AdminSettingsServiceContract::class, AdminSettingsService::class);
         $this->app->singleton(ImportSellerServiceContract::class, ImportSellerService::class);
         $this->app->singleton(AddReviewServiceContract::class, AddReviewService::class);

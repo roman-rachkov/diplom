@@ -3,7 +3,7 @@
 namespace App\Service\Payment;
 
 use App\Contracts\Repository\PaymentRepositoryContract;
-use App\Contracts\Repository\PaymentsServiceRepositoryContract;
+use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Service\PaymentServiceContract;
 use App\Exceptions\PaymentException;
 use App\Models\Payment;

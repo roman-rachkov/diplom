@@ -3,7 +3,7 @@
 namespace App\Service\Payment;
 
 use App\Contracts\Repository\PaymentRepositoryContract;
-use App\Contracts\Repository\PaymentsServiceRepositoryContract;
+use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Service\PaymentServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\Jobs\GoPaymentJob;
@@ -13,10 +13,10 @@ use Illuminate\Support\Collection;
 class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
 {
 
-    public PaymentsServiceRepositoryContract $repository;
+    public PaymentsServicesRepositoryContract $repository;
     private PaymentRepositoryContract $payment;
 
-    public function __construct(PaymentsServiceRepositoryContract $repository, PaymentRepositoryContract $payment)
+    public function __construct(PaymentsServicesRepositoryContract $repository, PaymentRepositoryContract $payment)
     {
         $this->repository = $repository;
         $this->payment = $payment;
