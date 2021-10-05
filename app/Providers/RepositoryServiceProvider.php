@@ -15,6 +15,7 @@ use App\Contracts\Repository\PaymentRepositoryContract;
 use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Repository\PriceRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
+use App\Contracts\Repository\ReviewRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Repository\SellerRepositoryContract;
 use App\Contracts\Repository\ViewedProductsRepositoryContract;
@@ -31,6 +32,7 @@ use App\Repository\PaymentRepository;
 use App\Repository\PriceRepository;
 use App\Repository\PaymentsServicesRepository;
 use App\Repository\ProductRepository;
+use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Repository\SellerRepository;
 use App\Repository\ViewedProductsRepository;
@@ -61,6 +63,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(UserRepositoryContract::class, UserRepository::class);
         $this->app->singleton(PaymentsServicesRepositoryContract::class, PaymentsServicesRepository::class);
         $this->app->singleton(PriceRepositoryContract::class, PriceRepository::class);
+        $this->app->singleton(ReviewRepositoryContract::class, ReviewRepository::class);
 
     }
 
