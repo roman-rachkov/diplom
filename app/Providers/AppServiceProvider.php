@@ -27,6 +27,7 @@ use App\Service\ImportSellerService;
 use App\Service\Product\ProductDiscountService;
 use App\Service\UsersAvatarService;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -59,10 +60,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PaymentsIntegratorServiceContract::class, PaymentsIntegratorService::class);
 
         $this->app->singleton(Customer::class, function () {
-            $customer = Customer::firstOrNew(['hash' => session('customer_token')]);;
-            if($customer->hash === null){
+            $customer = Customer::firstOrNew(['hash' => Cookie::get('customer_token')]);;
+            if ($customer->hash === null) {
                 $customer->hash = hash('sha256', $customer);
-                session(['customer_token' => $customer->hash]);
+                Cookie::queue(Cookie::forever('customer_token', $customer->hash));
             }
             $customer->save();
             return $customer;
