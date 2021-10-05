@@ -46,7 +46,7 @@ abstract class AbstractPaymentService implements PaymentServiceContract
         return false;
     }
 
-    public function validateCard(int $card)
+    private function validateCard(int $card)
     {
         $validator = Validator::make(
             ['card' => $card],

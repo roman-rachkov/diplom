@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
+use App\Http\Requests\PaymentFormRequest;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
     public function create(
-        Request                           $request,
+        PaymentFormRequest                $request,
         PaymentsIntegratorServiceContract $serviceContract
     )
     {
-        $card = $request->validate([
-            'payment_card' => 'required|regex:/^\d{4} \d{4}$/i'
-        ])['payment_card'];
-        $card = (int)str_replace(' ', '', $card);
+        $card = (int)str_replace(' ', '', $request->validated()['payment_card']);
         $order = session()->pull('order');
-        $serviceContract->addPayment($card, $order, session()->pull('payService'));
+        try {
+            $serviceContract->addPayment($card, $order, session()->pull('payService'));
+        } catch (\Throwable $e) {
+            abort($e->getCode(), $e->getMessage());
+        }
 
         return view('payment.waiting')->with(compact('order'));
     }
@@ -26,8 +28,11 @@ class PaymentController extends Controller
     {
         $data = $request->validate(['payment' => 'exists:payments,id']);
 
-        $status = $paymentsService->completed($data['payment']);
-
+        try {
+            $status = $paymentsService->completed($data['payment']);
+        } catch (\Throwable $e) {
+            abort($e->getCode(), $e->getMessage());
+        }
         return response()->json(['status' => $status]);
 
     }
@@ -39,7 +44,11 @@ class PaymentController extends Controller
             'message' => 'required'
         ]);
 
-        $status = $paymentsService->canceled($data['payment'], $data['message']);
+        try {
+            $status = $paymentsService->canceled($data['payment'], $data['message']);
+        } catch (\Throwable $e) {
+            abort($e->getCode(), $e->getMessage());
+        }
 
         return response()->json(['status' => $status]);
 

@@ -11,6 +11,7 @@ use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\DeliveryCostServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\DTO\OrderDTO;
+use App\Http\Requests\OrderConfirmRequest;
 use Closure;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -58,42 +59,41 @@ class OrderController extends Controller
     }
 
     public function confirm(
-        Request                            $request,
+        OrderConfirmRequest                $request,
         PaymentsServicesRepositoryContract $repository,
         GetCartServiceContract             $cart,
         DeliveryCostServiceContract        $delivery
     )
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'phone' => 'required|regex:/^\+7\(\d{3}\) \d{3}-\d{2}-\d{2}$/i',
-            'email' => 'required|email:rfc',
-            'delivery' => 'required',
-            'city' => 'required',
-            'address' => 'required',
-            'payment' => 'required|exists:payments_services,id'
-        ]);
-        $data['payService'] = $repository->getPaymentsServiceById($data['payment'])->name;
-        $data['totalCost'] = $cart->getTotalCost() + $delivery->getCost($data['delivery']);
-        session(['order_data' => $data]);
+        try {
+            $data = $request->validated();
+            $data['payService'] = $repository->getPaymentsServiceById($data['payment'])->name;
+            $data['totalCost'] = $cart->getTotalCost() + $delivery->getCost($data['delivery']);
+            session(['order_data' => $data]);
 
+        } catch (\Throwable $e) {
+            abort($e->getCode(), $e->getMessage());
+        }
         return view('cart.step-four')->with(compact('data'));
     }
 
     public function add(Request $request, PaymentsIntegratorServiceContract $payments, OrderRepositoryContract $orderRepository)
     {
-        if (!session('order_data')) {
-            return redirect()->route('order.index');
-        }
-        $data = collect(session('order_data'));
-        $paymentsService = $payments->getPaymentsServiceById($data['payment']);
-        $data['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $data['phone']);
-        unset($data['payment']);
-        unset($data['payService']);
-        $order = $orderRepository->add(OrderDTO::create($data));
-        session(['order' => $order]);
-        session(['payService' => $paymentsService]);
+        try {
+            if (!session('order_data')) {
+                return redirect()->route('order.index');
+            }
+            $data = collect(session('order_data'));
+            $paymentsService = $payments->getPaymentsServiceById($data['payment']);
+            unset($data['payment']);
+            unset($data['payService']);
+            $order = $orderRepository->add(OrderDTO::create($data));
+            session(['order' => $order]);
+            session(['payService' => $paymentsService]);
 
+        } catch (\Throwable $e) {
+            abort($e->getCode(), $e->getMessage());
+        }
         return $paymentsService->render(compact('order'));
     }
 }

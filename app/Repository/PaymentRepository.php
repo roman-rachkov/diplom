@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Contracts\Repository\PaymentRepositoryContract;
 use App\Events\ChangePaymentStatus;
+use App\Exceptions\PaymentException;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentsService;
@@ -26,18 +27,15 @@ class PaymentRepository implements PaymentRepositoryContract
         try {
             return Payment::findOrFail($id);
         } catch (ModelNotFoundException $exception) {
-            return false;
+            throw new PaymentException('Payment with \'id ='.$id.'\' not found');
         }
     }
 
     public function setStatus(int $paymentId, string $status): bool
     {
         $payment = $this->getPaymentById($paymentId);
-        if ($payment) {
-            $payment->status = $status;
-            return $payment->save();
-        }
-        return false;
+        $payment->status = $status;
+        return $payment->save();
     }
 
     public function cancel(int $id, string $message)

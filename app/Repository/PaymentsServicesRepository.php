@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\PaymentsServicesRepositoryContract;
+use App\Contracts\Service\AdminSettingsServiceContract;
+use App\Exceptions\PaymentsServiceException;
 use App\Models\PaymentsService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
@@ -20,7 +22,13 @@ class PaymentsServicesRepository implements PaymentsServicesRepositoryContract
 
     public function getPaymentsServicesList(): Collection
     {
-        return PaymentsService::all();
+        return cache()->tags(['paymentsService', 'payment'])->remember(
+            'paymentsServicesList',
+            app(AdminSettingsServiceContract::class)->get('paymentCacheLifeTime', 20 * 60),
+            function () {
+                return PaymentsService::all();
+            }
+        );
     }
 
     public function getPaymentsServiceById(int $id): bool|PaymentsService
@@ -28,7 +36,7 @@ class PaymentsServicesRepository implements PaymentsServicesRepositoryContract
         try {
             return PaymentsService::findOrFail($id);
         } catch (ModelNotFoundException $e) {
-            return false;
+            throw new PaymentsServiceException('Service with \'id = ' . $id . '\' not found');
         }
     }
 
@@ -37,7 +45,7 @@ class PaymentsServicesRepository implements PaymentsServicesRepositoryContract
         try {
             return PaymentsService::firstWhere('service', $namespace);
         } catch (ModelNotFoundException $e) {
-            return false;
+            throw new PaymentsServiceException('Service \'' . $namespace . '\' not found');
         }
     }
 
