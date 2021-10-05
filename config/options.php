@@ -29,6 +29,11 @@ return [
                 'variable' => 'deliveryPrice',
                 'value' => '200',
             ],
+            [
+                'name' => 'Минимальная сумма корзины, для бесплатной доставки',
+                'variable' => 'minimalCartCost',
+                'value' => '2000',
+            ],
         ],
         'user' => [
             [

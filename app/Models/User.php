@@ -48,8 +48,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'permissions'          => 'array',
-        'email_verified_at'    => 'datetime',
+        'permissions' => 'array',
+        'email_verified_at' => 'datetime',
     ];
 
     /**
@@ -89,6 +89,11 @@ class User extends Authenticatable
 
     public function reviews(): hasMany
     {
-        return  $this->hasMany(Review::class);
+        return $this->hasMany(Review::class);
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
     }
 }
