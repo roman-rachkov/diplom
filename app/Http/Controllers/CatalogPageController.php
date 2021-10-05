@@ -57,7 +57,6 @@ class CatalogPageController extends Controller
         ));
     }
 
-
     public function addToCart(AddCartServiceContract $addToCart, Product $product)
     {
         if ($addToCart->add($product, 1)) {

@@ -3,6 +3,8 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\SellerController;
@@ -25,9 +27,8 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
-Route::get('/orders', function () {})->name('orders.create');
-
-Route::get('/discounts', function () {})->name('discounts.index');
+Route::get('/discounts', function () {
+})->name('discounts.index');
 
 Route::get('/products/{slug}', [ProductsController::class, 'show'])
     ->name('product.show');
@@ -49,7 +50,7 @@ Route::get('/catalog', [CatalogPageController::class, 'index'])
 
 Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
 
-Route::get('/catalog/add_to_cart/{slug}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
+Route::get('/catalog/add_to_cart/{product}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
 Route::get('/catalog/compare/{slug}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
 
@@ -58,7 +59,8 @@ Route::get('/feedbacks', [FeedbackController::class, 'index'])
 Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
     ->name('feedbacks.send_message');
 
-Route::get('/products/comparison', function () {})->name('comparison');
+Route::get('/products/comparison', function () {
+})->name('comparison');
 
 Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
@@ -68,9 +70,22 @@ Route::get('sellers/{id}', [SellerController::class, 'show']);
 
 Route::view('/about', 'about.main')->name('about');
 
-Route::prefix('cart')->group(function (){
+Route::prefix('/checkout')->group(function () {
 
-    Route::prefix('add')->group(function (){
+    Route::prefix('/user')->group(function () {
+        Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
+        Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
+    });
+    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::view('/confirm', 'cart.step-four')->name('order.confirm');
+    Route::post('/', [OrderController::class, 'add'])->name('order.add');
+    Route::get('/', [OrderController::class, 'index'])->name('order.index');
+
+});
+
+Route::prefix('cart')->group(function () {
+
+    Route::prefix('add')->group(function () {
         Route::get('/{product}/{seller}', [CartController::class, 'add'])->name('cart.addWithSeller');
         Route::get('/{product}', [CartController::class, 'add'])->name('cart.add');
     });
@@ -80,4 +95,10 @@ Route::prefix('cart')->group(function (){
     Route::delete('/{product}', [CartController::class, 'delete'])->name('cart.delete');
     Route::get('/', [CartController::class, 'index'])->name('cart.index');
 
+});
+
+Route::prefix('payment')->group(function () {
+    Route::post('/', [PaymentController::class, 'create'])->name('payment.create');
+    Route::put('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
+    Route::put('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });

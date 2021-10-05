@@ -19,9 +19,10 @@ class CreateOrdersTable extends Migration
             $table->string('full_name');
             $table->string('email');
             $table->string('phone');
-            $table->unsignedBigInteger('shipping_type_id');
+            $table->enum('delivery_type', ['default', 'express']);
             $table->string('city');
-            $table->decimal('total', 6, 2);
+            $table->string('address');
+            $table->decimal('total', 10, 2);
             $table->text('comment');
             $table->timestamps();
 

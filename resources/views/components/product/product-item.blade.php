@@ -5,7 +5,7 @@
         <div class="ProductCard-look">
             <div class="ProductCard-photo">
                 <div class="ProductCard-sale">-{{ $discount }}%
-                </div><img src={{$product->image->path}} alt={{$product->image->alt}}/>
+                </div><img src={{$product->image->getRelativeUrlAttribute()}} alt={{$product->image->alt}}/>
             </div>
             <x-product.product-item-images :images="$product->attachment"/>
         </div>
