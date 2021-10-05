@@ -51,13 +51,13 @@ Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('fee
 Route::get('/products/comparison', function () {
 })->name('comparison');
 
-Route::get('/order/{order}', [UserController::class, 'showOrder'])->name('users.order');
 
-Route::prefix('users')->group(function () {
-    Route::get('/users/{user}/orders', [UserController::class, 'orders'])->name('users.orders');
-    Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
-    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
+Route::prefix('users')->middleware(['auth'])->group(function () {
+    Route::get('/{user}/order/{order}', [UserController::class, 'showOrder'])->name('users.order');
+    Route::get('/{user}/orders', [UserController::class, 'orders'])->name('users.orders');
+    Route::get('/{user}/show', [UserController::class, 'show'])->name('users.show');
+    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/{user}/edit', [UserController::class, 'update'])->name('users.update');
 });
 
 Route::get('sellers/{id}', [SellerController::class, 'show']);
