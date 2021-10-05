@@ -6,6 +6,7 @@ use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
@@ -29,7 +30,8 @@ Route::get('/', [MainPageController::class, 'index'])->name('banners');
 Route::get('/discounts', function () {
 })->name('discounts.index');
 
-Route::get('/products/{slug}', [ProductsController::class, 'show'])->name('product.show');
+Route::get('/products/{slug}', [ProductsController::class, 'show'])
+    ->name('product.show');
 
 Route::post('/products/{slug}/add_to_cart', [ProductsController::class, 'addToCart'])
     ->name('product.addToCart');
@@ -37,7 +39,14 @@ Route::post('/products/{slug}/add_to_cart', [ProductsController::class, 'addToCa
 Route::post('/products/{slug}/add_to_comparison', [ProductsController::class, 'addToComparison'])
     ->name('product.addToComparison');
 
-Route::get('/catalog', [CatalogPageController::class, 'index'])->name('catalog.index');
+Route::post('/products/show_reviews/{product}', [ProductsController::class, 'showReviews'])
+    ->name('product.showReviews');
+
+Route::middleware('auth')->put('/reviews/{product}', [ReviewsController::class, 'store'])
+    ->name('review.store');
+
+Route::get('/catalog', [CatalogPageController::class, 'index'])
+    ->name('catalog.index');
 
 Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
 
@@ -45,8 +54,10 @@ Route::get('/catalog/add_to_cart/{product}', [CatalogPageController::class, 'add
 
 Route::get('/catalog/compare/{slug}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
 
-Route::get('/feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
-Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('feedbacks.send_message');
+Route::get('/feedbacks', [FeedbackController::class, 'index'])
+    ->name('feedbacks.index');
+Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
+    ->name('feedbacks.send_message');
 
 Route::get('/products/comparison', function () {
 })->name('comparison');

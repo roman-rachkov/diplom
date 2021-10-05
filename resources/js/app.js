@@ -7,6 +7,7 @@ require('ion-rangeslider');
 require('slick-carousel');
 
 require('./scripts');
+require('./add_reviews');
 require('./backend');
 
 require('../css/backend.css')
