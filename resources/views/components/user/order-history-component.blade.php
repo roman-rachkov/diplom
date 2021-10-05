@@ -2,27 +2,38 @@
     <div class="Order-personal">
         <div class="row">
             <div class="row-block">
-                <a class="Order-title" href="oneorder.html">Заказ&#32;<span
-                        class="Order-numberOrder">№199</span>&#32;от&#32;<span
-                        class="Order-dateOrder">20.07.2020</span></a>
+                <a class="Order-title" href="{{route('users.order', $order)}}">
+                    {!! __('profile.orders.order', ['id' => $order->id, 'date'=>$order->created_at->format('d.m.Y')]) !!}
+                </a>
             </div>
             <div class="row-block">
-                <x-info-component title="Тип доставки" classes="Order-info_delivery">
-                    Обычная доставка
+                <x-info-component :title="__('checkout.delivery.type')" classes="Order-info_delivery">
+                    {{
+                        $order->delivery_type == 'express'
+                            ? __('checkout.delivery.express')
+                            : __('checkout.delivery.default')
+                    }}
                 </x-info-component>
-                <x-info-component title="Оплата" classes="Order-info_pay">
-                    Онлайн картой
+                <x-info-component :title="__('checkout.payment.title')" classes="Order-info_pay">
+                    {{$order->payment->paymentsService->name}}
                 </x-info-component>
-                <x-info-component title="Общая стоимость">
-                    <span class="Order-price">100.99$</span>
+                <x-info-component :title="__('profile.orders.totalCost')">
+                    <span class="Order-price">{{$order->total}}$</span>
                 </x-info-component>
-                <x-info-component title="Статус" classes="Order-info_status">
-                    Оплачен
+                <x-info-component :title="__('profile.orders.status')" classes="Order-info_status">
+                    @if($order->payment->status !== 'canceled' && $order->payment->status !== 'succeeded')
+                        {{__('profile.orders.pay.notPayed')}}
+                    @else
+                        {{__('profile.orders.pay.payed')}}
+                    @endif
                 </x-info-component>
-                <x-info-component title="Оплата не прошла" classes="Order-info_error">
-                    Оплата не выполнена, т.к. вы подозреваетесь в нетолерантности
-                </x-info-component>
-                </div>
+                @if($order->payment->comment !== null)
+                    <x-info-component :title="__('profile.orders.pay.error')" classes="Order-info_error">
+                        {{
+                            $order->payment->comment
+                        }}
+                    </x-info-component>
+                @endif
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Http\Requests\UpdateUserRequest;
@@ -51,7 +52,12 @@ class UserController extends Controller
         $this->attributes['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $value);
     }
 
-    public function orders(User $user){
-        return view('users.history.orders')->with(compact('user'));
+    public function orders(User $user, OrderRepositoryContract $repository){
+        $orders = $repository->getAllOrders();
+        return view('users.history.orders')->with(compact('user', 'orders'));
+    }
+
+    public function showOrder(){
+
     }
 }

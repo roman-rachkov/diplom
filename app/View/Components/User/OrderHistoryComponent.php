@@ -2,18 +2,21 @@
 
 namespace App\View\Components\User;
 
+use App\Models\Order;
 use Illuminate\View\Component;
 
 class OrderHistoryComponent extends Component
 {
+    public Order $order;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Order $order)
     {
-        //
+        $this->order = $order;
     }
 
     /**

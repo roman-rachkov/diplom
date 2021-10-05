@@ -51,14 +51,17 @@ Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('fee
 Route::get('/products/comparison', function () {
 })->name('comparison');
 
-Route::get('/users/{user}/orders', [UserController::class, 'orders'])->name('users.orders');
-Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
+Route::get('/order/{order}', [UserController::class, 'showOrder'])->name('users.order');
+
+Route::prefix('users')->group(function () {
+    Route::get('/users/{user}/orders', [UserController::class, 'orders'])->name('users.orders');
+    Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
+});
 
 Route::get('sellers/{id}', [SellerController::class, 'show']);
 
-Route::view('/about', 'about.main')->name('about');
 
 Route::prefix('checkout')->group(function () {
 
@@ -92,3 +95,5 @@ Route::prefix('payment')->group(function () {
     Route::put('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
     Route::put('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });
+
+Route::view('/about', 'about.main')->name('about');
