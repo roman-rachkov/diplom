@@ -51,6 +51,7 @@ Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])->name('fee
 Route::get('/products/comparison', function () {
 })->name('comparison');
 
+Route::get('/users/{user}/orders', [UserController::class, 'orders'])->name('users.orders');
 Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
@@ -59,7 +60,7 @@ Route::get('sellers/{id}', [SellerController::class, 'show']);
 
 Route::view('/about', 'about.main')->name('about');
 
-Route::prefix('/checkout')->group(function () {
+Route::prefix('checkout')->group(function () {
 
     Route::prefix('/user')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');

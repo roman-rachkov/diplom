@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use App\Service\UsersAvatarService;
 use Illuminate\Http\RedirectResponse;
 
@@ -48,5 +49,9 @@ class UserController extends Controller
     public function setPhoneAttribute($value)
     {
         $this->attributes['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $value);
+    }
+
+    public function orders(User $user){
+        return view('users.history.orders')->with(compact('user'));
     }
 }
