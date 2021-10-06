@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class ProductRepository implements ProductRepositoryContract
@@ -21,6 +22,11 @@ class ProductRepository implements ProductRepositoryContract
     {
         $this->model = $product;
         $this->adminsSettings = $adminsSettings;
+    }
+
+    public function storeReview(Product $product, array $attributes): Model
+    {
+        return $product->reviews()->create($attributes);
     }
 
     public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug='')

@@ -37,7 +37,7 @@ services:
         networks:
             - sail
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+            test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
             retries: 3
             timeout: 5s
     redis:
@@ -52,6 +52,29 @@ services:
             test: [ "CMD", "redis-cli", "ping" ]
             retries: 3
             timeout: 5s
+    laravel-echo-server:
+        image: oanhnn/laravel-echo-server:latest
+        depends_on:
+            - redis
+            - laravel.test
+        environment:
+            LARAVEL_ECHO_SERVER_AUTH_HOST: '${LARAVEL_ECHO_SERVER_AUTH_HOST}'
+            LARAVEL_ECHO_SERVER_DEBUG: 'true'
+            LARAVEL_ECHO_SERVER_DB: redis
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+            REDIS_PREFIX: diplom_
+            REDIS_DB: 0
+        networks:
+            - sail
+        ports:
+            - 6001:6001
+        restart: unless-stopped
+        healthcheck:
+            test: node /usr/local/src/healthcheck.js
+            interval: 3s
+            timeout: 3s
+            retries: 10
 networks:
     sail:
         driver: bridge

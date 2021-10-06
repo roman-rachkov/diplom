@@ -138,6 +138,11 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'payment' => [
+            'card' => [
+                'format' => 'Card number must be equal 8 alpha-numeric chars.'
+            ]
+        ]
     ],
 
     /*
