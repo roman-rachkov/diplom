@@ -43,4 +43,12 @@ class CategoryRepository implements CategoryRepositoryContract
         return $this->adminSettings
             ->get('categoryCacheTime', 60 * 60 * 24);
     }
+
+    public function getCategoryBySlug(string $slug): Category
+    {
+        $ttl = $this->adminSettings->get('categoryCacheTime', 60*60*24);
+        return Cache::tags(['category'])->remember('category_slug_' . $slug, $ttl, function () use ($slug) {
+            return Category::where('slug', $slug)->first();
+        });
+    }
 }

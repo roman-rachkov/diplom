@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\ComparedProduct;
+use App\Models\Category;
 use App\Models\Product;
-use App\Models\Review;
-use Illuminate\Database\Seeder;
 use Orchid\Attachment\Models\Attachment;
+use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
@@ -17,9 +16,15 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        Product::factory(10)
-            ->hasAttachment(3)
-            ->hasPrices(3)
-            ->create();
+
+        $attachment = Attachment::all();
+        $categories = Category::all();
+        foreach ($categories as $cat) {
+            Product::factory(rand(3, 10))->create([
+                'main_img_id' => $attachment->random()->id,
+                'category_id' => $cat->id
+                ]);
+        }
+
     }
 }

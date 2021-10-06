@@ -12,7 +12,7 @@
             class="Tabs-link Add-reviews"
             href=""
             data-page="{{$reviews->currentPage()}}"
-            data-route="{{route('product.addReviewsToView', ['product' => $product])}}"
+            data-route="{{route('product.showReviews', ['product' => $product])}}"
     >{{__('product.tabs_addComment.show_more_btn')}}
     </a>
     @auth

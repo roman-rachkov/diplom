@@ -23,7 +23,7 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
-            'hash' => Hash::make($this->faker->word())
+            'hash' => Hash::make($this->faker->word)
         ];
     }
 }

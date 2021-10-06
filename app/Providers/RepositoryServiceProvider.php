@@ -14,11 +14,13 @@ use App\Contracts\Repository\ManufacturerRepositoryContract;
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentRepositoryContract;
+use App\Contracts\Repository\PaymentsServicesRepositoryContract;
+use App\Contracts\Repository\PriceRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Repository\ReviewRepositoryContract;
+use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Repository\SellerRepositoryContract;
 use App\Contracts\Repository\ViewedProductsRepositoryContract;
-use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Repository\AdminSettingsRepository;
 use App\Repository\BannerRepository;
 use App\Repository\CategoryRepository;
@@ -31,11 +33,13 @@ use App\Repository\ManufacturerRepository;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderRepository;
 use App\Repository\PaymentRepository;
+use App\Repository\PriceRepository;
+use App\Repository\PaymentsServicesRepository;
 use App\Repository\ProductRepository;
 use App\Repository\ReviewRepository;
+use App\Repository\UserRepository;
 use App\Repository\SellerRepository;
 use App\Repository\ViewedProductsRepository;
-use App\Service\AdminSettingsService;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -46,16 +50,6 @@ class RepositoryServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {
-        //
-    }
-
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot()
     {
         $this->app->singleton(BannerRepositoryContract::class, BannerRepository::class);
         $this->app->singleton(CategoryRepositoryContract::class, CategoryRepository::class);
@@ -71,7 +65,20 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(ViewedProductsRepositoryContract::class, ViewedProductsRepository::class);
         $this->app->singleton(ManufacturerRepositoryContract::class, ManufacturerRepository::class);
         $this->app->singleton(SellerRepositoryContract::class, SellerRepository::class);
+        $this->app->singleton(UserRepositoryContract::class, UserRepository::class);
+        $this->app->singleton(PaymentsServicesRepositoryContract::class, PaymentsServicesRepository::class);
+        $this->app->singleton(PriceRepositoryContract::class, PriceRepository::class);
         $this->app->singleton(ReviewRepositoryContract::class, ReviewRepository::class);
-        $this->app->singleton(CompareProductsRepositoryContract::class, CompareProductsRepository::class);
+
+    }
+
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+
     }
 }

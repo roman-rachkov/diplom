@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Seller;
 use Illuminate\Database\Seeder;
+use Orchid\Attachment\Models\Attachment;
 
 class SellerSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class SellerSeeder extends Seeder
      */
     public function run()
     {
-        Seller::factory()->count(5)->create();
+        $attachment = Attachment::all();
+        for ($i=0; $i<10; $i++) {
+            Seller::factory()->create(['logo_id' => $attachment->random()->id]);
+        }
     }
 }

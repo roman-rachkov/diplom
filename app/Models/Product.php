@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\FlushTagCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +14,10 @@ use Orchid\Attachment\Models\Attachment;
 
 class Product extends Model
 {
-    use HasFactory, Attachable;
+    use HasFactory, Attachable, FlushTagCache;
+
+
+    public static $tagsArr = ['products'];
 
     public function getRouteKeyName(): string
     {
@@ -55,5 +59,10 @@ class Product extends Model
     public function characteristicValues(): HasMany
     {
         return $this->hasMany(CharacteristicValue::class);
+    }
+
+    public function manufacturer(): BelongsTo
+    {
+        return $this->belongsTo(Manufacturer::class);
     }
 }

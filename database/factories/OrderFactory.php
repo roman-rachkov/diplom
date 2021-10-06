@@ -28,8 +28,9 @@ class OrderFactory extends Factory
             'full_name' => $this->faker->name(),
             'email' => $this->faker->email(),
             'phone' => $this->faker->phoneNumber(),
-            'shipping_type_id' => 0,
+            'delivery_type' => $this->faker->randomElement(['default', 'express']),
             'city' => $this->faker->city(),
+            'address' => $this->faker->address(),
             'total' => $this->faker->randomFloat(2, 1, 1000),
             'comment' => $this->faker->realTextBetween(20, 200)
         ];
