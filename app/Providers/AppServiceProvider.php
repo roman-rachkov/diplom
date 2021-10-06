@@ -48,7 +48,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CreatesNewUsers::class, CreateNewUserWithPhone::class);
         $this->app->singleton(UsersAvatarServiceContract::class, UsersAvatarService::class);
         $this->app->singleton(DeliveryCostServiceContract::class, DeliveryCostService::class);
-        $this->app->singleton(PayOrderServiceContract::class, PayOrderService::class);
         $this->app->singleton(AdminSettingsServiceContract::class, AdminSettingsService::class);
         $this->app->singleton(ImportSellerServiceContract::class, ImportSellerService::class);
         $this->app->singleton(AddReviewServiceContract::class, AddReviewService::class);
