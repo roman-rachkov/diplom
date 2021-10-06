@@ -21,10 +21,12 @@
                     <span class="Order-price">{{$order->total}}$</span>
                 </x-info-component>
                 <x-info-component :title="__('profile.orders.status')" classes="Order-info_status">
-                    @if($order->payment?->status !== 'canceled' && $order->payment?->status !== 'succeeded')
-                        {{__('profile.orders.pay.notPayed')}}
-                    @else
+                    @if($order->payment?->payed_at != null)
                         {{__('profile.orders.pay.payed')}}
+
+                    @else
+                        {{__('profile.orders.pay.notPayed')}}
+
                     @endif
                 </x-info-component>
                 @if($order->payment?->comment !== null)

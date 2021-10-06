@@ -48,11 +48,6 @@ class UserController extends Controller
         return redirect()->route('users.edit', $user)->with('success', true);
     }
 
-    public function setPhoneAttribute($value)
-    {
-        $this->attributes['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $value);
-    }
-
     public function orders(User $user, OrderRepositoryContract $repository)
     {
         $orders = $repository->getAllOrders()->sortByDesc('created_at');

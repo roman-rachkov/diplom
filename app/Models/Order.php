@@ -26,4 +26,9 @@ class Order extends Model
         return $this->hasOne(Payment::class);
     }
 
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $value);
+    }
+
 }

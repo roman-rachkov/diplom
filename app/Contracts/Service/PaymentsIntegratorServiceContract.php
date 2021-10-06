@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 interface PaymentsIntegratorServiceContract
 {
-    public function addPayment(int $card, Order $order, PaymentServiceContract $paymentService): bool|Payment;
+    public function addPayment(int $card, Order $order, PaymentServiceContract $paymentService, Payment $payment = null): bool|Payment;
 
     public function getAllPaymentsServices(): Collection;
 

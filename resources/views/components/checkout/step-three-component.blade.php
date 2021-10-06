@@ -1,6 +1,6 @@
-<div class="Order-block" id="step3">
+<div class="Order-block {{$classes ?? ''}}" id="step3">
     <header class="Section-header Section-header_sm">
-        <h2 class="Section-title">{{__('checkout.step3')}}</h2>
+        <h2 class="Section-title">{{$title ?? __('checkout.step3')}}</h2>
     </header>
     <div class="form-group">
         @foreach($payments as $payment)
@@ -9,6 +9,6 @@
     </div>
     <div class="Order-footer">
 {{--        <a class="btn btn_success Order-next" href="#step4">{{__('checkout.next')}}</a>--}}
-        <button type="submit" class="btn btn_success btn_lg">{{__('checkout.next')}}</button>
+        <button type="submit" class="btn btn_success btn_lg">{{$button ?? __('checkout.next')}}</button>
     </div>
 </div>

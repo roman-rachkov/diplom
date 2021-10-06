@@ -76,6 +76,8 @@ Route::get('sellers/{id}', [SellerController::class, 'show']);
 
 Route::prefix('checkout')->group(function () {
 
+    Route::post('/repay/{order}', [OrderController::class, 'repay'])->name('order.repay');
+    Route::get('/repay/{order}', [OrderController::class, 'repayForm'])->name('order.repay');
     Route::prefix('/user')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
         Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');

@@ -15,330 +15,73 @@
                         <div class="Order-personal">
                             <div class="row">
                                 <div class="row-block">
-                                    <div class="Order-info Order-info_date">
-                                        <div class="Order-infoType">Дата заказа:
-                                        </div>
-                                        <div class="Order-infoContent">21.07.20
-                                        </div>
-                                    </div>
-                                    <div class="Order-info">
-                                        <div class="Order-infoType">ФИО:
-                                        </div>
-                                        <div class="Order-infoContent">Иванов Иван Иванович
-                                        </div>
-                                    </div>
-                                    <div class="Order-info">
-                                        <div class="Order-infoType">Телефон:
-                                        </div>
-                                        <div class="Order-infoContent">+7000000000
-                                        </div>
-                                    </div>
-                                    <div class="Order-info">
-                                        <div class="Order-infoType">E-mail:
-                                        </div>
-                                        <div class="Order-infoContent">send@test.test
-                                        </div>
-                                    </div>
+                                    <x-info-component classes="Order-info_date" :title="__('profile.orders.created')">
+                                        {{$order->created_at->format('d.m.y')}}
+                                    </x-info-component>
+                                    <x-info-component :title="__('profile.fio')">
+                                        {{$order->full_name}}
+                                    </x-info-component>
+                                    <x-info-component :title="__('profile.phone')">
+                                        {{$order->phone}}
+                                    </x-info-component>
+                                    <x-info-component :title="__('profile.email')">
+                                        {{$order->email}}
+                                    </x-info-component>
                                 </div>
                                 <div class="row-block">
-                                    <div class="Order-info Order-info_delivery">
-                                        <div class="Order-infoType">Тип доставки:
-                                        </div>
-                                        <div class="Order-infoContent">Обычная доставка
-                                        </div>
-                                    </div>
-                                    <div class="Order-info">
-                                        <div class="Order-infoType">Город:
-                                        </div>
-                                        <div class="Order-infoContent">Москва
-                                        </div>
-                                    </div>
-                                    <div class="Order-info">
-                                        <div class="Order-infoType">Адрес:
-                                        </div>
-                                        <div class="Order-infoContent">Ул. Академика Арцимовича, д. 10, кв. 10
-                                        </div>
-                                    </div>
-                                    <div class="Order-info Order-info_pay">
-                                        <div class="Order-infoType">Оплата:
-                                        </div>
-                                        <div class="Order-infoContent">Онлайн картой
-                                        </div>
-                                    </div>
-                                    <div class="Order-info Order-info_status">
-                                        <div class="Order-infoType">Статус:
-                                        </div>
-                                        <div class="Order-infoContent">Не оплачен
-                                        </div>
-                                    </div>
-                                    <div class="Order-info Order-info_error">
-                                        <div class="Order-infoType">Оплата не прошла:
-                                        </div>
-                                        <div class="Order-infoContent">Оплата не выполнена, т.к. вы подозреваетесь в
-                                            нетолерантности
-                                        </div>
-                                    </div>
+                                    <x-info-component classes="Order-info_delivery"
+                                                      :title="__('profile.orders.delivery.type')">
+                                        {{
+                                            $order->delivery_type == 'express'
+                                                ? __('checkout.delivery.express')
+                                                : __('checkout.delivery.default')
+                                        }}
+                                    </x-info-component>
+                                    <x-info-component :title="__('checkout.delivery.city')">
+                                        {{$order->city}}
+                                    </x-info-component>
+                                    <x-info-component :title="__('checkout.delivery.address')">
+                                        {{$order->address}}
+                                    </x-info-component>
+                                    <x-info-component classes="Order-info_pay" :title="__('checkout.payment.title')">
+                                        {{$order->payment?->paymentsService->name}}
+                                    </x-info-component>
+                                    <x-info-component :title="__('profile.orders.status')" classes="Order-info_status">
+                                        @if($order->payment?->payed_at !== null)
+                                            {{__('profile.orders.pay.payed')}}
+                                        @else
+                                            {{__('profile.orders.pay.notPayed')}}
+
+                                        @endif
+                                    </x-info-component>
+                                    @if($order->payment?->comment !== null)
+                                        <x-info-component :title="__('profile.orders.pay.error')"
+                                                          classes="Order-info_error">
+                                            {{
+                                                $order->payment?->comment ?? ''
+                                            }}
+                                        </x-info-component>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                         <div class="Cart Cart_order">
-                            <div class="Cart-product">
-                                <div class="Cart-block Cart-block_row">
-                                    <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img
-                                                class="Cart-img" src="assets/img/content/home/card.jpg" alt="card.jpg"/></a>
-                                    </div>
-                                    <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">Ноутбук</a>
-                                        <div class="Cart-desc">Это супер ноутбук, 3 гб. 4 ядра
-                                        </div>
-                                    </div>
-                                    <div class="Cart-block Cart-block_price">
-                                        <div class="Cart-price">80.00$
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="Cart-block Cart-block_row">
-                                    <div class="Cart-block Cart-block_seller">
-                                        <div>Продавец:
-                                        </div>
-                                        <div>shop good
-                                        </div>
-                                    </div>
-                                    <div class="Cart-block Cart-block_amount">1 шт.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="Cart-product">
-                                <div class="Cart-block Cart-block_row">
-                                    <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img
-                                                class="Cart-img" src="assets/img/content/sale/product.png"
-                                                alt="product.png"/></a>
-                                    </div>
-                                    <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">Планшет</a>
-                                        <div class="Cart-desc">Это планшет с современным железом. Процессор последнего
-                                            поколения
-                                        </div>
-                                    </div>
-                                    <div class="Cart-block Cart-block_price">
-                                        <div class="Cart-price_old">60.99$
-                                        </div>
-                                        <div class="Cart-price">40.99$
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="Cart-block Cart-block_row">
-                                    <div class="Cart-block Cart-block_seller">
-                                        <div>Продавец:
-                                        </div>
-                                        <div>shop kke ываыва ыа ываыв а
-                                        </div>
-                                    </div>
-                                    <div class="Cart-block Cart-block_amount">1 шт.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="Cart-product">
-                                <div class="Cart-block Cart-block_row">
-                                    <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img
-                                                class="Cart-img" src="assets/img/content/home/card.jpg" alt="card.jpg"/></a>
-                                    </div>
-                                    <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">Ноутбук</a>
-                                        <div class="Cart-desc">Это супер ноутбук, 3 гб. 4 ядра
-                                        </div>
-                                    </div>
-                                    <div class="Cart-block Cart-block_price">
-                                        <div class="Cart-price">80.00$
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="Cart-block Cart-block_row">
-                                    <div class="Cart-block Cart-block_seller">
-                                        <div>Продавец:
-                                        </div>
-                                        <div>shop good
-                                        </div>
-                                    </div>
-                                    <div class="Cart-block Cart-block_amount">1 шт.
-                                    </div>
-                                </div>
-                            </div>
+                            @foreach($order->items as $item)
+                                <x-user.order-history-product-component :item="$item"/>
+                            @endforeach
                             <div class="Cart-total">
                                 <div class="Cart-block Cart-block_total">
-                                    <strong class="Cart-title">Итого:<span class="Cart-price">200.99$</span><span
-                                            class="Cart-price_old">250.99$</span>
+                                    <strong class="Cart-title">{{__('cart.total')}}:<span
+                                            class="Cart-price">200.99$</span><span
+                                            class="Cart-price_old">{{$order->total}}$</span>
                                     </strong>
                                 </div>
-                                <div class="Cart-block"><a class="btn btn_primary btn_lg" href="#">Оплатить</a>
-                                </div>
+                                @if($order->payment?->payed_at === null)
+                                    <div class="Cart-block">
+                                        <a class="btn btn_primary btn_lg" href="{{route('order.repay', $order)}}">{{__('payment.pay')}}</a>
+                                    </div>
+                                @endif
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="Section-content">
-        <div class="Orders">
-        </div>
-        <div class="Order">
-            <div class="Order-infoBlock">
-                <div class="Order-personal">
-                    <div class="row">
-                        <div class="row-block">
-                            <div class="Order-info Order-info_date">
-                                <div class="Order-infoType">Дата заказа:
-                                </div>
-                                <div class="Order-infoContent">21.07.20
-                                </div>
-                            </div>
-                            <div class="Order-info">
-                                <div class="Order-infoType">ФИО:
-                                </div>
-                                <div class="Order-infoContent">Иванов Иван Иванович
-                                </div>
-                            </div>
-                            <div class="Order-info">
-                                <div class="Order-infoType">Телефон:
-                                </div>
-                                <div class="Order-infoContent">+7000000000
-                                </div>
-                            </div>
-                            <div class="Order-info">
-                                <div class="Order-infoType">E-mail:
-                                </div>
-                                <div class="Order-infoContent">send@test.test
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row-block">
-                            <div class="Order-info Order-info_delivery">
-                                <div class="Order-infoType">Тип доставки:
-                                </div>
-                                <div class="Order-infoContent">Обычная доставка
-                                </div>
-                            </div>
-                            <div class="Order-info">
-                                <div class="Order-infoType">Город:
-                                </div>
-                                <div class="Order-infoContent">Москва
-                                </div>
-                            </div>
-                            <div class="Order-info">
-                                <div class="Order-infoType">Адрес:
-                                </div>
-                                <div class="Order-infoContent">Ул. Академика Арцимовича, д. 10, кв. 10
-                                </div>
-                            </div>
-                            <div class="Order-info Order-info_pay">
-                                <div class="Order-infoType">Оплата:
-                                </div>
-                                <div class="Order-infoContent">Онлайн картой
-                                </div>
-                            </div>
-                            <div class="Order-info Order-info_status">
-                                <div class="Order-infoType">Статус:
-                                </div>
-                                <div class="Order-infoContent">Не оплачен
-                                </div>
-                            </div>
-                            <div class="Order-info Order-info_error">
-                                <div class="Order-infoType">Оплата не прошла:
-                                </div>
-                                <div class="Order-infoContent">Оплата не выполнена, т.к. вы подозреваетесь в
-                                    нетолерантности
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="Cart Cart_order">
-                    <div class="Cart-product">
-                        <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img"
-                                                                                                       src="assets/img/content/home/card.jpg"
-                                                                                                       alt="card.jpg"/></a>
-                            </div>
-                            <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">Ноутбук</a>
-                                <div class="Cart-desc">Это супер ноутбук, 3 гб. 4 ядра
-                                </div>
-                            </div>
-                            <div class="Cart-block Cart-block_price">
-                                <div class="Cart-price">80.00$
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_seller">
-                                <div>Продавец:
-                                </div>
-                                <div>shop good
-                                </div>
-                            </div>
-                            <div class="Cart-block Cart-block_amount">1 шт.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Cart-product">
-                        <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img"
-                                                                                                       src="assets/img/content/sale/product.png"
-                                                                                                       alt="product.png"/></a>
-                            </div>
-                            <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">Планшет</a>
-                                <div class="Cart-desc">Это планшет с современным железом. Процессор последнего поколения
-                                </div>
-                            </div>
-                            <div class="Cart-block Cart-block_price">
-                                <div class="Cart-price_old">60.99$
-                                </div>
-                                <div class="Cart-price">40.99$
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_seller">
-                                <div>Продавец:
-                                </div>
-                                <div>shop kke ываыва ыа ываыв а
-                                </div>
-                            </div>
-                            <div class="Cart-block Cart-block_amount">1 шт.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Cart-product">
-                        <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img"
-                                                                                                       src="assets/img/content/home/card.jpg"
-                                                                                                       alt="card.jpg"/></a>
-                            </div>
-                            <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">Ноутбук</a>
-                                <div class="Cart-desc">Это супер ноутбук, 3 гб. 4 ядра
-                                </div>
-                            </div>
-                            <div class="Cart-block Cart-block_price">
-                                <div class="Cart-price">80.00$
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Cart-block Cart-block_row">
-                            <div class="Cart-block Cart-block_seller">
-                                <div>Продавец:
-                                </div>
-                                <div>shop good
-                                </div>
-                            </div>
-                            <div class="Cart-block Cart-block_amount">1 шт.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="Cart-total">
-                        <div class="Cart-block Cart-block_total">
-                            <strong class="Cart-title">Итого:<span class="Cart-price">200.99$</span><span
-                                    class="Cart-price_old">250.99$</span>
-                            </strong>
-                        </div>
-                        <div class="Cart-block"><a class="btn btn_primary btn_lg" href="#">Оплатить</a>
                         </div>
                     </div>
                 </div>
