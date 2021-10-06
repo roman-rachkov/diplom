@@ -49,9 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         Array.prototype.forEach.call(paymentForm.querySelectorAll('[name]'), function (field) {
             data.append(field.name, field.value);
         });
-        let object = {};
-        data.forEach((value, key) => object[key] = value);
-        console.log(object);
+
         paymentForm.style.display = 'none';
         document.querySelector('.ProgressPayment').style.display = 'block';
         axios.post(this.action, data)
