@@ -52,7 +52,7 @@ Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatal
 
 Route::get('/catalog/add_to_cart/{product}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
-Route::get('/catalog/compare/{slug}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
+Route::get('/catalog/compare/{product}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
 
 Route::get('/feedbacks', [FeedbackController::class, 'index'])
     ->name('feedbacks.index');

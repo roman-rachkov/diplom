@@ -69,6 +69,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(PaymentsServicesRepositoryContract::class, PaymentsServicesRepository::class);
         $this->app->singleton(PriceRepositoryContract::class, PriceRepository::class);
         $this->app->singleton(ReviewRepositoryContract::class, ReviewRepository::class);
+        $this->app->singleton(CompareProductsRepositoryContract::class, CompareProductsRepository::class);
 
     }
 

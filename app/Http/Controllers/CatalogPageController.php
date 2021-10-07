@@ -11,6 +11,7 @@ use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Http\Requests\CatalogGetRequest;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -66,9 +67,13 @@ class CatalogPageController extends Controller
         }
     }
 
-    public function compare(CompareProductsServiceContract $compare, Product $product)
+    public function compare(
+        CompareProductsServiceContract $compare,
+        Product $product,
+        Customer $customer
+    )
     {
-        if ($compare->add($product)) {
+        if ($compare->add($product, $customer)) {
             return back()->with('success', __('catalog.success.product_add_compare'));
         } else {
             return back()->with('error', __('catalog.error.product_add_compare'));

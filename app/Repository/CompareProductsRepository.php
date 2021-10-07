@@ -37,7 +37,9 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
     
     public function getComparedProducts(Customer $customer): Collection
     {
-        return ComparedProduct::where('customer_id', $customer->id)->get();
+        return ComparedProduct::with('product.characteristicValues', 'product.category.characteristics')
+            ->where('customer_id', $customer->id)
+            ->get();
     }
     
 }

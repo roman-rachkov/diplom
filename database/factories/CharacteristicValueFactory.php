@@ -2,19 +2,20 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\Characteristic;
+use App\Models\CharacteristicValue;
 use App\Models\Product;
-use App\Models\Review;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ReviewFactory extends Factory
+class CharacteristicValueFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Review::class;
+    protected $model = CharacteristicValue::class;
 
     /**
      * Define the model's default state.
@@ -24,9 +25,9 @@ class ReviewFactory extends Factory
     public function definition()
     {
         return [
-            'review' => $this->faker->sentence(),
-            'user_id' => User::factory(),
-            'product_id' => Product::factory()
+            'product_id' => Product::factory(),
+            'characteristic_id' => Characteristic::factory(),
+            'value' => rand(100, 200)
         ];
     }
 }

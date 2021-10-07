@@ -106,7 +106,7 @@ class ProductRepository implements ProductRepositoryContract
         });
     }
 
-    public function getTopProducts()
+    public function getTopProducts(): Collection
     {
         return Cache::tags(['products', 'topCatalog'])->remember(
             'mainTopCatalog',

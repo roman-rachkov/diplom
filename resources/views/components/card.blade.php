@@ -13,7 +13,7 @@
             <div class="Card-hover">
                 <a class="Card-btn" href="{{ route('product.show', ['slug' => $product->slug]) }}"><img src="{{asset('assets/img/icons/card/bookmark.svg')}}" alt="bookmark.svg"/></a>
                 <a class="Card-btn" href="{{ route('catalog.add_to_cart', ['product' => $product]) }}"><img src="{{asset('assets/img/icons/card/cart.svg')}}" alt="cart.svg"/></a>
-                <a class="Card-btn" href="{{ route('catalog.compare', ['slug' => $product->slug]) }}"><img src="{{asset('assets/img/icons/card/change.svg')}}" alt="change.svg"/></a>
+                <a class="Card-btn" href="{{ route('catalog.compare', ['product' => $product]) }}"><img src="{{asset('assets/img/icons/card/change.svg')}}" alt="change.svg"/></a>
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@ use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Contracts\Service\Product\ViewedProductsServiceContract;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Contracts\Foundation\Application;
@@ -92,13 +93,14 @@ class ProductsController extends Controller
     }
 
     public function addToComparison(
+        Customer $customer,
         CompareProductsServiceContract $compareService,
         string $slug
     ): RedirectResponse
     {
         $product = $this->productRepository->find($slug);
 
-        if ($compareService->add($product)) {
+        if ($compareService->add($product, $customer)) {
             $this->flashService->flash(__('add_to_comparison_service.on_success_msg'));
         } else {
             $this->flashService->flash(__('add_to_comparison_service.on_error_msg'), 'danger');

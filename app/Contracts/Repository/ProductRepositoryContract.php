@@ -13,10 +13,6 @@ interface ProductRepositoryContract
 
     public function find($slug): Product|null;
 
-    public function getAllProducts($curPage): LengthAwarePaginator;
-
-    public function getProductsForCategory($slug, $curPage): LengthAwarePaginator;
-
     public function getTopProducts(): Collection;
 
 }
