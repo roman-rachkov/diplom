@@ -24,7 +24,7 @@ class ReviewFactory extends Factory
     public function definition()
     {
         return [
-            'text' => $this->faker->sentence(),
+            'review' => $this->faker->sentence(),
             'user_id' => User::factory(),
             'product_id' => Product::factory()
         ];

@@ -6,7 +6,7 @@ return [
     'register' => 'Регистрация',
     'password_request' => 'Восстановление пароля',
     'password_reset' => 'Обновление пароля',
-    'orders' => 'Заказы',
+    'orders' => 'ОФОРМЛЕНИЕ ЗАКАЗА',
     'cart' => 'Корзина',
     'discounts' => 'Скидки',
     'products' => 'Продукты',

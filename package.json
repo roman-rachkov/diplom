@@ -10,8 +10,8 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "inputmask": "^5.0.6",
         "axios": "^0.21.4",
+        "inputmask": "^5.0.6",
         "ion-rangeslider": "^2.3.1",
         "jquery": "^3.5.0",
         "jquery-countdown": "^2.2.0",
@@ -23,6 +23,8 @@
         "slick-carousel": "^1.8.1"
     },
     "dependencies": {
-        "maskedinput": "^3.3.11"
+        "laravel-echo": "^1.11.2",
+        "maskedinput": "^3.3.11",
+        "socket.io-client": "^2.4.0"
     }
 }

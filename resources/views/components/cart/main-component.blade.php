@@ -12,7 +12,7 @@
                         <strong class="Cart-title">{{__('cart.total')}}:
                         </strong><span class="Cart-price">200.99$</span><span class="Cart-price_old">{{$cartService->getTotalCost()}}$</span>
                     </div>
-                    <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{route('orders.create')}}">{{__('cart.checkout')}}</a>
+                    <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{route('order.index')}}">{{__('cart.checkout')}}</a>
                     </div>
                 </div>
             </form>

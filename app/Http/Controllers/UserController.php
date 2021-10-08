@@ -70,4 +70,9 @@ class UserController extends Controller
 
         return $result;
     }
+
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $value);
+    }
 }

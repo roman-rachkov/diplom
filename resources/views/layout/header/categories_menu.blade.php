@@ -9,7 +9,7 @@
             <div class="search">
                 <form class="form form_search" action="#" method="get">
                     <input class="search-input" id="query" name="search" type="text"
-                           value="{{ $request->getSearch() ?? '' }}" placeholder="{{ __('catalog.filter.product_title') }}"/>
+                           value="{{ optional($request ?? '')?->getSearch() ?? '' }}" placeholder="{{ __('catalog.filter.product_title') }}"/>
                     <button class="search-button" type="submit" name="submit" id="search"><img src="{{asset('assets/img/icons/search.svg')}}" alt="search.svg"/>{{ __('catalog.filter.search') }}</button>
                 </form>
             </div>

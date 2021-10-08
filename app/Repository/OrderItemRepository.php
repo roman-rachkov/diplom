@@ -40,7 +40,6 @@ class OrderItemRepository implements OrderItemRepositoryContract
         }
 
         $price = Price::where($params)->inRandomOrder()->first();
-
         $item->price()->associate($price);
         $item->customer()->associate($this->customer);
         $item->quantity = $quantity;

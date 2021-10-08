@@ -63,4 +63,5 @@ class ViewedProductsService implements ViewedProductsServiceContract
     {
         return $this->getViewed()->count();
     }
+
 }

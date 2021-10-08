@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\PaymentsService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -25,7 +26,8 @@ class PaymentFactory extends Factory
     {
         return [
             'order_id' => Order::factory(),
-            'method' => $this->faker->word(),
+            'payments_service_id' => PaymentsService::factory(),
+            'comment' => $this->faker->realText(40),
             'status' => $this->faker->randomElement(['pending', 'waiting_for_capture', 'succeeded', 'canceled']),
             'payed_at' => $this->faker->randomElement([Carbon::now(), null]),
         ];
