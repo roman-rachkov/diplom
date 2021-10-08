@@ -10,11 +10,17 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ViewedProductsService implements ViewedProductsServiceContract
 {
-    protected $customer;
-
-    public  function __construct()
+    public function getCustomer(): Customer
     {
-        $this->customer = Customer::firstWhere('hash', session('customer_token'));
+        $user = auth()->user();
+
+        if ($user) {
+            $customer = $user->customer;
+        } else {
+            $customer = Customer::firstWhere('hash', session('customer_token'));
+        }
+
+        return $customer;
     }
 
     public function add(Product $product): bool
@@ -25,7 +31,7 @@ class ViewedProductsService implements ViewedProductsServiceContract
         }
 
         ViewedProduct::create([
-            'customer_id' => $this->customer->id,
+            'customer_id' => $this->getCustomer()->id,
             'product_id' => $product->id,
         ]);
 
@@ -34,22 +40,27 @@ class ViewedProductsService implements ViewedProductsServiceContract
 
     public function remove(Product $product): bool
     {
-        return $this->customer->viewedProducts()->where('product_id', $product->id)->delete();
+        return $this->getCustomer()->viewedProducts()->where('product_id', $product->id)->delete();
     }
 
     public function isViewed(Product $product): bool
     {
-        return $this->customer->viewedProducts()->where('product_id', $product->id)->count();
+        return $this->getCustomer()->viewedProducts()->where('product_id', $product->id)->count();
     }
 
     public function getViewed(): Collection
     {
-        return $this->customer->viewedProducts;
+        $viewedProducts = $this->getCustomer()->viewedProducts->sortByDesc('created_at');
+
+        $products = $viewedProducts->map(function ($viewedProduct) {
+            return $viewedProduct->product;
+        });
+
+        return $products;
     }
 
     public function getViewedCount(): int
     {
         return $this->getViewed()->count();
     }
-
 }

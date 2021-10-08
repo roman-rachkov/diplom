@@ -51,6 +51,7 @@ Route::get('/products/comparison', function () {})->name('comparison');
 Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
+Route::get('/users/{user}/viewed_products', [UserController::class, 'viewedProducts'])->name('users.viewed_products');
 
 Route::get('sellers/{id}', [SellerController::class, 'show']);
 

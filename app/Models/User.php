@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Http\UploadedFile;
-use Orchid\Attachment\File;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Platform\Models\User as Authenticatable;
 use Orchid\Attachment\Attachable;
@@ -87,8 +85,13 @@ class User extends Authenticatable
         return $this->hasOne(Attachment::class)->withDefault();
     }
 
-    public function reviews(): hasMany
+    public function reviews(): HasMany
     {
         return  $this->hasMany(Review::class);
+    }
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class);
     }
 }
