@@ -69,7 +69,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
     {
         $discounts = new Collection();
 
-        return $discounts->max() ?: round(rand(5,70)/100, 2);
+        return $discounts->max() ?: rand(500, 2500);
     }
 
     protected function getGroupDiscount($product): float

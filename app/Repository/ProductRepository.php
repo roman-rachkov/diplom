@@ -29,7 +29,7 @@ class ProductRepository implements ProductRepositoryContract
         return $product->reviews()->create($attributes);
     }
 
-    public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug='')
+    public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug = '')
     {
         $key = 'allProductsForCatalogPage_';
         $query = $this->model->newQuery();
@@ -97,11 +97,11 @@ class ProductRepository implements ProductRepositoryContract
             ])
             ->remember($slug, $ttl, function () use ($slug) {
 
-            return Product::with('attachment', 'prices.seller')
-                ->where('slug', $slug)
-                ->first();
+                return Product::with('attachment', 'prices.seller')
+                    ->where('slug', $slug)
+                    ->first();
 
-        });
+            });
     }
 
     public function getTopProducts()
@@ -127,4 +127,18 @@ class ProductRepository implements ProductRepositoryContract
         return $this->model->where('category_id', $catId)->get()->pluck('category');
     }
 
+    public function getDayOfferProduct(): Collection
+    {
+        return Cache::tags(['products', 'dayOfferProduct'])->remember(
+            'mainDayOfferProduct',
+                $this->adminsSettings->get('productsInCatalogCacheTime', 60 * 60 * 24),
+                function () {
+                    return $this->model->where('limited_edition', 1)->inRandomOrder()->limit(1)->get();
+            });
+    }
+
+    public function getLimitedEditionProduct($excludeId = null): Collection
+    {
+        return $this->model->where('limited_edition', 1)->whereNotIn('id', [$excludeId])->inRandomOrder()->limit(16)->get();
+    }
 }
