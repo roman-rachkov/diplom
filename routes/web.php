@@ -50,7 +50,7 @@ Route::get('/catalog', [CatalogPageController::class, 'index'])
 
 Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
 
-Route::get('/catalog/add_to_cart/{product}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
+Route::get('/catalog/add_to_cart/{slug}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
 Route::get('/catalog/compare/{slug}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
 
