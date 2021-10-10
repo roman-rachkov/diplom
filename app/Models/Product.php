@@ -60,4 +60,9 @@ class Product extends Model
     {
         return $this->belongsTo(Manufacturer::class);
     }
+
+    public function discounts()
+    {
+        return $this->morphToMany(Discount::class, 'discountable');
+    }
 }
