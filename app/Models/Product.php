@@ -65,4 +65,9 @@ class Product extends Model
     {
         return $this->belongsTo(Manufacturer::class);
     }
+
+    public function comparedProducts(): HasMany
+    {
+        return $this->hasMany(ComparedProduct::class);
+    }
 }

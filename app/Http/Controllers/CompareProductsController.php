@@ -13,6 +13,7 @@ class CompareProductsController extends Controller
         CompareProductsServiceContract $compareService
     )
     {
-
+        $comparedProducts = $compareService->get($customer);
+        return view('compare.show', compact('comparedProducts'));
     }
 }

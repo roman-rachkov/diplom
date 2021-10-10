@@ -3,15 +3,25 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\CompareProductsRepositoryContract;
+use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Models\ComparedProduct;
 use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class CompareProductsRepository implements CompareProductsRepositoryContract
 {
-    
+    private AdminSettingsServiceContract $adminSettings;
+
+    public function __construct(AdminSettingsServiceContract $adminSettings)
+    {
+        $this->adminSettings= $adminSettings;
+    }
+
+
     public function store(Product $product, Customer $customer): bool
     {
         try {
@@ -35,11 +45,52 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
             ->delete();
     }
     
-    public function getComparedProducts(Customer $customer): Collection
+    public function getComparedProducts(Customer $customer): null|Collection
     {
-        return ComparedProduct::with('product.characteristicValues', 'product.category.characteristics')
-            ->where('customer_id', $customer->id)
-            ->get();
+
+        $ttl = $this->adminSettings->get('comparedProductsCacheTime', 60 * 60 * 24);
+
+        return Cache::tags(
+            [
+                'customers',
+                'products'
+            ])
+            ->remember(
+            'compared_products:customer_id=' . $customer->id,
+            $ttl,
+            function () use ($customer) {
+                return ComparedProduct::select('product_id')
+                    ->where('customer_id', $customer->id)
+                    ->with(
+                        [
+                            'product' => function($query)
+                            {
+                                $query->select('name','id','main_img_id')
+                                    ->with(
+                                        [
+                                            'characteristicValues' => function($query)
+                                            {
+                                                $query->join(
+                                                    'characteristics',
+                                                    'characteristic_id',
+                                                    'characteristics.id'
+                                                );
+                                            }
+                                        ]
+                                    )
+                                    ->withCount(
+                                        [
+                                            'prices as avg_price' => function($query)
+                                            {
+                                                $query->select(DB::raw('avg(price)'));
+                                            }
+                                        ])
+                                    ->get();
+                            }
+                        ]
+                    )
+                    ->get();
+            }
+        );
     }
-    
 }
