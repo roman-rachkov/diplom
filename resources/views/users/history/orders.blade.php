@@ -12,7 +12,7 @@
                     @forelse($orders as $order)
                         <x-user.order-history-component :order="$order" :user="$user"/>
                     @empty
-                        <p>Вы еще не делали заказов</p>
+                        <p>{{__('profile.orders.noOne')}}</p>
                     @endforelse
                 </div>
             </div>

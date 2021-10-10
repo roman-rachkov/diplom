@@ -50,7 +50,7 @@ class UserController extends Controller
 
     public function orders(User $user, OrderRepositoryContract $repository)
     {
-        $orders = $repository->getAllOrders()->sortByDesc('created_at');
+        $orders = $repository->getAllOrders();
         return view('users.history.orders')->with(compact('user', 'orders'));
     }
 

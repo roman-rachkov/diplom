@@ -11,5 +11,6 @@ interface OrderRepositoryContract
     public function add(OrderDTO $DTO): Order;
 
     public function getLastOrder(): Order;
+
     public function getAllOrders(): Collection;
 }

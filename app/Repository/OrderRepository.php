@@ -41,11 +41,11 @@ class OrderRepository implements OrderRepositoryContract
 
     public function getLastOrder(): Order
     {
-        return $this->getAllOrders()->last();
+        return $this->customer->orders()->latest()->first();
     }
 
     public function getAllOrders(): Collection
     {
-        return $this->customer->orders;
+        return $this->customer->orders()->latest()->get();
     }
 }

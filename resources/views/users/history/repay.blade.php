@@ -7,7 +7,7 @@
         <div class="wrap">
             <form action="{{route('order.repay', $order)}}" method="post" class="fluid">
                 @csrf
-                <x-checkout.step-three-component classes="visible fluid" title="Выберите метод оплаты" button="Оплатить"/>
+                <x-checkout.step-three-component classes="visible fluid" title="{{__('profile.orders.pay.selectMethod')}}" button="{{__('payment.pay')}}"/>
             </form>
         </div>
     </div>

@@ -14,15 +14,17 @@ return [
     'save_success' => 'Профиль успешно сохранен',
     'edit' => 'Редактировать профиль',
 
-    'orders'=> [
+    'orders' => [
         'order' => 'Заказ <span class="Order-numberOrder">№:id</span> от <span class="Order-dateOrder">:date</span>',
         'totalCost' => 'Общая стоимость',
         'status' => 'Статус',
         'created' => 'Дата заказа',
+        'noOne' => 'Вы еще не делали заказов',
         'pay' => [
             'payed' => 'Оплачен',
             'notPayed' => 'Не оплачен',
             'error' => 'Оплата не прошла',
+            'selectMethod' => 'Выберите метод оплаты'
         ],
         'delivery' => [
             'type' => 'Тип доставки',
