@@ -42,6 +42,24 @@ document.addEventListener('DOMContentLoaded', function () {
         checkPaymentStatus(paymentId);
     }
 
+    const paymentForm = document.querySelector('form.Payment');
+    paymentForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        let data = new FormData;
+        Array.prototype.forEach.call(paymentForm.querySelectorAll('[name]'), function (field) {
+            data.append(field.name, field.value);
+        });
+
+        paymentForm.style.display = 'none';
+        document.querySelector('.ProgressPayment').style.display = 'block';
+        axios.post(this.action, data)
+            .then(response => {
+                if (response.data.status) {
+                    checkPaymentStatus(response.data.paymentId);
+                }
+            });
+    });
+
     function updateProduct(item, data) {
         axios.put(item.closest('[data-link]').dataset.link, data)
             .then(response => {
@@ -70,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function () {
         message.textContent = "Комментарий к оплате: " + payment.comment
         element.appendChild(message);
     }
+
+
 });
 
 $(document).ready($ => {

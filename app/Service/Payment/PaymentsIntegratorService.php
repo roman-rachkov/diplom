@@ -8,6 +8,7 @@ use App\Contracts\Service\PaymentServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\Jobs\GoPaymentJob;
 use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Support\Collection;
 
 class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
@@ -22,7 +23,7 @@ class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
         $this->payment = $payment;
     }
 
-    public function addPayment(int $card, Order $order, PaymentServiceContract $paymentService): bool
+    public function addPayment(int $card, Order $order, PaymentServiceContract $paymentService): bool|Payment
     {
         $service = $this->repository->getPaymentsServiceByService($paymentService->namespace());
         $payment = $this->payment->add($order, $service);
@@ -31,7 +32,7 @@ class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
             $payment,
             $paymentService
         );
-        return true;
+        return $payment;
     }
 
     public function getAllPaymentsServices(): Collection
