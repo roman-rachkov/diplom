@@ -34,7 +34,7 @@ class PlatformProvider extends OrchidServiceProvider
 
             Menu::make(__('admin.category.panel_name'))
                 ->icon('list')
-                ->route('platform.category')
+                ->route('platform.category.list')
                 ->permission('platform.elements.category'),
 
             Menu::make(__('admin.sellers.panel_name'))
