@@ -8,6 +8,7 @@ use App\Http\Requests\CatalogGetRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -129,16 +130,23 @@ class ProductRepository implements ProductRepositoryContract
 
     public function getDayOfferProduct(): Collection
     {
-        return Cache::tags(['products', 'dayOfferProduct'])->remember(
-            'mainDayOfferProduct',
-                $this->adminsSettings->get('productsInCatalogCacheTime', 60 * 60 * 24),
-                function () {
-                    return $this->model->where('limited_edition', 1)->inRandomOrder()->limit(1)->get();
+        $now = Carbon::now();
+        $tomorrow = Carbon::tomorrow();
+        $key = 'dayOfferForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear;
+        return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
+            function () {
+                return $this->model->where('limited_edition', 1)->inRandomOrder()->limit(1)->get();
             });
     }
 
     public function getLimitedEditionProduct($excludeId = null): Collection
     {
-        return $this->model->where('limited_edition', 1)->whereNotIn('id', [$excludeId])->inRandomOrder()->limit(16)->get();
+        $now = Carbon::now();
+        $tomorrow = Carbon::tomorrow();
+        $key = 'limitedEditionForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear.'_exclude_'.$excludeId;
+        return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
+            function () use($excludeId){
+                return $this->model->where('limited_edition', 1)->whereNotIn('id', [$excludeId])->inRandomOrder()->limit(16)->get();
+            });
     }
 }
