@@ -14,7 +14,10 @@
                             <a class="menu-link" href="{{route('users.edit', $user)}}">{{ __('account_navigation.profile') }}</a>
                         </li>
 
-                    <li class="menu-item"><a class="menu-link" href="#">{{ __('account_navigation.order_history') }}</a></li>
+                    <li class="{{request()->routeIs('users.orders') ? 'menu-item_ACTIVE' : ''}} menu-item">
+                        <a class="menu-link" href="{{route('users.orders', $user)}}">{{ __('account_navigation.order_history') }}</a>
+                    </li>
+
                     <li class="menu-item"><a class="menu-link" href="#">{{ __('account_navigation.viewing_history') }}</a></li>
                 </ul>
             </div>
