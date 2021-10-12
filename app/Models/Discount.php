@@ -9,6 +9,8 @@ class Discount extends Model
 {
     use HasFactory;
 
+    public const types = ['classic', 'sum', 'fix'];
+
     public function categories()
     {
         return $this->morphedByMany(Category::class, 'discountable');

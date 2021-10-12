@@ -23,7 +23,7 @@ class DiscountFactory extends Factory
     {
         return [
             'value' => $this->faker->randomFloat(2, 1, 99),
-            'type' => $this->faker->randomElement(['classic', 'sum', 'fix']),
+            'type' => $this->faker->randomElement(Discount::types),
             'weight' => random_int(0, 100),
             'minimal_cost' => $this->faker->randomFloat(2, 0, 10000),
             'start_at' => $this->faker->date(),
