@@ -101,7 +101,7 @@ class ProductsController extends Controller
         $product = $this->productRepository->find($slug);
 
         if ($compareService->add($product, $customer)) {
-            $this->flashService->flash(__('add_to_comparison_service.on_success_msg'));
+            $this->flashService->flash(__('add_to_comparison_service.on_add_success_msg'));
         } else {
             $this->flashService->flash(__('add_to_comparison_service.on_error_msg'), 'danger');
         }

@@ -5,6 +5,8 @@ namespace App\Service\Product;
 use App\Contracts\Repository\CompareProductsRepositoryContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
+use App\DTO\CompareProductCharacteristicDTO;
+use App\DTO\CompareProductDTO;
 use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Support\Collection;
@@ -43,12 +45,12 @@ class CompareProductsService implements CompareProductsServiceContract
                 ->sortBy([['id', 'desc']])
                 ->pluck('product');
 
-            $this->appendPriceWithDiscount($comparedProducts);
+            //$this->appendPriceWithDiscount($comparedProducts);
 
              return collect(
                  [
-                     'products' =>  $comparedProducts,
-                     'characteristics' => $this->getCharacteristicsValues($comparedProducts)
+                     'products' =>  $this->getCompareProductDTOs($comparedProducts),
+                     'characteristics' => $this->getCharacteristicDTOs($comparedProducts)
                  ]
              );
 
@@ -64,6 +66,73 @@ class CompareProductsService implements CompareProductsServiceContract
             ->count();
     }
 
+
+    public function getCompareProductDTOs(Collection $comparedProducts)
+    {
+        $comparedProductsDTO = [];
+
+        foreach ($comparedProducts as $comparedProduct) {
+            $discount = round(
+                $comparedProduct->avg_price *
+                (1 -  $this->discountService->getProductDiscounts($comparedProduct)),
+                2
+            );
+
+            $comparedProductsDTO[] = CompareProductDTO::create(
+                [
+                    $comparedProduct->name,
+                    $comparedProduct->slug,
+                    $comparedProduct->image,
+                    $comparedProduct->avg_price,
+                    $discount
+                ]
+            );
+        }
+
+        return collect($comparedProductsDTO);
+    }
+
+    public function getCharacteristicDTOs(Collection $comparedProducts)
+    {
+           $characteristicsByProduct = $comparedProducts
+               ->pluck('characteristicValues');
+
+           $uniqueCharacteristics = $characteristicsByProduct
+               ->flatten()
+               ->unique('characteristic_id');
+
+           $characteristicDTOs = [];
+
+           foreach ($uniqueCharacteristics as $uniqueCharacteristic) {
+               $characteristicValues = [];
+
+               foreach ($characteristicsByProduct as $productCharacteristics) {
+
+                   if (
+                       $characteristic = $productCharacteristics
+                           ->firstWhere(
+                               'characteristic_id',
+                               $uniqueCharacteristic->characteristic_id
+                           )
+                   ) {
+                       $characteristicValues[] = $characteristic->value;
+                    } else {
+                       $characteristicValues[] = '-';
+                   }
+               }
+               $characteristicDTOs[] = CompareProductCharacteristicDTO::create(
+                   [
+                       $uniqueCharacteristic->name,
+                       $uniqueCharacteristic->measure,
+                       count(array_unique($characteristicValues)) === 1,
+                       $characteristicValues
+                   ]
+               );
+           }
+
+           return collect($characteristicDTOs);
+    }
+
     protected function getCharacteristicsValues(Collection $comparedProducts): Collection
     {
         $characteristics = [];
@@ -76,11 +145,14 @@ class CompareProductsService implements CompareProductsServiceContract
                     $characteristics[$characteristic->name] =
                         [
                             'measure'=> $characteristic->measure,
-                            'value' => []
+                            'values' => []
                         ];
                 }
-                $characteristics[$characteristic->name]['value'][] = $characteristic->value;
+                $characteristics[$characteristic->name]['values'][] = $characteristic->value;
             }
+        }
+        foreach ($characteristics as &$characteristic) {
+            $characteristic['isValuesEqual'] = count(array_unique($characteristic['values'])) === 1;
         }
 
         return collect($characteristics);

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
+use App\Http\Controllers\CompareProductsController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -59,8 +60,10 @@ Route::get('/feedbacks', [FeedbackController::class, 'index'])
 Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
     ->name('feedbacks.send_message');
 
-Route::get('/products/comparison', function () {
-})->name('comparison');
+Route::get('/comparison', [CompareProductsController::class, 'index'])->name('comparison');
+Route::post('/comparison/remove_product/{productSlug}', [CompareProductsController::class, 'removeProduct'])
+    ->name('comparison.remove_product');
+
 
 Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');

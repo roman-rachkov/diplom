@@ -65,7 +65,7 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
                         [
                             'product' => function($query)
                             {
-                                $query->select('name','id','main_img_id')
+                                $query->select('name','id','main_img_id', 'slug')
                                     ->with(
                                         [
                                             'characteristicValues' => function($query)
@@ -78,6 +78,7 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
                                             }
                                         ]
                                     )
+                                    ->with('image')
                                     ->withCount(
                                         [
                                             'prices as avg_price' => function($query)
