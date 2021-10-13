@@ -22,7 +22,7 @@ class MainPageController extends Controller
     ): Factory|View|Application
     {
         $topProducts = $products->getTopProducts();
-        $dayOfferProduct = $products->getDayOfferProduct()[0];
+        $dayOfferProduct = $products->getDayOfferProduct();
         $limitedEditionProduct = $products->getLimitedEditionProduct($dayOfferProduct->id);
         $discounts = $discountsService->getCatalogDiscounts($topProducts);
         $limitedEditionDiscounts = $discountsService->getCatalogDiscounts($limitedEditionProduct);

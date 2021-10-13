@@ -128,14 +128,14 @@ class ProductRepository implements ProductRepositoryContract
         return $this->model->where('category_id', $catId)->get()->pluck('category');
     }
 
-    public function getDayOfferProduct(): Collection
+    public function getDayOfferProduct(): Product
     {
         $now = Carbon::now();
         $tomorrow = Carbon::tomorrow();
         $key = 'dayOfferForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear;
         return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
             function () {
-                return $this->model->where('limited_edition', 1)->inRandomOrder()->limit(1)->get();
+                return $this->model->where('limited_edition', 1)->inRandomOrder()->limit(1)->first();
             });
     }
 
@@ -143,10 +143,17 @@ class ProductRepository implements ProductRepositoryContract
     {
         $now = Carbon::now();
         $tomorrow = Carbon::tomorrow();
+        $itemOnPage = $this->adminsSettings->get('itemsInLimitedEditionBlock', 16);
         $key = 'limitedEditionForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear.'_exclude_'.$excludeId;
+        $key = '_ItemOnPage_'.$itemOnPage;
         return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
-            function () use($excludeId){
-                return $this->model->where('limited_edition', 1)->whereNotIn('id', [$excludeId])->inRandomOrder()->limit(16)->get();
+            function () use($excludeId, $itemOnPage){
+                return $this->model
+                                ->where('limited_edition', 1)
+                                ->whereNotIn('id', [$excludeId])
+                                ->inRandomOrder()
+                                ->limit($itemOnPage)
+                                ->get();
             });
     }
 }

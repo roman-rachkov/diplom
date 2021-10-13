@@ -7,7 +7,7 @@
         <div class="Card-description">
             <div class="Card-cost">
                 <span class="Card-priceOld">{{ $product->prices->pluck('price')->avg() }}</span>
-                <span class="Card-price">${{ $discounts[$product->id] }}.00</span>
+                <span class="Card-price">${{ $discounts[$product->id] }}</span>
             </div>
             <div class="Card-category">{{ $product->category->name }}</div>
             <div class="Card-hover">
