@@ -2,25 +2,24 @@
 
 namespace App\Service\Product;
 
+use App\Contracts\Repository\ViewedProductsRepositoryContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\Product\ViewedProductsServiceContract;
-use App\Models\Customer;
 use App\Models\Product;
-use App\Models\ViewedProduct;
 use Illuminate\Database\Eloquent\Collection;
 
 class ViewedProductsService implements ViewedProductsServiceContract
 {
-    public function getCustomer(): Customer
+    private CustomerServiceContract $customerService;
+    private ViewedProductsRepositoryContract $viewedProductsRepository;
+
+    public function __construct(
+        CustomerServiceContract $customerService,
+        ViewedProductsRepositoryContract $viewedProductsRepository
+    )
     {
-        $user = auth()->user();
-
-        if ($user) {
-            $customer = $user->customer;
-        } else {
-            $customer = Customer::firstWhere('hash', session('customer_token'));
-        }
-
-        return $customer;
+        $this->customerService = $customerService;
+        $this->viewedProductsRepository = $viewedProductsRepository;
     }
 
     public function add(Product $product): bool
@@ -30,8 +29,8 @@ class ViewedProductsService implements ViewedProductsServiceContract
             $this->remove($product);
         }
 
-        ViewedProduct::create([
-            'customer_id' => $this->getCustomer()->id,
+        $this->viewedProductsRepository->create([
+            'customer_id' => $this->customerService->getCustomer()->id,
             'product_id' => $product->id,
         ]);
 
@@ -40,23 +39,19 @@ class ViewedProductsService implements ViewedProductsServiceContract
 
     public function remove(Product $product): bool
     {
-        return $this->getCustomer()->viewedProducts()->where('product_id', $product->id)->delete();
+        return $this->customerService->getCustomer()->viewedProducts()->where('product_id', $product->id)->delete();
     }
 
     public function isViewed(Product $product): bool
     {
-        return $this->getCustomer()->viewedProducts()->where('product_id', $product->id)->count();
+        return $this->customerService->getCustomer()->viewedProducts()->where('product_id', $product->id)->count();
     }
 
     public function getViewed(): Collection
     {
-        $viewedProducts = $this->getCustomer()->viewedProducts->sortByDesc('created_at');
+        $viewedProducts = $this->customerService->getCustomer()->viewedProducts()->with('product')->orderByDesc('created_at')->get();
 
-        $products = $viewedProducts->map(function ($viewedProduct) {
-            return $viewedProduct->product;
-        });
-
-        return $products;
+        return $viewedProducts;
     }
 
     public function getViewedCount(): int

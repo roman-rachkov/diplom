@@ -7,6 +7,7 @@ use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\Cart\RemoveCartServiceContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\DeliveryCostServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
@@ -20,6 +21,7 @@ use App\Service\AdminSettingsService;
 use App\Service\Cart\AddCartService;
 use App\Service\Cart\GetCartService;
 use App\Service\Cart\RemoveCartService;
+use App\Service\CustomerService;
 use App\Service\DeliveryCostService;
 use App\Service\FlashMessageService;
 use App\Service\Payment\PaymentsIntegratorService;
@@ -48,7 +50,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(CreatesNewUsers::class, CreateNewUserWithPhone::class);
-        $this->app->singleton(ViewedProductsServiceContract::class, ViewedProductsService::class);
         $this->app->singleton(UsersAvatarServiceContract::class, UsersAvatarService::class);
         $this->app->singleton(DeliveryCostServiceContract::class, DeliveryCostService::class);
         $this->app->singleton(PayOrderServiceContract::class, PayOrderService::class);
@@ -62,6 +63,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(RemoveCartServiceContract::class, RemoveCartService::class);
         $this->app->singleton(FlashMessageServiceContract::class, FlashMessageService::class);
         $this->app->singleton(PaymentsIntegratorServiceContract::class, PaymentsIntegratorService::class);
+        $this->app->singleton(CustomerServiceContract::class, CustomerService::class);
+        $this->app->singleton(ViewedProductsServiceContract::class, ViewedProductsService::class);
 
         $this->app->singleton(Customer::class, function () {
             $customer = Customer::firstOrCreate(['hash' => Cookie::get('customer_token')]);;

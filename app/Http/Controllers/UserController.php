@@ -16,6 +16,8 @@ class UserController extends Controller
     private $viewedProducts;
     private $discountRepo;
 
+    const LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW = 3;
+
     public function __construct(
         UserRepositoryContract $userRepository,
         ViewedProductsService $viewedProducts,
@@ -31,7 +33,7 @@ class UserController extends Controller
     {
         $user = $this->userRepository->find($user);
         $user->load('attachment');
-        $arrayProductsWithDiscount = $this->getProductsWithDiscount(3);
+        $arrayProductsWithDiscount = $this->getViewedProductsWithDiscount(self::LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW);
 
         return view('users.show', compact('user', 'arrayProductsWithDiscount'));
     }
@@ -56,16 +58,10 @@ class UserController extends Controller
         return redirect()->route('users.edit', $user)->with('success', true);
     }
 
-    public function viewedProducts($user): View
+    private function getViewedProductsWithDiscount(int $limit): array
     {
-        $arrayProductsWithDiscount = $this->getProductsWithDiscount(20);
-
-        return view('products.history_viewed', compact('arrayProductsWithDiscount', 'user'));
-    }
-
-    public function getProductsWithDiscount(int $limit): array
-    {
-        $result['products'] = $this->viewedProducts->getViewed()->take($limit);
+        $viewedProducts = $this->viewedProducts->getViewed()->take($limit);
+        $result['products'] = $viewedProducts->map( fn($viewed) => $viewed->product );
         $result['discounts'] = $this->discountRepo->getCatalogDiscounts($result['products']);
 
         return $result;
