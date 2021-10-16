@@ -67,7 +67,7 @@ class CompareProductsService implements CompareProductsServiceContract
     }
 
 
-    public function getCompareProductDTOs(Collection $comparedProducts)
+    public function getCompareProductDTOs(Collection $comparedProducts): Collection
     {
         $comparedProductsDTO = [];
 
@@ -92,7 +92,7 @@ class CompareProductsService implements CompareProductsServiceContract
         return collect($comparedProductsDTO);
     }
 
-    public function getCharacteristicDTOs(Collection $comparedProducts)
+    public function getCharacteristicDTOs(Collection $comparedProducts): Collection
     {
            $characteristicsByProduct = $comparedProducts
                ->pluck('characteristicValues');
@@ -131,44 +131,5 @@ class CompareProductsService implements CompareProductsServiceContract
            }
 
            return collect($characteristicDTOs);
-    }
-
-    protected function getCharacteristicsValues(Collection $comparedProducts): Collection
-    {
-        $characteristics = [];
-
-        $characteristicsValues = $comparedProducts->pluck('characteristicValues');
-
-        foreach ($characteristicsValues as $characteristicsValue) {
-            foreach ($characteristicsValue as $characteristic) {
-                if ( !array_key_exists($characteristic->name, $characteristics)) {
-                    $characteristics[$characteristic->name] =
-                        [
-                            'measure'=> $characteristic->measure,
-                            'values' => []
-                        ];
-                }
-                $characteristics[$characteristic->name]['values'][] = $characteristic->value;
-            }
-        }
-        foreach ($characteristics as &$characteristic) {
-            $characteristic['isValuesEqual'] = count(array_unique($characteristic['values'])) === 1;
-        }
-
-        return collect($characteristics);
-    }
-
-    protected function appendPriceWithDiscount(Collection $comparedProducts): Collection
-    {
-        $comparedProducts->transform(function ($product){
-            $product->withDiscount = round(
-                $product->avg_price *
-                (1 -  $this->discountService->getProductDiscounts($product)),
-                2
-            );
-            return $product;
-        });
-
-        return $comparedProducts;
     }
 }

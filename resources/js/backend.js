@@ -70,6 +70,21 @@ document.addEventListener('DOMContentLoaded', function () {
         message.textContent = "Комментарий к оплате: " + payment.comment
         element.appendChild(message);
     }
+
+    //Add to cart on compare page
+    const addToCartButtons = document.querySelectorAll('.AddToCart-btn');
+
+    Array.prototype.forEach.call(addToCartButtons, function (btn) {
+        btn.addEventListener('click', function (event) {
+            event.preventDefault();
+            console.log(event.target.parentElement.dataset.route);
+            // axios.post(event.target.dataset.route)
+            //   .then(response => {
+            //       location.reload();
+            //   });
+        });
+    });
+
 });
 
 $(document).ready($ => {

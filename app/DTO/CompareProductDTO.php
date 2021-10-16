@@ -31,4 +31,10 @@ class CompareProductDTO implements DataTransferObjectInterface
         $this->productAvgPrice = $productAvgPrice;
         $this->productPriceWithDiscount = $productPriceWithDiscount;
     }
+
+    public function getPriceInDollars(float $value): bool|string
+    {
+        $fmt = new \NumberFormatter( 'en_EN', \NumberFormatter::CURRENCY );
+        return $fmt->formatCurrency($value, "USD");
+    }
 }
