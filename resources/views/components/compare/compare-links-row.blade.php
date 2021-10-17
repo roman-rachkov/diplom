@@ -6,7 +6,7 @@
     <div class="Compare-products">
         @foreach($products as $product)
             <div class="Compare-product">
-            <div class="Compare-feature" data-route="{{route('product.addToCart', ['slug' => $product->productSlug])}}" >
+            <div class="Compare-feature">
                 <a
                         type="button"
                         class="Compare-btn AddToCart-btn"

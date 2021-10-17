@@ -52,6 +52,7 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
 
         return Cache::tags(
             [
+                'comparedProducts',
                 'customers',
                 'products'
             ])

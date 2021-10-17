@@ -11,6 +11,8 @@ class ComparedProduct extends Model
 {
     use HasFactory, FlushTagCache;
 
+    public static $tagsArr = ['comparedProducts'];
+
     protected $guarded = [];
 
     public function customer(): BelongsTo

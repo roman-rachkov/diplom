@@ -77,11 +77,23 @@ document.addEventListener('DOMContentLoaded', function () {
     Array.prototype.forEach.call(addToCartButtons, function (btn) {
         btn.addEventListener('click', function (event) {
             event.preventDefault();
-            console.log(event.target.parentElement.dataset.route);
-            // axios.post(event.target.dataset.route)
-            //   .then(response => {
-            //       location.reload();
-            //   });
+            axios.post(btn.dataset.route)
+              .then(response => {
+                  location.reload();
+              });
+        });
+    });
+
+    //Remove from comparison on compare page
+    const removeFromComparisonButtons = document.querySelectorAll('.RemoveFromComparison-btn');
+
+    Array.prototype.forEach.call(removeFromComparisonButtons, function (btn) {
+        btn.addEventListener('click', function (event) {
+            event.preventDefault();
+            axios.post(btn.dataset.route)
+              .then(response => {
+                  location.reload();
+              });
         });
     });
 

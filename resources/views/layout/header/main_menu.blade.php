@@ -14,10 +14,7 @@
         </nav>
         <div class="row-block">
             <div class="CartBlock">
-                <a class="CartBlock-block" href="{{route('comparison')}}">
-                    <img class="CartBlock-img" src="{{asset('assets/img/icons/exchange.svg')}}" alt="exchange.svg"/>
-                    <span class="CartBlock-amount">4</span>
-                </a>
+                <x-compare.header-component/>
                 <x-cart.header-component/>
             </div>
         </div>
