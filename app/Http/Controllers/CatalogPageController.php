@@ -67,7 +67,7 @@ class CatalogPageController extends Controller
         }
     }
 
-    public function compare(CompareProductsServiceContract $compare, ProductRepositoryContract $prodRepo, $slugt)
+    public function compare(CompareProductsServiceContract $compare, ProductRepositoryContract $prodRepo, $slug)
     {
         $product = $prodRepo->find($slug);
         if ($compare->add($product)) {

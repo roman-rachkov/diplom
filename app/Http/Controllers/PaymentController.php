@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\Http\Requests\PaymentFormRequest;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -16,7 +17,7 @@ class PaymentController extends Controller
         $card = (int)str_replace(' ', '', $request->validated()['payment_card']);
         $order = session()->pull('order');
         try {
-            $payment = $serviceContract->addPayment($card, $order, session()->pull('payService'));
+            $payment = $serviceContract->addPayment($card, $order, session()->pull('payService'), session()->pull('payment'));
         } catch (\Throwable $e) {
             abort($e->getCode(), $e->getMessage());
         }

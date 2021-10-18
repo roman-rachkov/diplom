@@ -8,6 +8,7 @@ use App\Http\Requests\CatalogGetRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -29,7 +30,7 @@ class ProductRepository implements ProductRepositoryContract
         return $product->reviews()->create($attributes);
     }
 
-    public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug='')
+    public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug = '')
     {
         $key = 'allProductsForCatalogPage_';
         $query = $this->model->newQuery();
@@ -97,11 +98,11 @@ class ProductRepository implements ProductRepositoryContract
             ])
             ->remember($slug, $ttl, function () use ($slug) {
 
-            return Product::with('attachment', 'prices.seller')
-                ->where('slug', $slug)
-                ->first();
+                return Product::with('attachment', 'prices.seller')
+                    ->where('slug', $slug)
+                    ->first();
 
-        });
+            });
     }
 
     public function getTopProducts()
@@ -127,4 +128,32 @@ class ProductRepository implements ProductRepositoryContract
         return $this->model->where('category_id', $catId)->get()->pluck('category');
     }
 
+    public function getDayOfferProduct(): Product
+    {
+        $now = Carbon::now();
+        $tomorrow = Carbon::tomorrow();
+        $key = 'dayOfferForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear;
+        return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
+            function () {
+                return $this->model->where('limited_edition', 1)->inRandomOrder()->limit(1)->first();
+            });
+    }
+
+    public function getLimitedEditionProduct($excludeId = null): Collection
+    {
+        $now = Carbon::now();
+        $tomorrow = Carbon::tomorrow();
+        $itemOnPage = $this->adminsSettings->get('itemsInLimitedEditionBlock', 16);
+        $key = 'limitedEditionForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear.'_exclude_'.$excludeId;
+        $key = '_ItemOnPage_'.$itemOnPage;
+        return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
+            function () use($excludeId, $itemOnPage){
+                return $this->model
+                                ->where('limited_edition', 1)
+                                ->whereNotIn('id', [$excludeId])
+                                ->inRandomOrder()
+                                ->limit($itemOnPage)
+                                ->get();
+            });
+    }
 }

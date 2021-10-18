@@ -15,18 +15,20 @@ class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
 {
 
     public PaymentsServicesRepositoryContract $repository;
-    private PaymentRepositoryContract $payment;
+    private PaymentRepositoryContract $paymentRepository;
 
-    public function __construct(PaymentsServicesRepositoryContract $repository, PaymentRepositoryContract $payment)
+    public function __construct(PaymentsServicesRepositoryContract $repository, PaymentRepositoryContract $paymentRepository)
     {
         $this->repository = $repository;
-        $this->payment = $payment;
+        $this->paymentRepository = $paymentRepository;
     }
 
-    public function addPayment(int $card, Order $order, PaymentServiceContract $paymentService): bool|Payment
+    public function addPayment(int $card, Order $order, PaymentServiceContract $paymentService, Payment $payment = null): bool|Payment
     {
-        $service = $this->repository->getPaymentsServiceByService($paymentService->namespace());
-        $payment = $this->payment->add($order, $service);
+        if(!$payment) {
+            $service = $this->repository->getPaymentsServiceByService($paymentService->namespace());
+            $payment = $this->paymentRepository->add($order, $service);
+        }
         GoPaymentJob::dispatch(
             $card,
             $payment,
@@ -47,17 +49,17 @@ class PaymentsIntegratorService implements PaymentsIntegratorServiceContract
 
     public function getPaymentById(int $id)
     {
-        return $this->payment->getPaymentById($id);
+        return $this->paymentRepository->getPaymentById($id);
     }
 
     public function canceled(int $id, string $message)
     {
-        return $this->payment->cancel($id, $message);
+        return $this->paymentRepository->cancel($id, $message);
     }
 
     public function completed(int $id)
     {
-        return $this->payment->complete($id);
+        return $this->paymentRepository->complete($id);
     }
 
 }

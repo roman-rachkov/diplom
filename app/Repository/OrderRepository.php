@@ -7,6 +7,7 @@ use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\DTO\OrderDTO;
 use App\Models\Customer;
 use App\Models\Order;
+use Illuminate\Support\Collection;
 
 class OrderRepository implements OrderRepositoryContract
 {
@@ -40,6 +41,11 @@ class OrderRepository implements OrderRepositoryContract
 
     public function getLastOrder(): Order
     {
-        return $this->customer->orders->last();
+        return $this->customer->orders()->latest()->first();
+    }
+
+    public function getAllOrders(): Collection
+    {
+        return $this->customer->orders()->latest()->get();
     }
 }

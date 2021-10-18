@@ -62,16 +62,22 @@ Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
 Route::get('/products/comparison', function () {
 })->name('comparison');
 
-Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
+
+Route::prefix('users')->middleware(['auth'])->group(function () {
+    Route::get('/{user}/order/{order}', [UserController::class, 'showOrder'])->name('users.order');
+    Route::get('/{user}/orders', [UserController::class, 'orders'])->name('users.orders');
+    Route::get('/{user}/show', [UserController::class, 'show'])->name('users.show');
+    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/{user}/edit', [UserController::class, 'update'])->name('users.update');
+});
 
 Route::get('sellers/{id}', [SellerController::class, 'show']);
 
-Route::view('/about', 'about.main')->name('about');
 
-Route::prefix('/checkout')->group(function () {
+Route::prefix('checkout')->group(function () {
 
+    Route::post('/repay/{order}', [OrderController::class, 'repay'])->name('order.repay');
+    Route::get('/repay/{order}', [OrderController::class, 'repayForm'])->name('order.repay');
     Route::prefix('/user')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
         Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
@@ -102,3 +108,5 @@ Route::prefix('payment')->group(function () {
     Route::put('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
     Route::put('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });
+
+Route::view('/about', 'about.main')->name('about');
