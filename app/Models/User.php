@@ -75,6 +75,11 @@ class User extends Authenticatable
         'created_at',
     ];
 
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $value);
+    }
+
     public function comparedProduct(): HasMany
     {
         return $this->hasMany(ComparedProduct::class);

@@ -34,3 +34,11 @@
     background-color: #fff;
     padding: 15px;
 }
+
+.visible{
+    display: block;
+}
+
+.fluid{
+    width: 100%;
+}

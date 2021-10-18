@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Http\Requests\UpdateUserRequest;
 use App\Service\Product\ViewedProductsService;
+use App\Models\Order;
+use App\Models\User;
+use App\Service\UsersAvatarService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -52,6 +56,17 @@ class UserController extends Controller
         }
 
         return redirect()->route('users.edit', $user)->with('success', true);
+    }
+
+    public function orders(User $user, OrderRepositoryContract $repository)
+    {
+        $orders = $repository->getAllOrders();
+        return view('users.history.orders')->with(compact('user', 'orders'));
+    }
+
+    public function showOrder(User $user, Order $order)
+    {
+        return view('users.history.single-order')->with(compact('user', 'order'));
     }
 
     public function setPhoneAttribute($value)

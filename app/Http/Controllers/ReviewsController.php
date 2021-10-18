@@ -20,6 +20,6 @@ class ReviewsController extends Controller
             $flashMessageService->flash(__('add_review_service.add.on_error'), 'danger');
         }
 
-        return redirect()->route('product.show',['slug' => $product->slug]);
+        return redirect()->route('product.show',$product);
     }
 }
