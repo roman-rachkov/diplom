@@ -80,10 +80,7 @@ class CompareProductsService implements CompareProductsServiceContract
 
             $comparedProductsDTO[] = CompareProductDTO::create(
                 [
-                    $comparedProduct->name,
-                    $comparedProduct->slug,
-                    $comparedProduct->image,
-                    $comparedProduct->avg_price,
+                    $comparedProduct,
                     $discount
                 ]
             );

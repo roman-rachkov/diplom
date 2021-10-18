@@ -4,14 +4,14 @@
     <div class="Compare-title">Цена
     </div>
     <div class="Compare-products">
-        @foreach($products as $product)
+        @foreach($products as $dto)
             <div class="Compare-product">
-                <div class="Compare-nameProduct">{{$product->productName}}
+                <div class="Compare-nameProduct">{{$dto->product->name}}
                 </div>
                 <div class="Compare-feature">
-                    <strong class="Compare-priceOld">{{$product->getPriceInDollars($product->productAvgPrice)}}
+                    <strong class="Compare-priceOld">{{$dto->getPriceInDollars($dto->product->avg_price)}}
                     </strong>
-                    <strong class="Compare-price">{{$product->getPriceInDollars($product->productPriceWithDiscount)}}
+                    <strong class="Compare-price">{{$dto->getPriceInDollars($dto->productPriceWithDiscount)}}
                     </strong>
                 </div>
             </div>
