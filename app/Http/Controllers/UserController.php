@@ -68,9 +68,4 @@ class UserController extends Controller
     {
         return view('users.history.single-order')->with(compact('user', 'order'));
     }
-
-    public function setPhoneAttribute($value)
-    {
-        $this->attributes['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $value);
-    }
 }
