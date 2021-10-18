@@ -12,14 +12,17 @@ class ViewedProductsService implements ViewedProductsServiceContract
 {
     private CustomerServiceContract $customerService;
     private ViewedProductsRepositoryContract $viewedProductsRepository;
+    private ProductDiscountService $discountRepo;
 
     public function __construct(
         CustomerServiceContract $customerService,
-        ViewedProductsRepositoryContract $viewedProductsRepository
+        ViewedProductsRepositoryContract $viewedProductsRepository,
+        ProductDiscountService $discountRepo,
     )
     {
         $this->customerService = $customerService;
         $this->viewedProductsRepository = $viewedProductsRepository;
+        $this->discountRepo = $discountRepo;
     }
 
     public function add(Product $product): bool
@@ -49,7 +52,13 @@ class ViewedProductsService implements ViewedProductsServiceContract
 
     public function getViewed(): Collection
     {
-        $viewedProducts = $this->customerService->getCustomer()->viewedProducts()->with('product')->orderByDesc('created_at')->get();
+        $customer = $this->customerService->getCustomer();
+        $viewedProducts = $this->viewedProductsRepository
+            ->allQuery()
+            ->with('product')
+            ->where('customer_id', $customer->id)
+            ->orderByDesc('created_at')
+            ->get();
 
         return $viewedProducts;
     }
@@ -59,4 +68,12 @@ class ViewedProductsService implements ViewedProductsServiceContract
         return $this->getViewed()->count();
     }
 
+    public function getViewedProductsWithDiscount(int $limit): array
+    {
+        $viewedProducts = $this->getViewed()->take($limit);
+        $result['products'] = $viewedProducts->map( fn($viewed) => $viewed->product );
+        $result['discounts'] = $this->discountRepo->getCatalogDiscounts($result['products']);
+
+        return $result;
+    }
 }
