@@ -9,7 +9,9 @@ class Discount extends Model
 {
     use HasFactory;
 
-    public const types = ['classic', 'sum', 'fix'];
+    public const Classic = 'classic';
+    public const Sum = 'sum';
+    public const Fixed = 'fix';
 
     public function categories()
     {
