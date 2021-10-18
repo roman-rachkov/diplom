@@ -7,7 +7,7 @@
                 <div class="ProductCard-sale">-{{ $discount }}%
                 </div><img src={{$product->image->getRelativeUrlAttribute()}} alt={{$product->image->alt}}/>
             </div>
-            <x-product.product-item-images :images="$product->attachment"/>
+            <x-product.product-item-images :images="$product->attachment" :mainImage="$product->image"/>
         </div>
         <div class="ProductCard-desc">
             <div class="ProductCard-header">
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="ProductCard-text">
-                {{$product->description}}
+                {!! $product->description !!}
             </div>
             <form class="ProductCard-cart" method="post" action="{{route('product.addToCart', ['slug' => $product->slug])}}">
                 @csrf
@@ -63,42 +63,7 @@
         </div>
         <div class="Tabs-wrap">
             <div class="Tabs-block" id="description">
-                <h2>Megano Store Hystory
-                </h2>
-                <p>Lorem ipsum dolor sit amet, consectetuer&#32;
-                    <strong>adipiscing
-                    </strong>&#32;elit doli. Aenean commodo ligula eget dolor. Aenean massa.&#32;<a href="#">Cumtipsu</a>&#32;sociis natoque penatibus et magnis dis parturient montesti, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eutu, pretiumem.
-                </p><img class="pict pict_right" src={{asset("assets/img/content/home/bigGoods.png")}} alt="bigGoods.png"/>
-                <ul>
-                    <li>Lorem ipsum dolor sit amet, consectetuer
-                    </li>
-                    <li>adipiscing elit doli.&#32;<em>Aenean</em>&#32;commodo ligula
-                    </li>
-                    <li>eget dolor. Aenean massa. Cumtipsu sociis
-                    </li>
-                    <li>natoque penatibus et magnis dis parturient
-                    </li>
-                    <li>montesti, nascetur ridiculus mus. Donec
-                    </li>
-                    <li>quam felis, ultricies nec, pellentesque eutu
-                    </li>
-                </ul>
-                <div class="clearfix">
-                </div>
-                <div class="table">
-                    <table>
-                        <tr>
-                            <th>Табличка внутри описания</th>
-                            <th>Значение
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>ываыв</td>
-                            <td>llslssl
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                {!! $product->full_description !!}
             </div>
             <x-product.product-item-sellers :product="$product" :prices="$product->prices"/>
             <div class="Tabs-block" id="addit">
