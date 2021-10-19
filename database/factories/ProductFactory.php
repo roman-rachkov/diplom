@@ -31,10 +31,10 @@ class ProductFactory extends Factory
             'slug' => $this->faker->slug(),
             'category_id' => Category::factory(),
             'sort_index' => $this->faker->numberBetween(1,100),
-            'limited' => $this->faker->boolean(90),
             'sales_count' => $this->faker->numberBetween(1, 200),
             'manufacturer_id' => Manufacturer::factory(),
             'main_img_id' => Attachment::factory(),
+            'limited_edition' => $this->faker->boolean,
         ];
     }
 }

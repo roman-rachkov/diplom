@@ -17,7 +17,7 @@
                         <div class="ProductCard-price">${{ $avgDiscountPrice }}</div>
                         <div class="ProductCard-priceOld">${{ $avgPrice }}</div>
                     </div>
-                    <form class="ProductCard-compare" method="post" action="{{route('product.addToComparison', ['slug' => $product->slug])}}">
+                    <form class="ProductCard-compare" method="post" action="{{route('product.addToComparison', $product)}}">
                         @csrf
                         <button type="submit" class="btn btn_default">
                             <img class="btn-icon" src={{asset("assets/img/icons/card/change.svg")}} alt="change.svg"/>
@@ -28,7 +28,7 @@
             <div class="ProductCard-text">
                 {!! $product->description !!}
             </div>
-            <form class="ProductCard-cart" method="post" action="{{route('product.addToCart', ['slug' => $product->slug])}}">
+            <form class="ProductCard-cart" method="post" action="{{route('product.addToCart', $product)}}">
                 @csrf
                 <div class="ProductCard-cartElement ProductCard-cartElement_amount">
                     <div class="Amount Amount_product">

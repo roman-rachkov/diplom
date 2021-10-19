@@ -56,12 +56,18 @@ class ProductEditScreen extends Screen
                 ->modal('addNewPriceAndSeller')
                 ->method('addNewPriceAndSeller')
                 ->icon('money')
-                ->modalTitle(__('admin.products.add_new_price_modal_title')),
+                ->modalTitle(__('admin.products.add_new_price_modal_title'))
+                ->canSee($this->exists),
 
             Button::make('Save')
                 ->icon('note')
                 ->method('update')
                 ->canSee($this->exists),
+
+            Button::make('Save')
+                ->icon('note')
+                ->method('update')
+                ->canSee(!$this->exists),
 
             Button::make('Remove')
                 ->icon('trash')
@@ -98,7 +104,7 @@ class ProductEditScreen extends Screen
                             ->title(__('admin.products.slug'))
                             ->placeholder(__('admin.products.slug_placeholder')),
 
-                        Relation::make('product.category')
+                        Relation::make('product.category_id')
                             ->title(__('admin.products.category'))
                             ->fromModel(Category::class, 'name'),
 

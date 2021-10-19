@@ -45,7 +45,18 @@ class Product extends Model
         'deleted_at',
     ];
 
-    public static $tagsArr = ['products'];
+    public static $tagsArr = [
+        'products',
+        'dayOfferProduct',
+        'topCatalog',
+        'categories',
+        'reviews',
+        'prices',
+        'manufacturers',
+        'sellers',
+        'catalog',
+        'category',
+    ];
 
     public function getRouteKeyName(): string
     {

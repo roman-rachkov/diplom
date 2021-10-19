@@ -59,7 +59,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
         $result = [];
 
         foreach ($products as $product) {
-            $result[$product->id] = rand(500, 2500);
+            $result[$product->id] = rand(100000, 500000) / 100;
         }
 
         return new Collection($result);
@@ -69,7 +69,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
     {
         $discounts = new Collection();
 
-        return $discounts->max() ?: round(rand(5,70)/100, 2);
+        return $discounts->max() ?: rand(100000, 500000) / 100;
     }
 
     protected function getGroupDiscount($product): float

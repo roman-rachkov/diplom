@@ -38,7 +38,7 @@ class ProductListScreen extends Screen
         return [
             Link::make(__('admin.products.add_new'))
                 ->icon('plus')
-                ->route('platform.products.edit')
+                ->route('platform.products.add')
         ];
     }
 

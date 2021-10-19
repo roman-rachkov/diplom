@@ -17,7 +17,7 @@
 
             <div class="Section-column">
 
-                <x-limited_deals/>
+                <x-limited_deals :product="$dayOfferProduct" :discount="$dayOfferDiscount" :time="$dayOfferTime"/>
 
             </div>
             <div class="Section-content">
@@ -44,7 +44,7 @@
             </div>
             <div class="Section-content">
 
-                <x-limited_edition_slider/>
+                <x-limited_edition_slider :products="$limitedEditionProduct" :discounts="$limitedEditionDiscounts"/>
 
             </div>
         </div>

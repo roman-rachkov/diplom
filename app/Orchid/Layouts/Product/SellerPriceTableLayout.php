@@ -32,14 +32,10 @@ class SellerPriceTableLayout extends Table
     {
         return [
             TD::make('name', __('admin.products.name'))
-                ->sort()
-                ->filter(TD::FILTER_TEXT)
                 ->render(function (Price $prices) {
                     return $prices->seller->name;
                 }),
             TD::make('price', __('admin.products.prices'))
-                ->sort()
-                ->filter(TD::FILTER_TEXT)
                 ->render(function (Price $prices) {
                     return $prices->price;
                 }),
