@@ -108,7 +108,7 @@ class ProductEditScreen extends Screen
                             ->title(__('admin.products.category'))
                             ->fromModel(Category::class, 'name'),
 
-                        Relation::make('product.manufacturer')
+                        Relation::make('product.manufacturer_id')
                             ->title(__('admin.products.manufacturer'))
                             ->fromModel(Manufacturer::class, 'name'),
 
@@ -175,6 +175,8 @@ class ProductEditScreen extends Screen
      */
     public function update(Product $product, Request $request)
     {
+//        dd($request->post('product'));
+
         $product->fill($request->post('product'))->save();
 
         $product->attachment()->syncWithoutDetaching(

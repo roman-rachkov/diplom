@@ -26,7 +26,9 @@ class Product extends Model
         'description',
         'full_description',
         'category_id',
-        'limited',
+        'limited_edition',
+        'manufacturer_id',
+        'main_img_id'
     ];
 
     /**
