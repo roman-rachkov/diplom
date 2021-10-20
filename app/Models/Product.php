@@ -82,7 +82,7 @@ class Product extends Model
 
     public function sellers(): BelongsToMany
     {
-        return $this->belongsToMany(Seller::class, Price::class);
+        return $this->belongsToMany(Seller::class, 'prices');
     }
 
     public function image(): HasOne

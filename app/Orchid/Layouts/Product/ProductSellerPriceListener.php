@@ -17,7 +17,7 @@ class ProductSellerPriceListener extends Listener
      *
      * @var string[]
      */
-    protected $targets = ['product[sellers][]'];
+    protected $targets = ['sellers'];
 
     /**
      * What screen method should be called

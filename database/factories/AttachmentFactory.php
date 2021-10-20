@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Model;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Orchid\Attachment\Models\Attachment;
 
@@ -20,18 +21,19 @@ class AttachmentFactory extends Factory
     public function definition()
     {
         $datePath = \Illuminate\Support\Carbon::now()->format('Y/m/d/');
-        $dir = storage_path('app/public/' . $datePath);
-        if(!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+        $filepath = storage_path('app/public/' . $datePath);
+        if(!File::exists($filepath)){
+            File::makeDirectory($filepath);
         }
-        $image = $this->faker->image($dir,640,480, null, false);
+        $image = $this->faker->image($filepath,640,480, null, false, $word = null);
+
         list($name, $extension) = explode('.', $image);
         return [
             'name' => $name,
             'original_name' => $image,
-            'mime' => mime_content_type($dir . '/' . $image),
+            'mime' => mime_content_type($filepath . '/' . $image),
             'extension' => $extension,
-            'size' => stat($dir . '/' . $image)['size'],
+            'size' => stat($filepath . '/' . $image)['size'],
             'sort' => 0,
             'path' => $datePath,
             'description' => $this->faker->sentence(),

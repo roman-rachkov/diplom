@@ -103,6 +103,7 @@ return [
         'seller_prices_tab' => 'Настройки продавцов и цен',
         'success_info' => 'Изменения для продукта созранены успешно',
         'price_created' => 'Новая цена добавленна',
+        'price_updated' => 'Цена обновлена',
         'delete_info' => 'Продукт удален',
         'add_new_price_modal_button' => 'Добавить цену',
         'add_new_price_modal_title' => 'Добавление продавца и цены',

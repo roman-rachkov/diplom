@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Manufacturer;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\Seller;
 use App\Orchid\Layouts\Product\SellerPriceTableLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
@@ -66,7 +67,7 @@ class ProductEditScreen extends Screen
 
             Button::make('Save')
                 ->icon('note')
-                ->method('update')
+                ->method('create')
                 ->canSee(!$this->exists),
 
             Button::make('Remove')
@@ -98,26 +99,31 @@ class ProductEditScreen extends Screen
                     Layout::rows([
                         Input::make('product.name')
                             ->title(__('admin.products.name'))
-                            ->placeholder(__('admin.products.name_placeholder')),
+                            ->placeholder(__('admin.products.name_placeholder'))
+                            ->required(),
 
                         Input::make('product.slug')
                             ->title(__('admin.products.slug'))
-                            ->placeholder(__('admin.products.slug_placeholder')),
+                            ->placeholder(__('admin.products.slug_placeholder'))
+                            ->required(),
 
                         Relation::make('product.category_id')
                             ->title(__('admin.products.category'))
-                            ->fromModel(Category::class, 'name'),
+                            ->fromModel(Category::class, 'name')
+                            ->required(),
 
                         Relation::make('product.manufacturer_id')
                             ->title(__('admin.products.manufacturer'))
-                            ->fromModel(Manufacturer::class, 'name'),
+                            ->fromModel(Manufacturer::class, 'name')
+                            ->required(),
 
                         CheckBox::make('product.limited_edition')
                             ->title(__('admin.products.limited_edition'))
                             ->sendTrueOrFalse(),
 
                         Quill::make('product.description')
-                            ->title(__('admin.products.description')),
+                            ->title(__('admin.products.description'))
+                            ->required(),
 
                         Quill::make('product.full_description')
                             ->title(__('admin.products.full_description'))
@@ -127,7 +133,8 @@ class ProductEditScreen extends Screen
                     Layout::rows([
                         Picture::make('product.main_img_id')
                             ->title(__('admin.products.main_img_id'))
-                            ->targetId(),
+                            ->targetId()
+                            ->required(),
                         Upload::make('product.attachment')
                             ->title(__('admin.products.additional_img'))
                     ]),
@@ -156,7 +163,7 @@ class ProductEditScreen extends Screen
                 Relation::make('seller')
                     ->title(__('admin.products.seller'))
                     ->required()
-                    ->fromModel(Manufacturer::class, 'name'),
+                    ->fromModel(Seller::class, 'name'),
                 Input::make('price')
                     ->required()
                     ->title(__('admin.products.price')),
@@ -175,16 +182,35 @@ class ProductEditScreen extends Screen
      */
     public function update(Product $product, Request $request)
     {
-//        dd($request->post('product'));
-
         $product->fill($request->post('product'))->save();
 
         $product->attachment()->syncWithoutDetaching(
             $request->input('product.attachment', [])
         );
 
-        Alert::info(__('admin.product.success_info'));
+        Alert::info(__('admin.products.success_info'));
         return redirect()->route('platform.products');
+    }
+
+    /**
+     * @param Product $product
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function create(Product $product, Request $request)
+    {
+        $request->validate([
+            'product.slug' => ['required', 'unique:products,slug']
+        ]);
+        $product->fill($request->post('product'))->save();
+
+        $product->attachment()->syncWithoutDetaching(
+            $request->input('product.attachment', [])
+        );
+
+        Alert::info(__('admin.products.success_info'));
+        return redirect()->route('platform.products.edit', $product);
     }
 
     /**
@@ -196,14 +222,14 @@ class ProductEditScreen extends Screen
     public function remove(Product $product)
     {
         $product->delete();
-        Alert::info(__('admin.category.delete_info'));
+        Alert::info(__('admin.products.delete_info'));
         return redirect()->route('platform.products');
     }
 
     public function updatePriceAndSeller(Request $request)
     {
         $price = Price::where(['id' => $request->price['id']])->update(['price' => $request->price['price']]);
-        Toast::info(__('admin.product.price_updated'));
+        Toast::info(__('admin.products.price_updated'));
     }
 
     public function addNewPriceAndSeller(Request $request)
@@ -213,6 +239,6 @@ class ProductEditScreen extends Screen
            'price' => $request->input('price'),
            'seller_id' => $request->input('seller'),
         ]);
-        Toast::info(__('admin.product.price_created'));
+        Toast::info(__('admin.products.price_created'));
     }
 }
