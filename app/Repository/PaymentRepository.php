@@ -52,6 +52,7 @@ class PaymentRepository implements PaymentRepositoryContract
         $this->setStatus($id, 'succeeded');
         $payment = $this->getPaymentById($id);
         $payment->payed_at = Carbon::now();
+        $payment->comment = null;
         event(new ChangePaymentStatus($payment));
         return $payment->save();
     }

@@ -10,15 +10,21 @@ use Illuminate\View\Component;
 class StepThreeComponent extends Component
 {
     public Collection $payments;
+    public ?string $classes;
+    public ?string $title;
+    public ?string $button;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(PaymentsIntegratorServiceContract $contract)
+    public function __construct(PaymentsIntegratorServiceContract $contract, string $classes = null, string $title = null, string $button = null)
     {
         $this->payments = $contract->getAllPaymentsServices();
+        $this->classes = $classes;
+        $this->title = $title;
+        $this->button = $button;
     }
 
     /**

@@ -64,8 +64,22 @@ return [
 
     'category' => [
         'panel_name' => 'Category',
+        'name_placeholder' => 'Enter category name',
         'screen_name' => 'Manage category',
-        'screen_description' => 'Goods category'
+        'screen_description' => 'Goods category',
+        'add_new' => 'Add new category',
+        'edit' => 'Edit/Create category',
+        'title' => 'Category',
+        'parent' => 'Parent category',
+        'edit_category' => 'Редактирование/Создание категории',
+        'icon' => 'Иконка категории',
+        'icon_help' => 'Select the icon image to be displayed in the menu.',
+        'success_info' => 'You have successfully created a category.',
+        'delete_info' => 'You have successfully deleted a category.',
+        'image_id' => 'Choose image for category.',
+        'is_active' => 'Checked if category is active.',
+        'slug' => 'Enter the symbol code for the category.',
+        'slug_placeholder' => 'The symbolic code must be separated by a dash.',
     ],
 
     'products' => [

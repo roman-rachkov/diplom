@@ -36,7 +36,7 @@ class UpdateUserRequest extends FormRequest
     public function prepareForValidation()
     {
         $phone = $this->input('phone');
-        $phone = str_replace(['+','(',')','-','_'], '', $phone);
+        $phone = str_replace(['+','(',') ','-','_', ' '], '', $phone);
         $phone = substr($phone, 1);
 
         if (!$this->input('avatar'))

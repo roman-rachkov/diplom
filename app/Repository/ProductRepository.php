@@ -7,26 +7,26 @@ use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Http\Requests\CatalogGetRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class ProductRepository implements ProductRepositoryContract
 {
-    private AdminSettingsServiceContract $adminsSettings;
-    private Product $product;
 
-    public function __construct(
-        AdminSettingsServiceContract $adminsSettings,
-        Product $product
-    )
+    private $model;
+    private $adminsSettings;
+
+    public function __construct(Product $product, AdminSettingsServiceContract $adminsSettings)
     {
+        $this->model = $product;
         $this->adminsSettings = $adminsSettings;
-        $this->product = $product;
     }
 
-    public function storeReview(Product $product, array $attributes): bool|Model
+    public function storeReview(Product $product, array $attributes): Model
     {
         return $product->reviews()->create($attributes);
     }
@@ -34,7 +34,7 @@ class ProductRepository implements ProductRepositoryContract
     public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug='')
     {
         $key = 'allProductsForCatalogPage_';
-        $query = $this->product->newQuery();
+        $query = $this->model->newQuery();
 
         if ($slug) {
             $key .= 'byCategory_' . $slug . '_';
@@ -84,7 +84,7 @@ class ProductRepository implements ProductRepositoryContract
         });
     }
 
-    public function find($slug): Product|null
+    public function find($slug): Product
     {
         $ttl = $this->adminsSettings->get('productsCacheTime', 60 * 60 * 24);
 
@@ -121,12 +121,40 @@ class ProductRepository implements ProductRepositoryContract
 
     public function getProductsByCategory(Category $category): Collection
     {
-        return $this->product->where('category_id', $category->id)->get('id')->map(fn($item) => $item->id);
+        return $this->model->where('category_id', $category->id)->get('id')->map(fn($item) => $item->id);
     }
 
     public function getSellersForProducts(int $catId): Collection
     {
-        return $this->product->where('category_id', $catId)->get()->pluck('category');
+        return $this->model->where('category_id', $catId)->get()->pluck('category');
     }
 
+    public function getDayOfferProduct(): Product
+    {
+        $now = Carbon::now();
+        $tomorrow = Carbon::tomorrow();
+        $key = 'dayOfferForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear;
+        return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
+            function () {
+                return $this->model->where('limited_edition', 1)->inRandomOrder()->limit(1)->first();
+            });
+    }
+
+    public function getLimitedEditionProduct($excludeId = null): Collection
+    {
+        $now = Carbon::now();
+        $tomorrow = Carbon::tomorrow();
+        $itemOnPage = $this->adminsSettings->get('itemsInLimitedEditionBlock', 16);
+        $key = 'limitedEditionForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear.'_exclude_'.$excludeId;
+        $key = '_ItemOnPage_'.$itemOnPage;
+        return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
+            function () use($excludeId, $itemOnPage){
+                return $this->model
+                                ->where('limited_edition', 1)
+                                ->whereNotIn('id', [$excludeId])
+                                ->inRandomOrder()
+                                ->limit($itemOnPage)
+                                ->get();
+            });
+    }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\ViewedProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\UserController;
@@ -28,8 +29,7 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
-Route::get('/discounts', function () {
-})->name('discounts.index');
+Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/products/{slug}', [ProductsController::class, 'show'])
     ->name('product.show');
@@ -51,7 +51,7 @@ Route::get('/catalog', [CatalogPageController::class, 'index'])
 
 Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatalogByCategorySlug'])->name('catalog.category');
 
-Route::get('/catalog/add_to_cart/{product}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
+Route::get('/catalog/add_to_cart/{slug}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
 Route::get('/catalog/compare/{product}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
 
@@ -65,16 +65,23 @@ Route::post('/comparison/remove_product/{productSlug}', [CompareProductsControll
     ->name('comparison.remove_product');
 
 
-Route::get('/users/{user}/show', [UserController::class, 'show'])->name('users.show');
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
+
+Route::prefix('users')->middleware(['auth'])->group(function () {
+    Route::get('/{user}/order/{order}', [UserController::class, 'showOrder'])->name('users.order');
+    Route::get('/{user}/orders', [UserController::class, 'orders'])->name('users.orders');
+    Route::get('/{user}/show', [UserController::class, 'show'])->name('users.show');
+    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/{user}/edit', [UserController::class, 'update'])->name('users.update');
+    Route::get('/{user}/viewed_products', [ViewedProductsController::class, 'viewedProducts'])->name('users.viewed_products');
+});
 
 Route::get('sellers/{id}', [SellerController::class, 'show']);
 
-Route::view('/about', 'about.main')->name('about');
 
-Route::prefix('/checkout')->group(function () {
+Route::prefix('checkout')->group(function () {
 
+    Route::post('/repay/{order}', [OrderController::class, 'repay'])->name('order.repay');
+    Route::get('/repay/{order}', [OrderController::class, 'repayForm'])->name('order.repay');
     Route::prefix('/user')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
         Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
@@ -105,3 +112,5 @@ Route::prefix('payment')->group(function () {
     Route::put('/complete', [PaymentController::class, 'complete'])->name('payment.complete');
     Route::put('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });
+
+Route::view('/about', 'about.main')->name('about');

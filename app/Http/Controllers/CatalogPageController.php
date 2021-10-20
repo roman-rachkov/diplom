@@ -58,8 +58,9 @@ class CatalogPageController extends Controller
         ));
     }
 
-    public function addToCart(AddCartServiceContract $addToCart, Product $product)
+    public function addToCart(AddCartServiceContract $addToCart, ProductRepositoryContract $prodRepo, $slug)
     {
+        $product = $prodRepo->find($slug);
         if ($addToCart->add($product, 1)) {
             return back()->with('success', __('catalog.success.product_add_cart'));
         } else {

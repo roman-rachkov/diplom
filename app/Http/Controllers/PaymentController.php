@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\Http\Requests\PaymentFormRequest;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -16,12 +17,15 @@ class PaymentController extends Controller
         $card = (int)str_replace(' ', '', $request->validated()['payment_card']);
         $order = session()->pull('order');
         try {
-            $serviceContract->addPayment($card, $order, session()->pull('payService'));
+            $payment = $serviceContract->addPayment($card, $order, session()->pull('payService'), session()->pull('payment'));
         } catch (\Throwable $e) {
             abort($e->getCode(), $e->getMessage());
         }
 
-        return view('payment.waiting')->with(compact('order'));
+        if ($request->ajax()) {
+            return response()->json(['status' => (bool)$payment, 'paymentId' => $payment->id]);
+        }
+        return view('payment.waiting')->with(compact('order', 'payment'));
     }
 
     public function complete(Request $request, PaymentsIntegratorServiceContract $paymentsService)

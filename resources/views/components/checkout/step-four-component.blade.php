@@ -9,24 +9,33 @@
             <div class="Order-personal">
                 <div class="row">
                     <div class="row-block">
-                        <x-checkout.info-component type="name" :title="__('checkout.full_name.title')"
-                                                   :info="$inputs['name']"/>
-                        <x-checkout.info-component type="phone" :title="__('checkout.phone.title')"
-                                                   :info="$inputs['phone']"/>
-                        <x-checkout.info-component type="mail" :title="__('checkout.mail.title')"
-                                                   :info="$inputs['email']"/>
+                        <x-info-component :title="__('checkout.full_name.title')">
+                            {{$inputs['name']}}
+                        </x-info-component>
+                        <x-info-component :title="__('checkout.phone.title')">
+                            {{ $inputs['phone'] }}
+                        </x-info-component>
+                        <x-info-component :title="__('checkout.mail.title')">
+                            {{ $inputs['email'] }}
+                        </x-info-component>
                     </div>
                     <div class="row-block">
-                        <x-checkout.info-component type="delivery" :title="__('checkout.delivery.type')"
-                                                   info="{{$inputs['delivery'] == 'express'
-                                                    ? __('checkout.delivery.express')
-                                                    : __('checkout.delivery.default')}}"/>
-                        <x-checkout.info-component type="city" :title="__('checkout.delivery.city')"
-                                                   :info="$inputs['city']"/>
-                        <x-checkout.info-component type="address" :title="__('checkout.delivery.address')"
-                                                   :info="$inputs['address']"/>
-                        <x-checkout.info-component type="pay" :title="__('checkout.payment.title')"
-                                                   :info="$inputs['payService']"/>
+                        <x-info-component :title="__('checkout.delivery.type')">
+                            {{
+                                $inputs['delivery'] == 'express'
+                                    ? __('checkout.delivery.express')
+                                    : __('checkout.delivery.default')
+                            }}
+                        </x-info-component>
+                        <x-info-component :title="__('checkout.delivery.city')">
+                            {{ $inputs['city'] }}
+                        </x-info-component>
+                        <x-info-component :title="__('checkout.delivery.address')">
+                            {{ $inputs['address'] }}
+                        </x-info-component>
+                        <x-info-component :title="__('checkout.payment.title')">
+                            {{ $inputs['payService'] }}
+                        </x-info-component>
                     </div>
                 </div>
             </div>

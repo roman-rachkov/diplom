@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateNewUserWithPhone;
-use App\Contracts\Repository\AdminSettingsRepositoryContract;
 use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\DeliveryCostServiceContract;
+use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\DTO\OrderDTO;
 use App\Http\Requests\OrderConfirmRequest;
+use App\Models\Order;
 use Closure;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -28,7 +28,7 @@ class OrderController extends Controller
                 return redirect()->route('cart.index');
             }
             return $next($request);
-        });
+        }, ['except' => ['repay', 'repayForm']]);
     }
 
     public function index()
@@ -96,4 +96,27 @@ class OrderController extends Controller
         }
         return $paymentsService->render(compact('order'));
     }
+
+    public function repayForm(FlashMessageServiceContract $serviceContract, Order $order)
+    {
+        if ($order->payment?->payed_at !== null) {
+            $serviceContract->flash('Payment Successful complete');
+            return back();
+        }
+        return view('users.history.repay')->with(compact('order'));
+    }
+
+    public function repay(Request $request, FlashMessageServiceContract $serviceContract, PaymentsIntegratorServiceContract $contract, Order $order)
+    {
+        if ($order->payment?->payed_at !== null) {
+            $serviceContract->flash('Payment Successful complete');
+            return back();
+        }
+        $service = $contract->getPaymentsServiceById($request->payment);
+        session(['order' => $order]);
+        session(['payService' => $service]);
+        session(['payment' => $order->payment]);
+        return $service->render(compact('order'));
+    }
+
 }

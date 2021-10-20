@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->integer('sort_index');
             $table->boolean('is_active')->default(false);
             $table->unsignedInteger('icon');
+            $table->softDeletes();
             $table->timestamps();
             $table->nestedSet();
 

@@ -47,7 +47,8 @@ class ProductsController extends Controller
     public function show(
         ProductDiscountServiceContract $discountService,
         AddReviewServiceContract $reviewService,
-        string $slug
+        string $slug,
+        ViewedProductsServiceContract $viewedProductsService
     ): Application|Factory|View
     {
         $product = $this->productRepository->find($slug);
@@ -58,6 +59,8 @@ class ProductsController extends Controller
         $discount = intval($discount * 100);
         $reviewsCount = $reviewService->getReviewsCount($product);
         $reviews = $this->reviewRepository->getPaginatedReviews($product->id, 3, 1);
+
+        $viewedProductsService->add($product);
 
         return view(
             'products.show',

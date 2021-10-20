@@ -15,8 +15,8 @@ class CreateViewedProductsTable extends Migration
     {
         Schema::create('viewed_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->timestamps();
 
             $table->foreign('customer_id')
