@@ -16,6 +16,7 @@ class CreateDiscountablesTable extends Migration
         Schema::create('discountables', function (Blueprint $table) {
             $table->unsignedBigInteger('discount_id');
             $table->unsignedBigInteger('discountable_id');
+            $table->enum('group', ['a', 'b'])->default('a');
             $table->string('discountable_type');
 
             $table->foreign('discount_id')
@@ -23,7 +24,6 @@ class CreateDiscountablesTable extends Migration
                 ->on('discounts')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-
         });
     }
 
