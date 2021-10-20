@@ -82,7 +82,7 @@ Route::prefix('checkout')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
         Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
     });
-    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm.post');
     Route::view('/confirm', 'cart.step-four')->name('order.confirm');
     Route::post('/', [OrderController::class, 'add'])->name('order.add');
     Route::get('/', [OrderController::class, 'index'])->name('order.index');
