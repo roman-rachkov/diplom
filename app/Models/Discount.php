@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Orchid\Screen\AsSource;
 
 class Discount extends Model
 {
-    use HasFactory;
+    use HasFactory, AsSource;
 
-    public const Classic = 'classic';
-    public const Sum = 'sum';
-    public const Fixed = 'fix';
+    public const CLASSIC = 'classic';
+    public const SUM = 'sum';
+    public const FIXED = 'fix';
 
     public function categories()
     {
