@@ -6,29 +6,39 @@ use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Http\Requests\UpdateUserRequest;
+use App\Service\Product\ViewedProductsService;
 use App\Models\Order;
 use App\Models\User;
 use App\Service\UsersAvatarService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
     private $userRepository;
+    private $viewedProducts;
 
-    public function __construct(UserRepositoryContract $userRepository)
+    const LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW = 3;
+
+    public function __construct(
+        UserRepositoryContract $userRepository,
+        ViewedProductsService $viewedProducts,
+    )
     {
         $this->userRepository = $userRepository;
+        $this->viewedProducts = $viewedProducts;
     }
 
-    public function show($user)
+    public function show($user): View
     {
         $user = $this->userRepository->find($user);
         $user->load('attachment');
+        $arrayProductsWithDiscount = $this->viewedProducts->getViewedProductsWithDiscount(self::LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW);
 
-        return view('users.show', compact('user'));
+        return view('users.show', compact('user', 'arrayProductsWithDiscount'));
     }
 
-    public function edit($user)
+    public function edit($user): View
     {
         $user = $this->userRepository->find($user);
 

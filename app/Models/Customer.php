@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model
 {
@@ -25,5 +25,10 @@ class Customer extends Model
     public function cart()
     {
         return $this->items()->where('order_id', null);
+    }
+
+    public function viewedProducts(): HasMany
+    {
+        return $this->hasMany(ViewedProduct::class);
     }
 }

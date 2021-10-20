@@ -8,6 +8,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\ViewedProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\UserController;
@@ -27,8 +28,7 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
-Route::get('/discounts', function () {
-})->name('discounts.index');
+Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/products/{slug}', [ProductsController::class, 'show'])
     ->name('product.show');
@@ -69,6 +69,7 @@ Route::prefix('users')->middleware(['auth'])->group(function () {
     Route::get('/{user}/show', [UserController::class, 'show'])->name('users.show');
     Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/{user}/edit', [UserController::class, 'update'])->name('users.update');
+    Route::get('/{user}/viewed_products', [ViewedProductsController::class, 'viewedProducts'])->name('users.viewed_products');
 });
 
 Route::get('sellers/{id}', [SellerController::class, 'show']);

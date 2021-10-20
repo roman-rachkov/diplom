@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Customer;
 use App\Models\Product;
-use App\Models\User;
 use App\Models\ViewedProduct;
 use Illuminate\Database\Seeder;
 
@@ -17,7 +16,7 @@ class ViewedProductSeeder extends Seeder
      */
     public function run()
     {
-        $customer = User::all();
+        $customer = Customer::all();
         $product = Product::all();
 
         for ($i=0; $i<rand(20, 30); $i++) {
