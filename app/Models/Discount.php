@@ -48,7 +48,7 @@ class Discount extends Model
         });
     }
 
-    static function defaulConstants()
+    static function defaultConstants()
     {
         return [
             'CREATED_AT',
