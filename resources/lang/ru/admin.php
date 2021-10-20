@@ -104,6 +104,7 @@ return [
         'success_info' => 'Изменения для продукта созранены успешно',
         'price_created' => 'Новая цена добавленна',
         'price_updated' => 'Цена обновлена',
+        'price_deleted' => 'Цена удалена',
         'delete_info' => 'Продукт удален',
         'add_new_price_modal_button' => 'Добавить цену',
         'add_new_price_modal_title' => 'Добавление продавца и цены',

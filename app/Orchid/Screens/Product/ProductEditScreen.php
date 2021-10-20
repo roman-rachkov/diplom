@@ -232,6 +232,12 @@ class ProductEditScreen extends Screen
         Toast::info(__('admin.products.price_updated'));
     }
 
+    public function removePrice(Request $request)
+    {
+        Price::where('id', $request->id)->delete();
+        Toast::info(__('admin.products.price_deleted'));
+    }
+
     public function addNewPriceAndSeller(Request $request)
     {
         Price::create([

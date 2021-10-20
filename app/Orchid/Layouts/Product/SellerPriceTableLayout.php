@@ -6,6 +6,8 @@ use App\Models\AdminSetting;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Seller;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Layouts\Table;
@@ -40,13 +42,23 @@ class SellerPriceTableLayout extends Table
                     return $prices->price;
                 }),
             TD::make('updatePriceAndSeller', __('admin.settings.Action'))->render(function (Price $prices) {
-                return ModalToggle::make(__('admin.products.edit_button'))
-                    ->modal('editPriceAndSeller')
-                    ->method('updatePriceAndSeller')
-                    ->modalTitle(__('admin.products.edit_modal_title') . $prices->seller->name)
-                    ->asyncParameters([
-                        'price' => $prices->id
+                return DropDown::make()
+                    ->icon('options-vertical')
+                    ->list([
+                        ModalToggle::make(__('admin.products.edit_button'))
+                            ->modal('editPriceAndSeller')
+                            ->method('updatePriceAndSeller')
+                            ->modalTitle(__('admin.products.edit_modal_title') . $prices->seller->name)
+                            ->asyncParameters([
+                                'price' => $prices->id
+                            ]),
+                        Button::make(__('Delete'))
+                            ->method('removePrice')
+                            ->parameters([
+                                'id' => $prices->id,
+                            ]),
                     ]);
+
             })->align(TD::ALIGN_RIGHT),
         ];
     }

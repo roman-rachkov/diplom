@@ -101,6 +101,8 @@ return [
         'images_tab' => 'Images settings',
         'seller_prices_tab' => 'Seller and price settings',
         'success_info' => 'Product changes have been successfully committed',
+        'price_updated' => 'Price updated',
+        'price_deleted' => 'Price deleted',
         'price_created' => 'New price added',
         'delete_info' => 'Product removed',
         'add_new_price_modal_button' => 'Add price',
