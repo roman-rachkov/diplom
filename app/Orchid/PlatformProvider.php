@@ -6,7 +6,6 @@ use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
 use Orchid\Platform\OrchidServiceProvider;
 use Orchid\Screen\Actions\Menu;
-use Orchid\Support\Color;
 
 class PlatformProvider extends OrchidServiceProvider
 {
@@ -27,6 +26,37 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
 
+            Menu::make(__('admin.banners.panel_name'))
+                ->icon('layers')
+                ->route('platform.banner.list')
+                ->title(__('admin.menu.elements'))
+                ->permission('platform.elements.banners'),
+
+            Menu::make(__('admin.category.panel_name'))
+                ->icon('list')
+                ->route('platform.category.list')
+                ->permission('platform.elements.category'),
+
+            Menu::make(__('admin.sellers.panel_name'))
+                ->icon('people')
+                ->route('platform.sellers')
+                ->permission('platform.elements.sellers'),
+
+            Menu::make(__('admin.products.panel_name'))
+                ->icon('basket-loaded')
+                ->route('platform.products')
+                ->permission('platform.elements.products'),
+
+            Menu::make(__('admin.discounts.panel_name'))
+                ->icon('present')
+                ->route('platform.discounts')
+                ->permission('platform.elements.discounts'),
+
+            Menu::make(__('admin.orders.panel_name'))
+                ->icon('money')
+                ->route('platform.orders')
+                ->permission('platform.elements.orders'),
+
             Menu::make(__('Users'))
                 ->icon('user')
                 ->route('platform.systems.users')
@@ -37,6 +67,18 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('lock')
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
+
+            Menu::make(__('admin.settings.general'))
+                ->icon('settings')
+                ->route('platform.config')
+                ->title(__('admin.settings.configuration'))
+                ->permission('platform.systems.settings'),
+
+            Menu::make(__('admin.import.panel_name'))
+                ->icon('rocket')
+                ->route('platform.import')
+                ->permission('platform.systems.import')
+
         ];
     }
 
@@ -60,7 +102,17 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
-                ->addPermission('platform.systems.users', __('Users')),
+                ->addPermission('platform.systems.users', __('Users'))
+                ->addPermission('platform.systems.import', __('admin.import.screen_name'))
+                ->addPermission('platform.systems.settings', __('admin.settings.general')),
+            ItemPermission::group(__('admin.banners.panel_name'))
+                ->addPermission('platform.elements.banners', 'admin.banners.manage_banners'),
+            ItemPermission::group(__('admin.menu.elements'))
+                ->addPermission('platform.elements.category', 'admin.category.screen_name')
+                ->addPermission('platform.elements.products', 'admin.products.screen_name')
+                ->addPermission('platform.elements.sellers', 'admin.sellers.screen_name')
+                ->addPermission('platform.elements.discounts', 'admin.discounts.screen_name')
+                ->addPermission('platform.elements.orders', 'admin.orders.screen_name'),
         ];
     }
 

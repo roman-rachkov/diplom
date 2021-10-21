@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\PaymentsService;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Redis;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +15,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Redis::flushall();
+        $this->call([
+            UserSeeder::class,
+            AttachmentSeeder::class,
+            BannersSeeder::class,
+            DiscountSeeder::class,
+            CategorySeeder::class,
+            ProductSeeder::class,
+            CustomerSeeder::class,
+            SellerSeeder::class,
+            PriceSeeder::class,
+            ReviewSeeder::class,
+            ViewedProductSeeder::class,
+            OrderSeeder::class,
+            OrderItemSeeder::class,
+            ComparedSeeder::class,
+            PaymentsServiceSeeder::class,
+            PaymentSeeder::class
+        ]);
+
     }
 }

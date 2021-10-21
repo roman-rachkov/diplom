@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
-use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
+use App\Orchid\Screens\Banner\BannerEditScreen;
+use App\Orchid\Screens\Banner\BannerListScreen;
+use App\Orchid\Screens\Category\CategoryEditScreen;
+use App\Orchid\Screens\Category\CategoryListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -91,3 +88,100 @@ Route::screen('roles', RoleListScreen::class)
             ->push(__('Roles'), route('platform.systems.roles'));
     });
 
+
+// Platform > Config
+Route::screen('config', \App\Orchid\Screens\ConfigurationScreen::class)
+    ->name('platform.config')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.settings.Name'));
+    });
+
+Route::screen('import', \App\Orchid\Screens\ImportScreen::class)
+    ->name('platform.import')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.import.panel_name'));
+    });
+
+// Platform > Banners
+Route::screen('banner/{banner?}', BannerEditScreen::class)
+    ->name('platform.banner.edit')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.banner.list')
+            ->push(__('admin.banners.edit_banner'));
+    });
+Route::screen('banners', BannerListScreen::class)
+    ->name('platform.banner.list')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.banners.panel_name'), route('platform.banner.list'));
+    });
+
+//Platform > Category
+Route::screen('category/add', CategoryEditScreen::class)
+    ->name('platform.category.add')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.category.edit'));
+    });
+
+Route::screen('category', CategoryListScreen::class)
+    ->name('platform.category.list')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.category.panel_name'));
+    });
+
+Route::screen('category/{category?}', CategoryEditScreen::class)
+    ->name('platform.category.edit')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.category.list')
+            ->push(__('admin.category.edit'));
+    });
+
+//Platform > Product
+Route::screen('product', \App\Orchid\Screens\Product\ProductListScreen::class)
+    ->name('platform.products')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.products.panel_name'));
+    });
+
+
+//Platform > Sellsers
+Route::screen('sellers', \App\Orchid\Screens\Seller\SellerListScreen::class)
+    ->name('platform.sellers')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.sellers.panel_name'));
+    });
+
+
+//Platform > Discounts
+Route::screen('discounts', \App\Orchid\Screens\Discount\DiscountListScreen::class)
+    ->name('platform.discounts')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.discounts.panel_name'));
+    });
+
+
+//Platform > orders
+Route::screen('orders', \App\Orchid\Screens\Order\OrderListScreen::class)
+    ->name('platform.orders')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.orders.panel_name'));
+    });

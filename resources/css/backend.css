@@ -1,0 +1,44 @@
+.modal .backplate {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal .wrapper{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.modal .modal-close{
+    cursor: pointer;
+    z-index: 1030;
+    right: 25px;
+    top: 25px;
+}
+
+.btn.trigger{
+    display: inline-flex;
+}
+
+
+.card{
+    background-color: #fff;
+    padding: 15px;
+}
+
+.visible{
+    display: block;
+}
+
+.fluid{
+    width: 100%;
+}

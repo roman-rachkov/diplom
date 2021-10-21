@@ -2,10 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Orchid\Attachment\Models\Attachment;
 use Orchid\Platform\Models\User as Authenticatable;
+use Orchid\Attachment\Attachable;
+use App\Traits\FlushTagCache;
 
 class User extends Authenticatable
+
 {
+    use Attachable, FlushTagCache;
+
+    public static $tagsArr = ['users'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'permissions',
+        'phone',
     ];
 
     /**
@@ -35,8 +46,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'permissions'          => 'array',
-        'email_verified_at'    => 'datetime',
+        'permissions' => 'array',
+        'email_verified_at' => 'datetime',
     ];
 
     /**
@@ -63,4 +74,34 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = str_replace(['+7', '(', ')', '-', ' '], '', $value);
+    }
+
+    public function comparedProduct(): HasMany
+    {
+        return $this->hasMany(ComparedProduct::class);
+    }
+
+    public function avatar(): HasOne
+    {
+        return $this->hasOne(Attachment::class)->withDefault();
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class);
+    }
 }

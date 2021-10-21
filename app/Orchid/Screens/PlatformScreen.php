@@ -44,10 +44,12 @@ class PlatformScreen extends Screen
         return [
             Link::make('Our website')
                 ->href(env('APP_URL').":".env('APP_PORT'))
+                ->target('_blank')
                 ->icon('globe-alt'),
 
             Link::make('Documentation')
                 ->href('https://orchid.software/ru/docs')
+                ->target('_blank')
                 ->icon('docs'),
         ];
     }
