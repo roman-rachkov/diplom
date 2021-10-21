@@ -4,34 +4,45 @@ namespace App\Repository;
 
 use App\Contracts\Repository\AdminSettingsRepositoryContract;
 use App\Contracts\Repository\SellerRepositoryContract;
+use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Models\Seller;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class SellerRepository implements SellerRepositoryContract
 {
-    private $model;
-    private $adminsSettings;
+    private AdminSettingsServiceContract $adminSettings;
 
-    public function __construct(Seller $seller, AdminSettingsRepositoryContract $adminsSettings)
+    public function __construct(AdminSettingsServiceContract $adminSettings)
     {
-        $this->model = $seller;
-        $this->adminsSettings = $adminsSettings;
+        $this->adminSettings =$adminSettings;
     }
 
     public function find($id)
     {
-        $ttl = $this->adminsSettings->get('bannerCacheTime', 600);
-
-        $seller = Cache::tags(['sellers'])->remember('seller' . $id, $ttl, function () use ($id) {
-
-            return $this->model->find($id);
-        });
-        return $seller;
+        return Cache::tags(['sellers'])
+            ->remember(
+            'seller' . $id,
+            $this->getTtl(),
+            function () use ($id) {
+                return Seller::find($id);
+            });
     }
 
     public function getAllSellers(): Collection
     {
-        return $this->model->all(['id', 'name']);
+        return Cache::tags(['sellers'])
+            ->remember(
+                'sellers|all',
+                $this->getTtl(),
+                function () {
+                    return Seller::with('logo')->get();
+                }
+        );
+    }
+
+    protected function getTtl()
+    {
+        return $this->adminSettings->get('sellersCacheTime', 600);
     }
 }

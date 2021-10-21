@@ -92,7 +92,10 @@ return [
     'sellers' => [
         'panel_name' => 'Продавцы',
         'screen_name' => 'Управление продавцами',
-        'screen_description' => 'Список продавцов'
+        'screen_description' => 'Список продавцов',
+        'add_new_seller' => 'Добавить нового продавца',
+        'edit' => 'Редактировать/Создать продавца',
+        'title' => 'Название организации'
     ],
 
     'discounts' => [

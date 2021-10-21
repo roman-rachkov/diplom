@@ -91,7 +91,10 @@ return [
     'sellers' => [
         'panel_name' => 'Sellers',
         'screen_name' => 'Manage sellers',
-        'screen_description' => 'Sellers list'
+        'screen_description' => 'Sellers list',
+        'add_new_seller' => 'Add new seller',
+        'edit' => 'Edit/Create seller',
+        'title' => 'Company name'
     ],
 
     'discounts' => [

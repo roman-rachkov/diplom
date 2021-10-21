@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Orchid\Layouts;
+
+use App\Models\Seller;
+use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Layouts\Table;
+use Orchid\Screen\TD;
+
+class SellerListLayout extends Table
+{
+    /**
+     * Data source.
+     *
+     * The name of the key to fetch it from the query.
+     * The results of which will be elements of the table.
+     *
+     * @var string
+     */
+    protected $target = 'sellers';
+
+    /**
+     * Get the table cells to be displayed.
+     *
+     * @return TD[]
+     */
+    protected function columns(): array
+    {
+        return [
+            TD::make('id', 'ID')
+                ->width('150')
+                ->render(function (Seller $seller) {
+                    return "<img src='{$seller->logo->getRelativeUrlAttribute()}'
+                              alt='{$seller->logo->getTitleAttribute()}'
+                              class='mw-100 d-block img-fluid'>
+                            <span class='small text-muted mt-1 mb-0'># {$seller->id}</span>";
+                }),
+            TD::make('name', __('admin.sellers.title'))
+                ->sort()
+                ->filter(TD::FILTER_TEXT)
+                ->render(function (Seller $seller) {
+                    return Link::make($seller->name)
+                        ->route('platform.sellers.edit', $seller);
+                }),
+
+            TD::make('phone', __('Phone'))
+                ->sort()
+                ->render(function (Seller $seller) {
+                    return $seller->phone;
+                }),
+
+            TD::make('email', __('Email'))
+                ->sort()
+                ->filter(TD::FILTER_TEXT)
+                ->render(function (Seller $seller) {
+                    return $seller->email;
+                }),
+
+            TD::make('created_at', __('Created'))
+                ->sort()
+                ->render(function (Seller $seller) {
+                    return $seller->created_at;
+                }),
+
+        ];
+    }
+}

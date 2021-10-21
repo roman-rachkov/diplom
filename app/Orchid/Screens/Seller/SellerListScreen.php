@@ -2,6 +2,9 @@
 
 namespace App\Orchid\Screens\Seller;
 
+use App\Contracts\Repository\SellerRepositoryContract;
+use App\Orchid\Layouts\SellerListLayout;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
 class SellerListScreen extends Screen
@@ -18,9 +21,11 @@ class SellerListScreen extends Screen
      *
      * @return array
      */
-    public function query(): array
+    public function query(SellerRepositoryContract $repository): array
     {
-        return [];
+        return [
+           'sellers' => $repository->getAllSellers()
+        ];
     }
 
     /**
@@ -30,7 +35,11 @@ class SellerListScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make(__('admin.sellers.add_new_seller'))
+                ->icon('plus')
+                ->route('platform.sellers.edit')
+        ];
     }
 
     /**
@@ -40,6 +49,8 @@ class SellerListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            SellerListLayout::class
+        ];
     }
 }
