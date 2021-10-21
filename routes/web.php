@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
+use App\Http\Controllers\CompareProductsController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -52,15 +53,17 @@ Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatal
 
 Route::get('/catalog/add_to_cart/{slug}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
-Route::get('/catalog/compare/{slug}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
+Route::get('/catalog/compare/{product}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
 
 Route::get('/feedbacks', [FeedbackController::class, 'index'])
     ->name('feedbacks.index');
 Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
     ->name('feedbacks.send_message');
 
-Route::get('/products/comparison', function () {
-})->name('comparison');
+Route::get('/comparison', [CompareProductsController::class, 'index'])->name('comparison');
+Route::post('/comparison/remove_product/{productSlug}', [CompareProductsController::class, 'removeProduct'])
+    ->name('comparison.remove_product');
+
 
 
 Route::prefix('users')->middleware(['auth'])->group(function () {

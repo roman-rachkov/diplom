@@ -89,6 +89,31 @@ document.addEventListener('DOMContentLoaded', function () {
         element.appendChild(message);
     }
 
+    //Add to cart on compare page
+    const addToCartButtons = document.querySelectorAll('.AddToCart-btn');
+
+    Array.prototype.forEach.call(addToCartButtons, function (btn) {
+        btn.addEventListener('click', function (event) {
+            event.preventDefault();
+            axios.post(btn.dataset.route)
+              .then(response => {
+                  location.reload();
+              });
+        });
+    });
+
+    //Remove from comparison on compare page
+    const removeFromComparisonButtons = document.querySelectorAll('.RemoveFromComparison-btn');
+
+    Array.prototype.forEach.call(removeFromComparisonButtons, function (btn) {
+        btn.addEventListener('click', function (event) {
+            event.preventDefault();
+            axios.post(btn.dataset.route)
+              .then(response => {
+                  location.reload();
+              });
+        });
+    });
 
 });
 

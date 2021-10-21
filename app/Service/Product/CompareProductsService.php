@@ -2,34 +2,131 @@
 
 namespace App\Service\Product;
 
+use App\Contracts\Repository\CompareProductsRepositoryContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
-use App\Models\ComparedProduct;
+use App\Contracts\Service\Product\ProductDiscountServiceContract;
+use App\DTO\CompareProductCharacteristicDTO;
+use App\DTO\CompareProductDTO;
+use App\Models\Customer;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class CompareProductsService implements CompareProductsServiceContract
 {
+    private CompareProductsRepositoryContract $repository;
 
-    public function add(Product $product): bool
+    private ProductDiscountServiceContract $discountService;
+
+    public function __construct(
+        CompareProductsRepositoryContract $repository,
+        ProductDiscountServiceContract $discountService
+    )
     {
-        return  (bool)rand(0, 1);
+        $this->repository = $repository;
+        $this->discountService = $discountService;
     }
 
-    public function remove(Product $product): bool
+    public function add(Product $product, Customer $customer): bool
     {
-        return (bool)rand(0, 1);
+        return $this->repository->store($product, $customer);
     }
 
-    public function get(int $quantity = 3): Collection
+    public function remove(Product $product, Customer $customer): bool
     {
-        return ComparedProduct::factory()
-            ->count($quantity)
-            ->make()
-            ->sortBy([['id', 'desc']]);
+        return $this->repository->delete($product, $customer);
     }
 
-    public function getCount(): int
+    public function get(Customer $customer, int $quantity = 3): Collection
     {
-        return rand(1, 100);
+        if ($comparedProducts = $this->repository->getComparedProducts($customer)) {
+
+            $comparedProducts = $comparedProducts
+                ->take($quantity)
+                ->sortBy([['id', 'desc']])
+                ->pluck('product');
+
+            //$this->appendPriceWithDiscount($comparedProducts);
+
+             return collect(
+                 [
+                     'products' =>  $this->getCompareProductDTOs($comparedProducts),
+                     'characteristics' => $this->getCharacteristicDTOs($comparedProducts)
+                 ]
+             );
+
+        } else {
+            return collect();
+        }
+    }
+
+    public function getCount(Customer $customer): int
+    {
+        return $this->repository
+            ->getComparedProducts($customer)
+            ->count();
+    }
+
+
+    public function getCompareProductDTOs(Collection $comparedProducts): Collection
+    {
+        $comparedProductsDTO = [];
+
+        foreach ($comparedProducts as $comparedProduct) {
+            $discount = round(
+                $comparedProduct->avg_price *
+                (1 -  $this->discountService->getProductDiscounts($comparedProduct)),
+                2
+            );
+
+            $comparedProductsDTO[] = CompareProductDTO::create(
+                [
+                    $comparedProduct,
+                    $discount
+                ]
+            );
+        }
+
+        return collect($comparedProductsDTO);
+    }
+
+    public function getCharacteristicDTOs(Collection $comparedProducts): Collection
+    {
+           $characteristicsByProduct = $comparedProducts
+               ->pluck('characteristicValues');
+
+           $uniqueCharacteristics = $characteristicsByProduct
+               ->flatten()
+               ->unique('characteristic_id');
+
+           $characteristicDTOs = [];
+
+           foreach ($uniqueCharacteristics as $uniqueCharacteristic) {
+               $characteristicValues = [];
+
+               foreach ($characteristicsByProduct as $productCharacteristics) {
+
+                   if (
+                       $characteristic = $productCharacteristics
+                           ->firstWhere(
+                               'characteristic_id',
+                               $uniqueCharacteristic->characteristic_id
+                           )
+                   ) {
+                       $characteristicValues[] = $characteristic->value;
+                    } else {
+                       $characteristicValues[] = '-';
+                   }
+               }
+               $characteristicDTOs[] = CompareProductCharacteristicDTO::create(
+                   [
+                       $uniqueCharacteristic->name,
+                       $uniqueCharacteristic->measure,
+                       count(array_unique($characteristicValues)) === 1,
+                       $characteristicValues
+                   ]
+               );
+           }
+
+           return collect($characteristicDTOs);
     }
 }

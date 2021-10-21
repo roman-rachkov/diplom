@@ -1,6 +1,6 @@
 @extends('layout.master')
 
-@section('title', 'Товар: ' . $product->name)
+@section('title', $product->name)
 
 @section('content')
     <x-product.product-item

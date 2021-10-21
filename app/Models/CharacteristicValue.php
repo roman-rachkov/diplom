@@ -2,25 +2,22 @@
 
 namespace App\Models;
 
-use App\Traits\FlushTagCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ComparedProduct extends Model
+class CharacteristicValue extends Model
 {
-    use HasFactory, FlushTagCache;
+    use HasFactory;
 
-    public static $tagsArr = ['comparedProducts'];
-
-    protected $guarded = [];
-
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(Customer::class);
-    }
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function characteristic(): BelongsTo
+    {
+        return $this->belongsTo(Characteristic::class);
+    }
+
 }
