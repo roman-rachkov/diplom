@@ -1,5 +1,7 @@
 <?php
 
+use App\Contracts\Repository\CategoryRepositoryContract;
+use App\Contracts\Repository\ProductRepositoryContract;
 use Tabuna\Breadcrumbs\Breadcrumbs;
 use Tabuna\Breadcrumbs\Trail;
 
@@ -42,3 +44,20 @@ Breadcrumbs::for('about', fn(Trail $trail) => $trail->parent('banners')->push(__
 Breadcrumbs::for('account.show', fn(Trail $trail) => $trail->parent('banners')->push(__('breadcrumbs.account'), route('account.show'))
 );
 
+Breadcrumbs::for('product.show', function (
+    Trail $trail,
+    string $slug
+) {
+    $product = app()->make(ProductRepositoryContract::class)->find($slug);
+    $categories = app()->make(CategoryRepositoryContract::class)->getAncestors($product->category);
+    $trail->parent('banners');
+
+    foreach ($categories as $category) {
+        $trail->push(
+            $category->name,
+            route('catalog.category', ['slug' => $category->slug])
+        );
+    }
+
+    return $trail->push($product->name, route('product.show', ['slug' => $slug]));
+});

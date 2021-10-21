@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
+use App\Http\Controllers\CompareProductsController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\ViewedProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\UserController;
@@ -27,8 +29,7 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
-Route::get('/discounts', function () {
-})->name('discounts.index');
+Route::get('/discounts', function () {})->name('discounts.index');
 
 Route::get('/products/{slug}', [ProductsController::class, 'show'])
     ->name('product.show');
@@ -52,15 +53,17 @@ Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatal
 
 Route::get('/catalog/add_to_cart/{slug}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
-Route::get('/catalog/compare/{slug}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
+Route::get('/catalog/compare/{product}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
 
 Route::get('/feedbacks', [FeedbackController::class, 'index'])
     ->name('feedbacks.index');
 Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
     ->name('feedbacks.send_message');
 
-Route::get('/products/comparison', function () {
-})->name('comparison');
+Route::get('/comparison', [CompareProductsController::class, 'index'])->name('comparison');
+Route::post('/comparison/remove_product/{productSlug}', [CompareProductsController::class, 'removeProduct'])
+    ->name('comparison.remove_product');
+
 
 
 Route::prefix('users')->middleware(['auth'])->group(function () {
@@ -69,6 +72,7 @@ Route::prefix('users')->middleware(['auth'])->group(function () {
     Route::get('/{user}/show', [UserController::class, 'show'])->name('users.show');
     Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/{user}/edit', [UserController::class, 'update'])->name('users.update');
+    Route::get('/{user}/viewed_products', [ViewedProductsController::class, 'viewedProducts'])->name('users.viewed_products');
 });
 
 Route::get('sellers/{id}', [SellerController::class, 'show']);

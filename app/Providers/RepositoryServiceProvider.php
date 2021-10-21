@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Contracts\Repository\AdminSettingsRepositoryContract;
 use App\Contracts\Repository\BannerRepositoryContract;
 use App\Contracts\Repository\CategoryRepositoryContract;
+use App\Contracts\Repository\CompareProductsRepositoryContract;
+use App\Contracts\Repository\DeliveryRepositoryContract;
 use App\Contracts\Repository\DiscountRepositoryContract;
 use App\Contracts\Repository\FeedbackRepositoryContract;
 use App\Contracts\Repository\ImageRepositoryContract;
@@ -22,6 +24,8 @@ use App\Contracts\Repository\ViewedProductsRepositoryContract;
 use App\Repository\AdminSettingsRepository;
 use App\Repository\BannerRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\CompareProductsRepository;
+use App\Repository\DeliveryRepository;
 use App\Repository\DiscountRepository;
 use App\Repository\FeedbackRepository;
 use App\Repository\ImageRepository;
@@ -50,6 +54,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(BannerRepositoryContract::class, BannerRepository::class);
         $this->app->singleton(CategoryRepositoryContract::class, CategoryRepository::class);
         $this->app->singleton(DiscountRepositoryContract::class, DiscountRepository::class);
+        $this->app->singleton(DeliveryRepositoryContract::class, DeliveryRepository::class);
         $this->app->singleton(FeedbackRepositoryContract::class, FeedbackRepository::class);
         $this->app->singleton(OrderRepositoryContract::class, OrderRepository::class);
         $this->app->singleton(ProductRepositoryContract::class, ProductRepository::class);
@@ -64,6 +69,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(PaymentsServicesRepositoryContract::class, PaymentsServicesRepository::class);
         $this->app->singleton(PriceRepositoryContract::class, PriceRepository::class);
         $this->app->singleton(ReviewRepositoryContract::class, ReviewRepository::class);
+        $this->app->singleton(CompareProductsRepositoryContract::class, CompareProductsRepository::class);
 
     }
 

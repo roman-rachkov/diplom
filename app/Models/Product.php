@@ -67,8 +67,23 @@ class Product extends Model
         });
     }
 
+    public function characteristicValues(): HasMany
+    {
+        return $this->hasMany(CharacteristicValue::class);
+    }
+
     public function manufacturer(): BelongsTo
     {
         return $this->belongsTo(Manufacturer::class);
+    }
+
+    public function discounts()
+    {
+        return $this->morphToMany(Discount::class, 'discountable');
+    }
+
+    public function comparedProducts(): HasMany
+    {
+        return $this->hasMany(ComparedProduct::class);
     }
 }
