@@ -86,7 +86,15 @@ return [
     'products' => [
         'panel_name' => 'Товары',
         'screen_name' => 'Управление товарами',
-        'screen_description' => 'Список товаров'
+        'screen_description' => 'Список товаров',
+        'add_new' => 'Добавить продукт',
+        'edit' => 'Изменить',
+        'name' => 'Название',
+        'name_placeholder' => 'Введите название  продукта',
+        'slug' => 'Символьный код продукта',
+        'slug_placeholder' => 'Введите символьный код продукта',
+        'manufacturer' => 'Производитель',
+        'limited_edition' => 'Ограниченный тираж',
     ],
 
     'sellers' => [

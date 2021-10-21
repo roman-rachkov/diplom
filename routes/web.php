@@ -80,13 +80,13 @@ Route::get('sellers/{id}', [SellerController::class, 'show']);
 
 Route::prefix('checkout')->group(function () {
 
-    Route::post('/repay/{order}', [OrderController::class, 'repay'])->name('order.repay');
+    Route::post('/repay/{order}', [OrderController::class, 'repay'])->name('order.repay.post');
     Route::get('/repay/{order}', [OrderController::class, 'repayForm'])->name('order.repay');
     Route::prefix('/user')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
         Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
     });
-    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm.post');
     Route::view('/confirm', 'cart.step-four')->name('order.confirm');
     Route::post('/', [OrderController::class, 'add'])->name('order.add');
     Route::get('/', [OrderController::class, 'index'])->name('order.index');

@@ -156,6 +156,22 @@ Route::screen('product', \App\Orchid\Screens\Product\ProductListScreen::class)
             ->push(__('admin.products.panel_name'));
     });
 
+Route::screen('product/add', \App\Orchid\Screens\Product\ProductEditScreen::class)
+    ->name('platform.products.add')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.products.add'));
+    });
+
+Route::screen('product/{product?}', \App\Orchid\Screens\Product\ProductEditScreen::class)
+    ->name('platform.products.edit')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.products.edit'));
+    });
+
 
 //Platform > Sellsers
 Route::screen('sellers', \App\Orchid\Screens\Seller\SellerListScreen::class)
