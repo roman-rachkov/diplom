@@ -72,7 +72,7 @@ Route::prefix('users')->middleware(['auth'])->group(function () {
     Route::get('/{user}/viewed_products', [ViewedProductsController::class, 'viewedProducts'])->name('users.viewed_products');
 });
 
-Route::get('sellers/{id}', [SellerController::class, 'show']);
+Route::get('sellers/{id}', [SellerController::class, 'show'])->name('sellers.show');
 
 
 Route::prefix('checkout')->group(function () {
