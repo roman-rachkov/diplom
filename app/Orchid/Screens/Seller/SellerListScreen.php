@@ -2,7 +2,7 @@
 
 namespace App\Orchid\Screens\Seller;
 
-use App\Contracts\Repository\SellerRepositoryContract;
+use App\Models\Seller;
 use App\Orchid\Layouts\SellerListLayout;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
@@ -21,10 +21,10 @@ class SellerListScreen extends Screen
      *
      * @return array
      */
-    public function query(SellerRepositoryContract $repository): array
+    public function query(): array
     {
         return [
-           'sellers' => $repository->getAllSellers()
+           'sellers' => Seller::with('logo')->get()
         ];
     }
 

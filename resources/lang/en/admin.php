@@ -94,7 +94,15 @@ return [
         'screen_description' => 'Sellers list',
         'add_new_seller' => 'Add new seller',
         'edit' => 'Edit/Create seller',
-        'title' => 'Company name'
+        'title' => 'Company name',
+        'edit_seller' => 'Editing/Creating seller',
+        'name_placeholder' => 'Fill the seller-organization name',
+        'phone_number' => 'Public seller company phone number',
+        'description' => 'Company description',
+        'description_placeholder' => 'About company history, goods and services in details...',
+        'address' => 'Company legal address',
+        'address_placeholder' => 'Full company name address from Unified Register of Legal Entities and the Unified Register of Individual Entrepreneurs',
+        'logo_id' => 'Upload company logo:'
     ],
 
     'discounts' => [
