@@ -16,10 +16,10 @@ class SellerService implements SellerServiceContract
                 ->with('product')
                 ->withCount('orderItems')
                 ->orderByDesc('order_items_count')
+                ->take(8)
                 ->get()
                 ->map(function($price) {
                         return $price->product;
-                    })
-                ->take(10);
+                });
     }
 }

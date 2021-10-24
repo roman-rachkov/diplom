@@ -21,12 +21,9 @@
                     </div>
                 </div>
 
-{{--                <x-top-products-component :products="$topProducts" :discounts="$discounts"/>--}}
-                <x-seller.popular_products :title="__('seller.popular-products')"/>
+                <x-seller.popular_products :products="$popularProducts" :discounts="$discounts"/>
 
              </div>
-
-
         </div>
     </div>
 

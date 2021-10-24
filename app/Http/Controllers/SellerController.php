@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Repository\SellerRepositoryContract;
 use App\Contracts\Service\SellerServiceContract;
 use App\Service\Product\ProductDiscountService;
+use Illuminate\View\View;
 
 class SellerController extends Controller
 {
@@ -23,7 +24,7 @@ class SellerController extends Controller
         $this->discountRepo = $discountRepo;
     }
 
-    public function show($id)
+    public function show($id): View
     {
         $seller = $this->sellerRepository->find($id);
 
