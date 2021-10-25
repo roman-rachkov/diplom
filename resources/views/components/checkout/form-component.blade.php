@@ -1,4 +1,4 @@
-<form class="form" id="checkout" action="{{route('order.confirm')}}" method="post">
+<form class="form" id="checkout" action="{{route('order.confirm.post')}}" method="post">
     @csrf
     <x-checkout.step-one-component/>
     <x-checkout.step-two-component/>

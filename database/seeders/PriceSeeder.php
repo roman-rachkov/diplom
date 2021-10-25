@@ -19,7 +19,7 @@ class PriceSeeder extends Seeder
         $products = Product::all();
         $sellers = Seller::all();
         foreach ($products as $product) {
-            foreach ($sellers->random(2, count($sellers)) as $seller) {
+            foreach ($sellers->random(rand(2, 5)) as $seller) {
                 Price::factory()->create([
                     'product_id' => $product->id,
                     'seller_id' => $seller->id,
