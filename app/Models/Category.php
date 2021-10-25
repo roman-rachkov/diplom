@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Kalnoy\Nestedset\NodeTrait;
 use Orchid\Attachment\Models\Attachment;
 use App\Traits\FlushTagCache;
@@ -56,6 +57,11 @@ class Category extends Model
     public function discounts()
     {
         return $this->morphToMany(Discount::class, 'discountable');
+    }
+
+    public function characteristics(): BelongsToMany
+    {
+        return $this->belongsToMany(Characteristic::class);
     }
 
 }

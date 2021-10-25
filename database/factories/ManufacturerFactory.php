@@ -26,7 +26,7 @@ class ManufacturerFactory extends Factory
             'name' => $this->faker->company(),
             'email' => $this->faker->email(),
             'address' => $this->faker->address(),
-            'logo_id' => Attachment::all()->random()
+            'logo_id' => Attachment::factory()
         ];
     }
 }
