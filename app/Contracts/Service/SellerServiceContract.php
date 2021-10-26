@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface SellerServiceContract
 {
-    public function getPopularProductsFrom(Seller $seller): Collection;
+    public function getPopularProducts(Seller $seller): Collection;
 }

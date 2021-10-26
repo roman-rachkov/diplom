@@ -9,17 +9,14 @@ use Illuminate\Database\Eloquent\Collection;
 class SellerService implements SellerServiceContract
 {
 
-    public function getPopularProductsFrom(Seller $seller): Collection
+    public function getPopularProducts(Seller $seller): Collection
     {
-        return $seller
-                ->prices()
-                ->with('product')
-                ->withCount('orderItems')
-                ->orderByDesc('order_items_count')
-                ->take(8)
-                ->get()
-                ->map(function($price) {
-                        return $price->product;
-                });
+        $pricesFromOrderItems = $seller->prices()->with('product')->withCount('orderItems')->orderByDesc('order_items_count')->take(8)->get();
+
+        $products = $pricesFromOrderItems->map(function($price) {
+            return $price->product;
+        });
+
+        return  $products;
     }
 }

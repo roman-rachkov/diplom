@@ -28,7 +28,7 @@ class SellerController extends Controller
     {
         $seller = $this->sellerRepository->find($id);
 
-        $popularProducts = $this->sellerService->getPopularProductsFrom($seller);
+        $popularProducts = $this->sellerService->getPopularProducts($seller);
 
         $discounts = $this->discountRepo->getCatalogDiscounts($popularProducts);
 
