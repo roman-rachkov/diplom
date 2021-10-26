@@ -4,6 +4,7 @@ namespace App\Service\Cart;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Seller;
@@ -13,10 +14,10 @@ class AddCartService implements AddCartServiceContract
     protected OrderItemRepositoryContract $repository;
     protected Customer $customer;
 
-    public function __construct(OrderItemRepositoryContract $repository, Customer $customer)
+    public function __construct(OrderItemRepositoryContract $repository, CustomerServiceContract $customer)
     {
         $this->repository = $repository;
-        $this->customer = $customer;
+        $this->customer = $customer->getCustomer();
     }
 
     public function add(Product $product, int $qty, Seller $seller = null): bool

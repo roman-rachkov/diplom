@@ -66,16 +66,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PaymentsIntegratorServiceContract::class, PaymentsIntegratorService::class);
         $this->app->singleton(CustomerServiceContract::class, CustomerService::class);
         $this->app->singleton(ViewedProductsServiceContract::class, ViewedProductsService::class);
-
-        $this->app->singleton(Customer::class, function () {
-            $customer = Customer::firstOrCreate(['hash' => Cookie::get('customer_token')]);;
-            if ($customer->hash === null) {
-                $customer->hash = hash('sha256', $customer);
-                Cookie::queue(Cookie::forever('customer_token', $customer->hash));
-                $customer->save();
-            }
-            return $customer;
-        });
+        $this->app->singleton(CustomerServiceContract::class, CustomerService::class);
     }
 
     /**

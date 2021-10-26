@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\DTO\OrderDTO;
 use App\Models\Customer;
 use App\Models\Order;
@@ -15,9 +16,9 @@ class OrderRepository implements OrderRepositoryContract
     private Customer $customer;
     private GetCartServiceContract $cart;
 
-    public function __construct(Customer $customer, GetCartServiceContract $cart)
+    public function __construct(CustomerServiceContract $customer, GetCartServiceContract $cart)
     {
-        $this->customer = $customer;
+        $this->customer = $customer->getCustomer();
         $this->cart = $cart;
     }
 

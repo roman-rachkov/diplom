@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
 use App\Models\OrderItem;
 use App\Models\Price;
@@ -16,11 +17,11 @@ class OrderItemRepository implements OrderItemRepositoryContract
     protected Customer $customer;
 
     /**
-     * @param Customer $customer
+     * @param CustomerServiceContract $customer
      */
-    public function __construct(Customer $customer)
+    public function __construct(CustomerServiceContract $customer)
     {
-        $this->customer = $customer;
+        $this->customer = $customer->getCustomer();
     }
 
     public function add(Product $product, int $quantity, Seller $seller = null): bool
