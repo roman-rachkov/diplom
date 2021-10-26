@@ -24,7 +24,7 @@ class SellerListScreen extends Screen
     public function query(): array
     {
         return [
-           'sellers' => Seller::with('logo')->get()
+           'sellers' => Seller::filters()->defaultSort('id')->paginate()
         ];
     }
 
@@ -38,7 +38,7 @@ class SellerListScreen extends Screen
         return [
             Link::make(__('admin.sellers.add_new_seller'))
                 ->icon('plus')
-                ->route('platform.sellers.edit')
+                ->route('platform.sellers.add')
         ];
     }
 

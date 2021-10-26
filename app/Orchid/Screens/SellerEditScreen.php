@@ -2,15 +2,14 @@
 
 namespace App\Orchid\Screens;
 
-use App\Contracts\Repository\SellerRepositoryContract;
 use App\Models\Seller;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
-use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
-use Orchid\Screen\Fields\Relation;
-use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
@@ -47,7 +46,7 @@ class SellerEditScreen extends Screen
     /**
      * Button commands.
      *
-     * @return \Orchid\Screen\Action[]
+     * @return Action[]
      */
     public function commandBar(): array
     {
@@ -72,7 +71,7 @@ class SellerEditScreen extends Screen
     /**
      * Views.
      *
-     * @return \Orchid\Screen\Layout[]|string[]
+     * @return array
      */
     public function layout(): array
     {
@@ -83,14 +82,17 @@ class SellerEditScreen extends Screen
                     ->placeholder(__('admin.sellers.name_placeholder')),
 
                 Input::make('seller.email')
+                    ->type('email')
                     ->title(__('Email'))
                     ->placeholder(__('admin.sellers.name_placeholder')),
 
                 Input::make('seller.phone')
+                    ->type('number')
                     ->title(__('admin.sellers.phone_number'))
                     ->placeholder(__('admin.sellers.name_placeholder')),
 
                 TextArea::make('seller.description')
+                    ->rows(5)
                     ->title(__('admin.sellers.description'))
                     ->placeholder(__('admin.sellers.description_placeholder')),
 
@@ -111,34 +113,36 @@ class SellerEditScreen extends Screen
      * @param Seller $seller
      * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function createOrUpdate(Seller $seller, Request $request)
+    public function createOrUpdate(Seller $seller, Request $request): RedirectResponse
     {
-        //TODO: fix method
         $request->validate([
-            'category.name' => 'required|min:3|max:100',
-            'category.slug' => ['required', 'unique:categories,slug']
+            'seller.name' => 'required|min:10|max:100',
+            'seller.email' => ['required', 'unique:sellers,email'],
+            'seller.phone' => 'required|numeric',
+            'seller.description' => 'required|min:50|max:1000',
+            'seller.address' => 'required|min:20|max:100'
         ]);
-        $requestArgs = $request->get('category');
-        $requestArgs['sort_index'] = rand(1, 500);
-        $category->fill($requestArgs)->save();
-        Alert::info(__('admin.category.success_info'));
-        return redirect()->route('platform.category.list');
+
+        $attrs = $request->get('seller');
+        $attrs['logo_id'] = $attrs['logo_id'] ?? '1';
+
+        $seller->fill($attrs)->save();
+        Alert::info(__('admin.sellers.success_info'));
+        return redirect()->route('platform.sellers');
     }
 
     /**
-     * @param Category $post
+     * @param Seller $seller
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @return RedirectResponse
+     * @throws Exception
      */
-    public function remove(Category $category)
+    public function remove(Seller $seller): RedirectResponse
     {
-
-        //TODO: fix method
-        $category->delete();
+        $seller->delete();
         Alert::info(__('admin.category.delete_info'));
-        return redirect()->route('platform.category.list');
+        return redirect()->route('platform.sellers');
     }
 }

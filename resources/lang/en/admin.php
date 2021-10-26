@@ -98,11 +98,14 @@ return [
         'edit_seller' => 'Editing/Creating seller',
         'name_placeholder' => 'Fill the seller-organization name',
         'phone_number' => 'Public seller company phone number',
+        'phone_title' => 'Phone number',
         'description' => 'Company description',
         'description_placeholder' => 'About company history, goods and services in details...',
         'address' => 'Company legal address',
         'address_placeholder' => 'Full company name address from Unified Register of Legal Entities and the Unified Register of Individual Entrepreneurs',
-        'logo_id' => 'Upload company logo:'
+        'logo_id' => 'Upload company logo:',
+        'success_info' => 'Seller successfully created',
+        'delete_info' => 'Seller successfully deleted',
     ],
 
     'discounts' => [

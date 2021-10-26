@@ -43,7 +43,7 @@ class SellerListLayout extends Table
                         ->route('platform.sellers.edit', $seller);
                 }),
 
-            TD::make('phone', __('Phone'))
+            TD::make('phone', __('admin.sellers.phone_title'))
                 ->sort()
                 ->render(function (Seller $seller) {
                     return $seller->phone;
