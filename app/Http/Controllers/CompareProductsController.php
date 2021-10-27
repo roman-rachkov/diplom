@@ -33,10 +33,9 @@ class CompareProductsController extends Controller
         CustomerServiceContract $customer,
         ProductRepositoryContract $productRepository,
         FlashMessageServiceContract $flashService
-    ): RedirectResponse
+    )
     {
         $product = $productRepository->find($productSlug);
-
         if ($this->compareService->remove($product, $customer->getCustomer())) {
             $flashService->flash(__('add_to_comparison_service.on_remove_success_msg.on_success_msg'));
         } else {
