@@ -9,7 +9,6 @@ use App\Orchid\Screens\Category\CategoryListScreen;
 use App\Orchid\Screens\Discount\DiscountListScreen;
 use App\Orchid\Screens\Order\OrderListScreen;
 use App\Orchid\Screens\PlatformScreen;
-use App\Orchid\Screens\Product\ProductListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\Seller\SellerListScreen;
@@ -153,12 +152,28 @@ Route::screen('category/{category?}', CategoryEditScreen::class)
     });
 
 //Platform > Product
-Route::screen('product', ProductListScreen::class)
+Route::screen('product/add', \App\Orchid\Screens\Product\ProductEditScreen::class)
+    ->name('platform.products.add')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.products.add'));
+    });
+
+Route::screen('product', \App\Orchid\Screens\Product\ProductListScreen::class)
     ->name('platform.products')
     ->breadcrumbs(function (Trail $trail){
         return $trail
             ->parent('platform.index')
             ->push(__('admin.products.panel_name'));
+    });
+
+Route::screen('product/{product?}', \App\Orchid\Screens\Product\ProductEditScreen::class)
+    ->name('platform.products.edit')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.products.edit'));
     });
 
 
