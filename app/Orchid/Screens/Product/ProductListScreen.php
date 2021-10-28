@@ -2,6 +2,9 @@
 
 namespace App\Orchid\Screens\Product;
 
+use App\Models\Product;
+use App\Orchid\Layouts\Product\ProductListLayout;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
 class ProductListScreen extends Screen
@@ -20,7 +23,9 @@ class ProductListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        return [
+            'products' => Product::filters()->defaultSort('id')->paginate()
+        ];
     }
 
     /**
@@ -30,7 +35,11 @@ class ProductListScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make(__('admin.products.add_new'))
+                ->icon('plus')
+                ->route('platform.products.add')
+        ];
     }
 
     /**
@@ -40,6 +49,8 @@ class ProductListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            ProductListLayout::class
+        ];
     }
 }

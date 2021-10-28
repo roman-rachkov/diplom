@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title' => 'Product',
     'buy_btn' => 'Buy',
     'tabs_links' => [
         'description' => 'Description',

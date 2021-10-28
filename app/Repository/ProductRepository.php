@@ -11,6 +11,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
 class ProductRepository implements ProductRepositoryContract
@@ -30,7 +31,7 @@ class ProductRepository implements ProductRepositoryContract
         return $product->reviews()->create($attributes);
     }
 
-    public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug = '')
+    public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug='')
     {
         $key = 'allProductsForCatalogPage_';
         $query = $this->model->newQuery();
@@ -98,14 +99,14 @@ class ProductRepository implements ProductRepositoryContract
             ])
             ->remember($slug, $ttl, function () use ($slug) {
 
-                return Product::with('attachment', 'prices.seller')
-                    ->where('slug', $slug)
-                    ->first();
+            return Product::with('attachment', 'prices.seller')
+                ->where('slug', $slug)
+                ->first();
 
-            });
+        });
     }
 
-    public function getTopProducts()
+    public function getTopProducts(): Collection
     {
         return Cache::tags(['products', 'topCatalog'])->remember(
             'mainTopCatalog',

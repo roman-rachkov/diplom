@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
+use App\Http\Controllers\CompareProductsController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -52,15 +53,17 @@ Route::get('/catalog/{slug}', [CatalogPageController::class, 'getProductForCatal
 
 Route::get('/catalog/add_to_cart/{slug}', [CatalogPageController::class, 'addToCart'])->name('catalog.add_to_cart');
 
-Route::get('/catalog/compare/{slug}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
+Route::get('/catalog/compare/{product}', [CatalogPageController::class, 'compare'])->name('catalog.compare');
 
 Route::get('/feedbacks', [FeedbackController::class, 'index'])
     ->name('feedbacks.index');
 Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
     ->name('feedbacks.send_message');
 
-Route::get('/products/comparison', function () {
-})->name('comparison');
+Route::get('/comparison', [CompareProductsController::class, 'index'])->name('comparison');
+Route::post('/comparison/remove_product/{productSlug}', [CompareProductsController::class, 'removeProduct'])
+    ->name('comparison.remove_product');
+
 
 
 Route::prefix('users')->middleware(['auth'])->group(function () {
@@ -77,13 +80,13 @@ Route::get('sellers/{id}', [SellerController::class, 'show'])->name('sellers.sho
 
 Route::prefix('checkout')->group(function () {
 
-    Route::post('/repay/{order}', [OrderController::class, 'repay'])->name('order.repay');
+    Route::post('/repay/{order}', [OrderController::class, 'repay'])->name('order.repay.post');
     Route::get('/repay/{order}', [OrderController::class, 'repayForm'])->name('order.repay');
     Route::prefix('/user')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
         Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
     });
-    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm.post');
     Route::view('/confirm', 'cart.step-four')->name('order.confirm');
     Route::post('/', [OrderController::class, 'add'])->name('order.add');
     Route::get('/', [OrderController::class, 'index'])->name('order.index');
