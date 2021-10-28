@@ -21,22 +21,22 @@ class CompareProductsController extends Controller
 
 
     public function index(
-        CustomerServiceContract $customer
+        CustomerServiceContract $customerService
     )
     {
-        $comparedProducts = $this->compareService->get($customer->getCustomer());
+        $comparedProducts = $this->compareService->get($customerService->getCustomer());
         return view('compare.show', compact('comparedProducts'));
     }
 
     public function removeProduct(
         $productSlug,
-        CustomerServiceContract $customer,
+        CustomerServiceContract $customerService,
         ProductRepositoryContract $productRepository,
         FlashMessageServiceContract $flashService
     )
     {
         $product = $productRepository->find($productSlug);
-        if ($this->compareService->remove($product, $customer->getCustomer())) {
+        if ($this->compareService->remove($product, $customerService->getCustomer())) {
             $flashService->flash(__('add_to_comparison_service.on_remove_success_msg.on_success_msg'));
         } else {
             $flashService->flash(__('add_to_comparison_service.on_error_msg'), 'danger');

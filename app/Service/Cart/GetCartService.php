@@ -21,10 +21,10 @@ class GetCartService implements GetCartServiceContract
     protected Customer $customer;
     protected AdminSettingsServiceContract $settings;
 
-    public function __construct(OrderItemRepositoryContract $repository, CustomerServiceContract $customer, AdminSettingsServiceContract $settings)
+    public function __construct(OrderItemRepositoryContract $repository, CustomerServiceContract $customerService, AdminSettingsServiceContract $settings)
     {
         $this->repository = $repository;
-        $this->customer = $customer->getCustomer();
+        $this->customer = $customerService->getCustomer();
         $this->settings = $settings;
     }
 

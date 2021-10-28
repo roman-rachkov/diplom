@@ -15,12 +15,11 @@ class CustomerRepository implements CustomerRepositoryContract
         $this->model = $customer;
     }
 
-    public function getByHash()
+    public function getByHash($hash)
     {
-        $customer = $this->model->firstOrCreate(['hash' => Cookie::get('customer_token')]);;
+        $customer = $this->model->firstOrCreate(['hash' => $hash]);;
         if ($customer->hash === null) {
             $customer->hash = hash('sha256', $customer);
-            Cookie::queue(Cookie::forever('customer_token', $customer->hash));
             $customer->save();
         }
         return $customer;

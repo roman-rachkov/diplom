@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Contracts\Repository\CustomerRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Cookie;
 
 class CustomerService implements CustomerServiceContract
 {
@@ -17,7 +18,9 @@ class CustomerService implements CustomerServiceContract
 
     public function getCustomer(): Customer
     {
-        return auth()->user()->customer ?? $this->repository->getByHash();
+        $customer = auth()->user()->customer ?? $this->repository->getByHash(Cookie::get('customer_token'));
+        Cookie::queue(Cookie::forever('customer_token', $customer->hash));
+        return $customer;
     }
 
 }

@@ -17,11 +17,11 @@ class OrderItemRepository implements OrderItemRepositoryContract
     protected Customer $customer;
 
     /**
-     * @param CustomerServiceContract $customer
+     * @param CustomerServiceContract $customerService
      */
-    public function __construct(CustomerServiceContract $customer)
+    public function __construct(CustomerServiceContract $customerService)
     {
-        $this->customer = $customer->getCustomer();
+        $this->customer = $customerService->getCustomer();
     }
 
     public function add(Product $product, int $quantity, Seller $seller = null): bool

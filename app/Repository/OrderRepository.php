@@ -16,9 +16,9 @@ class OrderRepository implements OrderRepositoryContract
     private Customer $customer;
     private GetCartServiceContract $cart;
 
-    public function __construct(CustomerServiceContract $customer, GetCartServiceContract $cart)
+    public function __construct(CustomerServiceContract $customerService, GetCartServiceContract $cart)
     {
-        $this->customer = $customer->getCustomer();
+        $this->customer = $customerService->getCustomer();
         $this->cart = $cart;
     }
 

@@ -97,14 +97,14 @@ class ProductsController extends Controller
     }
 
     public function addToComparison(
-        CustomerServiceContract $customer,
+        CustomerServiceContract $customerService,
         CompareProductsServiceContract $compareService,
         string $slug
     ): RedirectResponse
     {
         $product = $this->productRepository->find($slug);
 
-        if ($compareService->add($product, $customer->getCustomer())) {
+        if ($compareService->add($product, $customerService->getCustomer())) {
             $this->flashService->flash(__('add_to_comparison_service.on_add_success_msg'));
         } else {
             $this->flashService->flash(__('add_to_comparison_service.on_error_msg'), 'danger');

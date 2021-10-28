@@ -16,9 +16,9 @@ class HeaderComponent extends Component
      *
      * @return void
      */
-    public function __construct(CompareProductsServiceContract $compareService, CustomerServiceContract $customer)
+    public function __construct(CompareProductsServiceContract $compareService, CustomerServiceContract $customerService)
     {
-        $this->comparedProductsCount = $compareService->getCount($customer->getCustomer());
+        $this->comparedProductsCount = $compareService->getCount($customerService->getCustomer());
     }
 
     /**

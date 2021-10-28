@@ -10,7 +10,7 @@
                 <a
                         type="button"
                         class="Compare-btn AddToCart-btn"
-                        href="{{route('catalog.add_to_cart', ['slug' => $dto->product->slug])}}"
+                        href=""
                         data-route="{{route('product.addToCart', ['slug' => $dto->product->slug])}}"
                 >
                     <img src="{{asset('assets/img/icons/cart.svg')}}" alt="cart.svg"/>
@@ -18,7 +18,7 @@
                 <a
                         type="button"
                         class="Compare-btn RemoveFromComparison-btn"
-                        href="{{route('comparison.remove_product', ['productSlug' => $dto->product->slug])}}"
+                        href=""
                         data-route="{{route('comparison.remove_product', ['productSlug' => $dto->product->slug])}}"
                 >
                     <img src="{{asset('assets/img/icons/card/delete.svg')}}" alt="delete.svg"/>

@@ -14,10 +14,10 @@ class AddCartService implements AddCartServiceContract
     protected OrderItemRepositoryContract $repository;
     protected Customer $customer;
 
-    public function __construct(OrderItemRepositoryContract $repository, CustomerServiceContract $customer)
+    public function __construct(OrderItemRepositoryContract $repository, CustomerServiceContract $customerService)
     {
         $this->repository = $repository;
-        $this->customer = $customer->getCustomer();
+        $this->customer = $customerService->getCustomer();
     }
 
     public function add(Product $product, int $qty, Seller $seller = null): bool

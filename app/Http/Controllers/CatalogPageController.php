@@ -72,10 +72,10 @@ class CatalogPageController extends Controller
     public function compare(
         CompareProductsServiceContract $compare,
         Product $product,
-        CustomerServiceContract $customer
+        CustomerServiceContract $customerService
     )
     {
-        if ($compare->add($product, $customer->getCustomer())) {
+        if ($compare->add($product, $customerService->getCustomer())) {
             return back()->with('success', __('catalog.success.product_add_compare'));
         } else {
             return back()->with('error', __('catalog.error.product_add_compare'));

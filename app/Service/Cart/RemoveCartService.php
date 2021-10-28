@@ -15,10 +15,10 @@ class RemoveCartService implements RemoveCartServiceContract
     protected OrderItemRepositoryContract $repository;
     protected Customer $customer;
 
-    public function __construct(OrderItemRepositoryContract $repository, CustomerServiceContract $customer)
+    public function __construct(OrderItemRepositoryContract $repository, CustomerServiceContract $customerService)
     {
         $this->repository = $repository;
-        $this->customer = $customer->getCustomer();
+        $this->customer = $customerService->getCustomer();
     }
 
     public function remove(Product $product): bool
