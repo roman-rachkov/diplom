@@ -30,8 +30,11 @@ class SellerListLayout extends Table
             TD::make('id', 'ID')
                 ->width('150')
                 ->render(function (Seller $seller) {
-                    return "<img src='{$seller->logo->getRelativeUrlAttribute()}'
-                              alt='{$seller->logo->getTitleAttribute()}'
+                    $url = $seller->logo ? $seller->logo->getRelativeUrlAttribute() : '';
+                    $alt = $seller->logo ?$seller->logo->getTitleAttribute() : 'No Logo';
+
+                    return "<img src='{$url}'
+                              alt='{$alt}'
                               class='mw-100 d-block img-fluid'>
                             <span class='small text-muted mt-1 mb-0'># {$seller->id}</span>";
                 }),
