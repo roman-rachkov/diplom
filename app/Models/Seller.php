@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\FlushTagCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Orchid\Attachment\Attachable;
 use Orchid\Attachment\Models\Attachment;
@@ -25,6 +26,11 @@ class Seller extends Model
     public function prices(): HasMany
     {
         return $this->hasMany(Price::class);
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, Price::class);
     }
 
 }

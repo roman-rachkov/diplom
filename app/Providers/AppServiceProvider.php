@@ -16,6 +16,7 @@ use App\Contracts\Service\ImportSellerServiceContract;
 use App\Contracts\Service\Product\OfferOfTheDayServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Contracts\Service\Product\ViewedProductsServiceContract;
+use App\Contracts\Service\SellerServiceContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Models\Customer;
 use App\Service\AdminSettingsService;
@@ -31,6 +32,7 @@ use App\Service\ImportSellerService;
 use App\Service\Product\OfferOfTheDayService;
 use App\Service\Product\ProductDiscountService;
 use App\Service\Product\ViewedProductsService;
+use App\Service\SellerService;
 use App\Service\UsersAvatarService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Cookie;
@@ -66,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PaymentsIntegratorServiceContract::class, PaymentsIntegratorService::class);
         $this->app->singleton(CustomerServiceContract::class, CustomerService::class);
         $this->app->singleton(ViewedProductsServiceContract::class, ViewedProductsService::class);
+        $this->app->singleton(SellerServiceContract::class, SellerService::class);
 
         $this->app->singleton(Customer::class, function () {
             $customer = Customer::firstOrCreate(['hash' => Cookie::get('customer_token')]);;
