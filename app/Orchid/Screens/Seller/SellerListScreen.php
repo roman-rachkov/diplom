@@ -2,6 +2,9 @@
 
 namespace App\Orchid\Screens\Seller;
 
+use App\Models\Seller;
+use App\Orchid\Layouts\Seller\SellerListLayout;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
 class SellerListScreen extends Screen
@@ -20,7 +23,9 @@ class SellerListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        return [
+           'sellers' => Seller::filters()->defaultSort('id')->paginate()
+        ];
     }
 
     /**
@@ -30,7 +35,11 @@ class SellerListScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make(__('admin.sellers.add_new_seller'))
+                ->icon('plus')
+                ->route('platform.sellers.add')
+        ];
     }
 
     /**
@@ -40,6 +49,8 @@ class SellerListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            SellerListLayout::class
+        ];
     }
 }
