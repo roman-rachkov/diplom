@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Orchid\Layouts;
+namespace App\Orchid\Layouts\Seller;
 
 use App\Models\Seller;
 use Orchid\Screen\Actions\Link;

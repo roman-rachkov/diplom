@@ -3,7 +3,7 @@
 namespace App\Orchid\Screens\Seller;
 
 use App\Models\Seller;
-use App\Orchid\Layouts\SellerListLayout;
+use App\Orchid\Layouts\Seller\SellerListLayout;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 

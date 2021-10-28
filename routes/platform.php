@@ -9,6 +9,8 @@ use App\Orchid\Screens\Category\CategoryListScreen;
 use App\Orchid\Screens\Discount\DiscountListScreen;
 use App\Orchid\Screens\Order\OrderListScreen;
 use App\Orchid\Screens\PlatformScreen;
+use App\Orchid\Screens\Product\ProductEditScreen;
+use App\Orchid\Screens\Product\ProductListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\Seller\SellerListScreen;
@@ -152,7 +154,7 @@ Route::screen('category/{category?}', CategoryEditScreen::class)
     });
 
 //Platform > Product
-Route::screen('product/add', \App\Orchid\Screens\Product\ProductEditScreen::class)
+Route::screen('product/add', ProductEditScreen::class)
     ->name('platform.products.add')
     ->breadcrumbs(function (Trail $trail){
         return $trail
@@ -160,7 +162,7 @@ Route::screen('product/add', \App\Orchid\Screens\Product\ProductEditScreen::clas
             ->push(__('admin.products.add'));
     });
 
-Route::screen('product', \App\Orchid\Screens\Product\ProductListScreen::class)
+Route::screen('product', ProductListScreen::class)
     ->name('platform.products')
     ->breadcrumbs(function (Trail $trail){
         return $trail
@@ -168,7 +170,7 @@ Route::screen('product', \App\Orchid\Screens\Product\ProductListScreen::class)
             ->push(__('admin.products.panel_name'));
     });
 
-Route::screen('product/{product?}', \App\Orchid\Screens\Product\ProductEditScreen::class)
+Route::screen('product/{product?}', ProductEditScreen::class)
     ->name('platform.products.edit')
     ->breadcrumbs(function (Trail $trail){
         return $trail
