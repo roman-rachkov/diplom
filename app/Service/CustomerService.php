@@ -19,4 +19,5 @@ class CustomerService implements CustomerServiceContract
     {
         return auth()->user()->customer ?? $this->repository->getByHash();
     }
+
 }

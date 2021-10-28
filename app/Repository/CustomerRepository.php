@@ -25,4 +25,5 @@ class CustomerRepository implements CustomerRepositoryContract
         }
         return $customer;
     }
+
 }
