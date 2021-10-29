@@ -16,7 +16,7 @@ class AssociateCustomerWithUserAfterLogin
      */
     public function __construct(CustomerServiceContract $customerService)
     {
-        $this->customer = $customer;
+        $this->customer = $customerService;
     }
 
     /**

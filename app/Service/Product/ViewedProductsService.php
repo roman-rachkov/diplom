@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ViewedProductsService implements ViewedProductsServiceContract
 {
-    private CustomerServiceContract $customerServiceService;
+    private CustomerServiceContract $customerService;
     private ViewedProductsRepositoryContract $viewedProductsRepository;
     private ProductDiscountService $discountRepo;
 
     public function __construct(
-        CustomerServiceContract $customerServiceService,
+        CustomerServiceContract $customerService,
         ViewedProductsRepositoryContract $viewedProductsRepository,
         ProductDiscountService $discountRepo,
     )

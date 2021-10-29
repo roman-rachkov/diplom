@@ -18,7 +18,11 @@ class CustomerService implements CustomerServiceContract
 
     public function getCustomer(): Customer
     {
-        $customer = auth()->user()->customer ?? $this->repository->getByHash(Cookie::get('customer_token'));
+        if (auth()->user()) {
+            $customer = auth()->user()->customer;
+        } else {
+            $customer = $this->repository->getByHash(Cookie::get('customer_token'));
+        }
         Cookie::queue(Cookie::forever('customer_token', $customer->hash));
         return $customer;
     }
