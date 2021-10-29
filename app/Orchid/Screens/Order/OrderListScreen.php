@@ -2,6 +2,8 @@
 
 namespace App\Orchid\Screens\Order;
 
+use App\Models\Order;
+use App\Orchid\Layouts\Order\OrderListLayout;
 use Orchid\Screen\Screen;
 
 class OrderListScreen extends Screen
@@ -20,7 +22,9 @@ class OrderListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        return [
+            'orders' => Order::filters()->defaultSort('id')->paginate()
+        ];
     }
 
     /**
@@ -36,10 +40,12 @@ class OrderListScreen extends Screen
     /**
      * Views.
      *
-     * @return \Orchid\Screen\Layout[]|string[]
+     * @return array
      */
     public function layout(): array
     {
-        return [];
+        return [
+            OrderListLayout::class
+        ];
     }
 }

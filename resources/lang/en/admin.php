@@ -122,7 +122,8 @@ return [
         'screen_name' => 'Manage sellers',
         'screen_description' => 'Sellers list',
         'add_new_seller' => 'Add new seller',
-        'edit' => 'Edit/Create seller',
+        'edit' => 'Edit seller',
+        'add' => 'Create seller',
         'title' => 'Company name',
         'edit_seller' => 'Editing/Creating seller',
         'name_placeholder' => 'Fill the seller-organization name',
@@ -146,7 +147,16 @@ return [
     'orders' => [
         'panel_name' => 'Orders',
         'screen_name' => 'Manage orders',
-        'screen_description' => 'Orders list'
+        'screen_description' => 'Orders list',
+        'customer_name_title' => 'Customer full name',
+        'customer_phone_title' => 'Customer phone',
+        'order_delivery_type_title' => 'Delivery type',
+        'order_total_title' => ' Total $',
+        'delivery_type' => [
+            'default' => 'default',
+            'express' => 'express'
+        ],
+        'edit' => 'Edit order'
     ],
 
 ];

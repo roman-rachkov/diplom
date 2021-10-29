@@ -25,11 +25,6 @@ class SellerEditScreen extends Screen
      */
     public $name = '';
 
-    public function __construct()
-    {
-        $this->name = __('admin.category.edit_category');
-    }
-
     /**
      * Query data.
      *
@@ -37,7 +32,12 @@ class SellerEditScreen extends Screen
      */
     public function query(Seller $seller): array
     {
-        $this->exists = $seller->exists;
+
+        if($this->exists = $seller->exists) {
+            $this->name = __('admin.sellers.edit');
+        } else {
+            $this->name = __('admin.sellers.add');
+        }
 
         return [
             'seller' => $seller

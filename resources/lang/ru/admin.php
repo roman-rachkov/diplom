@@ -124,7 +124,8 @@ return [
         'screen_name' => 'Управление продавцами',
         'screen_description' => 'Список продавцов',
         'add_new_seller' => 'Добавить нового продавца',
-        'edit' => 'Редактировать/Создать продавца',
+        'edit' => 'Редактировать продавца',
+        'add' => 'Создать продваца',
         'title' => 'Название организации',
         'edit_seller' => 'Редактирование/Создание продавца',
         'name_placeholder' => 'Введите наименование организации-продавца',
@@ -148,7 +149,17 @@ return [
     'orders' => [
         'panel_name' => 'Заказы',
         'screen_name' => 'Управление заказами',
-        'screen_description' => 'Список заказов'
+        'screen_description' => 'Список заказов',
+        'customer_name_title' => 'ФИО Заказчика',
+        'customer_phone_title' => 'Телефон Заказчика',
+        'order_delivery_type_title' => 'Тип доставки',
+        'order_total_title' => 'Сумма заказа  в $',
+        'delivery_type' => [
+            'default' => 'обычная',
+            'express' => 'ускоренная'
+        ],
+        'edit' => 'Редактировать заказ'
+
     ],
 
 ];
