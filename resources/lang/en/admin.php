@@ -156,7 +156,12 @@ return [
             'default' => 'default',
             'express' => 'express'
         ],
-        'edit' => 'Edit order'
+        'edit' => 'Edit order',
+        'delivery_city' => 'City',
+        'delivery_address' => 'Address',
+        'delivery_title' => 'Delivery',
+        'comment_title' => 'Comment',
+        'success_info' => 'Order successfully changed',
     ],
 
 ];

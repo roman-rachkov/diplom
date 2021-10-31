@@ -158,7 +158,12 @@ return [
             'default' => 'обычная',
             'express' => 'ускоренная'
         ],
-        'edit' => 'Редактировать заказ'
+        'edit' => 'Редактировать заказ',
+        'delivery_city' => 'Город',
+        'delivery_address' => 'Адрес',
+        'delivery_title' => 'Доставка',
+        'comment_title' => 'Комментарий',
+        'success_info' => 'Заказ успешно изменён',
 
     ],
 

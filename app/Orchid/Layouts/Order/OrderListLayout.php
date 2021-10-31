@@ -3,6 +3,8 @@
 namespace App\Orchid\Layouts\Order;
 
 use App\Models\Order;
+use App\Orchid\Filters\DeliveryTypeFilter;
+use App\Orchid\Layouts\DeliveryTypeSelection;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
@@ -56,7 +58,6 @@ class OrderListLayout extends Table
 
             TD::make('delivery_type', __('admin.orders.order_delivery_type_title'))
                 ->sort()
-                ->filter(TD::FILTER_TEXT)
                 ->render(function (Order $order) {
                     return __('admin.orders.delivery_type.' . $order->delivery_type);
                 }),

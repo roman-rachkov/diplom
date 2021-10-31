@@ -3,6 +3,8 @@
 namespace App\Orchid\Screens\Order;
 
 use App\Models\Order;
+use App\Orchid\Filters\DeliveryTypeFilter;
+use App\Orchid\Layouts\DeliveryTypeSelection;
 use App\Orchid\Layouts\Order\OrderListLayout;
 use Orchid\Screen\Screen;
 
@@ -23,7 +25,7 @@ class OrderListScreen extends Screen
     public function query(): array
     {
         return [
-            'orders' => Order::filters()->defaultSort('id')->paginate()
+            'orders' => Order::filtersApply([DeliveryTypeFilter::class])->filters()->defaultSort('id')->paginate()
         ];
     }
 
@@ -45,6 +47,7 @@ class OrderListScreen extends Screen
     public function layout(): array
     {
         return [
+            DeliveryTypeSelection::class,
             OrderListLayout::class
         ];
     }
