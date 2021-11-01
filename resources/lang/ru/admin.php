@@ -142,8 +142,35 @@ return [
 
     'discounts' => [
         'panel_name' => 'Скидки',
+        'list' => 'Список скидок',
         'screen_name' => 'Управление скидками',
-        'screen_description' => 'Список скидок'
+        'screen_description' => 'Список скидок',
+        'add_discount' => 'Добавить скидку',
+        'value' => 'Значение',
+        'method_type' => 'Метод скидки',
+        'category_type' => 'Вид скидки',
+        'not_selected' => 'Не выбрано',
+        'weight' => 'Вес',
+        'minimal_cost' => 'Минимальная стоимость',
+        'maximum_cost' => 'Максимальная стоимость',
+        'minimal_qty' => 'Минимальное количество',
+        'maximum_qty' => 'Максимальное количество',
+        'start_at' => 'Дата начала',
+        'end_at' => 'Дата окончания',
+        'active' => 'Активна',
+        'controls' => 'Управление',
+        'edit' => 'Редактировать',
+        'category' => [
+            'product' => 'Товары',
+            'groups' => [
+                'title' => "Группы",
+                'a' => "Группа а",
+                'b' => "Группа б",
+            ],
+            'cart' => [
+                'title' => 'Корзина',
+            ]
+        ]
     ],
 
     'orders' => [
