@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Orchid\Screens;
+namespace App\Orchid\Screens\Seller;
 
 use App\Models\Seller;
 use App\Rules\PhoneRule;
@@ -127,7 +127,6 @@ class SellerEditScreen extends Screen
         ]);
 
         $attrs = $request->get('seller');
-        //$attrs['logo_id'] = $attrs['logo_id'] ?? '1';
 
         $seller->fill($attrs)->save();
         Alert::info(__('admin.sellers.success_info'));
