@@ -7,6 +7,7 @@ use App\Orchid\Screens\Banner\BannerListScreen;
 use App\Orchid\Screens\Category\CategoryEditScreen;
 use App\Orchid\Screens\Category\CategoryListScreen;
 use App\Orchid\Screens\Discount\DiscountListScreen;
+use App\Orchid\Screens\Order\OrderEditScreen;
 use App\Orchid\Screens\Order\OrderListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Product\ProductEditScreen;
@@ -14,7 +15,7 @@ use App\Orchid\Screens\Product\ProductListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\Seller\SellerListScreen;
-use App\Orchid\Screens\SellerEditScreen;
+use App\Orchid\Screens\Seller\SellerEditScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -193,7 +194,7 @@ Route::screen('sellers/add', SellerEditScreen::class)
     ->breadcrumbs(function (Trail $trail){
         return $trail
             ->parent('platform.index')
-            ->push(__('admin.sellers.edit'));
+            ->push(__('admin.sellers.add'));
     });
 
 Route::screen('sellers/{seller?}', SellerEditScreen::class)
@@ -222,4 +223,12 @@ Route::screen('orders', OrderListScreen::class)
         return $trail
             ->parent('platform.index')
             ->push(__('admin.orders.panel_name'));
+    });
+
+Route::screen('orders/{order?}', OrderEditScreen::class)
+    ->name('platform.orders.edit')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.orders')
+            ->push(__('admin.orders.edit'));
     });
