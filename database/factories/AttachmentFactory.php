@@ -23,7 +23,7 @@ class AttachmentFactory extends Factory
         $datePath = \Illuminate\Support\Carbon::now()->format('Y/m/d/');
         $filepath = storage_path('app/public/' . $datePath);
         if(!File::exists($filepath)){
-            File::makeDirectory($filepath);
+            File::makeDirectory($filepath, 0755, true);
         }
         $image = $this->faker->image($filepath,640,480, null, false, $word = null);
 
