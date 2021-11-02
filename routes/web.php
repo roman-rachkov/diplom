@@ -61,7 +61,7 @@ Route::post('/feedbacks', [FeedbackController::class, 'sendMessage'])
     ->name('feedbacks.send_message');
 
 Route::get('/comparison', [CompareProductsController::class, 'index'])->name('comparison');
-Route::get('/comparison/remove_product/{productSlug}', [CompareProductsController::class, 'removeProduct'])
+Route::post('/comparison/remove_product/{productSlug}', [CompareProductsController::class, 'removeProduct'])
     ->name('comparison.remove_product');
 
 
