@@ -120,7 +120,22 @@ return [
     'sellers' => [
         'panel_name' => 'Sellers',
         'screen_name' => 'Manage sellers',
-        'screen_description' => 'Sellers list'
+        'screen_description' => 'Sellers list',
+        'add_new_seller' => 'Add new seller',
+        'edit' => 'Edit seller',
+        'add' => 'Create seller',
+        'title' => 'Company name',
+        'edit_seller' => 'Editing/Creating seller',
+        'name_placeholder' => 'Fill the seller-organization name',
+        'phone_number' => 'Public seller company phone number',
+        'phone_title' => 'Phone number',
+        'description' => 'Company description',
+        'description_placeholder' => 'About company history, goods and services in details...',
+        'address' => 'Company legal address',
+        'address_placeholder' => 'Full company name address from Unified Register of Legal Entities and the Unified Register of Individual Entrepreneurs',
+        'logo_id' => 'Upload company logo:',
+        'success_info' => 'Seller successfully created',
+        'delete_info' => 'Seller successfully deleted',
     ],
 
     'discounts' => [
@@ -132,7 +147,21 @@ return [
     'orders' => [
         'panel_name' => 'Orders',
         'screen_name' => 'Manage orders',
-        'screen_description' => 'Orders list'
+        'screen_description' => 'Orders list',
+        'customer_name_title' => 'Customer full name',
+        'customer_phone_title' => 'Customer phone',
+        'order_delivery_type_title' => 'Delivery type',
+        'order_total_title' => ' Total $',
+        'delivery_type' => [
+            'default' => 'default',
+            'express' => 'express'
+        ],
+        'edit' => 'Edit order',
+        'delivery_city' => 'City',
+        'delivery_address' => 'Address',
+        'delivery_title' => 'Delivery',
+        'comment_title' => 'Comment',
+        'success_info' => 'Order successfully changed',
     ],
 
 ];
