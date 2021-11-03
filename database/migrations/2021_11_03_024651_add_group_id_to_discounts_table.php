@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDiscountablesTable extends Migration
+class AddGroupIdToDiscountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateDiscountablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('discountables', function (Blueprint $table) {
-            $table->unsignedBigInteger('discount_id');
-            $table->unsignedBigInteger('discountable_id');
-            $table->enum('group', ['a', 'b'])->default('a');
-            $table->string('discountable_type');
-
-            $table->foreign('discount_id')
+        Schema::table('discounts', function (Blueprint $table) {
+            $table->unsignedBigInteger('discount_group_id');
+            $table->foreign('discount_group_id')
                 ->references('id')
-                ->on('discounts')
+                ->on('discount_groups')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
         });
@@ -34,6 +30,8 @@ class CreateDiscountablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('discountables');
+        Schema::table('discounts', function (Blueprint $table) {
+            $table->dropForeign('discount_group_id');
+        });
     }
 }
