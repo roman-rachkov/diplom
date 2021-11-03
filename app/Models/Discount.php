@@ -19,14 +19,9 @@ class Discount extends Model
     public const CATEGORY_GROUPS = 'groups';
     public const CATEGORY_CART = 'cart';
 
-    public function categories()
+    public function discountGroup()
     {
-        return $this->morphedByMany(Category::class, 'discountable');
-    }
-
-    public function products()
-    {
-        return $this->morphedByMany(Product::class, 'discountable');
+        return $this->hasOne(DiscountGroup::class);
     }
 
     static function getConstants()

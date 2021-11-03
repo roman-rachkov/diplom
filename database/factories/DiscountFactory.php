@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Discount;
+use App\Models\DiscountGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -26,7 +27,7 @@ class DiscountFactory extends Factory
         return [
             'value' => $this->faker->randomFloat(2, 1, 99),
             'method_type' => $this->faker->randomElement(Discount::getMethodTypes()),
-            'category_type' => $this->faker->randomElement(Discount::getCategoryTypes()),
+            'discount_group_id' => DiscountGroup::factory(),
             'weight' => random_int(0, 100),
             'minimal_cost' => $this->faker->randomFloat(2, 0, 10000),
             'start_at' => $startAt,
