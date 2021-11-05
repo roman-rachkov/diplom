@@ -9,7 +9,7 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class ProductDiscountService implements ProductDiscountServiceContract
 {
-    public function getAllDiscounts(Collection $products): Collection
+    public function getAllDiscounts(Collection $products): Collection // не используется
     {
        if ($products->count() === 1) {
            $discounts['products'] = $this->getProductDiscounts($products->first());
@@ -20,7 +20,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
         return collect($discounts);
     }
 
-    public function getGeneralDiscount(Collection $products): Collection
+    public function getGeneralDiscount(Collection $products): Collection // не используется
     {
         $generalDiscountsOfTypeWithoutKey = new Collection();
 
@@ -43,7 +43,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
         return $generalDiscount;
     }
 
-    public function getPriceWithDiscount(Collection $products): float
+    public function getPriceWithDiscount(Collection $products): float // не используется
     {
         $discount = $this->getGeneralDiscount($products);
 
@@ -84,6 +84,11 @@ class ProductDiscountService implements ProductDiscountServiceContract
         $discounts = new Collection();
 
         return $discounts->max() ?: round(rand(5,70)/100, 2);
+    }
+
+    public function getProductPriceWithDiscount(Product $product, float $price = null)
+    {
+        if (!$price) $price = $product->prices->avg('price');
     }
 
 }

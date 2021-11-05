@@ -21,7 +21,7 @@ class Discount extends Model
 
     public function discountGroup()
     {
-        return $this->hasOne(DiscountGroup::class);
+        return $this->belongsTo(DiscountGroup::class);
     }
 
     static function getConstants()

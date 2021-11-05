@@ -16,7 +16,7 @@ class DiscountGroup extends Model
 
     public function discount()
     {
-        return $this->belongsTo(Discount::class);
+        return $this->hasOne(Discount::class, 'discount_group_id');
     }
 
     public function products()
