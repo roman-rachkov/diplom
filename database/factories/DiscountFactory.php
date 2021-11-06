@@ -27,12 +27,13 @@ class DiscountFactory extends Factory
         return [
             'value' => $this->faker->randomFloat(2, 1, 99),
             'method_type' => $this->faker->randomElement(Discount::getMethodTypes()),
-            'discount_group_id' => DiscountGroup::factory(),
+            'category_type' => $this->faker->randomElement(Discount::getCategoryTypes()),
             'weight' => random_int(0, 100),
             'minimal_cost' => $this->faker->randomFloat(2, 0, 10000),
             'start_at' => $startAt,
             'end_at' => Carbon::parse($startAt)->addDays(random_int(1,10)),
             'is_active' => random_int(0, 1),
+            'description' => $this->faker->sentence(35)
         ];
     }
 }

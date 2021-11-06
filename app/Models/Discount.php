@@ -15,13 +15,13 @@ class Discount extends Model
     public const METHOD_SUM = 'sum';
     public const METHOD_FIXED = 'fixed';
 
-    public const CATEGORY_PRODUCTS = 'products';
-    public const CATEGORY_GROUPS = 'groups';
+    public const CATEGORY_OTHER = 'other';
+    public const CATEGORY_SET = 'set';
     public const CATEGORY_CART = 'cart';
 
     public function discountGroup()
     {
-        return $this->belongsTo(DiscountGroup::class);
+        return $this->hasMany(DiscountGroup::class);
     }
 
     static function getConstants()

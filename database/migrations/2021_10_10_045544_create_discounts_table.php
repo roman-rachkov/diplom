@@ -17,7 +17,7 @@ class CreateDiscountsTable extends Migration
             $table->id();
             $table->decimal('value', 6, 2)->default(0);
             $table->enum('method_type', \App\Models\Discount::getMethodTypes()->toArray())->default(\App\Models\Discount::METHOD_CLASSIC);
-            $table->enum('category_type', \App\Models\Discount::getCategoryTypes()->toArray())->default(\App\Models\Discount::CATEGORY_PRODUCTS);
+            $table->enum('category_type', \App\Models\Discount::getCategoryTypes()->toArray())->default(\App\Models\Discount::CATEGORY_OTHER);
             $table->integer('weight')->default(0);
             $table->integer('minimum_qty')->default(0);
             $table->integer('maximum_qty')->default(0);

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Discount;
 use App\Models\DiscountGroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,7 +23,8 @@ class DiscountGroupFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->word()
+            'title' => $this->faker->word(),
+            'discount_id' => Discount::factory()
         ];
     }
 }
