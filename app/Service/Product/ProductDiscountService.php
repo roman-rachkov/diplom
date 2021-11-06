@@ -3,6 +3,7 @@
 namespace App\Service\Product;
 
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
+use App\Models\Discount;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 use JetBrains\PhpStorm\ArrayShape;
@@ -89,6 +90,23 @@ class ProductDiscountService implements ProductDiscountServiceContract
     public function getProductPriceWithDiscount(Product $product, float $price = null)
     {
         if (!$price) $price = $product->prices->avg('price');
+
+        //Получить все скидки для данного товара с категорией other
+    }
+
+    protected function getPriceWithDiscountByDiscountMethod(Discount $discount, float $price)
+    {
+        switch ($discount->method_type) {
+            case Discount::METHOD_CLASSIC:
+                return $price * (1 - $discount->value/100);
+
+            case Discount::METHOD_SUM:
+                return max($price - $discount->value, 1);
+
+            case Discount::METHOD_FIXED:
+                return max($discount->value, 1);
+
+        }
     }
 
 }

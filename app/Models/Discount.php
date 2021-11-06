@@ -19,7 +19,7 @@ class Discount extends Model
     public const CATEGORY_SET = 'set';
     public const CATEGORY_CART = 'cart';
 
-    public function discountGroup()
+    public function discountGroups()
     {
         return $this->hasMany(DiscountGroup::class);
     }
