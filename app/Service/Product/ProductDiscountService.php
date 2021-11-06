@@ -2,14 +2,21 @@
 
 namespace App\Service\Product;
 
+use App\Contracts\Repository\DiscountRepositoryContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Models\Discount;
 use App\Models\Product;
 use Illuminate\Support\Collection;
-use JetBrains\PhpStorm\ArrayShape;
 
 class ProductDiscountService implements ProductDiscountServiceContract
 {
+    private DiscountRepositoryContract $repository;
+
+    public function __construct(DiscountRepositoryContract $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function getAllDiscounts(Collection $products): Collection // не используется
     {
        if ($products->count() === 1) {
@@ -87,11 +94,19 @@ class ProductDiscountService implements ProductDiscountServiceContract
         return $discounts->max() ?: round(rand(5,70)/100, 2);
     }
 
-    public function getProductPriceWithDiscount(Product $product, float $price = null)
+    /**
+     * @param Product $product
+     * @param float|null $price
+     * @return float|int|mixed|void
+     */
+    public function getProductPriceWithDiscount(Product $product, ?float $price = null)
     {
         if (!$price) $price = $product->prices->avg('price');
 
-        //Получить все скидки для данного товара с категорией other
+        return $this->getPriceWithDiscountByDiscountMethod(
+            $this->repository->getMostWeightyProductDiscount($product),
+            $price
+        );
     }
 
     protected function getPriceWithDiscountByDiscountMethod(Discount $discount, float $price)
