@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Discount;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DeleteCategoryTypeFromDiscountsTable extends Migration
+class AddDescriptionToDiscountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +14,7 @@ class DeleteCategoryTypeFromDiscountsTable extends Migration
     public function up()
     {
         Schema::table('discounts', function (Blueprint $table) {
-            $table->dropColumn('category_type');
+            $table->text('description');
         });
     }
 
@@ -27,12 +26,7 @@ class DeleteCategoryTypeFromDiscountsTable extends Migration
     public function down()
     {
         Schema::table('discounts', function (Blueprint $table) {
-            $table
-                ->enum(
-                    'category_type',
-                    Discount::getCategoryTypes()->toArray()
-                )
-                ->default(Discount::CATEGORY_PRODUCTS);
+            $table->dropColumn('description');
         });
     }
 }
