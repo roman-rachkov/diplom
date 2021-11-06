@@ -7,6 +7,7 @@ use App\Orchid\Screens\Banner\BannerListScreen;
 use App\Orchid\Screens\Category\CategoryEditScreen;
 use App\Orchid\Screens\Category\CategoryListScreen;
 use App\Orchid\Screens\PlatformScreen;
+use App\Orchid\Screens\Review\ReviewListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -200,4 +201,13 @@ Route::screen('orders', \App\Orchid\Screens\Order\OrderListScreen::class)
         return $trail
             ->parent('platform.index')
             ->push(__('admin.orders.panel_name'));
+    });
+
+//Platform > review
+Route::screen('reviews', ReviewListScreen::class)
+    ->name('platform.reviews')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.reviews.panel_name'));
     });

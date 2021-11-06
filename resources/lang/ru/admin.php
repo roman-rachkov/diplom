@@ -136,4 +136,16 @@ return [
         'screen_description' => 'Список заказов'
     ],
 
+    'reviews' => [
+        'panel_name' => 'Отзывы',
+        'screen_name' => 'Управление отзывами',
+        'screen_description' => 'Список отзывов',
+        'edit_review_with' => 'Редактирование отзыва с ID:',
+        'edit' => 'Редактировать',
+        'action' => 'Действия',
+        'review' => 'Отзыв',
+        'created' => 'Дата создания',
+        'success' => 'Успешно обновлено',
+    ],
+
 ];
