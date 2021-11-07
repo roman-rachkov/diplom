@@ -57,9 +57,14 @@ class CustomerService implements CustomerServiceContract
     public function associateCart()
     {
         $customer = $this->getCustomer();
+        $customerId = $customer->cart->pluck('customer_id')->unique()->first();
         $otherCustomer = $this->getCustomerByHash(Cookie::get('non_auth_customer_token'));
 
-        dd($otherCustomer->cart);
+        foreach($otherCustomer->cart as $key => $item) {
+            $item->update(['customer_id' => $customerId]);
+        }
+
+        dd($customer->cart);
 
         return true;
     }

@@ -30,7 +30,6 @@ class CompareProductsController extends Controller
         RemoveCartServiceContract $removeCart
     )
     {
-        dd($customerService->associateCart($getCart, $addCart, $removeCart));
         $comparedProducts = $this->compareService->get($customerService->getCustomer());
         return view('compare.show', compact('comparedProducts'));
     }

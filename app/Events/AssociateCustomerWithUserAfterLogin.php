@@ -29,8 +29,10 @@ class AssociateCustomerWithUserAfterLogin
      */
     public function handle(Login $event)
     {
-        $diff = Cookie::get('non_auth_customer_token') === $this->customer->getCustomerHash() ? 'true' : 'false';
-        Log::info('hash difference ' . $diff);
+        if (Cookie::get('non_auth_customer_token') === $this->customer->getCustomerHash() ? 'true' : 'false') {
+            Log::info('hash difference true');
+        }
+
         $this->customer->associateWithUser($event->user->id);
     }
 }
