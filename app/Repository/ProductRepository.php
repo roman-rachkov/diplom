@@ -58,14 +58,14 @@ class ProductRepository implements ProductRepositoryContract
         if ($request->getSeller()) {
             $key .= '_seller_' . $request->getSeller();
             $query->whereHas('sellers', function ($q) use ($request) {
-                return $q->where('id', $request->getSeller());
+                return $q->where('sellers.id', $request->getSeller());
             });
         }
 
 
         if ($request->getSearch()) {
             $key .= '_search_' . $request->getSearch();
-            $query->when('name', '=', $request->getSearch());
+            $query->where('name', '=', $request->getSearch());
         }
 
         if ($request->getOrderBy()) {
@@ -126,7 +126,8 @@ class ProductRepository implements ProductRepositoryContract
 
     public function getSellersForProducts(int $catId): Collection
     {
-        return $this->model->where('category_id', $catId)->get()->pluck('category');
+//        dd();
+        return $this->model->where('category_id', $catId)->get()->pluck('sellers')->flatten()->unique('id');
     }
 
     public function getDayOfferProduct(): Product
