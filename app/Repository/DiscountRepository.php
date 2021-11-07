@@ -18,7 +18,7 @@ class DiscountRepository implements DiscountRepositoryContract
         $this->adminSettings= $adminSettings;
     }
 
-    public function getMostWeightyProductDiscount(Product $product) : Discount
+    public function getMostWeightyProductDiscount(Product $product) : null|Discount
     {
         $ttl = $this->adminSettings->get('discountsCacheTime', 60 * 60 * 24);
 
@@ -38,7 +38,7 @@ class DiscountRepository implements DiscountRepositoryContract
                         ->discountGroups
                         ->pluck('discount')
                         ->merge(Category::with('discountGroups.discount')
-                            ->find($product->category->id)
+                            ->find($product->category_id)
                             ->discountGroups
                             ->pluck('discount')
                         )

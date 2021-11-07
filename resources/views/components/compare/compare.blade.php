@@ -8,10 +8,10 @@
             <input type="checkbox" name="differentFeature" value="true" checked="checked"/><span class="toggle-box"></span><span class="toggle-text">Только различающиеся характеристики</span>
         </label>
     </div>
-                {{--    ТОВАРЫ--}}
+                {{--ТОВАРЫ--}}
                 <x-compare.compare-products-row :products="$comparedProducts->get('products')"/>
 
-                {{--    ССЫЛКИ--}}
+                {{--ССЫЛКИ--}}
                 <x-compare.compare-links-row :products="$comparedProducts->get('products')"/>
 
                 {{--ХАРАКТЕРИСТИКИ--}}

@@ -4,8 +4,12 @@
     <div class="ProductCard">
         <div class="ProductCard-look">
             <div class="ProductCard-photo">
-                <div class="ProductCard-sale">-{{ $discount }}%
-                </div><img src={{$product->image->getRelativeUrlAttribute()}} alt={{$product->image->alt}}/>
+                @if($discount)
+                    <div class="ProductCard-sale">
+                        {{$discount}}
+                    </div>
+                @endif
+                <img src={{$product->image->getRelativeUrlAttribute()}} alt={{$product->image->alt}}/>
             </div>
             <x-product.product-item-images :images="$product->attachment" :mainImage="$product->image"/>
         </div>
@@ -14,8 +18,12 @@
                 <h2 class="ProductCard-title">{{$product->name}}</h2>
                 <div class="ProductCard-info">
                     <div class="ProductCard-cost">
-                        <div class="ProductCard-price">${{ $avgDiscountPrice }}</div>
-                        <div class="ProductCard-priceOld">${{ $avgPrice }}</div>
+                        @if($avgDiscountPrice)
+                            <div class="ProductCard-price">${{ $avgDiscountPrice }}</div>
+                            <div class="ProductCard-priceOld">${{ $avgPrice }}</div>
+                        @else
+                            <div class="ProductCard-price">${{ $avgPrice }}</div>
+                        @endif
                     </div>
                     <form class="ProductCard-compare" method="post" action="{{route('product.addToComparison', $product)}}">
                         @csrf

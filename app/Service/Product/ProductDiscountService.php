@@ -28,7 +28,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
         return collect($discounts);
     }
 
-    public function getGeneralDiscount(Collection $products): Collection // не используется
+    public function getGeneralDiscount(Collection $products): Collection // TODO: не используется?
     {
         $generalDiscountsOfTypeWithoutKey = new Collection();
 
@@ -37,9 +37,14 @@ class ProductDiscountService implements ProductDiscountServiceContract
         $discounts->each (function ($discount, $key) use (&$generalDiscountsOfTypeWithoutKey) {
             $maxDiscount = $discount->max();
 
-            $generalDiscountsOfTypeWithoutKey = $generalDiscountsOfTypeWithoutKey->merge( $discount->filter(function ($item) use ($maxDiscount) {
-                return $item == $maxDiscount;
-            }));
+            $generalDiscountsOfTypeWithoutKey = $generalDiscountsOfTypeWithoutKey
+                ->merge(
+                    $discount
+                        ->filter(
+                            function ($item) use ($maxDiscount) {
+                                return $item == $maxDiscount;
+                            })
+                );
         });
 
             $maxDiscount = $generalDiscountsOfTypeWithoutKey->max();
@@ -51,7 +56,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
         return $generalDiscount;
     }
 
-    public function getPriceWithDiscount(Collection $products): float // не используется
+    public function getPriceWithDiscount(Collection $products): float //TODO: не используется, убрать?
     {
         $discount = $this->getGeneralDiscount($products);
 
@@ -65,9 +70,15 @@ class ProductDiscountService implements ProductDiscountServiceContract
     public function getCatalogDiscounts(Collection $products): Collection
     {
         $result = [];
+        // TODO: используется:
+        // - в SellerController, для правильного отображения нужны цены
+        // - в MainPageController, для топ продуктов и для продуктов ограниченного тиража, цены не нужны
+        // - в CatalogPageController - цены не нужны
+        // - в ViewedProductsService - цены не нужны
+
 
         foreach ($products as $product) {
-            $result[$product->id] = rand(100000, 500000) / 100;
+            $result[$product->id] = $this->getProductPriceWithDiscount($product);
         }
 
         return new Collection($result);
@@ -80,33 +91,54 @@ class ProductDiscountService implements ProductDiscountServiceContract
         return $discounts->max() ?: rand(100000, 500000) / 100;
     }
 
-    protected function getGroupDiscount($product): float
+    protected function getGroupDiscount($product): float // TODO: не используется?
     {
         $discounts = new Collection();
 
         return $discounts->max() ?: round(rand(5,70)/100, 2);
     }
 
-    protected function getCategoryDiscount($products): float
+    protected function getCategoryDiscount($products): float // TODO: не используется?
     {
         $discounts = new Collection();
 
         return $discounts->max() ?: round(rand(5,70)/100, 2);
     }
 
-    /**
-     * @param Product $product
-     * @param float|null $price
-     * @return float|int|mixed|void
-     */
-    public function getProductPriceWithDiscount(Product $product, ?float $price = null)
+    public function getProductPriceWithDiscount(Product $product, ?float $price = null): bool|float
     {
-        if (!$price) $price = $product->prices->avg('price');
+        $price = $price ?? $product->prices->avg('price');
 
-        return $this->getPriceWithDiscountByDiscountMethod(
-            $this->repository->getMostWeightyProductDiscount($product),
-            $price
-        );
+        if ($discount = $this->repository->getMostWeightyProductDiscount($product)) {
+            return $this->getPriceWithDiscountByDiscountMethod(
+                $discount,
+                $price
+            );
+        }
+
+        return false;
+
+    }
+
+    public function getDiscountTextForIcon(Product $product): bool|string
+    {
+        if ($discount = $this->repository->getMostWeightyProductDiscount($product)) {
+
+            $value = round($discount->value);
+
+            switch ($discount->method_type) {
+                case Discount::METHOD_CLASSIC:
+                    return '-' . $value . '%' ;
+
+                case Discount::METHOD_SUM:
+                    return '-' . $value . '$';
+
+                case Discount::METHOD_FIXED:
+                    return 'FIX PRICE!';
+            }
+
+        }
+        return false;
     }
 
     protected function getPriceWithDiscountByDiscountMethod(Discount $discount, float $price)
@@ -123,5 +155,4 @@ class ProductDiscountService implements ProductDiscountServiceContract
 
         }
     }
-
 }

@@ -45,8 +45,6 @@ class CompareProductsService implements CompareProductsServiceContract
                 ->sortBy([['id', 'desc']])
                 ->pluck('product');
 
-            //$this->appendPriceWithDiscount($comparedProducts);
-
              return collect(
                  [
                      'products' =>  $this->getCompareProductDTOs($comparedProducts),
@@ -72,11 +70,11 @@ class CompareProductsService implements CompareProductsServiceContract
         $comparedProductsDTO = [];
 
         foreach ($comparedProducts as $comparedProduct) {
-            $discount = round(
-                $comparedProduct->avg_price *
-                (1 -  $this->discountService->getProductDiscounts($comparedProduct)),
-                2
-            );
+            $discount = $this->discountService
+                ->getProductPriceWithDiscount(
+                    $comparedProduct,
+                    $comparedProduct->avg_price
+                );
 
             $comparedProductsDTO[] = CompareProductDTO::create(
                 [

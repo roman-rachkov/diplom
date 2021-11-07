@@ -17,6 +17,7 @@
             </div>
         </div>
     </div>
+    {{--                TODO: передать в Card-sale значение согласно типу расчёта скидки --}}
     <div class="Card-sale">-60%
     </div>
 </div>

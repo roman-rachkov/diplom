@@ -7,6 +7,6 @@ use App\Models\Product;
 
 interface DiscountRepositoryContract
 {
-    public function getMostWeightyProductDiscount(Product $product) : Discount;
+    public function getMostWeightyProductDiscount(Product $product) : null|Discount;
 
 }
