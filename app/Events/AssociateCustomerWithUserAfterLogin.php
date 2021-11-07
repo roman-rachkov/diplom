@@ -6,6 +6,8 @@ use App\Contracts\Service\CustomerServiceContract;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 
 class AssociateCustomerWithUserAfterLogin
 {
@@ -27,6 +29,8 @@ class AssociateCustomerWithUserAfterLogin
      */
     public function handle(Login $event)
     {
-        $event->user->customer()->save($this->customer->getCustomer());
+        $diff = Cookie::get('non_auth_customer_token') === $this->customer->getCustomerHash() ? 'true' : 'false';
+        Log::info('hash difference ' . $diff);
+        $this->customer->associateWithUser($event->user->id);
     }
 }

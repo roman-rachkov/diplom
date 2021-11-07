@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Contracts\Repository\CustomerRepositoryContract;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 
 class CustomerRepository implements CustomerRepositoryContract
 {
@@ -23,6 +24,12 @@ class CustomerRepository implements CustomerRepositoryContract
             $customer->save();
         }
         return $customer;
+    }
+
+    public function setUserId($hash, $userId)
+    {
+        $item = $this->model->where(['hash' => $hash])->first();
+        $item->update(['user_id' => $userId]);
     }
 
 }

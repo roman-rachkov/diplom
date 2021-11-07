@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repository\ProductRepositoryContract;
+use App\Contracts\Service\Cart\AddCartServiceContract;
+use App\Contracts\Service\Cart\GetCartServiceContract;
+use App\Contracts\Service\Cart\RemoveCartServiceContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
@@ -21,9 +24,13 @@ class CompareProductsController extends Controller
 
 
     public function index(
-        CustomerServiceContract $customerService
+        CustomerServiceContract $customerService,
+        GetCartServiceContract $getCart,
+        AddCartServiceContract $addCart,
+        RemoveCartServiceContract $removeCart
     )
     {
+        dd($customerService->associateCart($getCart, $addCart, $removeCart));
         $comparedProducts = $this->compareService->get($customerService->getCustomer());
         return view('compare.show', compact('comparedProducts'));
     }
