@@ -53,7 +53,6 @@ class CatalogPageController extends Controller
         $discounts = $discountRepo->getCatalogDiscounts(collect($products->items()));
         $minPrice = $prices->getMinPriceForCategory($catIds);
         $maxPrice = $prices->getMaxPriceForCategory($catIds);
-
         return view('catalog', compact(
             'products', 'discounts', 'sellers',
             'maxPrice', 'minPrice', 'request',

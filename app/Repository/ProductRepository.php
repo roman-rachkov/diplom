@@ -126,7 +126,6 @@ class ProductRepository implements ProductRepositoryContract
 
     public function getSellersForProducts(int $catId): Collection
     {
-//        dd();
         return $this->model->where('category_id', $catId)->get()->pluck('sellers')->flatten()->unique('id');
     }
 
@@ -147,7 +146,7 @@ class ProductRepository implements ProductRepositoryContract
         $tomorrow = Carbon::tomorrow();
         $itemOnPage = $this->adminsSettings->get('itemsInLimitedEditionBlock', 16);
         $key = 'limitedEditionForBetweenDays_' . $now->dayOfYear . '_' . $tomorrow->dayOfYear . '_exclude_' . $excludeId;
-        $key = '_ItemOnPage_' . $itemOnPage;
+        $key .= '_ItemOnPage_' . $itemOnPage;
         return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
             function () use ($excludeId, $itemOnPage) {
                 return $this->model
