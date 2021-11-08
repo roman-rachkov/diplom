@@ -2,29 +2,29 @@
 
 namespace App\Service;
 
+use App\Contracts\Repository\CustomerRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
 
 class CustomerService implements CustomerServiceContract
 {
+    private $repository;
+
+    public function __construct(CustomerRepositoryContract $repo)
+    {
+        $this->repository = $repo;
+    }
 
     public function getCustomer(): Customer
     {
-        $user = auth()->user();
-
-        if ($user) {
-            $customer = $user->customer;
+        if (auth()->user()) {
+            $customer = auth()->user()->customer;
         } else {
-            $customer = Customer::firstWhere('hash', Cookie::get('customer_token'));
+            $customer = $this->repository->getByHash(Cookie::get('customer_token'));
         }
-
-        if (! $customer) {
-            Log::error('The User is not related to the Customer');
-            abort(500, 'The User is not related to the Customer');
-        }
-
+        Cookie::queue(Cookie::forever('customer_token', $customer->hash));
         return $customer;
     }
+
 }
