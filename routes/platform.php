@@ -12,6 +12,7 @@ use App\Orchid\Screens\Order\OrderListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Product\ProductEditScreen;
 use App\Orchid\Screens\Product\ProductListScreen;
+use App\Orchid\Screens\Review\ReviewListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\Seller\SellerListScreen;
@@ -231,4 +232,13 @@ Route::screen('orders/{order?}', OrderEditScreen::class)
         return $trail
             ->parent('platform.orders')
             ->push(__('admin.orders.edit'));
+    });
+
+//Platform > review
+Route::screen('reviews', ReviewListScreen::class)
+    ->name('platform.reviews')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.reviews.panel_name'));
     });
