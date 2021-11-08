@@ -19,6 +19,21 @@ class Discount extends Model
     public const CATEGORY_SET = 'set';
     public const CATEGORY_CART = 'cart';
 
+    protected $fillable = [
+        'value',
+        'method_type',
+        'category_type',
+        'weight',
+        'minimum_qty',
+        'maximum_qty',
+        'minimal_cost',
+        'maximum_cost',
+        'start_at',
+        'end_at',
+        'is_active',
+        'description'
+    ];
+
     public function discountGroups()
     {
         return $this->hasMany(DiscountGroup::class);
@@ -31,15 +46,15 @@ class Discount extends Model
 
     static function getMethodTypes()
     {
-        return static::getConstants()->filter(function ($value, $key){
-            return !(false === stripos($key,'METHOD'));
+        return static::getConstants()->filter(function ($value, $key) {
+            return !(false === stripos($key, 'METHOD'));
         });
     }
 
     static function getCategoryTypes()
     {
-        return static::getConstants()->filter(function ($value, $key){
-            return !(false === stripos($key,'CATEGORY'));
+        return static::getConstants()->filter(function ($value, $key) {
+            return !(false === stripos($key, 'CATEGORY'));
         });
     }
 

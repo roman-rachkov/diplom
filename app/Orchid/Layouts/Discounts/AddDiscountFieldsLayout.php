@@ -44,6 +44,7 @@ class AddDiscountFieldsLayout extends Rows
                 ->type('number')
                 ->placeholder(__('admin.discounts.weight'))
                 ->title(__('admin.discounts.weight'))
+                ->value(0)
                 ->required(),
             DateTimer::make('discount.start_at')
                 ->placeholder(__('admin.discounts.start_at'))
