@@ -7,6 +7,7 @@ use App\Models\Discount;
 use App\Models\DiscountGroup;
 use App\Models\Product;
 use App\Orchid\Layouts\Discounts\AddDiscountFieldsLayout;
+use App\Orchid\Layouts\Discounts\DiscountGroupsListener;
 use App\Orchid\Layouts\Discounts\GroupsModalLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
@@ -24,6 +25,7 @@ class DiscountFormScreen extends Screen
      * @var string
      */
     public $name;
+    private bool $exist;
 
     public function __construct()
     {
@@ -37,6 +39,12 @@ class DiscountFormScreen extends Screen
      */
     public function query(Discount $discount): array
     {
+        $this->exist = $discount->exists;
+
+        if ($this->exist) {
+            $this->name = __('admin.discounts.edit');
+        }
+
         return [
             'discount' => $discount
         ];
@@ -55,7 +63,7 @@ class DiscountFormScreen extends Screen
                 ->method('newGroup')
                 ->icon('fullscreen'),
             Button::make(__('admin.discounts.save'))
-                ->method('createDiscount')
+                ->method('createOrUpdate')
         ];
     }
 
@@ -74,12 +82,9 @@ class DiscountFormScreen extends Screen
                 AddDiscountFieldsLayout::class,
                 Layout::accordion([
                     __('admin.discounts.category.product') => [
-                        Layout::rows([
-                            Relation::make('groups')
-                                ->title(__('admin.discounts.category.groups.title'))
-                                ->fromModel(DiscountGroup::class, 'title')
-                                ->multiple(),
-                        ])
+//                        Layout::rows([
+                        DiscountGroupsListener::class
+//                        ])
                     ],
                     //Cart
                     __('admin.discounts.category.cart.title') => [
@@ -108,6 +113,11 @@ class DiscountFormScreen extends Screen
         ];
     }
 
+    public function asyncGroups(int $count)
+    {
+        return ['groups' => $count];
+    }
+
     public function newGroup()
     {
         $data = request()->except('_token');
@@ -117,12 +127,12 @@ class DiscountFormScreen extends Screen
         Toast::success(__('admin.info.groups.added'));
     }
 
-    public function createDiscount()
+    public function createOrUpdate(Discount $discount)
     {
         $data = request()->except('_token');
-        $discount = Discount::create($data['discount']);
-        $discount->discountGroups()->attach($data['groups']);
-        Toast::success(__('admin.info.groups.added'));
+        $discount->fill($data['discount']);
+        $discount->save();
+        Toast::success($this->exist ? __('admin.info.groups.updated') : __('admin.info.groups.added'));
         redirect()->route('platform.discounts');
     }
 

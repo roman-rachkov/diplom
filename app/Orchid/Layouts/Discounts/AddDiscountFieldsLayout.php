@@ -7,6 +7,7 @@ use Orchid\Screen\Field;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
+use Orchid\Screen\Fields\SimpleMDE;
 use Orchid\Screen\Layouts\Rows;
 
 class AddDiscountFieldsLayout extends Rows
@@ -25,6 +26,14 @@ class AddDiscountFieldsLayout extends Rows
      */
     protected function fields(): array
     {
+        $discountMethods = [];
+        Discount::getMethodTypes()->values()->each(function ($item) use (&$discountMethods) {
+            $discountMethods[$item] = $item;
+        });
+        $discountCategories = [];
+        Discount::getCategoryTypes()->values()->each(function ($item) use (&$discountCategories) {
+            $discountCategories[$item] = $item;
+        });
         return [
             Input::make('discount.value')
                 ->type('number')
@@ -33,12 +42,12 @@ class AddDiscountFieldsLayout extends Rows
                 ->title(__('admin.discounts.value'))
                 ->required(),
             Select::make('discount.method_type')
-                ->options(Discount::getMethodTypes())
+                ->options(collect($discountMethods))
                 ->title(__('admin.discounts.method_type'))
                 ->required(),
             Select::make('discount.category_type')
                 ->title(__('admin.discounts.category_type'))
-                ->options(Discount::getCategoryTypes())
+                ->options(collect($discountCategories))
                 ->required(),
             Input::make('discount.weight')
                 ->type('number')
@@ -54,6 +63,7 @@ class AddDiscountFieldsLayout extends Rows
                 ->placeholder(__('admin.discounts.end_at'))
                 ->title(__('admin.discounts.end_at'))
                 ->allowInput(),
+            SimpleMDE::make('discount.description')
         ];
     }
 }

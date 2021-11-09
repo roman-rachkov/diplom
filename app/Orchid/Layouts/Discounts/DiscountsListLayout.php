@@ -2,12 +2,8 @@
 
 namespace App\Orchid\Layouts\Discounts;
 
-use App\Models\Discount;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\CheckBox;
-use Orchid\Screen\Fields\DateTimer;
-use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -37,8 +33,6 @@ class DiscountsListLayout extends Table
                 ->width(150),
             TD::make('weight', __('admin.discounts.weight'))
                 ->width(100),
-            TD::make('minimal_cost', __('admin.discounts.minimal_cost'))
-                ->width(150),
             TD::make('start_at', __('admin.discounts.start_at'))
                 ->width(200),
             TD::make('end_at', __('admin.discounts.end_at'))
