@@ -21,7 +21,6 @@
                             {{$dto->getPriceInDollars($dto->product->avg_price)}}
                         </strong>
                     @endif
-
                 </div>
             </div>
         @endforeach

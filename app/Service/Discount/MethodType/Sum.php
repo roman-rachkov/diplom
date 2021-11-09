@@ -2,9 +2,15 @@
 
 namespace App\Service\Discount\MethodType;
 
-use App\Contracts\Service\Discount\MethodType\MethodTypeContract;
-
-class Sum implements MethodTypeContract
+class Sum extends MethodType
 {
+    public function getPriceWithDiscount(?float $price): float
+    {
+        return max($price - $this->discountValue, 1);
+    }
 
+    public function getTextForBadge(): string
+    {
+        return '-' . $this->getBadgeValue() . '$';
+    }
 }

@@ -2,9 +2,16 @@
 
 namespace App\Service\Discount\MethodType;
 
-use App\Contracts\Service\Discount\MethodType\MethodTypeContract;
-
-class Fixed implements MethodTypeContract
+class Fixed extends MethodType
 {
+    public function getPriceWithDiscount(?float $price): float
+    {
+        return max($this->discountValue, 1);
+    }
+
+    public function getTextForBadge(): string
+    {
+        return '-' . $this->getBadgeValue() . '$';
+    }
 
 }

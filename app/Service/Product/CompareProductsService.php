@@ -3,8 +3,8 @@
 namespace App\Service\Product;
 
 use App\Contracts\Repository\CompareProductsRepositoryContract;
+use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
-use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\DTO\CompareProductCharacteristicDTO;
 use App\DTO\CompareProductDTO;
 use App\Models\Customer;
@@ -15,11 +15,11 @@ class CompareProductsService implements CompareProductsServiceContract
 {
     private CompareProductsRepositoryContract $repository;
 
-    private ProductDiscountServiceContract $discountService;
+    private OtherDiscountServiceContract $discountService;
 
     public function __construct(
         CompareProductsRepositoryContract $repository,
-        ProductDiscountServiceContract $discountService
+        OtherDiscountServiceContract $discountService
     )
     {
         $this->repository = $repository;
