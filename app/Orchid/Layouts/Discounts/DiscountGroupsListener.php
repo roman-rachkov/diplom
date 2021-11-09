@@ -44,8 +44,9 @@ class DiscountGroupsListener extends Listener
             Layout::rows([
                 Input::make('count')
                     ->type('number')
+                    ->min(0)
                     ->title(__('admin.discounts.groups.count'))
-                    ->value($this->query['groups']),
+                    ->value($this->query['groups'] ?? $this->query['discount']->discountGroups()->count()),
 
             ]),
             Layout::accordion([
