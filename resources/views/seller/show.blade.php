@@ -21,11 +21,9 @@
                     </div>
                 </div>
 
-                <x-popular_products :title="__('seller.popular-products')"/>
+                <x-seller.popular_products :products="$popularProducts" :discounts="$discounts"/>
 
              </div>
-
-
         </div>
     </div>
 

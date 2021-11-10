@@ -21,4 +21,9 @@ class Price extends Model
     {
         return $this->belongsTo(Seller::class);
     }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

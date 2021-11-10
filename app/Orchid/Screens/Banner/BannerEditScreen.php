@@ -134,6 +134,13 @@ class BannerEditScreen extends Screen
      */
     public function createOrUpdate(Banner $banner, Request $request)
     {
+        $request->validate([
+            'banner.title' => 'required|min:3|max:255',
+            'banner.subtitle' => 'required|min:3|max:255',
+            'banner.button_text' => 'required|min:3|max:255',
+            'banner.href' => 'required|max:255',
+            'banner.image_id' => 'required',
+        ]);
         $banner->fill($request->get('banner'))->save();
 
         $banner->attachment()->syncWithoutDetaching(

@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Compare;
 
+use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Models\Customer;
 use Illuminate\View\Component;
@@ -15,9 +16,9 @@ class HeaderComponent extends Component
      *
      * @return void
      */
-    public function __construct(CompareProductsServiceContract $compareService, Customer $customer)
+    public function __construct(CompareProductsServiceContract $compareService, CustomerServiceContract $customerService)
     {
-        $this->comparedProductsCount = $compareService->getCount($customer);
+        $this->comparedProductsCount = $compareService->getCount($customerService->getCustomer());
     }
 
     /**

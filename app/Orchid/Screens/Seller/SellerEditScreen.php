@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Orchid\Screens;
+namespace App\Orchid\Screens\Seller;
 
 use App\Models\Seller;
+use App\Rules\PhoneRule;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,11 +25,6 @@ class SellerEditScreen extends Screen
      */
     public $name = '';
 
-    public function __construct()
-    {
-        $this->name = __('admin.category.edit_category');
-    }
-
     /**
      * Query data.
      *
@@ -36,7 +32,12 @@ class SellerEditScreen extends Screen
      */
     public function query(Seller $seller): array
     {
-        $this->exists = $seller->exists;
+
+        if($this->exists = $seller->exists) {
+            $this->name = __('admin.sellers.edit');
+        } else {
+            $this->name = __('admin.sellers.add');
+        }
 
         return [
             'seller' => $seller
@@ -120,13 +121,12 @@ class SellerEditScreen extends Screen
         $request->validate([
             'seller.name' => 'required|min:10|max:100',
             'seller.email' => ['required', 'unique:sellers,email'],
-            'seller.phone' => 'required|numeric',
+            'seller.phone' => ['required', new PhoneRule],
             'seller.description' => 'required|min:50|max:1000',
             'seller.address' => 'required|min:20|max:100'
         ]);
 
         $attrs = $request->get('seller');
-        $attrs['logo_id'] = $attrs['logo_id'] ?? '1';
 
         $seller->fill($attrs)->save();
         Alert::info(__('admin.sellers.success_info'));

@@ -87,7 +87,36 @@ return [
     'products' => [
         'panel_name' => 'Товары',
         'screen_name' => 'Управление товарами',
-        'screen_description' => 'Список товаров'
+        'screen_description' => 'Список товаров',
+        'add_new' => 'Добавить продукт',
+        'edit' => 'Изменить',
+        'name' => 'Название',
+        'name_placeholder' => 'Введите название  продукта',
+        'slug' => 'Символьный код продукта',
+        'slug_placeholder' => 'Введите символьный код продукта',
+        'manufacturer' => 'Производитель',
+        'category' => 'Категория',
+        'limited_edition' => 'Ограниченный тираж',
+        'description' => 'Описание продукта',
+        'full_description' => 'Описание продукта для вкладки описание',
+        'main_tab' => 'Основные настройки',
+        'images_tab' => 'Настройки изображений',
+        'seller_prices_tab' => 'Настройки продавцов и цен',
+        'success_info' => 'Изменения для продукта созранены успешно',
+        'price_created' => 'Новая цена добавленна',
+        'price_updated' => 'Цена обновлена',
+        'price_deleted' => 'Цена удалена',
+        'delete_info' => 'Продукт удален',
+        'add_new_price_modal_button' => 'Добавить цену',
+        'add_new_price_modal_title' => 'Добавление продавца и цены',
+        'main_img_id' => 'Главное изображение товара',
+        'additional_img' => 'Дополнительные изображения товара',
+        'prices' => 'Цены',
+        'price' => 'Цена',
+        'edit_button' => 'Редактировать',
+        'edit_modal_title' => 'Редактировать цену для ',
+        'seller' => 'Продавец',
+        'edit_title' => 'Редактирование продукта',
     ],
 
     'sellers' => [
@@ -95,7 +124,8 @@ return [
         'screen_name' => 'Управление продавцами',
         'screen_description' => 'Список продавцов',
         'add_new_seller' => 'Добавить нового продавца',
-        'edit' => 'Редактировать/Создать продавца',
+        'edit' => 'Редактировать продавца',
+        'add' => 'Создать продваца',
         'title' => 'Название организации',
         'edit_seller' => 'Редактирование/Создание продавца',
         'name_placeholder' => 'Введите наименование организации-продавца',
@@ -112,14 +142,68 @@ return [
 
     'discounts' => [
         'panel_name' => 'Скидки',
+        'list' => 'Список скидок',
         'screen_name' => 'Управление скидками',
-        'screen_description' => 'Список скидок'
+        'screen_description' => 'Список скидок',
+        'add_discount' => 'Добавить скидку',
+        'value' => 'Значение',
+        'method_type' => 'Метод скидки',
+        'category_type' => 'Вид скидки',
+        'not_selected' => 'Не выбрано',
+        'weight' => 'Вес',
+        'minimal_cost' => 'Минимальная стоимость',
+        'maximum_cost' => 'Максимальная стоимость',
+        'minimal_qty' => 'Минимальное количество',
+        'maximum_qty' => 'Максимальное количество',
+        'start_at' => 'Дата начала',
+        'end_at' => 'Дата окончания',
+        'active' => 'Активна',
+        'controls' => 'Управление',
+        'edit' => 'Редактировать',
+        'category' => [
+            'product' => 'Товары',
+            'groups' => [
+                'title' => "Группы",
+                'a' => "Группа а",
+                'b' => "Группа б",
+            ],
+            'cart' => [
+                'title' => 'Корзина',
+            ]
+        ]
     ],
 
     'orders' => [
         'panel_name' => 'Заказы',
         'screen_name' => 'Управление заказами',
-        'screen_description' => 'Список заказов'
+        'screen_description' => 'Список заказов',
+        'customer_name_title' => 'ФИО Заказчика',
+        'customer_phone_title' => 'Телефон Заказчика',
+        'order_delivery_type_title' => 'Тип доставки',
+        'order_total_title' => 'Сумма заказа  в $',
+        'delivery_type' => [
+            'default' => 'обычная',
+            'express' => 'ускоренная'
+        ],
+        'edit' => 'Редактировать заказ',
+        'delivery_city' => 'Город',
+        'delivery_address' => 'Адрес',
+        'delivery_title' => 'Доставка',
+        'comment_title' => 'Комментарий',
+        'success_info' => 'Заказ успешно изменён',
+
+    ],
+
+    'reviews' => [
+        'panel_name' => 'Отзывы',
+        'screen_name' => 'Управление отзывами',
+        'screen_description' => 'Список отзывов',
+        'edit_review_with' => 'Редактирование отзыва с ID:',
+        'edit' => 'Редактировать',
+        'action' => 'Действия',
+        'review' => 'Отзыв',
+        'created' => 'Дата создания',
+        'success' => 'Успешно обновлено',
     ],
 
 ];
