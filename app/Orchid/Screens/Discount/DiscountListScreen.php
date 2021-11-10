@@ -2,6 +2,8 @@
 
 namespace App\Orchid\Screens\Discount;
 
+use App\Models\Discount;
+use App\Orchid\Layouts\Discounts\DiscountsListLayout;
 use Orchid\Screen\Screen;
 
 class DiscountListScreen extends Screen
@@ -13,6 +15,7 @@ class DiscountListScreen extends Screen
         $this->name = __('admin.discounts.screen_name');
         $this->description = __('admin.discounts.screen_description');
     }
+
     /**
      * Query data.
      *
@@ -20,7 +23,9 @@ class DiscountListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        return [
+            'discounts' => Discount::orderByDesc('created_at')->paginate(),
+        ];
     }
 
     /**
@@ -40,6 +45,8 @@ class DiscountListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            DiscountsListLayout::class,
+        ];
     }
 }

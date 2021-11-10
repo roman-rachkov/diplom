@@ -54,14 +54,14 @@ class Category extends Model
         return $this->hasOne(Category::class, 'id', 'parent_id');
     }
 
-    public function discounts()
-    {
-        return $this->morphToMany(Discount::class, 'discountable');
-    }
-
     public function characteristics(): BelongsToMany
     {
         return $this->belongsToMany(Characteristic::class);
+    }
+
+    public function discountGroups()
+    {
+        return $this->morphToMany(DiscountGroup::class, 'discount_groupable');
     }
 
 }

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Discount;
+use App\Models\DiscountGroup;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class DiscountSeeder extends Seeder
@@ -14,6 +16,14 @@ class DiscountSeeder extends Seeder
      */
     public function run()
     {
-        Discount::factory(30)->create();
+        Discount::factory([
+            'method_type' => Discount::METHOD_CLASSIC,
+        ])->count(10)->create();
+        Discount::factory([
+            'method_type' => Discount::METHOD_FIXED,
+        ])->count(10)->create();
+        Discount::factory([
+            'method_type' => Discount::METHOD_SUM,
+        ])->count(10)->create();
     }
 }

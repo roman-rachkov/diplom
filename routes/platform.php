@@ -117,14 +117,14 @@ Route::screen('import', \App\Orchid\Screens\ImportScreen::class)
 // Platform > Banners
 Route::screen('banner/{banner?}', BannerEditScreen::class)
     ->name('platform.banner.edit')
-    ->breadcrumbs(function (Trail $trail){
+    ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.banner.list')
             ->push(__('admin.banners.edit_banner'));
     });
 Route::screen('banners', BannerListScreen::class)
     ->name('platform.banner.list')
-    ->breadcrumbs(function (Trail $trail){
+    ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
             ->push(__('admin.banners.panel_name'), route('platform.banner.list'));
@@ -133,7 +133,7 @@ Route::screen('banners', BannerListScreen::class)
 //Platform > Category
 Route::screen('category/add', CategoryEditScreen::class)
     ->name('platform.category.add')
-    ->breadcrumbs(function (Trail $trail){
+    ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
             ->push(__('admin.category.edit'));
@@ -141,7 +141,7 @@ Route::screen('category/add', CategoryEditScreen::class)
 
 Route::screen('category', CategoryListScreen::class)
     ->name('platform.category.list')
-    ->breadcrumbs(function (Trail $trail){
+    ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
             ->push(__('admin.category.panel_name'));
@@ -149,7 +149,7 @@ Route::screen('category', CategoryListScreen::class)
 
 Route::screen('category/{category?}', CategoryEditScreen::class)
     ->name('platform.category.edit')
-    ->breadcrumbs(function (Trail $trail){
+    ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.category.list')
             ->push(__('admin.category.edit'));
@@ -166,7 +166,7 @@ Route::screen('product/add', ProductEditScreen::class)
 
 Route::screen('product', ProductListScreen::class)
     ->name('platform.products')
-    ->breadcrumbs(function (Trail $trail){
+    ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
             ->push(__('admin.products.panel_name'));
@@ -184,7 +184,7 @@ Route::screen('product/{product?}', ProductEditScreen::class)
 //Platform > Sellers
 Route::screen('sellers', SellerListScreen::class)
     ->name('platform.sellers')
-    ->breadcrumbs(function (Trail $trail){
+    ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
             ->push(__('admin.sellers.panel_name'));
@@ -210,7 +210,21 @@ Route::screen('sellers/{seller?}', SellerEditScreen::class)
 //Platform > Discounts
 Route::screen('discounts', DiscountListScreen::class)
     ->name('platform.discounts')
-    ->breadcrumbs(function (Trail $trail){
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.discounts.panel_name'));
+    });
+Route::screen('discounts/add', \App\Orchid\Screens\Discount\DiscountFormScreen::class)
+    ->name('platform.discounts.add')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.discounts.panel_name'));
+    });
+Route::screen('discounts/edit/{discount}', \App\Orchid\Screens\Discount\DiscountFormScreen::class)
+    ->name('platform.discounts.edit')
+    ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
             ->push(__('admin.discounts.panel_name'));
@@ -220,7 +234,7 @@ Route::screen('discounts', DiscountListScreen::class)
 //Platform > orders
 Route::screen('orders', OrderListScreen::class)
     ->name('platform.orders')
-    ->breadcrumbs(function (Trail $trail){
+    ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.index')
             ->push(__('admin.orders.panel_name'));
