@@ -6,6 +6,7 @@ use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\DeliveryCostServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
@@ -62,7 +63,7 @@ class OrderController extends Controller
         OrderConfirmRequest                $request,
         PaymentsServicesRepositoryContract $repository,
         GetCartServiceContract             $cart,
-        DeliveryCostServiceContract        $delivery
+        DeliveryCostServiceContract        $delivery,
     )
     {
         try {

@@ -45,6 +45,8 @@ class CompareProductsService implements CompareProductsServiceContract
                 ->sortBy([['id', 'desc']])
                 ->pluck('product');
 
+            //$this->appendPriceWithDiscount($comparedProducts);
+
              return collect(
                  [
                      'products' =>  $this->getCompareProductDTOs($comparedProducts),

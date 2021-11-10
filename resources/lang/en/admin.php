@@ -164,4 +164,16 @@ return [
         'success_info' => 'Order successfully changed',
     ],
 
+    'reviews' => [
+        'panel_name' => 'Reviews',
+        'screen_name' => 'Manage reviews',
+        'screen_description' => 'Reviews list',
+        'edit_review_with' => 'Edit review with ID:',
+        'edit' => 'Edit',
+        'action' => 'Actions',
+        'review' => 'Review',
+        'created' => 'Created at',
+        'success' => 'Update successfully',
+    ],
+
 ];
