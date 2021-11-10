@@ -9,7 +9,7 @@ use App\Models\Product;
 use App\Orchid\Layouts\Discounts\AddDiscountFieldsLayout;
 use App\Orchid\Layouts\Discounts\DiscountGroupsListener;
 use App\Orchid\Layouts\Discounts\DiscountListener;
-use App\Orchid\Layouts\Discounts\GroupsModalLayout;
+use App\Orchid\Layouts\Discounts\GroupsLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
@@ -47,7 +47,8 @@ class DiscountFormScreen extends Screen
         }
 
         $this->discount = $discount;
-
+        $this->discount->load(['discountGroups.products','discountGroups.categories']);
+        $this->discount->discountGroups['count'] = $this->discount->discountGroups()->count();
         return [
             'discount' => $this->discount
         ];
@@ -78,16 +79,10 @@ class DiscountFormScreen extends Screen
         ];
     }
 
-    public function asyncGroups(array $args)
+    public function asyncFields(array $args)
     {
         $response = ['discount' => $args];
         return $response;
-    }
-
-    public function asyncChangeCategory(array $args)
-    {
-//        dd($args);
-        return ['discount' => $args];
     }
 
 //    public function newGroup()

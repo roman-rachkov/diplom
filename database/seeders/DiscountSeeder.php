@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Discount;
 use App\Models\DiscountGroup;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class DiscountSeeder extends Seeder
@@ -20,8 +22,10 @@ class DiscountSeeder extends Seeder
         ])->has(
             DiscountGroup::factory()
                 ->count(1)
-                ->hasProducts(random_int(0, 10))
-                ->hasCategories(random_int(0, 10))
+                ->hasAttached(Product::all()->random(random_int(0, 10)))
+                ->hasAttached(Category::all()->random(random_int(0, 10)))
+//                ->hasProducts(random_int(0, 10))
+//                ->hasCategories(random_int(0, 10))
         )->count(10)->create();
 
         Discount::factory([
@@ -29,8 +33,10 @@ class DiscountSeeder extends Seeder
         ])->has(
             DiscountGroup::factory()
                 ->count(random_int(1, 5))
-                ->hasProducts(random_int(0, 10))
-                ->hasCategories(random_int(0, 10))
+                ->hasAttached(Product::all()->random(random_int(0, 10)))
+                ->hasAttached(Category::all()->random(random_int(0, 10)))
+//                ->hasProducts(random_int(0, 10))
+//                ->hasCategories(random_int(0, 10))
         )->count(10)->create();
 
         Discount::factory([

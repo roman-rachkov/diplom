@@ -16,7 +16,7 @@ class DiscountGroupsListener extends Listener
      */
     protected $targets = [
         'discount.id',
-        'discount.groups.count',
+        'discount.discountGroups.count',
         'discount.category_type',
         'discount.value',
         'discount.method_type',
@@ -35,7 +35,7 @@ class DiscountGroupsListener extends Listener
      *
      * @var string
      */
-    protected $asyncMethod = 'asyncGroups';
+    protected $asyncMethod = 'asyncFields';
 
     /**
      * @return Layout[]
@@ -43,18 +43,18 @@ class DiscountGroupsListener extends Listener
     protected function layouts(): array
     {
         $fields = [];
-        if ($this->query['discount.groups.count'] > 0) {
-            for ($i = 0; $i < $this->query['discount.groups.count']; $i++) {
-                $fields[] = GroupsModalLayout::class;
+        if ($this->query['discount.discountGroups.count'] > 0) {
+            for ($i = 0; $i < $this->query['discount.discountGroups.count']; $i++) {
+                $fields[] = GroupsLayout::class;
             }
         }
         return [
             Layout::rows([
-                Input::make('discount.groups.count')
+                Input::make('discount.discountGroups.count')
                     ->type('number')
                     ->min(0)
                     ->title(__('admin.discounts.groups.count'))
-                    ->value($this->query['discount.groups.count']),
+                    ->value($this->query['discount.discountGroups.count']),
 
             ]),
             Layout::accordion([

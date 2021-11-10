@@ -9,7 +9,7 @@ use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Layouts\Rows;
 
-class GroupsModalLayout extends Rows
+class GroupsLayout extends Rows
 {
     /**
      * Used to create the title of a group of form elements.
@@ -29,11 +29,11 @@ class GroupsModalLayout extends Rows
             Input::make('title')
                 ->title(__('admin.discounts.groups.title'))
                 ->required(),
-            Relation::make('grouppable.products')
+            Relation::make('products')
                 ->title(__('admin.products.panel_name'))
                 ->fromModel(Product::class, 'name')
                 ->multiple(),
-            Relation::make('grouppable.categories')
+            Relation::make('categories')
                 ->title(__('admin.category.panel_name'))
                 ->fromModel(Category::class, 'name')
                 ->multiple(),

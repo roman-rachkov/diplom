@@ -17,7 +17,7 @@ class DiscountListener extends Listener
      */
     protected $targets = [
         'discount.id',
-        'discount.groups.count',
+        'discount.discountGroups.count',
         'discount.category_type',
         'discount.value',
         'discount.method_type',
@@ -36,7 +36,7 @@ class DiscountListener extends Listener
      *
      * @var string
      */
-    protected $asyncMethod = 'asyncChangeCategory';
+    protected $asyncMethod = 'asyncFields';
 
     /**
      * @return Layout[]
@@ -70,9 +70,9 @@ class DiscountListener extends Listener
 //                    ->title(__('admin.discounts.maximum_qty')),
 //            ]);
 //        }
-
+        dump($this->query);
         if ($this->query['discount.category_type'] === Discount::CATEGORY_OTHER) {
-            $layout = GroupsModalLayout::class;
+            $layout = GroupsLayout::class;
         }
         if ($this->query['discount.category_type'] === Discount::CATEGORY_SET) {
             $layout = DiscountGroupsListener::class;

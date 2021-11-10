@@ -18,7 +18,7 @@ use App\Contracts\Service\Product\ViewedProductsServiceContract;
 use App\Contracts\Service\SellerServiceContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Models\Customer;
-use App\Orchid\Layouts\Discounts\GroupsModalLayout;
+use App\Orchid\Layouts\Discounts\GroupsLayout;
 use App\Service\AdminSettingsService;
 use App\Service\Cart\AddCartService;
 use App\Service\Cart\GetCartService;
