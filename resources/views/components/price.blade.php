@@ -1,16 +1,17 @@
-@props(['price', 'priceWithDiscount', 'blockClass', 'priceTagClass'])
+@props(['price', 'priceWithDiscount'])
 
-<div class="Compare-feature">
-    @if($dto->productPriceWithDiscount)
-        <strong class="Compare-priceOld">
-            {{$dto->getPriceInDollars($dto->product->avg_price)}}
-        </strong>
-    <strong class="Compare-price">
-        {{$dto->getPriceInDollars($dto->productPriceWithDiscount)}}
-    </strong>
+<div class="Card-cost">
+    @if($priceWithDiscount)
+        <span class="Card-priceOld">
+            {{$price }}
+        </span>
+        <span class="Card-price">
+            ${{$priceWithDiscount}}
+        </span>
     @else
-        <strong class="Compare-price">
-            {{$dto->getPriceInDollars($dto->product->avg_price)}}
-        </strong>
+        <span class="Card-price">
+            ${{$price}}
+        </span>
     @endif
+
 </div>

@@ -11,7 +11,7 @@ class Fixed extends MethodType
 
     public function getTextForBadge(): string
     {
-        return '-' . $this->getBadgeValue() . '$';
+        return 'FIX PRICE!';
     }
 
 }

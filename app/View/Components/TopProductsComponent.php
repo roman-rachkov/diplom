@@ -2,30 +2,28 @@
 
 namespace App\View\Components;
 
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class TopProductsComponent extends Component
 {
 
-    public Collection $products;
-    public Collection $discounts;
+    public array $productPricesWithDiscountsDTO;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(Collection $products, Collection $discounts)
+    public function __construct(array $productPricesWithDiscountsDTO)
     {
-        $this->products = $products;
-        $this->discounts = $discounts;
+        $this->productPricesWithDiscountsDTO = $productPricesWithDiscountsDTO;
     }
 
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return View
      */
     public function render()
     {

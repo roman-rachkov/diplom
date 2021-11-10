@@ -14,6 +14,7 @@ use App\Http\Requests\CatalogGetRequest;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Product;
+use App\Service\Discount\OtherDiscountService;
 use Illuminate\Http\Request;
 
 class CatalogPageController extends Controller
@@ -21,6 +22,7 @@ class CatalogPageController extends Controller
     public function index(
         ProductRepositoryContract      $repo,
         ProductDiscountServiceContract $discountRepo,
+        OtherDiscountService $discountService,
         PriceRepositoryContract        $prices,
         SellerRepositoryContract       $sellers,
         CatalogGetRequest              $request
@@ -28,11 +30,14 @@ class CatalogPageController extends Controller
     {
         $sellers = $sellers->getAllSellers();
         $products = $repo->getProductsForCatalogByCategory($request);
-        $discounts = $discountRepo->getCatalogDiscounts(collect($products->items()));
+        $paginationLink = $products->links('components.pagination');
+        $productDiscountPriceDTO = $discountService->getProductPriceDiscountDTOs($products);
+
+        //$discounts = $discountRepo->getCatalogDiscounts(collect($products->items()));
         $minPrice = $prices->getMinPrice();
         $maxPrice = $prices->getMaxPrice();
         return view('catalog', compact(
-            'products', 'discounts', 'sellers',
+            'paginationLink', 'productDiscountPriceDTO', 'sellers',
             'maxPrice', 'minPrice', 'request',
         ));
     }

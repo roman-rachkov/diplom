@@ -11,7 +11,7 @@ abstract class MethodType implements MethodTypeContract
 
     public function __construct(Discount $discount)
     {
-        $this->discount = $discount->value;
+        $this->discountValue = $discount->value;
     }
 
     protected function getBadgeValue(): float

@@ -3,7 +3,7 @@
 </header>
 
 <div class="Cards">
-    @foreach($products as $product)
-        <x-card :product="$product" :discounts="$discounts"/>
+    @foreach($productPricesWithDiscountsDTO as $dto)
+        <x-card :dto="$dto"/>
     @endforeach
 </div>
