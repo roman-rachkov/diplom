@@ -78,13 +78,16 @@ class DiscountFormScreen extends Screen
         ];
     }
 
-    public function asyncGroups(int $count)
+    public function asyncGroups(array $args)
     {
-        dd(['count' => $count, 'discount' => $this->discount]);
+        $response = ['discount' => $args];
+        return $response;
     }
 
-    public function asyncChangeCategory($args){
-        dd($args);
+    public function asyncChangeCategory(array $args)
+    {
+//        dd($args);
+        return ['discount' => $args];
     }
 
 //    public function newGroup()

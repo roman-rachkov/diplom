@@ -2,6 +2,8 @@
 
 namespace App\Orchid\Layouts\Discounts;
 
+use App\Models\Discount;
+use App\Models\DiscountGroup;
 use Orchid\Screen\Fields\Input;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Layouts\Listener;
@@ -14,7 +16,15 @@ class DiscountListener extends Listener
      * @var string[]
      */
     protected $targets = [
-        'discount.category_type'
+        'discount.id',
+        'discount.groups.count',
+        'discount.category_type',
+        'discount.value',
+        'discount.method_type',
+        'discount.weight',
+        'discount.start_at',
+        'discount.end_at',
+        'discount.description',
     ];
 
     /**
@@ -33,40 +43,68 @@ class DiscountListener extends Listener
      */
     protected function layouts(): array
     {
-        $accordion = [];
-        return [
-            Layout::columns([
-                AddDiscountFieldsLayout::class,
-                Layout::accordion([
-                    __('admin.discounts.category.product') => [
-//                        Layout::rows([
-                        DiscountGroupsListener::class
-//                        ])
-                    ],
-                    //Cart
-                    __('admin.discounts.category.cart.title') => [
-                        Layout::rows([
-                            Input::make('discount.minimal_cost')
-                                ->type('number')
-                                ->placeholder(__('admin.discounts.minimal_cost'))
-                                ->title(__('admin.discounts.minimal_cost')),
-                            Input::make('discount.maximum_cost')
-                                ->type('number')
-                                ->placeholder(__('admin.discounts.maximum_cost'))
-                                ->title(__('admin.discounts.maximum_cost')),
-                            Input::make('discount.minimum_qty')
-                                ->type('number')
-                                ->placeholder(__('admin.discounts.minimal_qty'))
-                                ->title(__('admin.discounts.minimal_qty')),
-                            Input::make('discount.maximum_qty')
-                                ->type('number')
-                                ->placeholder(__('admin.discounts.maximum_qty'))
-                                ->title(__('admin.discounts.maximum_qty')),
-                        ])
-                    ],
+//        $accordion = [];
+//        if ($this->query['discount.category_type'] === Discount::CATEGORY_OTHER) {
+//            $accordion[__('admin.discounts.category.product')] = GroupsModalLayout::class;
+//        }
+//        if ($this->query['discount.category_type'] === Discount::CATEGORY_SET) {
+//            $accordion[__('admin.discounts.category.product')] = DiscountGroupsListener::class;
+//        }
+//        if ($this->query['discount.category_type'] === Discount::CATEGORY_CART) {
+//            $accordion[__('admin.discounts.category.cart.title')] = Layout::rows([
+//                Input::make('discount.minimal_cost')
+//                    ->type('number')
+//                    ->placeholder(__('admin.discounts.minimal_cost'))
+//                    ->title(__('admin.discounts.minimal_cost')),
+//                Input::make('discount.maximum_cost')
+//                    ->type('number')
+//                    ->placeholder(__('admin.discounts.maximum_cost'))
+//                    ->title(__('admin.discounts.maximum_cost')),
+//                Input::make('discount.minimum_qty')
+//                    ->type('number')
+//                    ->placeholder(__('admin.discounts.minimal_qty'))
+//                    ->title(__('admin.discounts.minimal_qty')),
+//                Input::make('discount.maximum_qty')
+//                    ->type('number')
+//                    ->placeholder(__('admin.discounts.maximum_qty'))
+//                    ->title(__('admin.discounts.maximum_qty')),
+//            ]);
+//        }
 
-                ]),
-            ])
+        if ($this->query['discount.category_type'] === Discount::CATEGORY_OTHER) {
+            $layout = GroupsModalLayout::class;
+        }
+        if ($this->query['discount.category_type'] === Discount::CATEGORY_SET) {
+            $layout = DiscountGroupsListener::class;
+        }
+        if ($this->query['discount.category_type'] === Discount::CATEGORY_CART) {
+            $layout = Layout::rows([
+                Input::make('discount.minimal_cost')
+                    ->type('number')
+                    ->placeholder(__('admin.discounts.minimal_cost'))
+                    ->title(__('admin.discounts.minimal_cost')),
+                Input::make('discount.maximum_cost')
+                    ->type('number')
+                    ->placeholder(__('admin.discounts.maximum_cost'))
+                    ->title(__('admin.discounts.maximum_cost')),
+                Input::make('discount.minimum_qty')
+                    ->type('number')
+                    ->placeholder(__('admin.discounts.minimal_qty'))
+                    ->title(__('admin.discounts.minimal_qty')),
+                Input::make('discount.maximum_qty')
+                    ->type('number')
+                    ->placeholder(__('admin.discounts.maximum_qty'))
+                    ->title(__('admin.discounts.maximum_qty')),
+            ]);
+        }
+
+        return [
+            Layout::columns(
+                [
+                    AddDiscountFieldsLayout::class,
+                    $layout,
+                ]
+            )
         ];
     }
 }

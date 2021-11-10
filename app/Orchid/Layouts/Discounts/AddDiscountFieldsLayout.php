@@ -35,6 +35,7 @@ class AddDiscountFieldsLayout extends Rows
             $discountCategories[$item] = $item;
         });
         return [
+            Input::make('discount.id')->type('hidden'),
             Input::make('discount.value')
                 ->type('number')
                 ->placeholder(__('admin.discounts.value'))
@@ -44,9 +45,11 @@ class AddDiscountFieldsLayout extends Rows
             Select::make('discount.method_type')
                 ->options(collect($discountMethods))
                 ->title(__('admin.discounts.method_type'))
+                ->value($this->query['discount.method_type'])
                 ->required(),
             Select::make('discount.category_type')
                 ->title(__('admin.discounts.category_type'))
+                ->value($this->query['discount.category_type'])
                 ->options(collect($discountCategories))
                 ->required(),
             Input::make('discount.weight')

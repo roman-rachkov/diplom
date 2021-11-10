@@ -27,9 +27,13 @@ class DiscountsListLayout extends Table
     protected function columns(): array
     {
         return [
+            TD::make('id', __('admin.discounts.id'))
+                ->width(120),
             TD::make('value', __('admin.discounts.value'))
                 ->width(120),
             TD::make('method_type', __('admin.discounts.method_type'))
+                ->width(150),
+            TD::make('category_type', __('admin.discounts.category_type'))
                 ->width(150),
             TD::make('weight', __('admin.discounts.weight'))
                 ->width(100),
