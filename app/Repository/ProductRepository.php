@@ -31,7 +31,7 @@ class ProductRepository implements ProductRepositoryContract
         return $product->reviews()->create($attributes);
     }
 
-    public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug='')
+    public function getProductsForCatalogByCategory(CatalogGetRequest $request, $slug = '')
     {
         $key = 'allProductsForCatalogPage_';
         $query = $this->model->newQuery();
@@ -58,14 +58,14 @@ class ProductRepository implements ProductRepositoryContract
         if ($request->getSeller()) {
             $key .= '_seller_' . $request->getSeller();
             $query->whereHas('sellers', function ($q) use ($request) {
-                return $q->where('id', $request->getSeller());
+                return $q->where('sellers.id', $request->getSeller());
             });
         }
 
 
         if ($request->getSearch()) {
             $key .= '_search_' . $request->getSearch();
-            $query->when('name', '=', $request->getSearch());
+            $query->where('name', '=', $request->getSearch());
         }
 
         if ($request->getOrderBy()) {
@@ -99,11 +99,11 @@ class ProductRepository implements ProductRepositoryContract
             ])
             ->remember($slug, $ttl, function () use ($slug) {
 
-            return Product::with('attachment', 'prices.seller')
-                ->where('slug', $slug)
-                ->first();
+                return Product::with('attachment', 'prices.seller')
+                    ->where('slug', $slug)
+                    ->first();
 
-        });
+            });
     }
 
     public function getTopProducts(): Collection
@@ -126,14 +126,14 @@ class ProductRepository implements ProductRepositoryContract
 
     public function getSellersForProducts(int $catId): Collection
     {
-        return $this->model->where('category_id', $catId)->get()->pluck('category');
+        return $this->model->where('category_id', $catId)->get()->pluck('sellers')->flatten()->unique('id');
     }
 
     public function getDayOfferProduct(): Product
     {
         $now = Carbon::now();
         $tomorrow = Carbon::tomorrow();
-        $key = 'dayOfferForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear;
+        $key = 'dayOfferForBetweenDays_' . $now->dayOfYear . '_' . $tomorrow->dayOfYear;
         return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
             function () {
                 return $this->model->where('limited_edition', 1)->inRandomOrder()->limit(1)->first();
@@ -145,16 +145,16 @@ class ProductRepository implements ProductRepositoryContract
         $now = Carbon::now();
         $tomorrow = Carbon::tomorrow();
         $itemOnPage = $this->adminsSettings->get('itemsInLimitedEditionBlock', 16);
-        $key = 'limitedEditionForBetweenDays_'.$now->dayOfYear.'_'.$tomorrow->dayOfYear.'_exclude_'.$excludeId;
-        $key = '_ItemOnPage_'.$itemOnPage;
+        $key = 'limitedEditionForBetweenDays_' . $now->dayOfYear . '_' . $tomorrow->dayOfYear . '_exclude_' . $excludeId;
+        $key .= '_ItemOnPage_' . $itemOnPage;
         return Cache::tags(['products', 'topCatalog'])->remember($key, $now->diffInSeconds($tomorrow),
-            function () use($excludeId, $itemOnPage){
+            function () use ($excludeId, $itemOnPage) {
                 return $this->model
-                                ->where('limited_edition', 1)
-                                ->whereNotIn('id', [$excludeId])
-                                ->inRandomOrder()
-                                ->limit($itemOnPage)
-                                ->get();
+                    ->where('limited_edition', 1)
+                    ->whereNotIn('id', [$excludeId])
+                    ->inRandomOrder()
+                    ->limit($itemOnPage)
+                    ->get();
             });
     }
 }

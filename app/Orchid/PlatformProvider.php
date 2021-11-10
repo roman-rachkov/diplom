@@ -62,6 +62,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.discounts.add')
                 ->permission('platform.elements.discounts'),
 
+            Menu::make(__('admin.reviews.panel_name'))
+                ->icon('note')
+                ->route('platform.reviews')
+                ->permission('platform.elements.reviews'),
+
             Menu::make(__('Users'))
                 ->icon('user')
                 ->route('platform.systems.users')
@@ -82,7 +87,7 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make(__('admin.import.panel_name'))
                 ->icon('rocket')
                 ->route('platform.import')
-                ->permission('platform.systems.import')
+                ->permission('platform.systems.import'),
 
         ];
     }
@@ -117,7 +122,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.elements.products', 'admin.products.screen_name')
                 ->addPermission('platform.elements.sellers', 'admin.sellers.screen_name')
                 ->addPermission('platform.elements.discounts', 'admin.discounts.screen_name')
-                ->addPermission('platform.elements.orders', 'admin.orders.screen_name'),
+                ->addPermission('platform.elements.orders', 'admin.orders.screen_name')
+                ->addPermission('platform.elements.reviews', 'admin.reviews.screen_name'),
         ];
     }
 

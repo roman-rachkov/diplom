@@ -6,16 +6,26 @@ use App\Traits\FlushTagCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class Review extends Model
 {
-    use HasFactory, FlushTagCache;
+    use HasFactory, FlushTagCache, AsSource, Filterable;
 
     protected $guarded = [];
 
     public static $tagsArr = ['reviews'];
 
     protected $appends = ['comment_date'];
+
+    protected $allowedSorts = [
+        'created_at',
+    ];
+
+    protected $allowedFilters = [
+        'review',
+    ];
 
     public function getCommentDateAttribute()
     {

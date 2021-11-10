@@ -19,7 +19,7 @@ class CompareProductsService implements CompareProductsServiceContract
 
     public function __construct(
         CompareProductsRepositoryContract $repository,
-        ProductDiscountServiceContract $discountService
+        ProductDiscountServiceContract $discountService,
     )
     {
         $this->repository = $repository;

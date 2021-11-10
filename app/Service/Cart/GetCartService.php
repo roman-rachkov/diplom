@@ -6,6 +6,7 @@ use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
 use App\Models\OrderItem;
 use App\Models\Price;
@@ -20,10 +21,10 @@ class GetCartService implements GetCartServiceContract
     protected Customer $customer;
     protected AdminSettingsServiceContract $settings;
 
-    public function __construct(OrderItemRepositoryContract $repository, Customer $customer, AdminSettingsServiceContract $settings)
+    public function __construct(OrderItemRepositoryContract $repository, CustomerServiceContract $customerService, AdminSettingsServiceContract $settings)
     {
         $this->repository = $repository;
-        $this->customer = $customer;
+        $this->customer = $customerService->getCustomer();
         $this->settings = $settings;
     }
 
