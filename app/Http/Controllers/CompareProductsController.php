@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
@@ -10,6 +11,7 @@ use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -24,10 +26,7 @@ class CompareProductsController extends Controller
 
 
     public function index(
-        CustomerServiceContract $customerService,
-        GetCartServiceContract $getCart,
-        AddCartServiceContract $addCart,
-        RemoveCartServiceContract $removeCart
+        CustomerServiceContract $customerService
     )
     {
         $comparedProducts = $this->compareService->get($customerService->getCustomer());

@@ -3,14 +3,11 @@
 namespace App\Service;
 
 use App\Contracts\Repository\CustomerRepositoryContract;
-use App\Contracts\Service\Cart\AddCartServiceContract;
-use App\Contracts\Service\Cart\GetCartServiceContract;
-use App\Contracts\Service\Cart\RemoveCartServiceContract;
+use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
-use App\Service\Cart\AddCartService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
 
 class CustomerService implements CustomerServiceContract
 {
@@ -23,19 +20,21 @@ class CustomerService implements CustomerServiceContract
 
     public function getCustomer(): Customer
     {
-        if (auth()->user()) {
-            if (auth()->user()->customer) {
-                $customer = auth()->user()->customer;
+        if (Cookie::get('customer_token')) {
+            if (auth()->user()) {
+                return auth()->user()->customer;
+//                return Cache::tags(['customerService'])->remember(
+//                    'customerService_user_id_' . auth()->user()->id, 60 * 60 * 24, function () {
+//                    return auth()->user()->customer;
+//                });
             } else {
-                $customer = $this->repository->getByHash(Cookie::get('customer_token'));
-                Cookie::queue(Cookie::forever('customer_token', $customer->hash));
+                return $this->repository->getByHash(Cookie::get('customer_token'));
             }
         } else {
-            $customer = $this->repository->getByHash(Cookie::get('customer_token'));
-            Cookie::queue(Cookie::forever('customer_token', $customer->hash));
-            Cookie::queue(Cookie::forever('non_auth_customer_token', $customer->hash));
+            $customer = $this->repository->createCustomer();
+            Cookie::queue('customer_token', $customer->hash);
+            return $customer;
         }
-        return $customer;
     }
 
     public function getCustomerByHash($hash)
@@ -54,19 +53,18 @@ class CustomerService implements CustomerServiceContract
     }
 
 
-    public function associateCart()
+    public function associateCart(OrderItemRepositoryContract $orderItemRepo)
     {
-        $customer = $this->getCustomer();
-        $customerId = $customer->cart->pluck('customer_id')->unique()->first();
-        $otherCustomer = $this->getCustomerByHash(Cookie::get('non_auth_customer_token'));
 
-        foreach($otherCustomer->cart as $key => $item) {
-            $item->update(['customer_id' => $customerId]);
-        }
+        $cartCollection = $this->repository->getCustomerCartByHash(Cookie::get('non_auth_customer_token'));
+        $customerId = $this->getCustomer()->id;
+        $orderItemRepo->chengeCutomerId($cartCollection, $customerId);
 
-        dd($customer->cart);
+    }
 
-        return true;
+    public function associateComparedProducts(OrderItemRepositoryContract $orderItemRepo)
+    {
+
     }
 
 }

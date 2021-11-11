@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,9 +17,10 @@ class AssociateCustomerWithUserAfterLogin
      *
      * @return void
      */
-    public function __construct(CustomerServiceContract $customerService)
+    public function __construct(CustomerServiceContract $customerService, OrderItemRepositoryContract $orderItemRepo)
     {
         $this->customer = $customerService;
+        $this->orederItemRepo = $orderItemRepo;
     }
 
     /**
@@ -29,10 +31,10 @@ class AssociateCustomerWithUserAfterLogin
      */
     public function handle(Login $event)
     {
-        if (Cookie::get('non_auth_customer_token') === $this->customer->getCustomerHash() ? 'true' : 'false') {
-            Log::info('hash difference true');
-        }
-
+        dd($event->user->id);
         $this->customer->associateWithUser($event->user->id);
+//        $this->customer->associateCart($this->orederItemRepo);
+
+
     }
 }
