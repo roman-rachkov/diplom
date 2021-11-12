@@ -6,8 +6,7 @@ use App\Contracts\Repository\CustomerRepositoryContract;
 use App\Models\Customer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class CustomerRepository implements CustomerRepositoryContract
 {
@@ -28,7 +27,7 @@ class CustomerRepository implements CustomerRepositoryContract
 
     public function createCustomer()
     {
-        $hash = hash('sha256', Customer::class);
+        $hash = hash('sha256', Str::random(256));
         return Cache::tags(['customerService'])->remember(
             'customerService_user_id_' . $hash, 60 * 60 * 24, function () use ($hash) {
             $customer = $this->model->create();
@@ -41,7 +40,8 @@ class CustomerRepository implements CustomerRepositoryContract
     public function setUserId($hash, $userId)
     {
         $item = $this->model->where(['hash' => $hash])->first();
-        return $item->update(['user_id' => $userId]);
+        $item->update(['user_id' => $userId]);
+        return $item;
     }
 
     public function getCustomerCartByHash($hash): Collection

@@ -2,12 +2,15 @@
 
 namespace App\Service;
 
+use App\Contracts\Repository\CompareProductsRepositoryContract;
 use App\Contracts\Repository\CustomerRepositoryContract;
 use App\Contracts\Repository\OrderItemRepositoryContract;
+use App\Contracts\Repository\ViewedProductsRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 
 class CustomerService implements CustomerServiceContract
 {
@@ -22,11 +25,15 @@ class CustomerService implements CustomerServiceContract
     {
         if (Cookie::get('customer_token')) {
             if (auth()->user()) {
-                return auth()->user()->customer;
-//                return Cache::tags(['customerService'])->remember(
-//                    'customerService_user_id_' . auth()->user()->id, 60 * 60 * 24, function () {
-//                    return auth()->user()->customer;
-//                });
+                if (auth()->user()->customer) {
+                return Cache::tags(['customerService'])->remember(
+                    'customerService_user_id_' . auth()->user()->id, 60 * 60 * 24, function () {
+                    return auth()->user()->customer;
+                });
+                } else {
+                    $this->repository->setUserId(Cookie::get('customer_token'), auth()->user()->id);
+                    return $this->repository->getByHash(Cookie::get('customer_token'));
+                }
             } else {
                 return $this->repository->getByHash(Cookie::get('customer_token'));
             }
@@ -53,18 +60,36 @@ class CustomerService implements CustomerServiceContract
     }
 
 
-    public function associateCart(OrderItemRepositoryContract $orderItemRepo)
+    public function associateCart(OrderItemRepositoryContract $orderItemRepo, $hash)
     {
 
-        $cartCollection = $this->repository->getCustomerCartByHash(Cookie::get('non_auth_customer_token'));
-        $customerId = $this->getCustomer()->id;
-        $orderItemRepo->chengeCutomerId($cartCollection, $customerId);
-
+        $cartCollection = $this->repository->getCustomerCartByHash($hash);
+        $customerAuth = $this->getCustomer();
+        $orderItemRepo->chengeCutomerId($cartCollection, $customerAuth->id);
     }
 
-    public function associateComparedProducts(OrderItemRepositoryContract $orderItemRepo)
+    public function associateComparedProducts(CompareProductsRepositoryContract $compareRepo, $hash)
     {
+        $customerFromCookieId = $this->getCustomerByHash($hash)->id;
+        $customerAuthId = $this->getCustomer()->id;
+        $compareRepo->chengeCutomerId($customerAuthId, $customerFromCookieId);
+    }
 
+    public function associateViewedProducts(ViewedProductsRepositoryContract $viewedRepo, $hash)
+    {
+        $customerFromCookieId = $this->getCustomerByHash($hash)->id;
+        $customerAuthId = $this->getCustomer()->id;
+        $viewedRepo->chengeCutomerId($customerAuthId, $customerFromCookieId);
+    }
+
+    public function changeCookieHash($hash)
+    {
+        Cookie::queue('customer_token', $hash);
+    }
+
+    public function removeCustomerBuHash($hash)
+    {
+        $this->repository->removeCustomerByHash($hash);
     }
 
 }
