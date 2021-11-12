@@ -45,7 +45,7 @@ class AssociateCustomerWithUserAfterLogin
             $this->customerServece->associateComparedProducts($this->comparedRepo, $cookieHash);
             $this->customerServece->associateViewedProducts($this->viewedRepo, $cookieHash);
             $this->customerServece->associateCart($this->orederItemRepo, $cookieHash);
-            $this->customerServece->changeCookieHash($cookieHash);
+            $this->customerServece->changeCookieHash();
             $this->customerServece->removeCustomerBuHash($cookieHash);
         }
     }

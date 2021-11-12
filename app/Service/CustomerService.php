@@ -23,25 +23,27 @@ class CustomerService implements CustomerServiceContract
 
     public function getCustomer(): Customer
     {
-        if (Cookie::get('customer_token')) {
-            if (auth()->user()) {
-                if (auth()->user()->customer) {
-                return Cache::tags(['customerService'])->remember(
-                    'customerService_user_id_' . auth()->user()->id, 60 * 60 * 24, function () {
-                    return auth()->user()->customer;
-                });
+        return Cache::store('array')->rememberForever('customerService', function () {
+            if (Cookie::get('customer_token')) {
+                if (auth()->user()) {
+                    if (auth()->user()->customer) {
+                        return Cache::tags(['customerService'])->remember(
+                            'customerService_user_id_' . auth()->user()->id, 60 * 60 * 24, function () {
+                            return auth()->user()->customer;
+                        });
+                    } else {
+                        $this->repository->setUserId(Cookie::get('customer_token'), auth()->user()->id);
+                        return $this->repository->getByHash(Cookie::get('customer_token'));
+                    }
                 } else {
-                    $this->repository->setUserId(Cookie::get('customer_token'), auth()->user()->id);
                     return $this->repository->getByHash(Cookie::get('customer_token'));
                 }
             } else {
-                return $this->repository->getByHash(Cookie::get('customer_token'));
+                $customer = $this->repository->createCustomer();
+                Cookie::queue('customer_token', $customer->hash);
+                return $customer;
             }
-        } else {
-            $customer = $this->repository->createCustomer();
-            Cookie::queue('customer_token', $customer->hash);
-            return $customer;
-        }
+        });
     }
 
     public function getCustomerByHash($hash)
@@ -82,9 +84,9 @@ class CustomerService implements CustomerServiceContract
         $viewedRepo->chengeCutomerId($customerAuthId, $customerFromCookieId);
     }
 
-    public function changeCookieHash($hash)
+    public function changeCookieHash()
     {
-        Cookie::queue('customer_token', $hash);
+        Cookie::queue('customer_token', $this->getCustomer()->hash);
     }
 
     public function removeCustomerBuHash($hash)
