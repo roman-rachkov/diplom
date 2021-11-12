@@ -112,13 +112,13 @@ class Product extends Model
         return $this->belongsTo(Manufacturer::class);
     }
 
-    public function discounts()
-    {
-        return $this->morphToMany(Discount::class, 'discountable');
-    }
-
     public function comparedProducts(): HasMany
     {
         return $this->hasMany(ComparedProduct::class);
+    }
+
+    public function discountGroups()
+    {
+        return $this->morphToMany(DiscountGroup::class, 'discount_groupable');
     }
 }

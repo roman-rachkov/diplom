@@ -16,15 +16,24 @@ class ComparedSeeder extends Seeder
      */
     public function run()
     {
-        $customer = Customer::all();
-        $product = Product::all();
+        $customers = Customer::all();
+        $products = Product::all();
 
         for ($i=0; $i<20; $i++) {
-            ComparedProduct::factory()->create([
-                'customer_id' => $customer->random()->id,
-                'product_id' => $product->random()->id,
-            ]);
-        }
+            $customerId = $customers->random()->id;
+            $productId = $products->random()->id;
 
+            if(!ComparedProduct::where('customer_id', $customerId)
+                ->where('product_id', $productId)
+                ->get()
+                ->first()
+            ) {
+                ComparedProduct::factory()->create([
+                    'customer_id' => $customerId,
+                    'product_id' => $productId,
+                ]);
+            }
+
+        }
     }
 }
