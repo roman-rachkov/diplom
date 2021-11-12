@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 
 class Discount extends Model
@@ -18,6 +20,11 @@ class Discount extends Model
     public const CATEGORY_OTHER = 'other';
     public const CATEGORY_SET = 'set';
     public const CATEGORY_CART = 'cart';
+
+    protected $casts = [
+        'start_at' => 'date',
+        'end_at' => 'date',
+    ];
 
     public function discountGroups()
     {
@@ -50,5 +57,10 @@ class Discount extends Model
             'UPDATED_AT',
             'DELETED_AT'
         ];
+    }
+
+    public function image(): HasOne
+    {
+        return $this->hasOne(Attachment::class, 'id', 'image_id');
     }
 }

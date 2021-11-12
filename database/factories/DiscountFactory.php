@@ -25,6 +25,7 @@ class DiscountFactory extends Factory
     {
         $startAt = $this->faker->date;
         return [
+            'title' => $this->faker->sentence(3),
             'value' => $this->faker->randomFloat(2, 1, 99),
             'method_type' => $this->faker->randomElement(Discount::getMethodTypes()),
             'category_type' => $this->faker->randomElement(Discount::getCategoryTypes()),
