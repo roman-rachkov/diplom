@@ -13,5 +13,4 @@
             ${{$price}}
         </span>
     @endif
-
 </div>

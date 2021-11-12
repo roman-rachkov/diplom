@@ -1,6 +1,6 @@
-@props(['dto'])
-@if($dto->priceWithDiscount)
+@props(['priceWithDiscount', 'discountBadgeText'])
+@if($priceWithDiscount)
     <div class="Card-sale">
-        {{$dto->discountBadgeText}}
+        {{$discountBadgeText}}
     </div>
 @endif

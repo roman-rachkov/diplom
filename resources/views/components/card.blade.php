@@ -26,6 +26,8 @@
             </div>
         </div>
     </div>
-    {{--                TODO: передать в Card-sale значение согласно типу расчёта скидки --}}
-        <x-discount-badge :dto="$dto"/>
+    <x-discount-badge
+            :priceWithDiscount="$dto->priceWithDiscount"
+            :discountBadgeText="$dto->discountBadgeText"
+    />
 </div>

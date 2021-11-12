@@ -3,11 +3,13 @@
 namespace App\Service\Discount;
 
 use App\Contracts\Repository\DiscountRepositoryContract;
+use App\Contracts\Repository\PriceRepositoryContract;
 use App\Contracts\Service\Discount\MethodType\MethodTypeFactoryContract;
 use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\DTO\DataTransferObjectInterface;
 use App\DTO\ProductPriceDiscountDTO;
 use App\Models\Product;
+use App\Models\Seller;
 use Illuminate\Support\Collection;
 
 class OtherDiscountService implements OtherDiscountServiceContract
@@ -16,24 +18,32 @@ class OtherDiscountService implements OtherDiscountServiceContract
 
     private MethodTypeFactoryContract $methodTypeFactory;
 
-    public function __construct(DiscountRepositoryContract $repository, MethodTypeFactoryContract $methodTypeFactory)
+    private PriceRepositoryContract $priceRepository;
+
+    public function __construct(
+        DiscountRepositoryContract $repository,
+        MethodTypeFactoryContract $methodTypeFactory,
+        PriceRepositoryContract $priceRepository
+    )
     {
         $this->repository = $repository;
         $this->methodTypeFactory = $methodTypeFactory;
+        $this->priceRepository = $priceRepository;
     }
 
-    public function getProductPriceDiscountDTOs(Collection $products): array
+    public function getProductPriceDiscountDTOs(Collection $products, ?Seller $seller = null): array
     {
         $productPricesWithDiscountsDTO = [];
         foreach ($products as $product) {
-            $productPricesWithDiscountsDTO[] = $this->getProductPriceDiscountDTO($product);
+            $price = is_null($seller) ? null : $this->priceRepository->getSellerProductPrice($seller, $product);
+            $productPricesWithDiscountsDTO[] = $this->getProductPriceDiscountDTO($product, $price);
         }
         return $productPricesWithDiscountsDTO;
     }
 
-    public function getProductPriceDiscountDTO(Product $product): DataTransferObjectInterface
+    public function getProductPriceDiscountDTO(Product $product, ?float $price = null): DataTransferObjectInterface
     {
-        $price = $this->getPrice($product);
+        $price = $price ?? $this->getAvgPrice($product);
 
         return ProductPriceDiscountDTO::create(
             [
@@ -45,9 +55,8 @@ class OtherDiscountService implements OtherDiscountServiceContract
         );
     }
 
-    public function getProductPriceWithDiscount(Product $product, ?float $price = null): bool|float
+    public function getProductPriceWithDiscount(Product $product, float $price): bool|float
     {
-        $price = $price ?? $this->getPrice($product);
 
         if ($discount = $this->repository->getMostWeightyProductDiscount($product)) {
             return $this
@@ -70,7 +79,7 @@ class OtherDiscountService implements OtherDiscountServiceContract
         return false;
     }
 
-    protected function getPrice(Product $product)
+    protected function getAvgPrice(Product $product): float
     {
        return round($product->prices->avg('price'));
     }

@@ -7,6 +7,7 @@ use App\Contracts\Repository\ReviewRepositoryContract;
 use App\Contracts\Service\AddReviewServiceContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\CustomerServiceContract;
+use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
@@ -46,7 +47,7 @@ class ProductsController extends Controller
      * @return Application|Factory|View
      */
     public function show(
-        ProductDiscountServiceContract $discountService,
+        OtherDiscountServiceContract $discountService,
         AddReviewServiceContract $reviewService,
         string $slug,
         ViewedProductsServiceContract $viewedProductsService
@@ -54,9 +55,11 @@ class ProductsController extends Controller
     {
         $product = $this->productRepository->find($slug);
         if (is_null($product)) abort(404);
-        $discount = $discountService->getDiscountTextForIcon($product);
-        $avgPrice = round($product->prices->avg('price'), 2);
-        $avgDiscountPrice = $discountService->getProductPriceWithDiscount($product, $avgPrice);
+
+        $productPriceDiscountDTO = $discountService->getProductPriceDiscountDTO($product);
+//
+//        $avgPrice = round($product->prices->avg('price'), 2);
+//        $avgDiscountPrice = $discountService->getProductPriceWithDiscount($product, $avgPrice);
         $reviewsCount = $reviewService->getReviewsCount($product);
         $reviews = $this->reviewRepository->getPaginatedReviews($product->id, 3, 1);
 
@@ -64,13 +67,10 @@ class ProductsController extends Controller
 
         return view(
             'products.show',
-            compact(
-                'product',
-                'avgDiscountPrice',
-                'avgPrice',
-                'discount',
-            'reviewsCount',
-            'reviews')
+                compact(
+                    'productPriceDiscountDTO',
+                    'reviewsCount',
+                    'reviews')
         );
     }
 

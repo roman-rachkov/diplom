@@ -7,11 +7,9 @@ use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Http\Requests\CatalogGetRequest;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
 class ProductRepository implements ProductRepositoryContract

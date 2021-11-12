@@ -1,8 +1,10 @@
+@props(['productDiscountPriceDTOs', 'productsPaginator'])
+
 <div class="Cards">
 
-    @foreach($productDiscountPriceDTO as $dto)
+    @foreach($productDiscountPriceDTOs as $dto)
         <x-card :dto="$dto"/>
     @endforeach
 </div>
 
-{{ $paginationLink }}
+{{ $productsPaginator->links('components.pagination') }}
