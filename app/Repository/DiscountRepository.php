@@ -9,6 +9,7 @@ use App\Models\Discount;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class DiscountRepository implements DiscountRepositoryContract
 {
@@ -81,10 +82,35 @@ class DiscountRepository implements DiscountRepositoryContract
     {
 //        return Discount::where('category_type', Discount::CATEGORY_SET)
 //            ->with('discountGroups');
-
-        $products->each(function ($item,$key) {
-
-        });
+        //Коллекция продуктов
+        //Product::whereIn('id', $ids)->select('id')->with('discountGroups:discount_id')->get()
+        return Product::whereIn('id', $products->pluck('id'))
+            ->select('id')
+//            ->whereExists(function ($query) {
+//                    $query->select(DB::raw(1))
+//                        ->from('orders')
+//                        ->whereColumn('orders.user_id', 'users.id');
+//            })
+            ->with(
+                [
+                    'discountGroups' => function($query){
+                        $query->where(function ($query) {
+                              $query->select('category_type')
+                              ->from('discounts')
+                              ->whereColumn('discounts.id', 'discount_groups.discount_id');
+                            }, Discount::CATEGORY_SET)
+                            ->select('id', 'discount_id')
+                            ->with('discount');
+//                            ->with(['discount' => function($query){
+//                                $query->where('category_type', Discount::CATEGORY_SET);
+//                            }]);
+                    }
+                ]
+            )
+            ->get();
+//            ->filter(function ($product) {
+//                return $product->discountGroups->isNotEmpty();
+//            });
     }
 
 
