@@ -86,44 +86,38 @@ class DiscountRepository implements DiscountRepositoryContract
 
     public function getMostWeightySetDiscount(Collection $products)
     {
-        $productIds = $products->pluck('id');
-        $categoryIds = $products->pluck('category_id');
-
-        $discounts = Discount::has('discountGroups', '>', 1)
+        return Discount::has('discountGroups', '>', 1)
             ->where($this->getDiscountQueryFilter(
-                Discount::CATEGORY_CART))
-//            ->whereIn('id', function ($query) use ($productIds, $categoryIds) {
-//                $query->select('discount_id')
-//                    ->from('discount_groups')
-//                    ->whereIn('id', function ($query) use ($productIds, $categoryIds) {
-//                    $query->select('discount_group_id')
-//                        ->from('discount_groupables')
-//                        ->where(function ($query) use ($productIds) {
-//                            $query->where('discount_groupable_type','=', 'App\\Models\\Product')
-//                                ->whereIn('discount_groupable_id', $productIds);
-//                        })
-//                        ->orWhere(function ($query) use ($categoryIds) {
-//                            $query->where('discount_groupable_type','=', 'App\\Models\\Category')
-//                                ->whereIn('discount_groupable_id', $categoryIds);
-//                        });
-//                });
-//
-//            })
+                Discount::CATEGORY_SET))
             ->get()
+            //TODO: нижеследующий код перенести в сервис?
             ->transform(function ($discount) use ($products) {
-                $discountProductIds = [];
-                $discount->discountGroups->each(
-                    function ($discountGroup) use ($products) {
-                        //TODO: на каждой итерации находить пересечение
-                        // id продуктов с id продуктов(через продукты и категории)
-                        // и удалять из id продуктов. Если такие пересечения массивов
-                        // есть как минимум на 2ух итерациях, то оставлюяем такую скидку.
+                $countOfIntersected = 0;
+                $discountProductIds = collect();
+                foreach ($discount->discountGroups as $discountGroup) {
+                    $intersectedDiscountGroupProductIds = $discountGroup
+                        ->categories
+                        ->reduce(
+                            function($carry, $category){
+                                return $carry->merge($category->products->pluck('id'));
+                            },
+                            collect()
+                        )
+                        ->merge($discountGroup->products->pluck('id'))
+                        ->intersect($products->pluck('id'));
+                    if ($intersectedDiscountGroupProductIds->isNotEmpty()) {
+                        $discountProductIds = $discountProductIds->merge($intersectedDiscountGroupProductIds);
+                        $countOfIntersected++;
                     }
-                );
+                }
 
+                if ($countOfIntersected > 1) {
+                    return ['discount' => $discount->id, 'productIds' => $discountProductIds];
+                }
+                    return null;
             });
-
-        return $discounts;
+            //->skipWhile()
+            //->sortByDesc('weight');
     }
 
 
