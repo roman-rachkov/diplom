@@ -30,6 +30,8 @@
                 </div>
                 @endforeach
 
+                {{ $discounts->links('components.pagination') }}
+
             </div>
         </div>
     </div>
