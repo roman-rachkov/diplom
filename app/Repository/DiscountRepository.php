@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Contracts\Repository\DiscountRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
-use App\Models\Category;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Discount;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Cache;
 
 class DiscountRepository implements DiscountRepositoryContract
 {
-    private AdminSettingsServiceContract $adminSettings;
 
-    public function __construct(AdminSettingsServiceContract $adminSettings)
-    {
-        $this->adminSettings= $adminSettings;
-    }
+    public function __construct(
+        private AdminSettingsServiceContract $adminSettings,
+        private CustomerServiceContract $customerService
+    )
+    {}
 
-    public function getMostWeightyProductDiscount(Product $product) : null|Discount
+    public function getMostWeightyProductDiscount(Product $product) : ?Discount
     {
         return Cache::tags(
             [
@@ -32,7 +32,9 @@ class DiscountRepository implements DiscountRepositoryContract
                 'most_weighty_discount:product_id=' . $product->id,
                 $this->getTtl(),
                 function () use ($product) {
-                    return Discount::where($this->getDiscountQueryFilter(Discount::CATEGORY_OTHER))
+                    return Discount::where(
+                            $this->getDiscountQueryFilter(Discount::CATEGORY_OTHER)
+                        )
                         ->whereIn('id', function ($query) use ($product) {
                             $query->select('discount_id')
                                 ->from('discount_groups')
@@ -58,15 +60,16 @@ class DiscountRepository implements DiscountRepositoryContract
                 });
     }
 
-    public function getMostWeightyCartDiscount(int $productsQty, float $cartCost): Discount
+    public function getMostWeightyCartOnCartDiscount(int $productsQty, float $cartCost): ?Discount
     {
         return Cache::tags(
             [
                 'discounts',
                 'products',
                 'categories'
-            ])->remember(
-                'cart_most_weight_discount',
+            ]
+        )->remember(
+            $this->getCartDiscountCacheKey('cart_most_weight_discount'),
             $this->getTtl(),
             function () use (
                 $productsQty,
@@ -84,46 +87,78 @@ class DiscountRepository implements DiscountRepositoryContract
 
     }
 
-    public function getMostWeightySetDiscount(Collection $products)
+    public function getMostWeightyCartOnSetDiscount(Collection $productIds): ?array
     {
-        return Discount::has('discountGroups', '>', 1)
-            ->where($this->getDiscountQueryFilter(
-                Discount::CATEGORY_SET))
-            ->get()
-            //TODO: нижеследующий код перенести в сервис?
-            ->transform(function ($discount) use ($products) {
-                $countOfIntersected = 0;
-                $discountProductIds = collect();
-                foreach ($discount->discountGroups as $discountGroup) {
-                    $intersectedDiscountGroupProductIds = $discountGroup
-                        ->categories
-                        ->reduce(
-                            function($carry, $category){
-                                return $carry->merge($category->products->pluck('id'));
-                            },
-                            collect()
-                        )
-                        ->merge($discountGroup->products->pluck('id'))
-                        ->intersect($products->pluck('id'));
-                    if ($intersectedDiscountGroupProductIds->isNotEmpty()) {
-                        $discountProductIds = $discountProductIds->merge($intersectedDiscountGroupProductIds);
-                        $countOfIntersected++;
-                    }
-                }
 
-                if ($countOfIntersected > 1) {
-                    return ['discount' => $discount->id, 'productIds' => $discountProductIds];
-                }
-                    return null;
-            });
-            //->skipWhile()
-            //->sortByDesc('weight');
+        return Cache::tags(
+            [
+                'discounts',
+                'products',
+                'categories'
+            ]
+        )->remember(
+                $this->getCartDiscountCacheKey('set_most_weight_discount'),
+                $this->getTtl(),
+                function () use ($productIds) {
+                    return Discount::has('discountGroups', '>', 1)
+                        ->where($this->getDiscountQueryFilter(
+                            Discount::CATEGORY_SET))
+                        ->get()
+                        //TODO: нижеследующий код перенести в сервис?
+                        ->transform(function ($discount) use ($productIds) {
+                            $countOfIntersected = 0;
+                            $discountProductIds = collect();
+                            foreach ($discount->discountGroups as $discountGroup) {
+                                $intersectedDiscountGroupProductIds = $discountGroup
+                                    ->categories
+                                    ->reduce(
+                                        function($carry, $category){
+                                            return $carry->merge($category->products->pluck('id'));
+                                        },
+                                        collect()
+                                    )
+                                    ->merge($discountGroup->products->pluck('id'))
+                                    ->intersect($productIds);
+                                if ($intersectedDiscountGroupProductIds->isNotEmpty()) {
+                                    $discountProductIds = $discountProductIds
+                                        ->merge($intersectedDiscountGroupProductIds);
+                                    $countOfIntersected++;
+                                }
+                            }
+
+                            if ($countOfIntersected > 1) {
+                                return
+                                    [
+                                        'discount' => $discount->id,
+                                        'productIds' => $discountProductIds,
+                                        'weight' => $discount->weight
+                                    ];
+                            }
+                            return null;
+                        })
+                        ->filter(function ($discount) {
+                            return !is_null($discount);
+                        })
+                        ->sortByDesc('weight')
+                        ->first();
+                });
     }
 
 
     protected function getTtl()
     {
-        return $this->adminSettings->get('discountsCacheTime', 60 * 60 * 24);
+        return $this->adminSettings
+            ->get('discountsCacheTime', 60 * 60 * 24);
+    }
+
+    protected function getCartDiscountCacheKey(string $cartDiscountName): string
+    {
+        return
+            $cartDiscountName .
+            '|customer_id=' .
+            $this->customerService
+                ->getCustomer()
+                ->id;
     }
 
     protected function getDiscountQueryFilter(
