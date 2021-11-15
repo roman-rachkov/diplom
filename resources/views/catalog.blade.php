@@ -6,7 +6,6 @@
     <div class="Section Section_column Section_columnLeft">
         <div class="wrap">
             <div class="Section-column">
-{{--                @dd($sellers)--}}
                 <x-filter :minPrice="$minPrice" :maxPrice="$maxPrice" :sellers="$sellers" :request="$request" />
             </div>
             <div class="Section-content">
