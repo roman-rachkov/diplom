@@ -39,7 +39,6 @@
                 <div class="buttons">
                     <button type="submit"
                             class="btn btn_square btn_dark btn_narrow">{{ __('catalog.filter.button') }}</button>
-
                     @if($request->getSeller() || $request->getSearch() || $request->getMinPrice() || $request->getMaxPrice())
                         <a href="{{ Request::url() }}" class="btn btn_square btn_dark btn_narrow">
                             {{ __('catalog.filter.clear') }}

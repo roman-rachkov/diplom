@@ -15,5 +15,5 @@ interface CompareProductsRepositoryContract
     public function delete(Product $product, Customer $customer): bool;
 
     public function getComparedProducts(Customer $customer): null|Collection;
-    
+
 }

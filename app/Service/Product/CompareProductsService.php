@@ -3,8 +3,8 @@
 namespace App\Service\Product;
 
 use App\Contracts\Repository\CompareProductsRepositoryContract;
-use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
+use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\DTO\CompareProductCharacteristicDTO;
 use App\DTO\CompareProductDTO;
 use App\Models\Customer;
@@ -15,11 +15,11 @@ class CompareProductsService implements CompareProductsServiceContract
 {
     private CompareProductsRepositoryContract $repository;
 
-    private OtherDiscountServiceContract $discountService;
+    private ProductDiscountServiceContract $discountService;
 
     public function __construct(
         CompareProductsRepositoryContract $repository,
-        OtherDiscountServiceContract $discountService
+        ProductDiscountServiceContract $discountService,
     )
     {
         $this->repository = $repository;
@@ -44,6 +44,8 @@ class CompareProductsService implements CompareProductsServiceContract
                 ->take($quantity)
                 ->sortBy([['id', 'desc']])
                 ->pluck('product');
+
+            //$this->appendPriceWithDiscount($comparedProducts);
 
              return collect(
                  [
@@ -70,11 +72,11 @@ class CompareProductsService implements CompareProductsServiceContract
         $comparedProductsDTO = [];
 
         foreach ($comparedProducts as $comparedProduct) {
-            $discount = $this->discountService
-                ->getProductPriceWithDiscount(
-                    $comparedProduct,
-                    $comparedProduct->avg_price
-                );
+            $discount = round(
+                $comparedProduct->avg_price *
+                (1 -  $this->discountService->getProductDiscounts($comparedProduct)),
+                2
+            );
 
             $comparedProductsDTO[] = CompareProductDTO::create(
                 [

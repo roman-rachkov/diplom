@@ -3,12 +3,15 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
 use App\Models\OrderItem;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class OrderItemRepository implements OrderItemRepositoryContract
 {
@@ -16,11 +19,11 @@ class OrderItemRepository implements OrderItemRepositoryContract
     protected Customer $customer;
 
     /**
-     * @param Customer $customer
+     * @param CustomerServiceContract $customerService
      */
-    public function __construct(Customer $customer)
+    public function __construct(CustomerServiceContract $customerService)
     {
-        $this->customer = $customer;
+        $this->customer = $customerService->getCustomer();
     }
 
     public function add(Product $product, int $quantity, Seller $seller = null): bool
@@ -86,5 +89,12 @@ class OrderItemRepository implements OrderItemRepositoryContract
             'order_id' => null,
             'customer_id' => $this->customer->id,
         ])->first();
+    }
+
+    public function chengeCutomerId(Collection $orderItems, $customerId)
+    {
+        foreach ($orderItems as $item) {
+            $item->update(['customer_id' => $customerId]);
+        }
     }
 }

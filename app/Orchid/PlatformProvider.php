@@ -47,20 +47,20 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.products')
                 ->permission('platform.elements.products'),
 
+            Menu::make(__('admin.discounts.panel_name'))
+                ->icon('present')
+                ->route('platform.discounts')
+                ->permission('platform.elements.discounts'),
+
             Menu::make(__('admin.orders.panel_name'))
                 ->icon('money')
                 ->route('platform.orders')
                 ->permission('platform.elements.orders'),
 
-            Menu::make(__('admin.discounts.list'))
-                ->icon('present')
-                ->route('platform.discounts')
-                ->title(__('admin.discounts.panel_name'))
-                ->permission('platform.elements.discounts'),
-            Menu::make(__('admin.discounts.add_discount'))
-                ->icon('plus')
-                ->route('platform.discounts.add')
-                ->permission('platform.elements.discounts'),
+            Menu::make(__('admin.reviews.panel_name'))
+                ->icon('note')
+                ->route('platform.reviews')
+                ->permission('platform.elements.reviews'),
 
             Menu::make(__('Users'))
                 ->icon('user')
@@ -82,7 +82,7 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make(__('admin.import.panel_name'))
                 ->icon('rocket')
                 ->route('platform.import')
-                ->permission('platform.systems.import')
+                ->permission('platform.systems.import'),
 
         ];
     }
@@ -117,7 +117,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.elements.products', 'admin.products.screen_name')
                 ->addPermission('platform.elements.sellers', 'admin.sellers.screen_name')
                 ->addPermission('platform.elements.discounts', 'admin.discounts.screen_name')
-                ->addPermission('platform.elements.orders', 'admin.orders.screen_name'),
+                ->addPermission('platform.elements.orders', 'admin.orders.screen_name')
+                ->addPermission('platform.elements.reviews', 'admin.reviews.screen_name'),
         ];
     }
 
