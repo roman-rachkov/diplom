@@ -29,21 +29,25 @@ class CartDiscountService implements CartDiscountServiceContract
         $productsQty = $this->getCart($customer)
             ->sum('quantity');
 
-        $onCartDiscont = $this->discountRepository
+        $cartProductsIds = $this->getCart($customer)
+            ->reduce(
+                function($carry, $orderItem){
+                    return $carry->push($orderItem->price->product_id);
+                },
+                collect()
+            );
+
+        $onCartDiscount = $this->discountRepository
             ->getMostWeightyCartOnCartDiscount($customer, $productsQty, $cartCost);
 
         $onSetDiscount = $this->discountRepository
-            ->getMostWeightyCartOnSetDiscount(
-                $this->getCart($customer)
-                    ->reduce(
-                        function($carry, $orderItem){
-                            return $carry->push($orderItem->price->product_id);
-                            },
-                        collect()
-                    ));
+            ->getMostWeightyCartOnSetDiscount($customer, $cartProductsIds);
+
 
         return [
-            'onCart' => $onCartDiscont,
+            'qty' => $productsQty,
+            'cost' => $cartCost,
+            'onCart' => $onCartDiscount,
             'onSet' => $onSetDiscount
         ];
     }

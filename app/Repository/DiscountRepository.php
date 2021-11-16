@@ -4,19 +4,19 @@ namespace App\Repository;
 
 use App\Contracts\Repository\DiscountRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
-use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Discount;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use JetBrains\PhpStorm\ArrayShape;
 
 class DiscountRepository implements DiscountRepositoryContract
 {
 
     public function __construct(
-        private AdminSettingsServiceContract $adminSettings,
-        private CustomerServiceContract $customerService
+        private AdminSettingsServiceContract $adminSettings
     )
     {}
 
@@ -60,7 +60,11 @@ class DiscountRepository implements DiscountRepositoryContract
                 });
     }
 
-    public function getMostWeightyCartOnCartDiscount(int $productsQty, float $cartCost): ?Discount
+    public function getMostWeightyCartOnCartDiscount(
+        string $customerId,
+        int $productsQty,
+        float $cartCost
+    ): ?Discount
     {
         return Cache::tags(
             [
@@ -69,7 +73,7 @@ class DiscountRepository implements DiscountRepositoryContract
                 'categories'
             ]
         )->remember(
-            $this->getCartDiscountCacheKey('cart_most_weight_discount'),
+            $this->getCartDiscountCacheKey($customerId, 'cart_most_weight_discount'),
             $this->getTtl(),
             function () use (
                 $productsQty,
@@ -87,7 +91,12 @@ class DiscountRepository implements DiscountRepositoryContract
 
     }
 
-    public function getMostWeightyCartOnSetDiscount(Collection $productIds): ?array
+    #[ArrayShape([
+        'discount' => Discount::class,
+        'productIds' => Collection::class,
+        'weight' => 'int'
+    ])]
+    public function getMostWeightyCartOnSetDiscount(string $customerId, Collection $productIds): ?array
     {
 
         return Cache::tags(
@@ -97,14 +106,13 @@ class DiscountRepository implements DiscountRepositoryContract
                 'categories'
             ]
         )->remember(
-                $this->getCartDiscountCacheKey('set_most_weight_discount'),
+                $this->getCartDiscountCacheKey($customerId,'set_most_weight_discount'),
                 $this->getTtl(),
                 function () use ($productIds) {
                     return Discount::has('discountGroups', '>', 1)
                         ->where($this->getDiscountQueryFilter(
                             Discount::CATEGORY_SET))
                         ->get()
-                        //TODO: нижеследующий код перенести в сервис?
                         ->transform(function ($discount) use ($productIds) {
                             $countOfIntersected = 0;
                             $discountProductIds = collect();
@@ -129,7 +137,7 @@ class DiscountRepository implements DiscountRepositoryContract
                             if ($countOfIntersected > 1) {
                                 return
                                     [
-                                        'discount' => $discount->id,
+                                        'discount' => $discount,
                                         'productIds' => $discountProductIds,
                                         'weight' => $discount->weight
                                     ];
@@ -151,14 +159,12 @@ class DiscountRepository implements DiscountRepositoryContract
             ->get('discountsCacheTime', 60 * 60 * 24);
     }
 
-    protected function getCartDiscountCacheKey(string $cartDiscountName): string
+    protected function getCartDiscountCacheKey(string $customerId, string $cartDiscountName): string
     {
         return
             $cartDiscountName .
             '|customer_id=' .
-            $this->customerService
-                ->getCustomer()
-                ->id;
+            $customerId;
     }
 
     protected function getDiscountQueryFilter(
@@ -180,7 +186,7 @@ class DiscountRepository implements DiscountRepositoryContract
             array_merge(
                 $queryFilter,
                 [
-                    ['minimum_qty', '>=', $productsQty],
+                    ['minimum_qty', '<=', $productsQty],
                     ['maximum_qty', '>=', $productsQty]
                 ]);
 
