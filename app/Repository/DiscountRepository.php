@@ -7,8 +7,6 @@ use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class DiscountRepository implements DiscountRepositoryContract
