@@ -70,9 +70,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PaymentsIntegratorServiceContract::class, PaymentsIntegratorService::class);
         $this->app->singleton(CustomerServiceContract::class, CustomerService::class);
         $this->app->singleton(ViewedProductsServiceContract::class, ViewedProductsService::class);
-        $this->app->singleton(CustomerServiceContract::class, CustomerService::class);
         $this->app->singleton(SellerServiceContract::class, SellerService::class);
-
     }
 
     /**

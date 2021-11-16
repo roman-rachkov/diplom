@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Discount;
+use App\Models\DiscountGroup;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
