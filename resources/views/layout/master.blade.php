@@ -56,6 +56,13 @@ p.error-browser
 <!--    +Article('portfolio')-->
 <!---->
 
+<script>
+    window.echoConfig = {
+        host: {!! json_encode(env('LARAVEL_ECHO_SERVER_AUTH_HOST')) !!},
+        port: {!! json_encode(env('LARAVEL_ECHO_SERVER_PORT')) !!}
+    };
+</script>
+
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('assets/plg/CountDown/countdown.js')}}"></script>
 <!--[if lt IE 9]><script src="{{asset('http://html5shiv.googlecode.com/svn/trunk/html5.js')}}"></script><![endif]-->

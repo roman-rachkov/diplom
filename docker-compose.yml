@@ -58,17 +58,17 @@ services:
             - redis
             - laravel.test
         environment:
-            LARAVEL_ECHO_SERVER_AUTH_HOST: '${LARAVEL_ECHO_SERVER_AUTH_HOST}'
+            LARAVEL_ECHO_SERVER_AUTH_HOST: '${APP_URL}'
             LARAVEL_ECHO_SERVER_DEBUG: 'true'
             LARAVEL_ECHO_SERVER_DB: redis
             REDIS_HOST: redis
-            REDIS_PORT: 6379
+            REDIS_PORT: '${FORWARD_REDIS_PORT:-6379}:6379'
             REDIS_PREFIX: '${REDIS_PREFIX}'
             REDIS_DB: 0
         networks:
             - sail
         ports:
-            - 6001:6001
+            - '${LARAVEL_ECHO_SERVER_PORT:-6001}:6001'
         restart: unless-stopped
         healthcheck:
             test: node /usr/local/src/healthcheck.js
