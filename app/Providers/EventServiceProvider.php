@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\AssociateCustomerWithUser;
 use App\Events\AssociateCustomerWithUserAfterLogin;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
