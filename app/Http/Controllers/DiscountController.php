@@ -21,10 +21,8 @@ class DiscountController extends Controller
 
     public function index()
     {
-        $itemOnPage = $this->adminsSettings->get('discountsOnPage', 8);
 
         $discounts = $this->discountRepo->getAllActiveDiscount();
-        $discounts = $discounts->paginate($itemOnPage);
 
         return view('discount.index', compact('discounts'));
     }

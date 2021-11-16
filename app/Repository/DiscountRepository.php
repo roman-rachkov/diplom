@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class DiscountRepository implements DiscountRepositoryContract
@@ -53,8 +54,10 @@ class DiscountRepository implements DiscountRepositoryContract
                 });
     }
 
-    public function getAllActiveDiscount(): Builder
+    public function getAllActiveDiscount()
     {
-        return Discount::whereIsActive(true)->orderBy('start_at');
+        $itemOnPage = $this->adminSettings->get('discountsOnPage', 8);
+
+        return Discount::whereIsActive(true)->orderBy('start_at')->paginate($itemOnPage);
     }
 }
