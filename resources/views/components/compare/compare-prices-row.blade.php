@@ -9,10 +9,18 @@
                 <div class="Compare-nameProduct">{{$dto->product->name}}
                 </div>
                 <div class="Compare-feature">
-                    <strong class="Compare-priceOld">{{$dto->getPriceInDollars($dto->product->avg_price)}}
-                    </strong>
-                    <strong class="Compare-price">{{$dto->getPriceInDollars($dto->productPriceWithDiscount)}}
-                    </strong>
+                    @if($dto->productPriceWithDiscount)
+                        <strong class="Compare-priceOld">
+                            {{$dto->getPriceInDollars($dto->product->avg_price)}}
+                        </strong>
+                        <strong class="Compare-price">
+                            {{$dto->getPriceInDollars($dto->productPriceWithDiscount)}}
+                        </strong>
+                    @else
+                        <strong class="Compare-price">
+                            {{$dto->getPriceInDollars($dto->product->avg_price)}}
+                        </strong>
+                    @endif
                 </div>
             </div>
         @endforeach

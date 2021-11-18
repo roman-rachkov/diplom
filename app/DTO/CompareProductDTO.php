@@ -8,7 +8,7 @@ use Orchid\Attachment\Models\Attachment;
 class CompareProductDTO implements DataTransferObjectInterface
 {
     public Product $product;
-    public float $productPriceWithDiscount;
+    public bool|float $productPriceWithDiscount;
 
     public static function create(mixed $args): DataTransferObjectInterface
     {
@@ -17,7 +17,7 @@ class CompareProductDTO implements DataTransferObjectInterface
 
     public function __construct(
         Product $product,
-        float $productPriceWithDiscount,
+        bool|float $productPriceWithDiscount,
     )
     {
         $this->product = $product;
