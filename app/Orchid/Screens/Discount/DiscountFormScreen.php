@@ -10,6 +10,7 @@ use App\Orchid\Layouts\Discounts\AddDiscountFieldsLayout;
 use App\Orchid\Layouts\Discounts\DiscountGroupsListener;
 use App\Orchid\Layouts\Discounts\DiscountListener;
 use App\Orchid\Layouts\Discounts\GroupsLayout;
+use Illuminate\Support\Arr;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
@@ -47,7 +48,7 @@ class DiscountFormScreen extends Screen
         }
 
         $this->discount = $discount;
-        $this->discount->load(['discountGroups.products','discountGroups.categories']);
+        $this->discount->load(['discountGroups.products', 'discountGroups.categories']);
         $this->discount->discountGroups['count'] = $this->discount->discountGroups()->count();
         return [
             'discount' => $this->discount
@@ -81,8 +82,13 @@ class DiscountFormScreen extends Screen
 
     public function asyncFields(array $args)
     {
-        $response = ['discount' => $args];
-        return $response;
+        $discount = Discount::findOrNew($args['id']);
+        $discount->fill($args);
+        $discount->load(['discountGroups.products', 'discountGroups.categories']);
+        $discount->discountGroups['count'] = Arr::get($args, 'discountGroups.count') ?? $discount->discountGroups()->count();
+        return [
+            'discount' => $discount
+        ];
     }
 
 //    public function newGroup()
@@ -94,8 +100,9 @@ class DiscountFormScreen extends Screen
 //        Toast::success(__('admin.info.groups.added'));
 //    }
 //
-    public function createOrUpdate(Discount $discount)
+    public function createOrUpdate()
     {
+        dd(request()->except('_token'));
         $data = request()->except('_token');
         $discount->fill($data['discount']);
         $discount->save();

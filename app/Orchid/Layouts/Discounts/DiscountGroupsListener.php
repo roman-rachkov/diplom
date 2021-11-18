@@ -3,9 +3,9 @@
 namespace App\Orchid\Layouts\Discounts;
 
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Layouts\Rows;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Layouts\Listener;
-use PHPUnit\TextUI\XmlConfiguration\Groups;
 
 class DiscountGroupsListener extends Listener
 {
@@ -15,15 +15,15 @@ class DiscountGroupsListener extends Listener
      * @var string[]
      */
     protected $targets = [
-        'discount.id',
-        'discount.discountGroups.count',
-        'discount.category_type',
-        'discount.value',
-        'discount.method_type',
-        'discount.weight',
-        'discount.start_at',
-        'discount.end_at',
-        'discount.description',
+//        'discount.id',
+//        'discount.discountGroups.count',
+//        'discount.category_type',
+//        'discount.value',
+//        'discount.method_type',
+//        'discount.weight',
+//        'discount.start_at',
+//        'discount.end_at',
+//        'discount.description',
     ];
 
     /**
@@ -45,7 +45,7 @@ class DiscountGroupsListener extends Listener
         $fields = [];
         if ($this->query['discount.discountGroups.count'] > 0) {
             for ($i = 0; $i < $this->query['discount.discountGroups.count']; $i++) {
-                $fields[] = GroupsLayout::class;
+                $fields[] = GroupsLayout::getRowsWithId($i);
             }
         }
         return [
@@ -55,11 +55,11 @@ class DiscountGroupsListener extends Listener
                     ->min(0)
                     ->title(__('admin.discounts.groups.count'))
                     ->value($this->query['discount.discountGroups.count']),
-
             ]),
             Layout::accordion([
                 __('admin.discounts.category.groups.title') => $fields
             ])
+
         ];
     }
 }

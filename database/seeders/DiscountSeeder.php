@@ -22,22 +22,31 @@ class DiscountSeeder extends Seeder
         ])->has(
             DiscountGroup::factory()
                 ->count(1)
-                ->hasAttached(Product::all()->random(random_int(0, 10)))
-                ->hasAttached(Category::all()->random(random_int(0, 10)))
+                ->afterCreating(function ($group) {
+                    $products = Product::all()->random(random_int(0, 10));
+                    $categories = Category::all()->random(random_int(0, 10));
+                    $group->products()->attach($products);
+                    $group->categories()->attach($categories);
+                })
 //                ->hasProducts(random_int(0, 10))
 //                ->hasCategories(random_int(0, 10))
         )->count(10)->create();
 
         Discount::factory([
             'category_type' => Discount::CATEGORY_SET,
-        ])->has(
+        ])->count(10)->afterCreating(function ($discount) {
             DiscountGroup::factory()
-                ->count(random_int(1, 5))
-                ->hasAttached(Product::all()->random(random_int(0, 10)))
-                ->hasAttached(Category::all()->random(random_int(0, 10)))
-//                ->hasProducts(random_int(0, 10))
-//                ->hasCategories(random_int(0, 10))
-        )->count(10)->create();
+                ->count(random_int(2, 5))
+                ->afterCreating(function ($group) use ($discount) {
+                    dump([$discount->id, $group->id]);
+                    $products = Product::all()->random(random_int(0, 10));
+                    $categories = Category::all()->random(random_int(0, 10));
+                    $group->products()->attach($products);
+                    $group->categories()->attach($categories);
+                    $group->discount()->associate($discount);
+                    $group->save();
+                })->create();
+        })->create();
 
         Discount::factory([
             'category_type' => Discount::CATEGORY_CART,

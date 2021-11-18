@@ -8,6 +8,7 @@ use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Layouts\Rows;
+use Orchid\Support\Facades\Layout;
 
 class GroupsLayout extends Rows
 {
@@ -25,15 +26,25 @@ class GroupsLayout extends Rows
      */
     protected function fields(): array
     {
+        return static::getFormWithId(0);
+    }
+
+    static function getRowsWithId($id)
+    {
+        return Layout::rows(self::getFormWithId($id));
+    }
+
+    static function getFormWithId($id)
+    {
         return [
-            Input::make('title')
+            Input::make('discount.discountGroups.' . $id . '.title')
                 ->title(__('admin.discounts.groups.title'))
                 ->required(),
-            Relation::make('products')
+            Relation::make('discount.discountGroups.' . $id . '.products')
                 ->title(__('admin.products.panel_name'))
                 ->fromModel(Product::class, 'name')
                 ->multiple(),
-            Relation::make('categories')
+            Relation::make('discount.discountGroups.' . $id . '.categories')
                 ->title(__('admin.category.panel_name'))
                 ->fromModel(Category::class, 'name')
                 ->multiple(),
