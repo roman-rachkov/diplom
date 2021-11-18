@@ -8,8 +8,8 @@ use App\Models\Discount;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
 
 class DiscountRepository implements DiscountRepositoryContract
@@ -20,7 +20,7 @@ class DiscountRepository implements DiscountRepositoryContract
     )
     {}
 
-    public function getMostWeightyProductDiscount(Product $product) : ?Discount
+    public function getProductDiscount(Product $product) : ?Discount
     {
         return Cache::tags(
             [
@@ -60,7 +60,7 @@ class DiscountRepository implements DiscountRepositoryContract
                 });
     }
 
-    public function getMostWeightyCartOnCartDiscount(
+    public function getOnCartDiscount(
         string $customerId,
         int $productsQty,
         float $cartCost
@@ -91,12 +91,7 @@ class DiscountRepository implements DiscountRepositoryContract
 
     }
 
-    #[ArrayShape([
-        'discount' => Discount::class,
-        'productIds' => Collection::class,
-        'weight' => 'int'
-    ])]
-    public function getMostWeightyCartOnSetDiscount(string $customerId, Collection $productIds): ?array
+    public function getOnSetDiscounts(): EloquentCollection
     {
 
         return Cache::tags(
@@ -106,49 +101,12 @@ class DiscountRepository implements DiscountRepositoryContract
                 'categories'
             ]
         )->remember(
-                $this->getCartDiscountCacheKey($customerId,'set_most_weight_discount'),
+                'set_discounts',
                 $this->getTtl(),
-                function () use ($productIds) {
-                    return Discount::has('discountGroups', '>', 1)
-                        ->where($this->getDiscountQueryFilter(
+                function () {
+                    return Discount::where($this->getDiscountQueryFilter(
                             Discount::CATEGORY_SET))
-                        ->get()
-                        ->transform(function ($discount) use ($productIds) {
-                            $countOfIntersected = 0;
-                            $discountProductIds = collect();
-                            foreach ($discount->discountGroups as $discountGroup) {
-                                $intersectedDiscountGroupProductIds = $discountGroup
-                                    ->categories
-                                    ->reduce(
-                                        function($carry, $category){
-                                            return $carry->merge($category->products->pluck('id'));
-                                        },
-                                        collect()
-                                    )
-                                    ->merge($discountGroup->products->pluck('id'))
-                                    ->intersect($productIds);
-                                if ($intersectedDiscountGroupProductIds->isNotEmpty()) {
-                                    $discountProductIds = $discountProductIds
-                                        ->merge($intersectedDiscountGroupProductIds);
-                                    $countOfIntersected++;
-                                }
-                            }
-
-                            if ($countOfIntersected > 1) {
-                                return
-                                    [
-                                        'discount' => $discount,
-                                        'productIds' => $discountProductIds,
-                                        'weight' => $discount->weight
-                                    ];
-                            }
-                            return null;
-                        })
-                        ->filter(function ($discount) {
-                            return !is_null($discount);
-                        })
-                        ->sortByDesc('weight')
-                        ->first();
+                        ->get();
                 });
     }
 

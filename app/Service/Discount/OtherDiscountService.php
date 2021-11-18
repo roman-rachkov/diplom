@@ -8,6 +8,7 @@ use App\Contracts\Service\Discount\MethodType\MethodTypeFactoryContract;
 use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\DTO\DataTransferObjectInterface;
 use App\DTO\ProductPriceDiscountDTO;
+use App\Models\Discount;
 use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Support\Collection;
@@ -41,7 +42,11 @@ class OtherDiscountService implements OtherDiscountServiceContract
         return $productPricesWithDiscountsDTO;
     }
 
-    public function getProductPriceDiscountDTO(Product $product, ?float $price = null): DataTransferObjectInterface
+    public function getProductPriceDiscountDTO(
+        Product $product,
+        ?float $price = null,
+        ?Discount $discount = null
+    ): DataTransferObjectInterface
     {
         $price = $price ?? $this->getAvgPrice($product);
 
@@ -49,16 +54,17 @@ class OtherDiscountService implements OtherDiscountServiceContract
             [
                 $product,
                 $price,
-                $this->getProductPriceWithDiscount($product, $price),
+                $this->getProductPriceWithDiscount($product, $price, $discount),
                 $this->getDiscountBadgeText($product)
             ]
         );
     }
 
-    public function getProductPriceWithDiscount(Product $product, float $price): bool|float
+    public function getProductPriceWithDiscount(Product $product, float $price, ?Discount $discount = null): bool|float
     {
+        $discount = !is_null($discount) ? $discount : $this->repository->getProductDiscount($product);
 
-        if ($discount = $this->repository->getMostWeightyProductDiscount($product)) {
+        if ($discount) {
             return $this
                 ->methodTypeFactory
                 ->create($discount)
@@ -70,7 +76,7 @@ class OtherDiscountService implements OtherDiscountServiceContract
 
     public function getDiscountBadgeText(Product $product): bool|string
     {
-        if ($discount = $this->repository->getMostWeightyProductDiscount($product)) {
+        if ($discount = $this->repository->getProductDiscount($product)) {
             return $this
                 ->methodTypeFactory
                 ->create($discount)
