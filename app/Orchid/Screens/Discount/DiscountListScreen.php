@@ -4,6 +4,7 @@ namespace App\Orchid\Screens\Discount;
 
 use App\Models\Discount;
 use App\Orchid\Layouts\Discounts\DiscountsListLayout;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 
 class DiscountListScreen extends Screen
@@ -36,6 +37,11 @@ class DiscountListScreen extends Screen
     public function commandBar(): array
     {
         return [];
+    }
+
+    public function updateList($args)
+    {
+        dd($args);
     }
 
     /**

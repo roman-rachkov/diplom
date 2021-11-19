@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts\Discounts;
 
 use App\Models\Category;
 use App\Models\Product;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
@@ -37,6 +38,8 @@ class GroupsLayout extends Rows
     static function getFormWithId($id)
     {
         return [
+            Input::make('discount.discountGroups.' . $id . '.id')
+                ->type('hidden'),
             Input::make('discount.discountGroups.' . $id . '.title')
                 ->title(__('admin.discounts.groups.title'))
                 ->required(),

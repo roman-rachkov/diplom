@@ -2,21 +2,11 @@
 
 namespace App\Orchid\Screens\Discount;
 
-use App\Models\Category;
 use App\Models\Discount;
 use App\Models\DiscountGroup;
-use App\Models\Product;
-use App\Orchid\Layouts\Discounts\AddDiscountFieldsLayout;
-use App\Orchid\Layouts\Discounts\DiscountGroupsListener;
 use App\Orchid\Layouts\Discounts\DiscountListener;
-use App\Orchid\Layouts\Discounts\GroupsLayout;
-use Illuminate\Support\Arr;
 use Orchid\Screen\Actions\Button;
-use Orchid\Screen\Actions\ModalToggle;
-use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Screen;
-use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
 class DiscountFormScreen extends Screen
@@ -85,29 +75,55 @@ class DiscountFormScreen extends Screen
         $discount = Discount::findOrNew($args['id']);
         $discount->fill($args);
         $discount->load(['discountGroups.products', 'discountGroups.categories']);
-        $discount->discountGroups['count'] = Arr::get($args, 'discountGroups.count') ?? $discount->discountGroups()->count();
+        $discount->discountGroups['count'] = $args['discountGroups']['count'] ?? $discount->discountGroups()->count();
         return [
             'discount' => $discount
         ];
     }
 
-//    public function newGroup()
-//    {
-//        $data = request()->except('_token');
-//        $group = DiscountGroup::create(['title' => $data['title']]);
-//        $group->products()->attach($data['grouppable']['products']);
-//        $group->products()->attach($data['grouppable']['categories']);
-//        Toast::success(__('admin.info.groups.added'));
-//    }
-//
     public function createOrUpdate()
     {
-        dd(request()->except('_token'));
         $data = request()->except('_token');
-        $discount->fill($data['discount']);
+        $data = $data['discount'];
+        if (isset($data['discountGroups'])) {
+            $groups = $data['discountGroups'];
+            unset($data['discountGroups']);
+            unset($groups['count']);
+        }
+        $discount = Discount::findOrNew($data['id']);
+        $discount->fill($data);
         $discount->save();
-        Toast::success($this->exist ? __('admin.info.groups.updated') : __('admin.info.groups.added'));
-        redirect()->route('platform.discounts');
+        if (isset($groups)) {
+            $this->updateGroups($discount, $groups);
+        }
+        Toast::success(__('admin.discounts.saved'));
+        return redirect()->route('platform.discounts');
+    }
+
+    private function updateGroups(Discount $discount, array $groups)
+    {
+        $groups = $this->createOrUpdateGroups($groups);
+        $discount->discountGroups->diff($groups)->each(function ($group) {
+            $group->delete();
+        });
+        $groups->each(function ($group) use ($discount) {
+            $group->discount()->associate($discount);
+            $group->save();
+        });
+    }
+
+    private function createOrUpdateGroups(array $groups)
+    {
+        $collection = collect();
+        foreach ($groups as $group) {
+            $tmpGroup = DiscountGroup::findOrNew($group['id']);
+            $tmpGroup->title = $group['title'];
+            $tmpGroup->save();
+            $tmpGroup->products()->sync($group['products'] ?? []);
+            $tmpGroup->categories()->sync($group['categories'] ?? []);
+            $collection->push($tmpGroup);
+        }
+        return $collection;
     }
 
 }

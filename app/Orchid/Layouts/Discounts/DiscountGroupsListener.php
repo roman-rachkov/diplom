@@ -14,17 +14,7 @@ class DiscountGroupsListener extends Listener
      *
      * @var string[]
      */
-    protected $targets = [
-//        'discount.id',
-//        'discount.discountGroups.count',
-//        'discount.category_type',
-//        'discount.value',
-//        'discount.method_type',
-//        'discount.weight',
-//        'discount.start_at',
-//        'discount.end_at',
-//        'discount.description',
-    ];
+    protected $targets = [];
 
     /**
      * What screen method should be called
@@ -35,7 +25,7 @@ class DiscountGroupsListener extends Listener
      *
      * @var string
      */
-    protected $asyncMethod = 'asyncFields';
+    protected $asyncMethod = '';
 
     /**
      * @return Layout[]
@@ -52,7 +42,7 @@ class DiscountGroupsListener extends Listener
             Layout::rows([
                 Input::make('discount.discountGroups.count')
                     ->type('number')
-                    ->min(0)
+                    ->min(2)
                     ->title(__('admin.discounts.groups.count'))
                     ->value($this->query['discount.discountGroups.count']),
             ]),

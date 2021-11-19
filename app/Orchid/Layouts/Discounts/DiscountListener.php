@@ -25,6 +25,7 @@ class DiscountListener extends Listener
         'discount.start_at',
         'discount.end_at',
         'discount.description',
+        'discount.is_active'
     ];
 
     /**

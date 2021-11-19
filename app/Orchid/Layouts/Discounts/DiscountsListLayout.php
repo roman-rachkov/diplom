@@ -27,8 +27,6 @@ class DiscountsListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('id', __('admin.discounts.id'))
-                ->width(120),
             TD::make('value', __('admin.discounts.value'))
                 ->width(120),
             TD::make('method_type', __('admin.discounts.method_type'))
@@ -45,6 +43,7 @@ class DiscountsListLayout extends Table
                 ->render(function ($patient) {
                     return CheckBox::make('is_active')
                         ->checked((bool)$patient->is_active)
+                        ->disabled(true)
                         ->sendTrueOrFalse();
                 }),
             TD::make('link', __('admin.discounts.controls'))

@@ -35,16 +35,15 @@ class DiscountSeeder extends Seeder
         Discount::factory([
             'category_type' => Discount::CATEGORY_SET,
         ])->count(10)->afterCreating(function ($discount) {
-            DiscountGroup::factory()
+            DiscountGroup::factory([
+                'discount_id' => $discount
+            ])
                 ->count(random_int(2, 5))
-                ->afterCreating(function ($group) use ($discount) {
-                    dump([$discount->id, $group->id]);
+                ->afterCreating(function ($group) {
                     $products = Product::all()->random(random_int(0, 10));
                     $categories = Category::all()->random(random_int(0, 10));
                     $group->products()->attach($products);
                     $group->categories()->attach($categories);
-                    $group->discount()->associate($discount);
-                    $group->save();
                 })->create();
         })->create();
 

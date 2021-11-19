@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts\Discounts;
 
 use App\Models\Discount;
 use Orchid\Screen\Field;
+use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
@@ -66,6 +67,10 @@ class AddDiscountFieldsLayout extends Rows
                 ->placeholder(__('admin.discounts.end_at'))
                 ->title(__('admin.discounts.end_at'))
                 ->allowInput(),
+            CheckBox::make('discount.is_active')
+                ->title(__('admin.discounts.active'))
+//                ->checked((bool)$patient->is_active)
+                ->sendTrueOrFalse(),
             SimpleMDE::make('discount.description')
         ];
     }
