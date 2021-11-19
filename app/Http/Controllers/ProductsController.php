@@ -54,10 +54,9 @@ class ProductsController extends Controller
     {
         $product = $this->productRepository->find($slug);
         if (is_null($product)) abort(404);
-        $discount = $discountService->getProductDiscounts($product);
+        $discount = $discountService->getDiscountTextForIcon($product);
         $avgPrice = round($product->prices->avg('price'), 2);
-        $avgDiscountPrice = round($avgPrice * (1 - $discount),2);
-        $discount = intval($discount * 100);
+        $avgDiscountPrice = $discountService->getProductPriceWithDiscount($product, $avgPrice);
         $reviewsCount = $reviewService->getReviewsCount($product);
         $reviews = $this->reviewRepository->getPaginatedReviews($product->id, 3, 1);
 

@@ -6,8 +6,12 @@
         </strong>
         <div class="Card-description">
             <div class="Card-cost">
-                <span class="Card-priceOld">{{ $product->prices->pluck('price')->avg() }}</span>
-                <span class="Card-price">${{ $discounts[$product->id] }}</span>
+                <span class="Card-priceOld">
+                    {{ $product->prices->pluck('price')->avg() }}
+                </span>
+                <span class="Card-price">
+                    ${{ $discounts[$product->id] }}
+                </span>
             </div>
             <div class="Card-category">{{ $product->category->name }}</div>
             <div class="Card-hover">
@@ -17,6 +21,7 @@
             </div>
         </div>
     </div>
+    {{--                TODO: передать в Card-sale значение согласно типу расчёта скидки --}}
     <div class="Card-sale">-60%
     </div>
 </div>

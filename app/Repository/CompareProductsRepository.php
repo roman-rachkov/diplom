@@ -68,7 +68,7 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
                         [
                             'product' => function($query)
                             {
-                                $query->select('name','id','main_img_id', 'slug')
+                                $query->select('name','id','main_img_id', 'slug', 'category_id')
                                     ->with(
                                         [
                                             'characteristicValues' => function($query)
