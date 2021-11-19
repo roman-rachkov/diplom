@@ -1,3 +1,5 @@
+@props(['offers'])
+
 <div class="Slider Slider_carousel">
     <header class="Section-header">
         <h2 class="Section-title">Горячие предложения</h2>
