@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Contracts\Repository\DiscountRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
+use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 
 class DiscountRepository implements DiscountRepositoryContract
 {
+
 
     public function __construct(
         private AdminSettingsServiceContract $adminSettings
@@ -156,4 +158,10 @@ class DiscountRepository implements DiscountRepositoryContract
                 ]);
     }
 
+    public function getAllActiveDiscount()
+    {
+        $itemOnPage = $this->adminSettings->get('discountsOnPage', 8);
+
+        return Discount::whereIsActive(true)->orderBy('start_at')->paginate($itemOnPage);
+    }
 }

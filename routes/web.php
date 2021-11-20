@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\CompareProductsController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -29,7 +30,7 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
-Route::get('/discounts', function () {})->name('discounts.index');
+Route::get('/discounts', [DiscountController::class, 'index'])->name('discounts.index');
 
 Route::get('/products/{slug}', [ProductsController::class, 'show'])
     ->name('product.show');

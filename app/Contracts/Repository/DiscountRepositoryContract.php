@@ -15,4 +15,6 @@ interface DiscountRepositoryContract
 
     public function getOnSetDiscounts(): EloquentCollection;
 
+    public function getAllActiveDiscount();
+
 }

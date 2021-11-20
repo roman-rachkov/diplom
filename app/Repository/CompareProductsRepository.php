@@ -11,14 +11,16 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CompareProductsRepository implements CompareProductsRepositoryContract
 {
     private AdminSettingsServiceContract $adminSettings;
 
-    public function __construct(AdminSettingsServiceContract $adminSettings)
+    public function __construct(AdminSettingsServiceContract $adminSettings, ComparedProduct $comparedProduct)
     {
         $this->adminSettings= $adminSettings;
+        $this->model = $comparedProduct;
     }
 
 
@@ -35,7 +37,7 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
             return false;
         }
     }
-    
+
     public function delete(Product $product, Customer $customer): bool
     {
         return ComparedProduct::where('product_id', $product->id)
@@ -44,7 +46,7 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
             ->first()
             ->delete();
     }
-    
+
     public function getComparedProducts(Customer $customer): null|Collection
     {
 
@@ -94,5 +96,18 @@ class CompareProductsRepository implements CompareProductsRepositoryContract
                     ->get();
             }
         );
+    }
+
+    public function chengeCutomerId($customerAuthId, $customerId)
+    {
+        $itemsCustomerAuth = $this->model->where('customer_id', $customerAuthId)->get()->pluck('product_id');
+        $items = $this->model->where('customer_id', $customerId)->get();
+        foreach ($items as $item) {
+            if (!$itemsCustomerAuth->contains($item->product_id)) {
+                $item->update(['customer_id' => $customerAuthId]);
+            } else {
+                $item->delete();
+            }
+        }
     }
 }

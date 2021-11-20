@@ -10,6 +10,8 @@ use App\Models\Price;
 use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class OrderItemRepository implements OrderItemRepositoryContract
 {
@@ -87,5 +89,12 @@ class OrderItemRepository implements OrderItemRepositoryContract
             'order_id' => null,
             'customer_id' => $this->customer->id,
         ])->first();
+    }
+
+    public function chengeCutomerId(Collection $orderItems, $customerId)
+    {
+        foreach ($orderItems as $item) {
+            $item->update(['customer_id' => $customerId]);
+        }
     }
 }
