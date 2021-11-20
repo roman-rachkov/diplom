@@ -28,8 +28,6 @@ class DiscountSeeder extends Seeder
                     $group->products()->attach($products);
                     $group->categories()->attach($categories);
                 })
-//                ->hasProducts(random_int(0, 10))
-//                ->hasCategories(random_int(0, 10))
         )->count(10)->create();
 
         Discount::factory([

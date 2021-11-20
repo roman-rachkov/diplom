@@ -41,7 +41,7 @@ class GroupsLayout extends Rows
             Input::make('discount.discountGroups.' . $id . '.id')
                 ->type('hidden'),
             Input::make('discount.discountGroups.' . $id . '.title')
-                ->title(__('admin.discounts.groups.title'))
+                ->title(__('admin.discounts.title'))
                 ->required(),
             Relation::make('discount.discountGroups.' . $id . '.products')
                 ->title(__('admin.products.panel_name'))

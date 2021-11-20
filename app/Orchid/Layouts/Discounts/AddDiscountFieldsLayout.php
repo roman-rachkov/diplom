@@ -7,6 +7,7 @@ use Orchid\Screen\Field;
 use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\SimpleMDE;
 use Orchid\Screen\Layouts\Rows;
@@ -37,10 +38,13 @@ class AddDiscountFieldsLayout extends Rows
         });
         return [
             Input::make('discount.id')->type('hidden'),
+            Input::make('discount.title')
+                ->type('text')
+                ->title(__('admin.discounts.title'))
+                ->required(),
             Input::make('discount.value')
                 ->type('number')
                 ->placeholder(__('admin.discounts.value'))
-//                ->value($query->discount->value)
                 ->title(__('admin.discounts.value'))
                 ->required(),
             Select::make('discount.method_type')
@@ -71,7 +75,10 @@ class AddDiscountFieldsLayout extends Rows
                 ->title(__('admin.discounts.active'))
 //                ->checked((bool)$patient->is_active)
                 ->sendTrueOrFalse(),
-            SimpleMDE::make('discount.description')
+            SimpleMDE::make('discount.description'),
+            Picture::make('discount.image_id')
+                ->title(__('admin.discounts.image'))
+                ->targetId()
         ];
     }
 }

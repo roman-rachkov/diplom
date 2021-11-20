@@ -43,7 +43,7 @@ class DiscountGroupsListener extends Listener
                 Input::make('discount.discountGroups.count')
                     ->type('number')
                     ->min(2)
-                    ->title(__('admin.discounts.groups.count'))
+                    ->title(__('admin.discounts.category.groups.count'))
                     ->value($this->query['discount.discountGroups.count']),
             ]),
             Layout::accordion([

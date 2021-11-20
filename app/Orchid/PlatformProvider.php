@@ -55,11 +55,6 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make(__('admin.discounts.list'))
                 ->icon('present')
                 ->route('platform.discounts')
-                ->title(__('admin.discounts.panel_name'))
-                ->permission('platform.elements.discounts'),
-            Menu::make(__('admin.discounts.add_discount'))
-                ->icon('plus')
-                ->route('platform.discounts.add')
                 ->permission('platform.elements.discounts'),
 
             Menu::make(__('admin.reviews.panel_name'))
