@@ -15,22 +15,14 @@ use Illuminate\Support\Collection;
 
 class OtherDiscountService implements OtherDiscountServiceContract
 {
-    private DiscountRepositoryContract $repository;
 
-    private MethodTypeFactoryContract $methodTypeFactory;
-
-    private PriceRepositoryContract $priceRepository;
 
     public function __construct(
-        DiscountRepositoryContract $repository,
-        MethodTypeFactoryContract $methodTypeFactory,
-        PriceRepositoryContract $priceRepository
+        private DiscountRepositoryContract $repository,
+        private MethodTypeFactoryContract $methodTypeFactory,
+        private PriceRepositoryContract $priceRepository,
     )
-    {
-        $this->repository = $repository;
-        $this->methodTypeFactory = $methodTypeFactory;
-        $this->priceRepository = $priceRepository;
-    }
+    {}
 
     public function getProductPriceDiscountDTOs(Collection $products, ?Seller $seller = null): array
     {
@@ -45,26 +37,36 @@ class OtherDiscountService implements OtherDiscountServiceContract
     public function getProductPriceDiscountDTO(
         Product $product,
         ?float $price = null,
-        ?Discount $discount = null
+        false|null|Discount $discount = null
     ): DataTransferObjectInterface
     {
+        $priceWithDiscount = false;
+        $badge = false;
+
+        if ($discount !== false) {
+            $priceWithDiscount = $this->getProductPriceWithDiscount($product, $price, $discount);
+            $badge = $this->getDiscountBadgeText($product,$discount);
+        }
+
         $price = $price ?? $this->getAvgPrice($product);
 
         return ProductPriceDiscountDTO::create(
             [
                 $product,
                 $price,
-                $this->getProductPriceWithDiscount($product, $price, $discount),
-                $this->getDiscountBadgeText($product)
+                $priceWithDiscount,
+                $badge
             ]
         );
     }
 
-    public function getProductPriceWithDiscount(Product $product, float $price, ?Discount $discount = null): bool|float
+    public function getProductPriceWithDiscount(
+        Product $product,
+        ?float $price,
+        ?Discount $discount = null
+    ): bool|float
     {
-        $discount = !is_null($discount) ? $discount : $this->repository->getProductDiscount($product);
-
-        if ($discount) {
+        if ($discount = $this->getCurrentDiscount($product, $discount)) {
             return $this
                 ->methodTypeFactory
                 ->create($discount)
@@ -74,15 +76,20 @@ class OtherDiscountService implements OtherDiscountServiceContract
         return false;
     }
 
-    public function getDiscountBadgeText(Product $product): bool|string
+    public function getDiscountBadgeText(Product $product, ?Discount $discount = null): bool|string
     {
-        if ($discount = $this->repository->getProductDiscount($product)) {
+        if ($discount = $this->getCurrentDiscount($product, $discount)) {
             return $this
                 ->methodTypeFactory
                 ->create($discount)
                 ->getTextForBadge();
         }
         return false;
+    }
+
+    protected function getCurrentDiscount(Product $product, ?Discount $discount): ?Discount
+    {
+       return is_null($discount) ?  $this->repository->getProductDiscount($product) : $discount;
     }
 
     protected function getAvgPrice(Product $product): float

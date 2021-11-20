@@ -57,9 +57,6 @@ class ProductsController extends Controller
         if (is_null($product)) abort(404);
 
         $productPriceDiscountDTO = $discountService->getProductPriceDiscountDTO($product);
-//
-//        $avgPrice = round($product->prices->avg('price'), 2);
-//        $avgDiscountPrice = $discountService->getProductPriceWithDiscount($product, $avgPrice);
         $reviewsCount = $reviewService->getReviewsCount($product);
         $reviews = $this->reviewRepository->getPaginatedReviews($product->id, 3, 1);
 

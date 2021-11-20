@@ -7,10 +7,8 @@ use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Models\Discount;
 use App\Models\Product;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Facades\Cache;
-use JetBrains\PhpStorm\ArrayShape;
 
 class DiscountRepository implements DiscountRepositoryContract
 {

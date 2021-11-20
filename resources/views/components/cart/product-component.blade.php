@@ -15,6 +15,8 @@
             <div class="Cart-desc">{{$item->price->product->description}}</div>
         </div>
         <div class="Cart-block Cart-block_price">
+            <div class="Cart-price Cart-price_old">51.00$
+            </div>
             <div class="Cart-price">{{$item->sum}}</div>
         </div>
     </div>

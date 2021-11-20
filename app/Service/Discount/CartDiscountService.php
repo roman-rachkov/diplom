@@ -5,43 +5,85 @@ namespace App\Service\Discount;
 use App\Contracts\Repository\DiscountRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\Discount\CartDiscountServiceContract;
+use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\Models\Customer;
 use App\Models\Discount;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class CartDiscountService implements CartDiscountServiceContract
 {
     public function __construct(
         private DiscountRepositoryContract $discountRepository,
-        private CustomerServiceContract $customerService
+        private CustomerServiceContract $customerService,
+        private OtherDiscountServiceContract $productDiscountService
     )
     {}
 
-    public function getDiscountsDTOsForCart(Customer $customer = null)
+    public function getDiscountsDTOsForCart(Customer $customer = null): Collection
     {
         $customer = is_null($customer) ? $this->customerService->getCustomer() : $customer;
 
         $cartDiscount = $this->discountRepository->getOnCartDiscount(
-                $customer, $this->getCart($customer)->sum('quantity'),
+                $customer->id, $this->getCart($customer)->sum('quantity'),
                 $this->getCartCost($customer));
-        $productIds = $this->getCartProductsIds($customer);
-        $setDiscountArray = $this->getSetDiscountArray();
+
+        //TODO получение корзины из репозитория? кеширование корзины?
+        $productPriceItems = $this->getCart($customer)->map(function ($item) {
+            $item->load('price.product');
+            return $item;
+        });
+
+        $setDiscountArray = $this->getSetDiscountArray($this->getCartProductsIds($customer));
 
         if (!is_null($cartDiscount) && $cartDiscount->weight > $setDiscountArray['weight']) {
-            $currentCartDiscount = $cartDiscount;
-            $withDiscountProductIds = $productIds;
+            Log::debug('cartDiscount__' . $this->createDTOs($productPriceItems, $cartDiscount));
+            return $this->createDTOs($productPriceItems, $cartDiscount);
         }
 
         if(!is_null($setDiscountArray) && $setDiscountArray['weight'] > $cartDiscount->weight) {
-            $currentCartDiscount = $setDiscountArray['discount'];
-            $withDiscountProductIds = $setDiscountArray['productIds'];
+
+            Log::debug('setDiscount__');
+            return $this->createDTOs(
+                $productPriceItems,
+                $setDiscountArray['discount'],
+                $setDiscountArray['productIds']);
         }
 
+        Log::debug('productsDiscount__');
+        return $this->createDTOs($productPriceItems);
+
+    }
 
 
+    protected function createDTOs(
+        Collection $productPriceItems,
+        Discount $discount = null,
+        ?Collection $onlyWithDiscountProductIds = null,
+    ): Collection
+    {
+        $productPriceDiscountDTOs = collect([]);
+        $productPriceItems->each(function ($item) use (
+            $onlyWithDiscountProductIds,
+            $productPriceDiscountDTOs,
+            $discount
+        ) {
+            if (!is_null($onlyWithDiscountProductIds) &&
+                !$onlyWithDiscountProductIds->contains($item->price->product->id)
+            ) $discount = false;
+
+            $productPriceDiscountDTOs
+                ->push($this
+                    ->productDiscountService
+                    ->getProductPriceDiscountDTO(
+                        $item->price->product,
+                        $item->price->price,
+                        $discount
+                    )
+                );
+        });
+
+        return $productPriceDiscountDTOs;
     }
 
     protected function getSetDiscountArray(Collection $productIds)
@@ -85,7 +127,6 @@ class CartDiscountService implements CartDiscountServiceContract
             ->first();
     }
 
-
     protected function getCart(Customer $customer = null): Collection
     {
         return is_null($customer) ?
@@ -115,8 +156,4 @@ class CartDiscountService implements CartDiscountServiceContract
             );
     }
 
-    protected function getProductsPricesDiscountDTOs(Discount $discount, $productIds, $productWithDiscountIds)
-    {
-
-    }
 }
