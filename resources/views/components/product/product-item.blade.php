@@ -19,10 +19,16 @@
                 <div class="ProductCard-info">
                     <div class="ProductCard-cost">
                         @if($avgDiscountPrice)
-                            <div class="ProductCard-price">${{ $avgDiscountPrice }}</div>
-                            <div class="ProductCard-priceOld">${{ $avgPrice }}</div>
+                            <div class="ProductCard-price">
+                                ${{ $avgDiscountPrice }}
+                            </div>
+                            <div class="ProductCard-priceOld">
+                                ${{ $avgPrice }}
+                            </div>
                         @else
-                            <div class="ProductCard-price">${{ $avgPrice }}</div>
+                            <div class="ProductCard-price">
+                                ${{ $avgPrice }}
+                            </div>
                         @endif
                     </div>
                     <form class="ProductCard-compare" method="post" action="{{route('product.addToComparison', $product)}}">

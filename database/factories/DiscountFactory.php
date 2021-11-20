@@ -27,6 +27,7 @@ class DiscountFactory extends Factory
         $minimalCost = $this->faker->randomFloat(2, 0, 10000);
         $minimumQty = random_int(1, 100);
         return [
+            'title' => $this->faker->sentence(3),
             'value' => $this->faker->randomFloat(2, 1, 99),
             'method_type' => $this->faker->randomElement(Discount::getMethodTypes()),
             'category_type' => $this->faker->randomElement(Discount::getCategoryTypes()),

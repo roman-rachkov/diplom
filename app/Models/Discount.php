@@ -34,6 +34,11 @@ class Discount extends Model
         'description'
     ];
 
+    protected $casts = [
+        'start_at' => 'date',
+        'end_at' => 'date',
+    ];
+
     public function discountGroups()
     {
         return $this->hasMany(DiscountGroup::class);
@@ -65,5 +70,10 @@ class Discount extends Model
             'UPDATED_AT',
             'DELETED_AT'
         ];
+    }
+
+    public function image(): HasOne
+    {
+        return $this->hasOne(Attachment::class, 'id', 'image_id');
     }
 }

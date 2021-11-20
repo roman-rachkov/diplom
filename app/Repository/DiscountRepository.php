@@ -52,4 +52,10 @@ class DiscountRepository implements DiscountRepositoryContract
                 });
     }
 
+    public function getAllActiveDiscount()
+    {
+        $itemOnPage = $this->adminSettings->get('discountsOnPage', 8);
+
+        return Discount::whereIsActive(true)->orderBy('start_at')->paginate($itemOnPage);
+    }
 }

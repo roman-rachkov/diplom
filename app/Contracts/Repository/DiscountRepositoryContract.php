@@ -9,4 +9,6 @@ interface DiscountRepositoryContract
 {
     public function getMostWeightyProductDiscount(Product $product) : null|Discount;
 
+    public function getAllActiveDiscount();
+
 }

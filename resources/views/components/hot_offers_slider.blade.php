@@ -14,7 +14,13 @@
                         <strong class="Card-title"><a href="#">Corsair Carbide Series Arctic White Steel</a>
                         </strong>
                         <div class="Card-description">
-                            <div class="Card-cost"><span class="Card-priceOld">$115.00</span><span class="Card-price">$85.00</span>
+                            <div class="Card-cost">
+                                <span class="Card-priceOld">
+                                    $115.00
+                                </span>
+                                <span class="Card-price">
+                                    $85.00
+                                </span>
                             </div>
                             <div class="Card-category">Games / xbox
                             </div>
