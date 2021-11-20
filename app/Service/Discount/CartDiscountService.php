@@ -6,8 +6,10 @@ use App\Contracts\Repository\DiscountRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\Discount\CartDiscountServiceContract;
 use App\Contracts\Service\Discount\OtherDiscountServiceContract;
+use App\DTO\CartItemDTO;
 use App\Models\Customer;
 use App\Models\Discount;
+use App\Models\OrderItem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
@@ -20,9 +22,9 @@ class CartDiscountService implements CartDiscountServiceContract
     )
     {}
 
-    public function getDiscountsDTOsForCart(Customer $customer = null): Collection
+    public function getCartItemsDTOs(): Collection
     {
-        $customer = is_null($customer) ? $this->customerService->getCustomer() : $customer;
+        $customer = $this->customerService->getCustomer();
 
         $cartDiscount = $this->discountRepository->getOnCartDiscount(
                 $customer->id, $this->getCart($customer)->sum('quantity'),
@@ -55,6 +57,11 @@ class CartDiscountService implements CartDiscountServiceContract
 
     }
 
+    public function getCartTotalSum ()
+    {
+        //TODO: создать Класс кастомной коллекции?
+    }
+
 
     protected function createDTOs(
         Collection $productPriceItems,
@@ -73,14 +80,15 @@ class CartDiscountService implements CartDiscountServiceContract
             ) $discount = false;
 
             $productPriceDiscountDTOs
-                ->push($this
-                    ->productDiscountService
-                    ->getProductPriceDiscountDTO(
+                ->push(CartItemDTO::create(
+                    [
                         $item->price->product,
-                        $item->price->price,
-                        $discount
-                    )
-                );
+                        $item->price,
+                        $item->quantity,
+                        $this->countSumPrice($item),
+                        $this->countSumDiscountPrice($item, $discount)
+                    ]
+                ));
         });
 
         return $productPriceDiscountDTOs;
@@ -154,6 +162,21 @@ class CartDiscountService implements CartDiscountServiceContract
                 },
                 collect()
             );
+    }
+
+    protected function countSumPrice(OrderItem $item): float|int
+    {
+        return $item->price->price * $item->quantity;
+    }
+
+    protected function countSumDiscountPrice(OrderItem $item, ?Discount $discount): float|int
+    {
+        return $item->quantity *
+            $this->productDiscountService->getProductPriceWithDiscount(
+                $item->price->product,
+                $this->countSumPrice($item),
+                $discount
+        );
     }
 
 }

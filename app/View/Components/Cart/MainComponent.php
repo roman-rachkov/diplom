@@ -2,12 +2,16 @@
 
 namespace App\View\Components\Cart;
 
+use App\Contracts\Repository\PriceRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\Discount\CartDiscountServiceContract;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class MainComponent extends Component
 {
+    public GetCartServiceContract $cartService;
+    public Collection $cartItemsDTOs;
 
     /**
      * Create a new component instance.
@@ -15,9 +19,13 @@ class MainComponent extends Component
      * @return void
      */
     public function __construct(
-        public CartDiscountServiceContract $discountService,
-        public GetCartServiceContract $contract)
-    {}
+        GetCartServiceContract $contract,
+        private CartDiscountServiceContract $discountService,
+    )
+    {
+        $this->cartService = $contract;
+        $this->cartItemsDTOs = $this->discountService->getCartItemsDTOs();
+    }
 
     /**
      * Get the view / contents that represent the component.

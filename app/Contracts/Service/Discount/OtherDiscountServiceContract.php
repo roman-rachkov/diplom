@@ -12,13 +12,7 @@ interface OtherDiscountServiceContract
 {
     public function getProductPriceWithDiscount(Product $product, float $price, ?Discount $discount = null): bool|float;
 
-    public function getDiscountBadgeText(Product $product, ?Discount $discount = null): bool|string;
-
     public function getProductPriceDiscountDTOs(Collection $products, ?Seller $seller = null): array;
 
-    public function getProductPriceDiscountDTO(
-        Product $product,
-        ?float $price = null,
-        false|null|Discount $discount = null
-    ): DataTransferObjectInterface;
+    public function getProductPriceDiscountDTO(Product $product, ?float $price = null): DataTransferObjectInterface;
 }

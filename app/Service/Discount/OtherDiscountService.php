@@ -34,28 +34,16 @@ class OtherDiscountService implements OtherDiscountServiceContract
         return $productPricesWithDiscountsDTO;
     }
 
-    public function getProductPriceDiscountDTO(
-        Product $product,
-        ?float $price = null,
-        false|null|Discount $discount = null
-    ): DataTransferObjectInterface
+    public function getProductPriceDiscountDTO(Product $product, ?float $price = null): DataTransferObjectInterface
     {
-        $priceWithDiscount = false;
-        $badge = false;
-
-        if ($discount !== false) {
-            $priceWithDiscount = $this->getProductPriceWithDiscount($product, $price, $discount);
-            $badge = $this->getDiscountBadgeText($product,$discount);
-        }
-
         $price = $price ?? $this->getAvgPrice($product);
 
         return ProductPriceDiscountDTO::create(
             [
                 $product,
                 $price,
-                $priceWithDiscount,
-                $badge
+                $this->getProductPriceWithDiscount($product, $price),
+                $this->getDiscountBadgeText($product)
             ]
         );
     }
@@ -76,7 +64,7 @@ class OtherDiscountService implements OtherDiscountServiceContract
         return false;
     }
 
-    public function getDiscountBadgeText(Product $product, ?Discount $discount = null): bool|string
+    protected function getDiscountBadgeText(Product $product, ?Discount $discount = null): bool|string
     {
         if ($discount = $this->getCurrentDiscount($product, $discount)) {
             return $this
@@ -94,7 +82,8 @@ class OtherDiscountService implements OtherDiscountServiceContract
 
     protected function getAvgPrice(Product $product): float
     {
-       return round($product->prices->avg('price'));
+        //TODO Сделать мутатор для получения отображаемого значения цены?
+       return round($product->prices->avg('price'), 2);
     }
 
 }

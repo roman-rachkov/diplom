@@ -7,5 +7,5 @@ use Illuminate\Support\Collection;
 
 interface CartDiscountServiceContract
 {
-    public function getDiscountsDTOsForCart(Customer $customer = null): Collection;
+    public function getCartItemsDTOs(): Collection;
 }
