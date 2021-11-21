@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label" for="mail">{{__('checkout.mail.title')}}</label>
-                <input class="form-input" id="mail" name="email" type="text"
+                <input class="form-input" id="mail" name="mail" type="text"
                        data-validate="require" placeholder="{{__('checkout.mail.placeholder')}}"
                        value="{{(old('email') ?? auth()->user()?->email) ?? ''}}"/>
             </div>

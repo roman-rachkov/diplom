@@ -4,28 +4,24 @@ namespace App\Service\Cart;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
-use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\CustomerServiceContract;
+use App\Contracts\Service\Discount\CartDiscountServiceContract;
 use App\Models\Customer;
-use App\Models\OrderItem;
-use App\Models\Price;
-use App\Models\Product;
-use App\Models\Seller;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class GetCartService implements GetCartServiceContract
 {
-    protected OrderItemRepositoryContract $repository;
     protected Customer $customer;
-    protected AdminSettingsServiceContract $settings;
 
-    public function __construct(OrderItemRepositoryContract $repository, CustomerServiceContract $customerService, AdminSettingsServiceContract $settings)
+    public function __construct(
+        protected OrderItemRepositoryContract $repository,
+        CustomerServiceContract $customerService,
+        protected AdminSettingsServiceContract $settings,
+        protected CartDiscountServiceContract $discountService
+    )
     {
-        $this->repository = $repository;
         $this->customer = $customerService->getCustomer();
-        $this->settings = $settings;
     }
 
     public function getItemsList(): Collection
@@ -34,16 +30,23 @@ class GetCartService implements GetCartServiceContract
             'cart-' . $this->customer->id . '-items',
             $this->settings->get('cartCacheLifeTime', 20 * 60),
             function () {
-                return $this->customer->cart;
+                //TODO: Убрать при возможности получать корзину из репозитория
+                return $this->customer->cart->map(function ($item) {
+                    $item->load('price.product');
+                    return $item;
+                });
             }
         );
     }
 
-    public function getProductsList(): Collection
+    public function getCartItemsDTOs(): Collection
     {
-        return $this->getItemsList()->map(function ($item) {
-            return $item->price->product;
-        });
+        return $this->discountService->getCartItemsDTOs(
+            $this->getItemsList(),
+            $this->getProductsQuantity(),
+            $this->getCartCost(),
+            $this->customer->id
+        );
     }
 
     public function getProductsQuantity(): int
@@ -52,6 +55,15 @@ class GetCartService implements GetCartServiceContract
     }
 
     public function getTotalCost(): float
+    {
+        return  $this->getCartItemsDTOs()->reduce(function ($carry,$item){
+            return $item->sumPricesWithDiscount ?
+                $carry + $item->sumPricesWithDiscount :
+                $carry + $item->sumPrice;
+        }, 0);
+    }
+
+    public function getCartCost(): float
     {
         return $this->getItemsList()->sum('sum');
     }

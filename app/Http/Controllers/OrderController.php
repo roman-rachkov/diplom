@@ -51,12 +51,13 @@ class OrderController extends Controller
         event(new Registered($user = $creator->create($request->all())));
 
         $guard->login($user);
+        //TODO: закомментировано, поскольку после первого шага не было перехода на второй шаг,
+        // при незарегистрированном пользователе
+//        if ($request->json()) {
+//            return response()->json(['status' => (bool)$user]);
+//        }
 
-        if ($request->json()) {
-            return response()->json(['status' => (bool)$user]);
-        }
-
-        return back();
+        //return back();
     }
 
     public function confirm(

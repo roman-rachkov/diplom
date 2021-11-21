@@ -2,15 +2,12 @@
 
 namespace App\View\Components\Cart;
 
-use App\Contracts\Repository\PriceRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
-use App\Contracts\Service\Discount\CartDiscountServiceContract;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class MainComponent extends Component
 {
-    public GetCartServiceContract $cartService;
     public Collection $cartItemsDTOs;
 
     /**
@@ -19,12 +16,10 @@ class MainComponent extends Component
      * @return void
      */
     public function __construct(
-        GetCartServiceContract $contract,
-        private CartDiscountServiceContract $discountService,
+        public GetCartServiceContract $cartService,
     )
     {
-        $this->cartService = $contract;
-        $this->cartItemsDTOs = $this->discountService->getCartItemsDTOs();
+        $this->cartItemsDTOs = $this->cartService->getCartItemsDTOs();
     }
 
     /**

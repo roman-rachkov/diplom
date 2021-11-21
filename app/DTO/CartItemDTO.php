@@ -17,7 +17,7 @@ class CartItemDTO implements DataTransferObjectInterface
         public Price $price,
         public int $quantity,
         public float $sumPrice,
-        public bool|float $sumPricesWithDiscount
+        public false|float $sumPricesWithDiscount
     )
     {}
 }

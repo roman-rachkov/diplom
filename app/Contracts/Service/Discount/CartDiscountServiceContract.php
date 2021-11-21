@@ -2,10 +2,14 @@
 
 namespace App\Contracts\Service\Discount;
 
-use App\Models\Customer;
 use Illuminate\Support\Collection;
 
 interface CartDiscountServiceContract
 {
-    public function getCartItemsDTOs(): Collection;
+    public function getCartItemsDTOs(
+        Collection $cart,
+        int $cartQuantity,
+        float $cartCost,
+        string $customerId
+    ): Collection;
 }

@@ -17,51 +17,35 @@ class CartDiscountService implements CartDiscountServiceContract
 {
     public function __construct(
         private DiscountRepositoryContract $discountRepository,
-        private CustomerServiceContract $customerService,
         private OtherDiscountServiceContract $productDiscountService
     )
     {}
 
-    public function getCartItemsDTOs(): Collection
+    public function getCartItemsDTOs(
+        Collection $cart,
+        int $cartQuantity,
+        float $cartCost,
+        string $customerId
+    ): Collection
     {
-        $customer = $this->customerService->getCustomer();
 
-        $cartDiscount = $this->discountRepository->getOnCartDiscount(
-                $customer->id, $this->getCart($customer)->sum('quantity'),
-                $this->getCartCost($customer));
+        $cartDiscount = $this->discountRepository->getOnCartDiscount($customerId, $cartQuantity, $cartCost);
 
-        //TODO получение корзины из репозитория? кеширование корзины?
-        $productPriceItems = $this->getCart($customer)->map(function ($item) {
-            $item->load('price.product');
-            return $item;
-        });
-
-        $setDiscountArray = $this->getSetDiscountArray($this->getCartProductsIds($customer));
+        $setDiscountArray = $this->getSetDiscountArray($this->getCartProductsIds($cart));
 
         if (!is_null($cartDiscount) && $cartDiscount->weight > $setDiscountArray['weight']) {
-            Log::debug('cartDiscount__' . $this->createDTOs($productPriceItems, $cartDiscount));
-            return $this->createDTOs($productPriceItems, $cartDiscount);
+            return $this->createDTOs($cart, $cartDiscount);
         }
 
         if(!is_null($setDiscountArray) && $setDiscountArray['weight'] > $cartDiscount->weight) {
-
-            Log::debug('setDiscount__');
             return $this->createDTOs(
-                $productPriceItems,
+                $cart,
                 $setDiscountArray['discount'],
                 $setDiscountArray['productIds']);
         }
 
-        Log::debug('productsDiscount__');
-        return $this->createDTOs($productPriceItems);
-
+        return $this->createDTOs($cart);
     }
-
-    public function getCartTotalSum ()
-    {
-        //TODO: создать Класс кастомной коллекции?
-    }
-
 
     protected function createDTOs(
         Collection $productPriceItems,
@@ -135,28 +119,9 @@ class CartDiscountService implements CartDiscountServiceContract
             ->first();
     }
 
-    protected function getCart(Customer $customer = null): Collection
+    protected function getCartProductsIds(Collection $cart): Collection
     {
-        return is_null($customer) ?
-            $this->customerService->getCustomer()->cart :
-            $customer->cart;
-
-    }
-
-    protected function getCartCost(Customer $customer): float
-    {
-       return $this->getCart($customer)
-            ->reduce(
-                function($carry, $orderItem){
-                    return $carry + $orderItem->price->price;
-                },
-                0);
-    }
-
-    protected function getCartProductsIds(Customer $customer): Collection
-    {
-        return $this->getCart($customer)
-            ->reduce(
+        return $cart->reduce(
                 function($carry, $orderItem){
                     return $carry->push($orderItem->price->product_id);
                 },
