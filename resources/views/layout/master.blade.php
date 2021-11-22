@@ -58,7 +58,7 @@ p.error-browser
 
 <script>
     window.echoConfig = {
-        host: {!! json_encode(env('LARAVEL_ECHO_SERVER_AUTH_HOST')) !!},
+        host: {!! json_encode(env('APP_URL')) !!},
         port: {!! json_encode(env('LARAVEL_ECHO_SERVER_PORT')) !!}
     };
 </script>
