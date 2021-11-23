@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AttachmentSeeder::class,
             BannersSeeder::class,
-            DiscountSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
             CustomerSeeder::class,
@@ -32,7 +31,9 @@ class DatabaseSeeder extends Seeder
             OrderItemSeeder::class,
             ComparedSeeder::class,
             PaymentsServiceSeeder::class,
-            PaymentSeeder::class
+            PaymentSeeder::class,
+            DiscountSeeder::class,
+
         ]);
 
     }

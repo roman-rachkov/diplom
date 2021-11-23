@@ -12,7 +12,9 @@ use Illuminate\Support\Collection;
 
 class GetCartService implements GetCartServiceContract
 {
+    protected OrderItemRepositoryContract $repository;
     protected Customer $customer;
+    protected AdminSettingsServiceContract $settings;
 
     public function __construct(
         protected OrderItemRepositoryContract $repository,
@@ -21,7 +23,9 @@ class GetCartService implements GetCartServiceContract
         protected CartDiscountServiceContract $discountService
     )
     {
+        $this->repository = $repository;
         $this->customer = $customerService->getCustomer();
+        $this->settings = $settings;
     }
 
     public function getItemsList(): Collection
@@ -30,11 +34,8 @@ class GetCartService implements GetCartServiceContract
             'cart-' . $this->customer->id . '-items',
             $this->settings->get('cartCacheLifeTime', 20 * 60),
             function () {
-                //TODO: Убрать при возможности получать корзину из репозитория
-                return $this->customer->cart->map(function ($item) {
-                    $item->load('price.product');
-                    return $item;
-                });
+                //TODO: проверить что с репо приходят  связи с ценой и продуктом
+                return $this->repository->getCartByCustomer($this->customer);
             }
         );
     }

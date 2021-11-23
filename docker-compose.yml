@@ -58,7 +58,7 @@ services:
             - redis
             - laravel.test
         environment:
-            LARAVEL_ECHO_SERVER_AUTH_HOST: '${APP_URL}'
+            LARAVEL_ECHO_SERVER_AUTH_HOST: '${LARAVEL_ECHO_SERVER_AUTH_HOST}'
             LARAVEL_ECHO_SERVER_DEBUG: 'true'
             LARAVEL_ECHO_SERVER_DB: redis
             REDIS_HOST: redis
