@@ -33,9 +33,10 @@ class UserController extends Controller
     {
         $user = $this->userRepository->find($user);
         $user->load('attachment');
+        $lastOrder = $user->customer->orders->last();
         $arrayProductsWithDiscount = $this->viewedProducts->getViewedProductsWithDiscount(self::LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW);
 
-        return view('users.show', compact('user', 'arrayProductsWithDiscount'));
+        return view('users.show', compact('user', 'arrayProductsWithDiscount', 'lastOrder'));
     }
 
     public function edit($user): View

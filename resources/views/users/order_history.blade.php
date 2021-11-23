@@ -3,33 +3,45 @@
         <div class="Order Order_anons">
             <div class="Order-personal">
                 <div class="row">
-                    <div class="row-block"><a class="Order-title" href="oneorder.html">Заказ&#32;<span class="Order-numberOrder">№200</span>&#32;от&#32;<span class="Order-dateOrder">21.07.2020</span></a>
-                        <div class="Account-editLink"><a href="historyorder.html">История заказов</a>
+                    <div class="row-block"><a class="Order-title" href="{{ route('users.order', [$user, $lastOrder]) }}">Заказ&#32;
+                            <span class="Order-numberOrder">№{{ $lastOrder->id }}</span>
+                            &#32;от&#32;<span class="Order-dateOrder">{{$lastOrder->created_at->format('d.m.y')}}</span></a>
+                        <div class="Account-editLink"><a href="{{ route('users.orders', $user) }}">История заказов</a>
                         </div>
                     </div>
                     <div class="row-block">
                         <div class="Order-info Order-info_delivery">
-                            <div class="Order-infoType">Тип доставки:
+                            <div class="Order-infoType">{{ __('profile.orders.delivery.type') }}:
                             </div>
-                            <div class="Order-infoContent">Обычная доставка
+                            <div class="Order-infoContent">
+                                {{
+                                            $lastOrder->delivery_type == 'express'
+                                                ? __('checkout.delivery.express')
+                                                : __('checkout.delivery.default')
+                                        }}
                             </div>
                         </div>
                         <div class="Order-info Order-info_pay">
-                            <div class="Order-infoType">Оплата:
+                            <div class="Order-infoType">{{ __('checkout.payment.title') }}:
                             </div>
-                            <div class="Order-infoContent">Онлайн картой
+                            <div class="Order-infoContent">{{$lastOrder->payment?->paymentsService->name}}
                             </div>
                         </div>
                         <div class="Order-info">
-                            <div class="Order-infoType">Общая стоимость:
+                            <div class="Order-infoType">{{__('cart.total')}}:
                             </div>
-                            <div class="Order-infoContent">200.99$
+                            <div class="Order-infoContent">{{$lastOrder->total}}$
                             </div>
                         </div>
                         <div class="Order-info Order-info_status">
-                            <div class="Order-infoType">Статус:
+                            <div class="Order-infoType">{{ __('profile.orders.status') }}:
                             </div>
-                            <div class="Order-infoContent">Не оплачен
+                            <div class="Order-infoContent">@if($lastOrder->payment?->payed_at !== null)
+                                    {{__('profile.orders.pay.payed')}}
+                                @else
+                                    {{__('profile.orders.pay.notPayed')}}
+
+                                @endif
                             </div>
                         </div>
                     </div>
