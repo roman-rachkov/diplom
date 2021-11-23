@@ -11,7 +11,6 @@ use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 class OrderItemRepository implements OrderItemRepositoryContract
 {
@@ -96,5 +95,10 @@ class OrderItemRepository implements OrderItemRepositoryContract
         foreach ($orderItems as $item) {
             $item->update(['customer_id' => $customerId]);
         }
+    }
+
+    public function getCartByCustomer(Customer $customer)
+    {
+        return $customer->items()->where('order_id', null)->get();
     }
 }
