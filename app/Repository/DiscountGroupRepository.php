@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Contracts\Repository\DiscountGroupRepositoryContract;
 use App\Models\DiscountGroup;
+use Illuminate\Database\Eloquent\Collection;
 
 class DiscountGroupRepository implements DiscountGroupRepositoryContract
 {
@@ -14,8 +15,18 @@ class DiscountGroupRepository implements DiscountGroupRepositoryContract
         $this->model = $discountGroup;
     }
 
-
-    public function getRandomDiscountGroup()
+    public function all(): Collection
     {
-        return $this->model->inRandomOrder()->first();
-    }}
+        return $this->model->with(['products'])->get();
+    }
+
+    public function getRandomDiscountGroup(): DiscountGroup
+    {
+        return $this->all()->random();
+    }
+
+    public function hasProducts(): bool
+    {
+        return $this->model->has('products')->count() > 0;
+    }
+}

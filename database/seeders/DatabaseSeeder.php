@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             CustomerSeeder::class,
             SellerSeeder::class,
+            ProductsAndCategoriesToDiscountGroupSeeder::class,
             PriceSeeder::class,
             ReviewSeeder::class,
             ViewedProductSeeder::class,
@@ -33,7 +34,6 @@ class DatabaseSeeder extends Seeder
             ComparedSeeder::class,
             PaymentsServiceSeeder::class,
             PaymentSeeder::class,
-            ProductsAndCategoriesToDiscountGroupSeeder::class,
         ]);
 
     }

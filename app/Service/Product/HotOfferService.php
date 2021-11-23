@@ -24,16 +24,29 @@ class HotOfferService implements HotOfferServiceContract
         $this->discountsService = $discountsService;
     }
 
-    public function get()
+    public function get(): array
     {
-        $countHotOffers = $this->settings->get('count_hot_offers', 9);
+        $countHotOffers = $this->settings->get('count_hot_offers', 8);
         $hotOffers = [];
+
+        if (!$this->discountGroup->hasProducts()) {
+            return $hotOffers;
+        }
+
         while (count($hotOffers) < $countHotOffers) {
-            $product = $this->discountGroup->getRandomDiscountGroup()->products()->inRandomOrder()->first();
-            $discount = $this->discountsService->getProductDiscounts($product);
+            $product = $this
+                ->discountGroup
+                ->getRandomDiscountGroup()
+                ->products
+                ->random();
+
+            $discount = $this
+                ->discountsService
+                ->getProductPriceWithDiscount($product);
+
             if ($discount) {
                 $hotOffers[] = [
-                    'product' => $product,
+                    'product' => $product->load(['prices', 'category', 'image']),
                     'discount' => $discount,
                 ];
             }
