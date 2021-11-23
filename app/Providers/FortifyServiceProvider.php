@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Actions\CreateNewUserWithPhone;
-use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
@@ -40,8 +39,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //TODO: для маршрутов cheсkout необходима реализация CreateNewUserWithPhone,
-        // для остальных CreateNewUser, сделать условный биндинг.
         Fortify::createUsersUsing(CreateNewUserWithPhone::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
