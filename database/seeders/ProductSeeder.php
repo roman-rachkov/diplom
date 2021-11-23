@@ -21,7 +21,7 @@ class ProductSeeder extends Seeder
         $attachments = Attachment::all();
         $categories = Category::all();
         foreach ($categories as $cat) {
-            Product::factory(rand(3, 10))->create([
+            Product::factory(50)->create([
                 'main_img_id' => $attachments->random()->id,
                 'category_id' => $cat->id,
             ])->each(function (Product $product) use ($attachments) {

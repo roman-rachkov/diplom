@@ -26,23 +26,24 @@ class AttachmentFactory extends Factory
             File::makeDirectory($filepath, 0755, true);
         }
         $image = $this->faker->image($filepath,640,480, null, false, $word = null);
-
-        list($name, $extension) = explode('.', $image);
-        return [
-            'name' => $name,
-            'original_name' => $image,
-            'mime' => mime_content_type($filepath . '/' . $image),
-            'extension' => $extension,
-            'size' => stat($filepath . '/' . $image)['size'],
-            'sort' => 0,
-            'path' => $datePath,
-            'description' => $this->faker->sentence(),
-            'alt' => $image,
-            'hash' => Hash::make($name),
-            'disk' => 'public',
-            'user_id' => User::factory(),
-            'group' => 0
-        ];
+        if ($image) {
+            list($name, $extension) = explode('.', $image);
+            return [
+                'name' => $name,
+                'original_name' => $image,
+                'mime' => mime_content_type($filepath . '/' . $image),
+                'extension' => $extension,
+                'size' => stat($filepath . '/' . $image)['size'],
+                'sort' => 0,
+                'path' => $datePath,
+                'description' => $this->faker->sentence(),
+                'alt' => $image,
+                'hash' => Hash::make($name),
+                'disk' => 'public',
+                'user_id' => User::factory(),
+                'group' => 0
+            ];
+        }
     }
 
 }
