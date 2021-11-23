@@ -16,7 +16,7 @@ class AddTitleInDiscountsTable extends Migration
         Schema::table('discounts', function (Blueprint $table) {
             $table->string('title');
 
-            $table->unsignedInteger('image_id')->default();
+            $table->unsignedInteger('image_id')->nullable();
 
             $table->foreign('image_id')
                 ->references('id')

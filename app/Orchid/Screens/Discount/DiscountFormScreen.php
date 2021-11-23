@@ -2,14 +2,12 @@
 
 namespace App\Orchid\Screens\Discount;
 
-use App\Models\Category;
 use App\Models\Discount;
-use App\Models\Product;
-use App\Orchid\Layouts\Discounts\AddDiscountFieldsLayout;
-use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Relation;
+use App\Models\DiscountGroup;
+use App\Orchid\Layouts\Discounts\DiscountListener;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
-use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Toast;
 
 class DiscountFormScreen extends Screen
 {
@@ -19,6 +17,7 @@ class DiscountFormScreen extends Screen
      * @var string
      */
     public $name;
+    private bool $exist;
 
     public function __construct()
     {
@@ -32,8 +31,17 @@ class DiscountFormScreen extends Screen
      */
     public function query(Discount $discount): array
     {
+        $this->exist = $discount->exists;
+
+        if ($this->exist) {
+            $this->name = __('admin.discounts.edit');
+        }
+
+        $this->discount = $discount;
+        $this->discount->load(['discountGroups.products', 'discountGroups.categories']);
+        $this->discount->discountGroups['count'] = $this->discount->discountGroups()->count();
         return [
-            'discount' => $discount
+            'discount' => $this->discount
         ];
     }
 
@@ -44,7 +52,10 @@ class DiscountFormScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Button::make(__('admin.discounts.save'))
+                ->method('createOrUpdate')
+        ];
     }
 
     /**
@@ -55,72 +66,64 @@ class DiscountFormScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::columns([
-                AddDiscountFieldsLayout::class,
-                Layout::accordion([
-                    __('admin.discounts.category.product') => [
-                        Layout::rows([
-                            Relation::make('discount.products')
-                                ->title(__('admin.products.panel_name'))
-                                ->fromModel(Product::class, 'name')
-                                ->multiple(),
-                            Relation::make('discount.categories')
-                                ->title(__('admin.category.panel_name'))
-                                ->fromModel(Category::class, 'name')
-                                ->multiple(),
-                        ])
-                    ],
-                    __('admin.discounts.category.groups.title') => [
-                        Layout::accordion([
-                            __('admin.discounts.category.groups.a') => [
-                                Layout::rows([
-                                    Relation::make('discount.products')
-                                        ->title(__('admin.products.panel_name'))
-                                        ->fromModel(Product::class, 'name')
-                                        ->multiple(),
-                                    Relation::make('discount.categories')
-                                        ->title(__('admin.category.panel_name'))
-                                        ->fromModel(Category::class, 'name')
-                                        ->multiple(),
-                                ])
-                            ],
-                            __('admin.discounts.category.groups.b') => [
-                                Layout::rows([
-                                    Relation::make('discount.products')
-                                        ->title(__('admin.products.panel_name'))
-                                        ->fromModel(Product::class, 'name')
-                                        ->multiple(),
-                                    Relation::make('discount.categories')
-                                        ->title(__('admin.category.panel_name'))
-                                        ->fromModel(Category::class, 'name')
-                                        ->multiple(),
-                                ])
-                            ]
-                        ])
-                    ],
-                    __('admin.discounts.category.cart.title') => [
-                        Layout::rows([
-                            Input::make('discount.minimal_cost')
-                                ->type('number')
-                                ->placeholder(__('admin.discounts.minimal_cost'))
-                                ->title(__('admin.discounts.minimal_cost')),
-                            Input::make('discount.maximum_cost')
-                                ->type('number')
-                                ->placeholder(__('admin.discounts.maximum_cost'))
-                                ->title(__('admin.discounts.maximum_cost')),
-                            Input::make('discount.minimum_qty')
-                                ->type('number')
-                                ->placeholder(__('admin.discounts.maximum_qty'))
-                                ->title(__('admin.discounts.maximum_cost')),
-                            Input::make('discount.maximum_qty')
-                                ->type('number')
-                                ->placeholder(__('admin.discounts.maximum_qty'))
-                                ->title(__('admin.discounts.maximum_cost')),
-                        ])
-                    ],
-
-                ]),
-            ])
+            DiscountListener::class
         ];
     }
+
+    public function asyncFields(array $args)
+    {
+        $discount = Discount::findOrNew($args['id']);
+        $discount->fill($args);
+        $discount->load(['discountGroups.products', 'discountGroups.categories']);
+        $discount->discountGroups['count'] = $args['discountGroups']['count'] ?? $discount->discountGroups()->count();
+        return [
+            'discount' => $discount
+        ];
+    }
+
+    public function createOrUpdate()
+    {
+        $data = request()->except('_token');
+        $data = $data['discount'];
+        if (isset($data['discountGroups'])) {
+            $groups = $data['discountGroups'];
+            unset($data['discountGroups']);
+            unset($groups['count']);
+        }
+        $discount = Discount::findOrNew($data['id']);
+        $discount->fill($data);
+        $discount->save();
+        if (isset($groups)) {
+            $this->updateGroups($discount, $groups);
+        }
+        Toast::success(__('admin.discounts.saved'));
+        return redirect()->route('platform.discounts');
+    }
+
+    private function updateGroups(Discount $discount, array $groups)
+    {
+        $groups = $this->createOrUpdateGroups($groups);
+        $discount->discountGroups->diff($groups)->each(function ($group) {
+            $group->delete();
+        });
+        $groups->each(function ($group) use ($discount) {
+            $group->discount()->associate($discount);
+            $group->save();
+        });
+    }
+
+    private function createOrUpdateGroups(array $groups)
+    {
+        $collection = collect();
+        foreach ($groups as $group) {
+            $tmpGroup = DiscountGroup::findOrNew($group['id']);
+            $tmpGroup->title = $group['title'];
+            $tmpGroup->save();
+            $tmpGroup->products()->sync($group['products'] ?? []);
+            $tmpGroup->categories()->sync($group['categories'] ?? []);
+            $collection->push($tmpGroup);
+        }
+        return $collection;
+    }
+
 }
