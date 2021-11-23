@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\CustomerRepositoryContract;
+use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Models\Customer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -46,7 +47,7 @@ class CustomerRepository implements CustomerRepositoryContract
 
     public function getCustomerCartByHash($hash): Collection
     {
-        return $this->getByHash($hash)->cart;
+        return app(OrderItemRepositoryContract::class)->getCartByCustomer($this->getByHash($hash));
     }
 
     public function removeCustomerByHash($hash)
