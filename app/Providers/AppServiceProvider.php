@@ -14,12 +14,12 @@ use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\Contracts\Service\AddReviewServiceContract;
 use App\Contracts\Service\ImportSellerServiceContract;
 use App\Contracts\Service\Product\HotOfferServiceContract;
-use App\Contracts\Service\Product\OfferOfTheDayServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Contracts\Service\Product\ViewedProductsServiceContract;
 use App\Contracts\Service\SellerServiceContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Models\Customer;
+use App\Orchid\Layouts\Discounts\GroupsLayout;
 use App\Service\AdminSettingsService;
 use App\Service\Cart\AddCartService;
 use App\Service\Cart\GetCartService;
@@ -31,7 +31,6 @@ use App\Service\Payment\PaymentsIntegratorService;
 use App\Service\AddReviewService;
 use App\Service\ImportSellerService;
 use App\Service\Product\HotOfferService;
-use App\Service\Product\OfferOfTheDayService;
 use App\Service\Product\ProductDiscountService;
 use App\Service\Product\ViewedProductsService;
 use App\Service\SellerService;
@@ -41,6 +40,9 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Orchid\Screen\Layout;
+use Orchid\Screen\LayoutFactory;
+use Orchid\Screen\Repository;
 
 class AppServiceProvider extends ServiceProvider
 {

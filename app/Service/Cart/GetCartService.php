@@ -4,15 +4,9 @@ namespace App\Service\Cart;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
-use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
-use App\Models\OrderItem;
-use App\Models\Price;
-use App\Models\Product;
-use App\Models\Seller;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class GetCartService implements GetCartServiceContract
@@ -34,7 +28,7 @@ class GetCartService implements GetCartServiceContract
             'cart-' . $this->customer->id . '-items',
             $this->settings->get('cartCacheLifeTime', 20 * 60),
             function () {
-                return $this->customer->cart;
+                return $this->repository->getCartByCustomer($this->customer);
             }
         );
     }

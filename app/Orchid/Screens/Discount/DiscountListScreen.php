@@ -4,6 +4,8 @@ namespace App\Orchid\Screens\Discount;
 
 use App\Models\Discount;
 use App\Orchid\Layouts\Discounts\DiscountsListLayout;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
 class DiscountListScreen extends Screen
@@ -35,7 +37,16 @@ class DiscountListScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make(__('admin.discounts.add_discount'))
+                ->icon('plus')
+                ->route('platform.discounts.add')
+        ];
+    }
+
+    public function updateList($args)
+    {
+        dd($args);
     }
 
     /**

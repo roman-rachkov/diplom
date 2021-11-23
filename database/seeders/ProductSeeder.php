@@ -24,16 +24,16 @@ class ProductSeeder extends Seeder
             Product::factory(rand(3, 10))->create([
                 'main_img_id' => $attachments->random()->id,
                 'category_id' => $cat->id,
-                ])->each(function (Product $product) use ($attachments){
-                    $new = [];
-                    foreach ($attachments->random(3) as $item) {
-                        $new[] = new Attachmentable([
-                                'attachmentable_type' => Attachment::class,
-                                'attachmentable_id' => $product->id,
-                                'attachment_id' => $item->id,
-                        ]);
-                    }
-                    $product->additionalImages()->saveMany($new);
+            ])->each(function (Product $product) use ($attachments) {
+                $new = [];
+                foreach ($attachments->random(3) as $item) {
+                    $new[] = new Attachmentable([
+                        'attachmentable_type' => Attachment::class,
+                        'attachmentable_id' => $product->id,
+                        'attachment_id' => $item->id,
+                    ]);
+                }
+                $product->additionalImages()->saveMany($new);
             });
         }
 

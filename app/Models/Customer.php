@@ -25,11 +25,6 @@ class Customer extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function cart()
-    {
-        return $this->items()->where('order_id', null);
-    }
-
     public function viewedProducts(): HasMany
     {
         return $this->hasMany(ViewedProduct::class);
