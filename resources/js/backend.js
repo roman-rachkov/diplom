@@ -127,7 +127,7 @@ $(document).ready($ => {
                 password: form.find('input[name=password]').val(),
                 password_confirmation: form.find('input[name=password_confirmation]').val(),
                 name: form.find('input[name=name]').val(),
-                email: form.find('input[name=mail]').val(),
+                email: form.find('input[name=email]').val(),
                 phone: form.find('input[name=phone]').mask(),
             })
                 .then(json => {

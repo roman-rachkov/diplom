@@ -1,7 +1,6 @@
 <?php
 
-use App\Contracts\Repository\OrderRepositoryContract;
-use App\Models\Customer;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
@@ -18,7 +17,7 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('payment.{payment}', function (User $user, Payment $payment) {
-    return app(Customer::class)->orders->map(function ($order) {
+    return app(CustomerServiceContract::class)->getCustomer()->orders->map(function ($order) {
         return $order->payment;
     })->contains($payment);
 });
