@@ -88,7 +88,5 @@ class AppServiceProvider extends ServiceProvider
             $default = trim($default, ' \'');
             return "<?php echo app(\App\Contracts\Service\AdminSettingsServiceContract::class)->get('$key', $default); ?>";
         });
-
-
     }
 }
