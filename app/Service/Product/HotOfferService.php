@@ -6,29 +6,35 @@ use App\Contracts\Repository\DiscountGroupRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Contracts\Service\Product\HotOfferServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
+use App\Repository\ProductRepository;
+use Illuminate\Support\Collection;
 
 class HotOfferService implements HotOfferServiceContract
 {
     private DiscountGroupRepositoryContract $discountGroup;
     private AdminSettingsServiceContract $settings;
     private ProductDiscountServiceContract $discountsService;
+    private ProductRepository $productRepository;
 
     public function __construct(
         DiscountGroupRepositoryContract $discountGroup,
         AdminSettingsServiceContract $settings,
-        ProductDiscountServiceContract $discountsService
+        ProductDiscountServiceContract $discountsService,
+        ProductRepository $productRepository,
     )
     {
         $this->discountGroup = $discountGroup;
         $this->settings = $settings;
         $this->discountsService = $discountsService;
+        $this->productRepository = $productRepository;
     }
 
-    public function get(): array
+    public function get(): Collection
     {
         $countHotOffers = $this->settings->get('count_hot_offers', 8);
-        $hotOffers = [];
+        $hotOffers = collect();
 
+        // Эта проверка нужна когда DiscountGroup ещё не заведены
         if (!$this->discountGroup->hasProducts()) {
             return $hotOffers;
         }
@@ -45,10 +51,10 @@ class HotOfferService implements HotOfferServiceContract
                 ->getProductPriceWithDiscount($product);
 
             if ($discount) {
-                $hotOffers[] = [
+                $hotOffers->push([
                     'product' => $product->load(['prices', 'category', 'image']),
                     'discount' => $discount,
-                ];
+                ]);
             }
         }
 
