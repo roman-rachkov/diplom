@@ -81,13 +81,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setPaymentStatus(payment) {
         const element = document.querySelector('.ProgressPayment');
+        let paymentStatus = '';
+        switch (payment.status) {
+            case 'waiting_for_capture':
+                paymentStatus = 'В ожидании'
+                break;
+            case 'succeeded':
+                paymentStatus = 'Оплачен'
+                break;
+            case 'canceled':
+                paymentStatus = 'Отменен'
+                break;
+            case 'pending':
+                paymentStatus = 'В ожидании'
+                break;
+        }
         element.innerHTML = '';
         const header = document.createElement('h3');
-        header.textContent = "Статус оплаты: " + payment.status
+        header.textContent = "Статус оплаты: " + paymentStatus
         header.style.textAlign = "center";
         element.appendChild(header);
         const message = document.createElement('p');
-        message.textContent = "Комментарий к оплате: " + payment.comment
+        message.textContent = payment.comment !== null ? "Комментарий к оплате: " + payment.comment : ''
         element.appendChild(message);
     }
 
