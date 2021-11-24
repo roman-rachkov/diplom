@@ -12,9 +12,7 @@ use Illuminate\Support\Collection;
 
 class GetCartService implements GetCartServiceContract
 {
-    protected OrderItemRepositoryContract $repository;
     protected Customer $customer;
-    protected AdminSettingsServiceContract $settings;
 
     public function __construct(
         protected OrderItemRepositoryContract $repository,
@@ -23,9 +21,7 @@ class GetCartService implements GetCartServiceContract
         protected CartDiscountServiceContract $discountService
     )
     {
-        $this->repository = $repository;
         $this->customer = $customerService->getCustomer();
-        $this->settings = $settings;
     }
 
     public function getItemsList(): Collection

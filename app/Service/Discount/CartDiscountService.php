@@ -33,16 +33,29 @@ class CartDiscountService implements CartDiscountServiceContract
 
         $setDiscountArray = $this->getSetDiscountArray($this->getCartProductsIds($cart));
 
-        if (!is_null($cartDiscount) && $cartDiscount->weight > $setDiscountArray['weight']) {
+        if(!is_null($setDiscountArray) && !is_null($cartDiscount)) {
+
+            if ($setDiscountArray['weight'] > $cartDiscount->weight) {
+                return $this->createDTOs(
+                    $cart,
+                    $setDiscountArray['discount'],
+                    $setDiscountArray['productIds']);
+            } else {
+                return $this->createDTOs($cart, $cartDiscount);
+            }
+        }
+
+        if(!is_null($setDiscountArray)) {
+            return $this->createDTOs(
+            $cart,
+            $setDiscountArray['discount'],
+            $setDiscountArray['productIds']);
+        }
+
+        if(!is_null($cartDiscount)) {
             return $this->createDTOs($cart, $cartDiscount);
         }
 
-        if(!is_null($setDiscountArray) && $setDiscountArray['weight'] > $cartDiscount->weight) {
-            return $this->createDTOs(
-                $cart,
-                $setDiscountArray['discount'],
-                $setDiscountArray['productIds']);
-        }
 
         return $this->createDTOs($cart);
     }
