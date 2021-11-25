@@ -2,7 +2,9 @@
 
 namespace App\Contracts\Service\Imports;
 
+use Illuminate\Http\UploadedFile;
+
 interface DataReaderFactoryServiceContract
 {
-    public function getReaderByData(mixed $file): DataReaderContract;
+    public function getReaderByFile(UploadedFile $file): DataReaderContract;
 }
