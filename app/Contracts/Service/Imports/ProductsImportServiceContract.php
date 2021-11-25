@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface ProductsImportServiceContract
 {
-    public function import(Collection $data): bool;
+    public function import(DataReaderContract $reader): Collection;
 }
