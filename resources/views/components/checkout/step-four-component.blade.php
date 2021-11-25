@@ -40,14 +40,11 @@
                 </div>
             </div>
             <div class="Cart Cart_order">
-                @foreach($cartService->getItemsList() as $item)
-                    <x-checkout.product-component :item="$item"/>
+                @foreach($cartItemsDTOs as $dto)
+                    <x-checkout.product-component :dto="$dto"/>
                 @endforeach
                 <div class="Cart-total">
-                    <div class="Cart-block Cart-block_total">
-                        <strong class="Cart-title">{{__('cart.total')}}:
-                        </strong><span class="Cart-price">200.99$</span><span class="Cart-price_old">{{$inputs['totalCost']}}$</span>
-                    </div>
+                    <x-cart.cart-price :cartService="$cartService"/>
                     <div class="Cart-block">
                         <button class="btn btn_primary btn_lg" type="submit">{{__('checkout.pay')}}</button>
                     </div>

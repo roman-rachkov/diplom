@@ -14,20 +14,7 @@
                href="{{route('product.show', $dto->product)}}">{{$dto->product->name}}</a>
             <div class="Cart-desc">{{$dto->product->description}}</div>
         </div>
-        <div class="Cart-block Cart-block_price">
-            @if($dto->sumPricesWithDiscount)
-                <div class="Cart-price">
-                    ${{ $dto->sumPricesWithDiscount }}
-                </div>
-                <div  class="Cart-price Cart-price_old">
-                    ${{ $dto->sumPrice }}
-                </div>
-            @else
-                <div class="Cart-price">
-                    ${{ $dto->sumPrice }}
-                </div>
-            @endif
-        </div>
+        <x-cart.product-price :dto="$dto"/>
     </div>
     <div class="Cart-block Cart-block_row">
         <div class="Cart-block Cart-block_seller">

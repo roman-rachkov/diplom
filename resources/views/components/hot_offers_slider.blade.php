@@ -14,7 +14,6 @@
                         <strong class="Card-title"><a href="#">Corsair Carbide Series Arctic White Steel</a>
                         </strong>
                         <div class="Card-description">
-                            {{--            TODO: insert price component --}}
                             <div class="Card-cost">
                                 <span class="Card-priceOld">
                                     $115.00

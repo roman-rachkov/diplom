@@ -4,10 +4,10 @@ namespace App\Repository;
 
 use App\Contracts\Repository\DiscountRepositoryContract;
 use App\Contracts\Service\AdminSettingsServiceContract;
-use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Facades\Cache;
 
@@ -35,28 +35,18 @@ class DiscountRepository implements DiscountRepositoryContract
                     return Discount::where(
                             $this->getDiscountQueryFilter(Discount::CATEGORY_OTHER)
                         )
-                        ->whereIn('id', function ($query) use ($product) {
-                            $query->select('discount_id')
-                                ->from('discount_groups')
-                                ->whereIn('id', function ($query) use ($product) {
-                                    $query->select('discount_group_id')
-                                        ->from('discount_groupables')
-                                        ->where(function ($query) use ($product) {
-                                            $query->where([
-                                                ['discount_groupable_type','=', 'App\\Models\\Product'],
-                                                ['discount_groupable_id', $product->id]
-                                            ]);
-                                        })
-                                        ->orWhere(function ($query) use ($product) {
-                                            $query->where([
-                                                ['discount_groupable_type','=', 'App\\Models\\Category'],
-                                                ['discount_groupable_id', $product->category_id]
-                                            ]);
-                                        });
-                                });
+                        ->whereHas('discountGroups', function($query) use ($product){
+                            $query->whereHas('products', function ($query) use ($product){
+                                $query->where('id', $product->id);
+                            })->orWhereHas('categories', function ($query) use ($product){
+                               $query->whereHas('products', function ($query) use ($product){
+                                   $query->where('id', $product->id);
+                               });
+                            });
                         })
                         ->orderByDesc('weight')
                         ->first();
+
                 });
     }
 
@@ -157,6 +147,41 @@ class DiscountRepository implements DiscountRepositoryContract
                     ['maximum_cost', '>=', $cartCost]
                 ]);
     }
+
+    protected function getTestDiscountQueryFilter(
+        Builder $query,
+        string $categoryType,
+        ?int $productsQty =  null,
+        ?float $cartCost = null
+    ): Builder
+    {
+        $currentTime = Carbon::now();
+        $queryFilter = [
+            ['category_type', $categoryType],
+            ['is_active', 1],
+            ['start_at', '<', $currentTime],
+            ['end_at', '>', $currentTime],
+        ];
+
+        $queryFilter = is_null($productsQty) ?
+            $queryFilter:
+            array_merge(
+                $queryFilter,
+                [
+                    ['minimum_qty', '<=', $productsQty],
+                    ['maximum_qty', '>=', $productsQty]
+                ]);
+
+        return is_null($cartCost) ?
+            $query->where($queryFilter) :
+            $query->where(array_merge(
+                $queryFilter,
+                [
+                    ['minimal_cost', '<=', $cartCost],
+                    ['maximum_cost', '>=', $cartCost]
+                ]));
+    }
+
 
     public function getAllActiveDiscount()
     {

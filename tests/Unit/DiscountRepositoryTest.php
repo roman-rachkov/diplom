@@ -3,12 +3,17 @@
 namespace Tests\Unit;
 
 use App\Contracts\Repository\DiscountRepositoryContract;
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Discount;
+use App\Models\DiscountGroup;
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class DiscountRepositoryTest extends TestCase
@@ -53,8 +58,7 @@ class DiscountRepositoryTest extends TestCase
 
     public function testGetOnSetDiscountsMethod()
     {
-        $customerId = $this->getCustomerId();
-        $setDiscountsIds = $this->repo->getOnSetDiscounts($customerId)->pluck('id');
+        $setDiscountsIds = $this->repo->getOnSetDiscounts()->pluck('id');
 
         Cache::flush();
 
@@ -65,11 +69,41 @@ class DiscountRepositoryTest extends TestCase
         $diff = $setDiscountsIds
             ->merge($validDiscountIds)
             ->diff(
-                $this->repo->getOnSetDiscounts($customerId)->pluck('id')
+                $this->repo->getOnSetDiscounts()->pluck('id')
             );
 
         $this->assertTrue($diff->isEmpty());
 
+    }
+
+    public function testGetProductDiscountMethod()
+    {
+        $product = Product::factory()->create();
+        $category = Category::factory()->create();
+        $category->products()->save($product);
+
+
+        $categoryDiscount = Discount::factory(
+            $this->getValidDiscountAttrs(Discount::CATEGORY_OTHER, rand(10, 100))
+        )->create();
+
+        $productDiscount = Discount::factory(
+            $this->getValidDiscountAttrs(Discount::CATEGORY_OTHER, rand(10, 100))
+        )->create();
+
+        $mostWeightyDiscount = collect([$productDiscount, $categoryDiscount])->sortByDesc('weight')->first();
+
+        DiscountGroup::factory(['discount_id' => $productDiscount->id])->create()->products()->save($product);
+        DiscountGroup::factory(['discount_id' => $categoryDiscount->id])->create()->categories()->save($category);
+
+        $this->createInvalidDiscounts($this->getValidDiscountAttrs(
+            Discount::CATEGORY_OTHER,
+            $mostWeightyDiscount->weight
+        ))->each(function ($discount) use ($product){
+                DiscountGroup::factory(['discount_id' => $discount->id])->create()->save([$product]);
+            });
+
+        $this->assertEquals($this->repo->getProductDiscount($product)->id, $mostWeightyDiscount->id);
     }
 
     protected function getCustomerId()
@@ -115,7 +149,8 @@ class DiscountRepositoryTest extends TestCase
     protected function createInvalidDiscounts(
         array $validDiscountAttrs,
         int $validProductsQty = null,
-        float $validCartCost = null)
+        float $validCartCost = null
+    ): Collection
     {
         $weight = $validDiscountAttrs['weight'] + 2;
         $discountsAttrs = [
@@ -147,8 +182,11 @@ class DiscountRepositoryTest extends TestCase
             ];
         }
 
+        $invalidDiscounts = collect([]);
         foreach ($discountsAttrs as $discountsAttr) {
-            Discount::factory(array_merge($validDiscountAttrs, $discountsAttr))->create();
+            $invalidDiscounts->push(Discount::factory(array_merge($validDiscountAttrs, $discountsAttr))->create());
         }
+
+        return $invalidDiscounts;
     }
 }

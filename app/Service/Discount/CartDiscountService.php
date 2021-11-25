@@ -83,7 +83,7 @@ class CartDiscountService implements CartDiscountServiceContract
                         $item->price,
                         $item->quantity,
                         $this->countSumPrice($item),
-                        $this->countSumDiscountPrice($item, $discount)
+                        $discount === false ? false : $this->countSumDiscountPrice($item, $discount)
                     ]
                 ));
         });
@@ -149,12 +149,12 @@ class CartDiscountService implements CartDiscountServiceContract
 
     protected function countSumDiscountPrice(OrderItem $item, ?Discount $discount): float|int
     {
-        return $item->quantity *
+        return round($item->quantity *
             $this->productDiscountService->getProductPriceWithDiscount(
                 $item->price->product,
                 $this->countSumPrice($item),
                 $discount
-        );
+        ), 2);
     }
 
 }

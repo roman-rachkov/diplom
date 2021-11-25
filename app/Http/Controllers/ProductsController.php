@@ -67,7 +67,8 @@ class ProductsController extends Controller
                 compact(
                     'productPriceDiscountDTO',
                     'reviewsCount',
-                    'reviews')
+                    'reviews'
+                )
         );
     }
 
