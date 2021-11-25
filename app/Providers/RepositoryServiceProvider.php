@@ -8,7 +8,6 @@ use App\Contracts\Repository\CategoryRepositoryContract;
 use App\Contracts\Repository\CompareProductsRepositoryContract;
 use App\Contracts\Repository\CustomerRepositoryContract;
 use App\Contracts\Repository\DeliveryRepositoryContract;
-use App\Contracts\Repository\DiscountGroupRepositoryContract;
 use App\Contracts\Repository\DiscountRepositoryContract;
 use App\Contracts\Repository\FeedbackRepositoryContract;
 use App\Contracts\Repository\ImageRepositoryContract;
@@ -29,7 +28,6 @@ use App\Repository\CategoryRepository;
 use App\Repository\CompareProductsRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\DeliveryRepository;
-use App\Repository\DiscountGroupRepository;
 use App\Repository\DiscountRepository;
 use App\Repository\FeedbackRepository;
 use App\Repository\ImageRepository;
@@ -75,7 +73,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(ReviewRepositoryContract::class, ReviewRepository::class);
         $this->app->singleton(CompareProductsRepositoryContract::class, CompareProductsRepository::class);
         $this->app->singleton(CustomerRepositoryContract::class, CustomerRepository::class);
-        $this->app->singleton(DiscountGroupRepositoryContract::class, DiscountGroupRepository::class);
 
     }
 
