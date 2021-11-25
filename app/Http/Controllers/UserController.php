@@ -35,8 +35,9 @@ class UserController extends Controller
         $user->load('attachment');
         $lastOrder = $user->customer->orders->last();
         $arrayProductsWithDiscount = $this->viewedProducts->getViewedProductsWithDiscount(self::LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW);
+        $showAllOrdersLink = true;
 
-        return view('users.show', compact('user', 'arrayProductsWithDiscount', 'lastOrder'));
+        return view('users.show', compact('user', 'arrayProductsWithDiscount', 'lastOrder', 'showAllOrdersLink'));
     }
 
     public function edit($user): View
