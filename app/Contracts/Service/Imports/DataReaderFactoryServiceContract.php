@@ -2,9 +2,9 @@
 
 namespace App\Contracts\Service\Imports;
 
-use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 interface DataReaderFactoryServiceContract
 {
-    public function getReaderByFile(UploadedFile $file): DataReaderContract;
+    public function getReaderByFile(File $file): DataReaderContract;
 }
