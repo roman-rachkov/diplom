@@ -39,7 +39,13 @@ class CustomerService implements CustomerServiceContract
                 $this->repository->setUserId(Cookie::get('customer_token'), auth()->user()->id);
             }
 
-            return $this->repository->getByHash(Cookie::get('customer_token'));
+            $customer = $this->repository->getByHash(Cookie::get('customer_token'));
+
+            if ($customer->hash === null) {
+                $customer = $this->repository->createCustomer();
+            }
+
+            return $customer;
         });
     }
 
