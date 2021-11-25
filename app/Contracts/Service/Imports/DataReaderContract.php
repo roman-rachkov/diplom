@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface DataReaderContract
 {
-    public function getData(mixed $data): Collection;
+    public function getData(): Collection;
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 class YmlDataReaderServcie implements DataReaderContract
 {
 
-    public function getData(mixed $data): Collection
+    public function getData(): Collection
     {
         // TODO: Implement getData() method.
     }

@@ -2,12 +2,13 @@
 
 namespace App\Service\Imports;
 
+use App\Contracts\Service\Imports\DataReaderContract;
 use Illuminate\Support\Collection;
 
-class JsonDataReaderService implements \App\Contracts\Service\Imports\DataReaderContract
+class JsonDataReaderService implements DataReaderContract
 {
 
-    public function getData(mixed $data): Collection
+    public function getData(): Collection
     {
         // TODO: Implement getData() method.
     }
