@@ -81,29 +81,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setPaymentStatus(payment) {
         const element = document.querySelector('.ProgressPayment');
-        let paymentStatus = '';
-        switch (payment.status) {
-            case 'waiting_for_capture':
-                paymentStatus = 'В ожидании'
-                break;
-            case 'succeeded':
-                paymentStatus = 'Оплачен'
-                break;
-            case 'canceled':
-                paymentStatus = 'Отменен'
-                break;
-            case 'pending':
-                paymentStatus = 'В ожидании'
-                break;
+
+        let statusEl = document.querySelector('.' + payment.status)
+        let paymentError = document.querySelector('.payment-error')
+        let paymentErrorMessage = document.querySelector('.payment-error span')
+        if (payment.comment != null) {
+            paymentErrorMessage.innerHTML = payment.comment
+            paymentError.classList.add('active')
         }
-        element.innerHTML = '';
-        const header = document.createElement('h3');
-        header.textContent = "Статус оплаты: " + paymentStatus
-        header.style.textAlign = "center";
-        element.appendChild(header);
-        const message = document.createElement('p');
-        message.textContent = payment.comment !== null ? "Комментарий к оплате: " + payment.comment : ''
-        element.appendChild(message);
+        document.querySelector('.ProgressPayment-icon').remove()
+        document.querySelector('.ProgressPayment-title.default').remove()
+        statusEl.classList.add('active')
     }
 
     //Add to cart on compare page
