@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             CustomerSeeder::class,
             SellerSeeder::class,
+            ProductsAndCategoriesToDiscountGroupSeeder::class,
             PriceSeeder::class,
             ReviewSeeder::class,
             ViewedProductSeeder::class,

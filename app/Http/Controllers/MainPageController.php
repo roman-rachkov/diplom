@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Service\Product\HotOfferServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Http\Requests\CatalogGetRequest;
 use App\Contracts\Repository\ProductRepositoryContract;
@@ -15,7 +16,8 @@ class MainPageController extends Controller
     public function index(
         ProductRepositoryContract      $products,
         CatalogGetRequest              $request,
-        ProductDiscountServiceContract $discountsService
+        ProductDiscountServiceContract $discountsService,
+        HotOfferServiceContract         $hotOfferService,
     ): Factory|View|Application
     {
         $topProducts = $products->getTopProducts();
@@ -25,6 +27,7 @@ class MainPageController extends Controller
         $limitedEditionDiscounts = $discountsService->getCatalogDiscounts($limitedEditionProduct);
         $dayOfferDiscount = $discountsService->getProductDiscounts($dayOfferProduct);
         $dayOfferTime = Carbon::tomorrow()->format('d.m.Y H:i');
+        $hotOffers = $hotOfferService->get();
 
         return view('main')->with(compact(
                                         'topProducts',
@@ -35,6 +38,7 @@ class MainPageController extends Controller
                                                    'limitedEditionDiscounts',
                                                    'dayOfferDiscount',
                                                    'dayOfferTime',
+                                                    'hotOffers',
                                                 ));
     }
 }
