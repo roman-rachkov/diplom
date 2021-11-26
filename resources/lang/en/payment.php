@@ -9,4 +9,8 @@ return [
     'generate' => 'Generate a random card number',
     'waiting' => 'WAITING FOR PAYMENT OF ORDER №',
     'wait' => 'We are waiting for confirmation of payment by the payment system',
+    'pending' => 'Payment status - pending',
+    'canceled' => 'Payment status - canceled',
+    'succeeded' => 'Payment status - succeeded',
+    'error' => 'Error message: ',
 ];
