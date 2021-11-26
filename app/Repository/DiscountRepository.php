@@ -32,9 +32,8 @@ class DiscountRepository implements DiscountRepositoryContract
                 'most_weighty_discount:product_id=' . $product->id,
                 $this->getTtl(),
                 function () use ($product) {
-                    return Discount::where(
-                            $this->getDiscountQueryFilter(Discount::CATEGORY_OTHER)
-                        )
+                    return
+                        $this->getDiscountQueryFilter(Discount::CATEGORY_OTHER)
                         ->whereHas('discountGroups', function($query) use ($product){
                             $query->whereHas('products', function ($query) use ($product){
                                 $query->where('id', $product->id);
@@ -69,11 +68,12 @@ class DiscountRepository implements DiscountRepositoryContract
                 $productsQty,
                 $cartCost,
             ) {
-                    return Discount::where(
+                    return
                         $this->getDiscountQueryFilter(
                             Discount::CATEGORY_CART,
                             $productsQty,
-                            $cartCost))
+                            $cartCost
+                        )
                         ->orderByDesc('weight')
                         ->first();
             }
@@ -94,9 +94,7 @@ class DiscountRepository implements DiscountRepositoryContract
                 'set_discounts',
                 $this->getTtl(),
                 function () {
-                    return Discount::where($this->getDiscountQueryFilter(
-                            Discount::CATEGORY_SET))
-                        ->get();
+                    return $this->getDiscountQueryFilter(Discount::CATEGORY_SET)->get();
                 });
     }
 
@@ -115,71 +113,30 @@ class DiscountRepository implements DiscountRepositoryContract
             $customerId;
     }
 
-    protected function getDiscountQueryFilter(
-        string $category_type,
-        ?int $productsQty =  null,
-        ?float $cartCost = null
-    ): array
-    {
-        $currentTime = Carbon::now();
-        $queryFilter = [
-            ['category_type', $category_type],
-            ['is_active', 1],
-            ['start_at', '<', $currentTime],
-            ['end_at', '>', $currentTime],
-        ];
-
-        $queryFilter = is_null($productsQty) ?
-            $queryFilter:
-            array_merge(
-                $queryFilter,
-                [
-                    ['minimum_qty', '<=', $productsQty],
-                    ['maximum_qty', '>=', $productsQty]
-                ]);
-
-        return is_null($cartCost) ?
-            $queryFilter :
-            array_merge(
-                $queryFilter,
-                [
-                    ['minimal_cost', '<=', $cartCost],
-                    ['maximum_cost', '>=', $cartCost]
-                ]);
-    }
-
-    protected function getTestDiscountQueryFilter(
-        Builder $query,
+    public function getDiscountQueryFilter(
         string $categoryType,
         ?int $productsQty =  null,
         ?float $cartCost = null
     ): Builder
     {
         $currentTime = Carbon::now();
-        $queryFilter = [
-            ['category_type', $categoryType],
-            ['is_active', 1],
-            ['start_at', '<', $currentTime],
-            ['end_at', '>', $currentTime],
-        ];
-
-        $queryFilter = is_null($productsQty) ?
-            $queryFilter:
-            array_merge(
-                $queryFilter,
-                [
+        return Discount::where(
+            [
+                ['category_type', $categoryType],
+                ['is_active', 1],
+                ['start_at', '<', $currentTime],
+                ['end_at', '>', $currentTime],
+            ])->when(!is_null($productsQty), function ($query) use ($productsQty){
+                $query->where([
                     ['minimum_qty', '<=', $productsQty],
                     ['maximum_qty', '>=', $productsQty]
                 ]);
-
-        return is_null($cartCost) ?
-            $query->where($queryFilter) :
-            $query->where(array_merge(
-                $queryFilter,
-                [
+            })->when(!is_null($cartCost), function ($query) use ($cartCost) {
+                $query->where([
                     ['minimal_cost', '<=', $cartCost],
                     ['maximum_cost', '>=', $cartCost]
-                ]));
+                ]);
+        });
     }
 
 

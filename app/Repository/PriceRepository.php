@@ -33,7 +33,7 @@ class PriceRepository implements PriceRepositoryContract
             ])
             ->remember('max_price', $this->getTtl(), function ()  {
 
-                return $this->getAllPrices()->max('price');
+                return Price::max('price');
 
             });
     }
@@ -48,7 +48,7 @@ class PriceRepository implements PriceRepositoryContract
             ])
             ->remember('min_price', $this->getTtl(), function ()  {
 
-                return $this->getAllPrices()->min('price');
+                return Price::min('price');
 
             });
     }
