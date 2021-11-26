@@ -5,9 +5,12 @@
                 <a class="Order-title" href="{{route('users.order', [$user, $order])}}">
                     {!! __('profile.orders.order', ['id' => $order->id, 'date'=>$order->created_at->format('d.m.Y')]) !!}
                 </a>
-
-                @if( \Request::route()->getName() === 'users.show' )
-                    <div class="Account-editLink"><a href="{{ route('users.orders', $user) }}">История заказов</a></div>
+                @if($showElement)
+                    <div class="Account-editLink">
+                        <a href="{{ route('users.orders', $user) }}">
+                            {{ __('account_navigation.order_history') }}
+                        </a>
+                    </div>
                 @endif
             </div>
             <div class="row-block">
@@ -33,7 +36,7 @@
 
                     @endif
                 </x-info-component>
-                @if( \Request::route()->getName() !== 'users.show' )
+                @if(!$showElement)
                     @if($order->payment?->comment !== null)
                         <x-info-component :title="__('profile.orders.pay.error')" classes="Order-info_error">
                             {{

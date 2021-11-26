@@ -35,9 +35,9 @@ class UserController extends Controller
         $user->load('attachment');
         $lastOrder = $user->customer->orders->last();
         $arrayProductsWithDiscount = $this->viewedProducts->getViewedProductsWithDiscount(self::LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW);
-        $showAllOrdersLink = true;
+        $showElement = true;
 
-        return view('users.show', compact('user', 'arrayProductsWithDiscount', 'lastOrder', 'showAllOrdersLink'));
+        return view('users.show', compact('user', 'arrayProductsWithDiscount', 'lastOrder', 'showElement'));
     }
 
     public function edit($user): View
@@ -63,7 +63,8 @@ class UserController extends Controller
     public function orders(User $user, OrderRepositoryContract $repository)
     {
         $orders = $repository->getAllOrders();
-        return view('users.history.orders')->with(compact('user', 'orders'));
+        $showElement = false;
+        return view('users.history.orders')->with(compact('user', 'orders', 'showElement'));
     }
 
     public function showOrder(User $user, Order $order)
