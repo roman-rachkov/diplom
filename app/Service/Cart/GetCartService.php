@@ -26,14 +26,14 @@ class GetCartService implements GetCartServiceContract
 
     public function getItemsList(): Collection
     {
-        return cache()->tags(['cart', 'orderItems'])->remember(
-            'cart-' . $this->customer->id . '-items',
-            $this->settings->get('cartCacheLifeTime', 20 * 60),
-            function () {
-                //TODO: проверить что с репо приходят  связи с ценой и продуктом
-                return $this->repository->getCartByCustomer($this->customer);
-            }
-        );
+        return cache()
+            ->tags(['cart', 'orderItems'])
+            ->remember(
+                'cart-' . $this->customer->id . '-items',
+                $this->settings->get('cartCacheLifeTime', 20 * 60),
+                function () {
+                    return $this->repository->getCartByCustomer($this->customer);
+                });
     }
 
     public function getCartItemsDTOs(): Collection
