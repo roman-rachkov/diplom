@@ -1,4 +1,4 @@
-@if($priceWithDiscount)
+@if($isViewable)
     <div class="Card-sale">
         {{$discountBadgeText}}
     </div>

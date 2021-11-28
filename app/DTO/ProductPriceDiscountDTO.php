@@ -17,7 +17,7 @@ class ProductPriceDiscountDTO implements DataTransferObjectInterface
         public Product $product,
         public float $price,
         public bool|float $priceWithDiscount,
-        public Discount $discount
+        public ?Discount $discount
     )
     {}
 }

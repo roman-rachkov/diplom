@@ -12,7 +12,6 @@
             <div class="ProductCard-photo">
                 <x-discount.badge
                         :discount="$dto->discount"
-                        :priceWithDiscount="$dto->priceWithDiscount"
                 />
                 <img
                         src={{$dto->product->image->getRelativeUrlAttribute()}}

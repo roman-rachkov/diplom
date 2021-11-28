@@ -28,7 +28,6 @@
     </div>
     <x-discount.badge
             :discount="$dto->discount"
-            :priceWithDiscount="$dto->priceWithDiscount"
     />
 
 </div>

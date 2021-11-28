@@ -15,10 +15,16 @@ class Badge extends Component
      *
      * @return void
      */
-    public function __construct(public Discount $discount, public $priceWithDiscount)
+    public function __construct(public ?Discount $discount, public bool $isViewable = true)
     {
-        $this->discountValue = round($this->discount->value);
-        $this->discountBadgeText = $this->getDiscountBadgeText();
+        if(is_null($this->discount)) {
+            $this->isViewable = false;
+            $this->discountValue = 0;
+            $this->discountBadgeText = '';
+        } else {
+            $this->discountValue = round($this->discount->value);
+            $this->discountBadgeText = $this->getDiscountBadgeText();
+        }
     }
 
     /**
