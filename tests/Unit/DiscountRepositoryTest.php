@@ -35,8 +35,6 @@ class DiscountRepositoryTest extends TestCase
 
         $onCartDiscount = $this->repo->getOnCartDiscount($customerId, $productsQty, $cartCost);
 
-        Cache::flush();
-
         $weight = is_null($onCartDiscount) ? 10 : $onCartDiscount->weight;
 
         $validDiscountAttrs = $this->getValidDiscountAttrs(
@@ -58,8 +56,6 @@ class DiscountRepositoryTest extends TestCase
     public function testGetOnSetDiscountsMethod()
     {
         $setDiscountsIds = $this->repo->getOnSetDiscounts()->pluck('id');
-
-        Cache::flush();
 
         $validDiscountAttrs = $this->getValidDiscountAttrs(Discount::CATEGORY_SET, rand(10, 100));
         $validDiscountIds = Discount::factory($validDiscountAttrs)->count(3)->create()->pluck('id');
