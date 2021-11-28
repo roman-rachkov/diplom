@@ -18,4 +18,8 @@ interface ProductDiscountServiceContract
 
     public function getCatalogDiscounts(Collection $products): Collection;
 
+    public function getProductPriceWithDiscount(Product $product, ?float $price = null): bool|float;
+
+    public function getDiscountTextForIcon(Product $product): bool|string;
+
 }

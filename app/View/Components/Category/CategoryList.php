@@ -3,6 +3,7 @@
 namespace App\View\Components\Category;
 
 use App\Repository\CategoryRepository;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
@@ -13,7 +14,7 @@ class CategoryList extends Component
      *
      * @var Collection
      */
-    public $categories;
+    public Collection $categories;
 
     /**
      * Create the component instance.
@@ -29,7 +30,7 @@ class CategoryList extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return View
      */
     public function render()
     {

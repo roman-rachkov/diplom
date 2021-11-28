@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
+use App\Contracts\Service\Cart\AddCartServiceContract;
+use App\Contracts\Service\Cart\GetCartServiceContract;
+use App\Contracts\Service\Cart\RemoveCartServiceContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
+use App\Models\ComparedProduct;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 

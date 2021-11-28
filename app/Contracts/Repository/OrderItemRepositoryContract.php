@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Repository;
 
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Seller;
 
@@ -14,5 +15,7 @@ interface OrderItemRepositoryContract
     public function setSeller(Product $product, int $sellerId): bool;
 
     public function remove(Product $product): bool;
+
+    public function getCartByCustomer(Customer $customer);
 
 }

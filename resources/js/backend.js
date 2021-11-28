@@ -81,14 +81,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setPaymentStatus(payment) {
         const element = document.querySelector('.ProgressPayment');
-        element.innerHTML = '';
-        const header = document.createElement('h3');
-        header.textContent = "Статус оплаты: " + payment.status
-        header.style.textAlign = "center";
-        element.appendChild(header);
-        const message = document.createElement('p');
-        message.textContent = "Комментарий к оплате: " + payment.comment
-        element.appendChild(message);
+
+        let statusEl = document.querySelector('.' + payment.status)
+        let paymentError = document.querySelector('.payment-error')
+        let paymentErrorMessage = document.querySelector('.payment-error span')
+        if (payment.comment != null) {
+            paymentErrorMessage.innerHTML = payment.comment
+            paymentError.classList.add('active')
+        }
+        document.querySelector('.ProgressPayment-icon').remove()
+        document.querySelector('.ProgressPayment-title.default').remove()
+        statusEl.classList.add('active')
     }
 
     //Add to cart on compare page
@@ -127,7 +130,7 @@ $(document).ready($ => {
                 password: form.find('input[name=password]').val(),
                 password_confirmation: form.find('input[name=password_confirmation]').val(),
                 name: form.find('input[name=name]').val(),
-                email: form.find('input[name=mail]').val(),
+                email: form.find('input[name=email]').val(),
                 phone: form.find('input[name=phone]').mask(),
             })
                 .then(json => {

@@ -17,7 +17,7 @@ class CreateNewUserWithPhone implements CreatesNewUsers
     /**
      * Validate and create a newly registered user.
      *
-     * @param  array  $input
+     * @param array $input
      * @return \App\Models\User
      */
     public function create(array $input)
@@ -31,7 +31,7 @@ class CreateNewUserWithPhone implements CreatesNewUsers
                 'max:255',
                 Rule::unique(User::class),
             ],
-            'phone' => 'required|digits:10',
+            'phone' => 'sometimes|required|digits:10',
             'password' => $this->passwordRules(),
         ])->validate();
 
@@ -40,7 +40,7 @@ class CreateNewUserWithPhone implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'permissions' => ["account" => "1"],
-            'phone' => $input['phone']
+            'phone' => $input['phone'] ?? null
         ]);
     }
 }
