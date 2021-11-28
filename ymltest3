@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE yml_catalog
+SYSTEM "shops.dtd">
+<yml_catalog date="2021-11-28 14:34">
+	<shop>
+		<name>ОАО ГлавСеверДизайн</name>
+		<company>ОАО ГлавСеверДизайн</company>
+		<url>http://localhost/sellers/3</url>
+		<email>ivan90@romanova.ru</email>
+		<currencies>
+			<currency id="USD" rate="1"/>
+		</currencies>
+		<categories>
+			<category id="1">Furniture</category>
+			<category id="2">Furniture</category>
+			<category id="3">Electronics</category>
+			<category id="5">Furniture</category>
+			<category id="7">More</category>
+			<category id="8">Accessories</category>
+			<category id="9">Trends</category>
+			<category id="10">Electronics</category>
+			<category id="11">Bags</category>
+			<category id="12">Accessories</category>
+			<category id="13">More</category>
+			<category id="14">More</category>
+			<category id="15">Cameras</category>
+			<category id="16">Trends</category>
+			<category id="17">Mobile</category>
+			<category id="19">Accessories</category>
+			<category id="20">Clothing</category>
+		</categories>
+		<offers>
+			<offer id="2" available="true">
+				<url>http://localhost/products/odio-maxime-ipsa-ut</url>
+				<price>7092.36</price>
+				<currencyId>USD</currencyId>
+				<categoryId>1</categoryId>
+				<delivery>true</delivery>
+				<name>architecto</name>
+			</offer>
+			<offer id="12" available="true">
+				<url>http://localhost/products/optio-tenetur-et-cum-eum-voluptas</url>
+				<price>4722.83</price>
+				<currencyId>USD</currencyId>
+				<categoryId>1</categoryId>
+				<delivery>true</delivery>
+				<name>qui</name>
+			</offer>
+			<offer id="20" available="true">
+				<url>http://localhost/products/cumque-sed-laudantium-accusantium-tempore</url>
+				<price>4033.57</price>
+				<currencyId>USD</currencyId>
+				<categoryId>2</categoryId>
+				<delivery>true</delivery>
+				<name>occaecati</name>
+			</offer>
+			<offer id="31" available="true">
+				<url>http://localhost/products/eligendi-nihil-laudantium-reprehenderit-aliquam-et-voluptatem-iure-adipisci</url>
+				<price>9340.29</price>
+				<currencyId>USD</currencyId>
+				<categoryId>2</categoryId>
+				<delivery>true</delivery>
+				<name>quibusdam</name>
+			</offer>
+			<offer id="46" available="true">
+				<url>http://localhost/products/minima-eos-dolores-nostrum-expedita-voluptas</url>
+				<price>7870.72</price>
+				<currencyId>USD</currencyId>
+				<categoryId>3</categoryId>
+				<delivery>true</delivery>
+				<name>quasi</name>
+			</offer>
+			<offer id="77" available="true">
+				<url>http://localhost/products/excepturi-officia-ut-assumenda-aut-tempora-in-nam</url>
+				<price>2674.19</price>
+				<currencyId>USD</currencyId>
+				<categoryId>5</categoryId>
+				<delivery>true</delivery>
+				<name>et</name>
+			</offer>
+			<offer id="83" available="true">
+				<url>http://localhost/products/laborum-ut-nesciunt-et-culpa-consequatur-enim-quas-aut</url>
+				<price>6334.44</price>
+				<currencyId>USD</currencyId>
+				<categoryId>5</categoryId>
+				<delivery>true</delivery>
+				<name>iste</name>
+			</offer>
+			<offer id="128" available="true">
+				<url>http://localhost/products/ipsa-quia-explicabo-doloribus-et-autem-perspiciatis-veniam</url>
+				<price>1036.03</price>
+				<currencyId>USD</currencyId>
+				<categoryId>7</categoryId>
+				<delivery>true</delivery>
+				<name>porro</name>
+			</offer>
+			<offer id="139" available="true">
+				<url>http://localhost/products/qui-suscipit-a-nam-facilis</url>
+				<price>1507.41</price>
+				<currencyId>USD</currencyId>
+				<categoryId>7</categoryId>
+				<delivery>true</delivery>
+				<name>qui</name>
+			</offer>
+			<offer id="151" available="true">
+				<url>http://localhost/products/veritatis-debitis-voluptas-atque-quibusdam-consequuntur-tempora</url>
+				<price>6116.54</price>
+				<currencyId>USD</currencyId>
+				<categoryId>7</categoryId>
+				<delivery>true</delivery>
+				<name>sint</name>
+			</offer>
+			<offer id="158" available="true">
+				<url>http://localhost/products/voluptatibus-dolorum-repellat-culpa-error-rerum-quibusdam</url>
+				<price>1777.67</price>
+				<currencyId>USD</currencyId>
+				<categoryId>7</categoryId>
+				<delivery>true</delivery>
+				<name>quasi</name>
+			</offer>
+			<offer id="173" available="true">
+				<url>http://localhost/products/pariatur-suscipit-voluptas-sed-inventore-ipsam</url>
+				<price>2322.34</price>
+				<currencyId>USD</currencyId>
+				<categoryId>8</categoryId>
+				<delivery>true</delivery>
+				<name>et</name>
+			</offer>
+			<offer id="187" available="true">
+				<url>http://localhost/products/officiis-tempora-qui-voluptas-perspiciatis-laboriosam-optio-nobis</url>
+				<price>6111.80</price>
+				<currencyId>USD</currencyId>
+				<categoryId>8</categoryId>
+				<delivery>true</delivery>
+				<name>accusantium</name>
+			</offer>
+			<offer id="191" available="true">
+				<url>http://localhost/products/dolor-omnis-expedita-vitae-aut</url>
+				<price>5286.54</price>
+				<currencyId>USD</currencyId>
+				<categoryId>8</categoryId>
+				<delivery>true</delivery>
+				<name>aperiam</name>
+			</offer>
+			<offer id="194" available="true">
+				<url>http://localhost/products/quidem-blanditiis-officia-est-occaecati-reprehenderit-culpa-magni</url>
+				<price>5688.62</price>
+				<currencyId>USD</currencyId>
+				<categoryId>9</categoryId>
+				<delivery>true</delivery>
+				<name>quia</name>
+			</offer>
+			<offer id="202" available="true">
+				<url>http://localhost/products/facilis-quod-ut-iure-odit-enim</url>
+				<price>3689.81</price>
+				<currencyId>USD</currencyId>
+				<categoryId>9</categoryId>
+				<delivery>true</delivery>
+				<name>ad</name>
+			</offer>
+			<offer id="235" available="true">
+				<url>http://localhost/products/corporis-cum-et-dolorem-ut-aut-maxime-commodi-quia</url>
+				<price>4055.54</price>
+				<currencyId>USD</currencyId>
+				<categoryId>10</categoryId>
+				<delivery>true</delivery>
+				<name>recusandae</name>
+			</offer>
+			<offer id="237" available="true">
+				<url>http://localhost/products/consequatur-optio-velit-enim-aspernatur-a</url>
+				<price>2411.82</price>
+				<currencyId>USD</currencyId>
+				<categoryId>10</categoryId>
+				<delivery>true</delivery>
+				<name>dolores</name>
+			</offer>
+			<offer id="244" available="true">
+				<url>http://localhost/products/repudiandae-sint-ea-quo-qui</url>
+				<price>1685.13</price>
+				<currencyId>USD</currencyId>
+				<categoryId>11</categoryId>
+				<delivery>true</delivery>
+				<name>iusto</name>
+			</offer>
+			<offer id="264" available="true">
+				<url>http://localhost/products/neque-expedita-corrupti-explicabo-nobis-ut-quo-delectus-est</url>
+				<price>2524.17</price>
+				<currencyId>USD</currencyId>
+				<categoryId>12</categoryId>
+				<delivery>true</delivery>
+				<name>magnam</name>
+			</offer>
+			<offer id="271" available="true">
+				<url>http://localhost/products/ut-deserunt-eaque-provident-vel</url>
+				<price>6821.97</price>
+				<currencyId>USD</currencyId>
+				<categoryId>12</categoryId>
+				<delivery>true</delivery>
+				<name>non</name>
+			</offer>
+			<offer id="286" available="true">
+				<url>http://localhost/products/aliquam-sequi-doloremque-et-quia-vel-est-totam</url>
+				<price>2121.57</price>
+				<currencyId>USD</currencyId>
+				<categoryId>13</categoryId>
+				<delivery>true</delivery>
+				<name>facere</name>
+			</offer>
+			<offer id="308" available="true">
+				<url>http://localhost/products/corrupti-voluptas-labore-quia-vero-et-eveniet-ut</url>
+				<price>7627.81</price>
+				<currencyId>USD</currencyId>
+				<categoryId>14</categoryId>
+				<delivery>true</delivery>
+				<name>qui</name>
+			</offer>
+			<offer id="318" available="true">
+				<url>http://localhost/products/consequatur-ut-nam-dolores-eaque</url>
+				<price>1385.94</price>
+				<currencyId>USD</currencyId>
+				<categoryId>14</categoryId>
+				<delivery>true</delivery>
+				<name>enim</name>
+			</offer>
+			<offer id="320" available="true">
+				<url>http://localhost/products/ea-quia-id-quisquam-possimus-sed</url>
+				<price>806.61</price>
+				<currencyId>USD</currencyId>
+				<categoryId>15</categoryId>
+				<delivery>true</delivery>
+				<name>possimus</name>
+			</offer>
+			<offer id="333" available="true">
+				<url>http://localhost/products/autem-fugit-consequatur-blanditiis</url>
+				<price>3742.52</price>
+				<currencyId>USD</currencyId>
+				<categoryId>15</categoryId>
+				<delivery>true</delivery>
+				<name>aut</name>
+			</offer>
+			<offer id="338" available="true">
+				<url>http://localhost/products/quia-in-a-quidem-in</url>
+				<price>1477.63</price>
+				<currencyId>USD</currencyId>
+				<categoryId>15</categoryId>
+				<delivery>true</delivery>
+				<name>ea</name>
+			</offer>
+			<offer id="346" available="true">
+				<url>http://localhost/products/ut-omnis-rerum-labore-repellat-iusto</url>
+				<price>3010.75</price>
+				<currencyId>USD</currencyId>
+				<categoryId>15</categoryId>
+				<delivery>true</delivery>
+				<name>cum</name>
+			</offer>
+			<offer id="365" available="true">
+				<url>http://localhost/products/odio-quibusdam-dolor-voluptatem-doloremque-quaerat</url>
+				<price>4209.60</price>
+				<currencyId>USD</currencyId>
+				<categoryId>16</categoryId>
+				<delivery>true</delivery>
+				<name>sed</name>
+			</offer>
+			<offer id="375" available="true">
+				<url>http://localhost/products/dolorem-omnis-in-dolorum-facere-ratione-consectetur-accusamus</url>
+				<price>6802.66</price>
+				<currencyId>USD</currencyId>
+				<categoryId>16</categoryId>
+				<delivery>true</delivery>
+				<name>debitis</name>
+			</offer>
+			<offer id="381" available="true">
+				<url>http://localhost/products/quos-atque-voluptatum-esse-non</url>
+				<price>487.91</price>
+				<currencyId>USD</currencyId>
+				<categoryId>16</categoryId>
+				<delivery>true</delivery>
+				<name>excepturi</name>
+			</offer>
+			<offer id="384" available="true">
+				<url>http://localhost/products/voluptatem-harum-consequatur-non-placeat</url>
+				<price>1812.17</price>
+				<currencyId>USD</currencyId>
+				<categoryId>16</categoryId>
+				<delivery>true</delivery>
+				<name>consequatur</name>
+			</offer>
+			<offer id="392" available="true">
+				<url>http://localhost/products/distinctio-corporis-consequatur-hic-delectus-quod-qui-nam</url>
+				<price>1099.81</price>
+				<currencyId>USD</currencyId>
+				<categoryId>17</categoryId>
+				<delivery>true</delivery>
+				<name>illo</name>
+			</offer>
+			<offer id="399" available="true">
+				<url>http://localhost/products/ut-commodi-nostrum-dolores-nobis-ut-consequatur-et</url>
+				<price>534.46</price>
+				<currencyId>USD</currencyId>
+				<categoryId>17</categoryId>
+				<delivery>true</delivery>
+				<name>quia</name>
+			</offer>
+			<offer id="404" available="true">
+				<url>http://localhost/products/omnis-expedita-corrupti-natus-tempore</url>
+				<price>5794.69</price>
+				<currencyId>USD</currencyId>
+				<categoryId>17</categoryId>
+				<delivery>true</delivery>
+				<name>nisi</name>
+			</offer>
+			<offer id="416" available="true">
+				<url>http://localhost/products/aspernatur-repudiandae-ex-alias-quis-ipsa-debitis</url>
+				<price>9508.72</price>
+				<currencyId>USD</currencyId>
+				<categoryId>17</categoryId>
+				<delivery>true</delivery>
+				<name>veritatis</name>
+			</offer>
+			<offer id="420" available="true">
+				<url>http://localhost/products/similique-culpa-eligendi-aut-rem</url>
+				<price>2908.01</price>
+				<currencyId>USD</currencyId>
+				<categoryId>17</categoryId>
+				<delivery>true</delivery>
+				<name>nihil</name>
+			</offer>
+			<offer id="442" available="true">
+				<url>http://localhost/products/perferendis-voluptas-vel-est-accusamus-et</url>
+				<price>2750.88</price>
+				<currencyId>USD</currencyId>
+				<categoryId>19</categoryId>
+				<delivery>true</delivery>
+				<name>sed</name>
+			</offer>
+			<offer id="451" available="true">
+				<url>http://localhost/products/sint-vero-sed-adipisci-rerum-itaque-libero-ratione</url>
+				<price>9948.34</price>
+				<currencyId>USD</currencyId>
+				<categoryId>19</categoryId>
+				<delivery>true</delivery>
+				<name>magnam</name>
+			</offer>
+			<offer id="470" available="true">
+				<url>http://localhost/products/voluptas-recusandae-totam-earum-adipisci-sunt</url>
+				<price>5113.53</price>
+				<currencyId>USD</currencyId>
+				<categoryId>19</categoryId>
+				<delivery>true</delivery>
+				<name>rerum</name>
+			</offer>
+			<offer id="478" available="true">
+				<url>http://localhost/products/earum-saepe-quia-nemo</url>
+				<price>3346.15</price>
+				<currencyId>USD</currencyId>
+				<categoryId>20</categoryId>
+				<delivery>true</delivery>
+				<name>explicabo</name>
+			</offer>
+		</offers>
+	</shop>
+</yml_catalog>
