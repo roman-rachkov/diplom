@@ -81,14 +81,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setPaymentStatus(payment) {
         const element = document.querySelector('.ProgressPayment');
-        element.innerHTML = '';
-        const header = document.createElement('h3');
-        header.textContent = "Статус оплаты: " + payment.status
-        header.style.textAlign = "center";
-        element.appendChild(header);
-        const message = document.createElement('p');
-        message.textContent = "Комментарий к оплате: " + payment.comment
-        element.appendChild(message);
+
+        let statusEl = document.querySelector('.' + payment.status)
+        let paymentError = document.querySelector('.payment-error')
+        let paymentErrorMessage = document.querySelector('.payment-error span')
+        if (payment.comment != null) {
+            paymentErrorMessage.innerHTML = payment.comment
+            paymentError.classList.add('active')
+        }
+        document.querySelector('.ProgressPayment-icon').remove()
+        document.querySelector('.ProgressPayment-title.default').remove()
+        statusEl.classList.add('active')
     }
 
     //Add to cart on compare page

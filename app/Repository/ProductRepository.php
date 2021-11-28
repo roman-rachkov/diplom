@@ -155,4 +155,11 @@ class ProductRepository implements ProductRepositoryContract
                     ->get();
             });
     }
+
+    public function getHotDiscountsProducts(): Collection
+    {
+        $countHotOffers = $this->adminsSettings->get('count_hot_offers', 8);
+
+        return $this->model->has('discountGroups')->inRandomOrder()->take($countHotOffers)->get();
+    }
 }

@@ -34,7 +34,7 @@
         <div class="wrap">
             <div class="Section-content">
 
-                <x-hot_offers_slider/>
+                <x-hot_offers_slider :offers="$hotOffers"/>
 
             </div>
         </div>
