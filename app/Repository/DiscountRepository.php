@@ -62,7 +62,7 @@ class DiscountRepository implements DiscountRepositoryContract
                 'categories'
             ]
         )->remember(
-            $this->getCartDiscountCacheKey($customerId, 'cart_most_weight_discount'),
+            'cart_most_weight_discount|customer_id=' . $customerId,
             $this->getTtl(),
             function () use (
                 $productsQty,
@@ -103,14 +103,6 @@ class DiscountRepository implements DiscountRepositoryContract
     {
         return $this->adminSettings
             ->get('discountsCacheTime', 60 * 60 * 24);
-    }
-
-    protected function getCartDiscountCacheKey(string $customerId, string $cartDiscountName): string
-    {
-        return
-            $cartDiscountName .
-            '|customer_id=' .
-            $customerId;
     }
 
     public function getDiscountQueryFilter(

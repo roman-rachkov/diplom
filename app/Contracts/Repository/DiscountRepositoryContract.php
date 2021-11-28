@@ -5,7 +5,6 @@ namespace App\Contracts\Repository;
 use App\Models\Discount;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Support\Collection;
 
 interface DiscountRepositoryContract
 {
