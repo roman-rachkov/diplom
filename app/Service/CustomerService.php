@@ -23,8 +23,6 @@ class CustomerService implements CustomerServiceContract
 
     public function getCustomer(): Customer
     {
-        return Customer::find(70);
-
         return Cache::store('array')->rememberForever('customerService', function () {
 
             if (!Cookie::get('customer_token')) {

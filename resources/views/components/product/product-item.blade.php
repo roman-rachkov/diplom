@@ -10,9 +10,9 @@
     <div class="ProductCard">
         <div class="ProductCard-look">
             <div class="ProductCard-photo">
-                <x-discount-badge
+                <x-discount.badge
+                        :discount="$dto->discount"
                         :priceWithDiscount="$dto->priceWithDiscount"
-                        :discountBadgeText="$dto->discountBadgeText"
                 />
                 <img
                         src={{$dto->product->image->getRelativeUrlAttribute()}}

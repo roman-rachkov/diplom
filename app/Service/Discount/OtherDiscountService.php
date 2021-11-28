@@ -43,7 +43,7 @@ class OtherDiscountService implements OtherDiscountServiceContract
                 $product,
                 $price,
                 $this->getProductPriceWithDiscount($product, $price),
-                $this->getDiscountBadgeText($product)
+                $this->getCurrentDiscount($product, null)
             ]
         );
     }
@@ -64,17 +64,6 @@ class OtherDiscountService implements OtherDiscountServiceContract
         return false;
     }
 
-    protected function getDiscountBadgeText(Product $product, ?Discount $discount = null): bool|string
-    {
-        if ($discount = $this->getCurrentDiscount($product, $discount)) {
-            return $this
-                ->methodTypeFactory
-                ->create($discount)
-                ->getTextForBadge();
-        }
-        return false;
-    }
-
     protected function getCurrentDiscount(Product $product, ?Discount $discount): ?Discount
     {
        return is_null($discount) ?  $this->repository->getProductDiscount($product) : $discount;
@@ -82,7 +71,6 @@ class OtherDiscountService implements OtherDiscountServiceContract
 
     protected function getAvgPrice(Product $product): float
     {
-        //TODO Сделать мутатор для получения отображаемого значения цены?
        return round($product->prices->avg('price'), 2);
     }
 

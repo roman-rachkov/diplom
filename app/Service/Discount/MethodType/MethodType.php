@@ -14,9 +14,4 @@ abstract class MethodType implements MethodTypeContract
         $this->discountValue = $discount->value;
     }
 
-    protected function getBadgeValue(): float
-    {
-        return round($this->discountValue);
-    }
-
 }
