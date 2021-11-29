@@ -41,7 +41,7 @@ class CustomerService implements CustomerServiceContract
 
             $customer = $this->repository->getByHash(Cookie::get('customer_token'));
 
-            if ($customer->hash === null) {
+            if ($customer === null) {
                 $customer = $this->repository->createCustomer();
             }
 
