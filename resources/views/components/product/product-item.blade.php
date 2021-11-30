@@ -30,14 +30,14 @@
                     <div class="ProductCard-cost">
                         @if($dto->priceWithDiscount)
                             <div class="ProductCard-price">
-                                ${{ $dto->priceWithDiscount }}
+                                <x-format-price :price="$dto->priceWithDiscount" />
                             </div>
                             <div class="ProductCard-priceOld">
-                                ${{ $dto->price }}
+                                <x-format-price :price="$dto->price" />
                             </div>
                         @else
                             <div class="ProductCard-price">
-                                ${{ $dto->price }}
+                                <x-format-price :price="$dto->price" />
                             </div>
                         @endif
                     </div>

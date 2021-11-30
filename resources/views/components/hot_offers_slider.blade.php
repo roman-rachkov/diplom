@@ -22,10 +22,10 @@
                         <div class="Card-description">
                             <div class="Card-cost">
                                 <span class="Card-priceOld">
-                                    {{ sprintf('$%.2f', $offer['product']->prices->pluck('price')->avg()) }}
+                                    <x-format-price :price="$offer['product']->prices->pluck('price')->avg()" />
                                 </span>
                                 <span class="Card-price">
-                                    {{ sprintf('$%.2f', $offer['discount']) }}
+                                    <x-format-price :price="$offer['discount']" />
                                 </span>
                             </div>
                             <div class="Card-category">{{ $offer['product']->category->name }}
