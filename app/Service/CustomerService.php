@@ -36,6 +36,13 @@ class CustomerService implements CustomerServiceContract
             }
 
             if (auth()->user() && !auth()->user()->customer) {
+                Log::info('before checkIsNotCustomerInDb' . Cookie::get('customer_token'));
+                if($this->repository->checkIsNotCustomerInDb(Cookie::get('customer_token'))) {
+                    Log::info('before checkIsNotCustomerInDb' . Cookie::get('customer_token'));
+                    $customer = $this->repository->createCustomer(Cookie::get('customer_token'));
+                    Log::info('create hash' . $customer->hash);
+                }
+                Log::info('customer_token ' . Cookie::get('customer_token'));
                 $this->repository->setUserId(Cookie::get('customer_token'), auth()->user()->id);
             }
 

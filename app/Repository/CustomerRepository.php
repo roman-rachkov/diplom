@@ -26,13 +26,14 @@ class CustomerRepository implements CustomerRepositoryContract
         });
     }
 
-    public function createCustomer()
+    public function createCustomer($hash = null)
     {
-        $hash = hash('sha256', Str::random(256));
+        $newHash = $hash ?? hash('sha256', Str::random(256));
+        if ($hash) Cache::tags(['customerService'])->flush();
         return Cache::tags(['customerService'])->remember(
-            'customerService_user_id_' . $hash, 60 * 60 * 24, function () use ($hash) {
+            'customerService_user_id_' . $newHash, 60 * 60 * 24, function () use ($newHash) {
             $customer = $this->model->create();
-            $customer->hash = $hash;
+            $customer->hash = $newHash;
             $customer->save();
             return $customer;
         });
@@ -53,6 +54,14 @@ class CustomerRepository implements CustomerRepositoryContract
     public function removeCustomerByHash($hash)
     {
         $this->model->where(['hash' => $hash])->delete();
+    }
+
+    public function checkIsNotCustomerInDb($hash)
+    {
+        if (is_null($this->model->where(['hash' => $hash])->first())) {
+            return true;
+        }
+        return false;
     }
 
 }
