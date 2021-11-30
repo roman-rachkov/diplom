@@ -8,8 +8,8 @@ use Illuminate\Support\Collection;
 
 interface ImportProductsRepositoryContract
 {
-    public function saveProduct(ProductImportDTO $product): bool|Product;
+    public function saveProduct(ProductImportDTO $product): Product;
 
-    public function saveProducts(Collection $products): bool|Collection;
+    public function saveProducts(Collection $productsDTO): Collection;
 
 }

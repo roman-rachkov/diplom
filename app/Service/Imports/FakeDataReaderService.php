@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Manufacturer;
 use App\Models\Product;
 use App\Models\Seller;
+use Faker\Generator;
 use Illuminate\Support\Collection;
 
 class FakeDataReaderService implements DataReaderContract
@@ -24,7 +25,7 @@ class FakeDataReaderService implements DataReaderContract
                 $product->category_id = Category::all()->random()->id;
                 return $product;
             })
-            ->count(10)
+            ->count(1)
             ->make();
 
         $DTOCollection = $data->map(function ($item) {
@@ -38,6 +39,10 @@ class FakeDataReaderService implements DataReaderContract
                 'manufacturer_id' => $item->manufacturer_id,
                 'seller_id' => Seller::all()->random()->id,
                 'price' => (float)mt_rand(1000, 1000000) / 100,
+                'image_path' => app(Generator::class)->randomELement([
+                    'fakeImage.jpg',
+                    'https://www.loremflickr.com/300/300',
+                ])
             ]);
         });
         return $DTOCollection;
