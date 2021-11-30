@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface DataReaderContract
 {
-    public function getData(): Collection;
+    public function getData(): string|Collection;
 }
