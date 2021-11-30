@@ -77,7 +77,11 @@ class OrderController extends Controller
         return view('cart.step-four')->with(compact('data'));
     }
 
-    public function add(Request $request, PaymentsIntegratorServiceContract $payments, OrderRepositoryContract $orderRepository)
+    public function add(
+        Request $request,
+        PaymentsIntegratorServiceContract $payments,
+        OrderRepositoryContract $orderRepository
+    )
     {
         try {
             if (!session('order_data')) {

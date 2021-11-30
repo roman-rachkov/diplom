@@ -15,27 +15,21 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    private $userRepository;
-    private $viewedProducts;
-
     const LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW = 3;
 
     public function __construct(
-        UserRepositoryContract $userRepository,
-        ViewedProductsService $viewedProducts,
+        private UserRepositoryContract $userRepository,
+        private ViewedProductsService $viewedProducts,
     )
-    {
-        $this->userRepository = $userRepository;
-        $this->viewedProducts = $viewedProducts;
-    }
+    {}
 
     public function show($user): View
     {
         $user = $this->userRepository->find($user);
         $user->load('attachment');
-        $arrayProductsWithDiscount = $this->viewedProducts->getViewedProductsWithDiscount(self::LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW);
+        $viewedProductsDTOs = $this->viewedProducts->getViewedProductsDTOs(self::LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW);
 
-        return view('users.show', compact('user', 'arrayProductsWithDiscount'));
+        return view('users.show', compact('user', 'viewedProductsDTOs'));
     }
 
     public function edit($user): View
