@@ -10,16 +10,18 @@ class OrderHistoryComponent extends Component
 {
     public Order $order;
     public User $user;
+    public Bool $showElement;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(User $user, Order $order)
+    public function __construct(User $user, Order $order, $showElement)
     {
         $this->order = $order;
         $this->user = $user;
+        $this->showElement = $showElement;
     }
 
     /**

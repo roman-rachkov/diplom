@@ -27,9 +27,11 @@ class UserController extends Controller
     {
         $user = $this->userRepository->find($user);
         $user->load('attachment');
+        $lastOrder = $user->customer->orders->last();
         $viewedProductsDTOs = $this->viewedProducts->getViewedProductsDTOs(self::LIMIT_VIEWED_PRODUCTS_FOR_PREVIEW);
+        $showElement = true;
 
-        return view('users.show', compact('user', 'viewedProductsDTOs'));
+        return view('users.show', compact('user', 'viewedProductsDTOs', 'lastOrder', 'showElement'));
     }
 
     public function edit($user): View
@@ -55,7 +57,8 @@ class UserController extends Controller
     public function orders(User $user, OrderRepositoryContract $repository)
     {
         $orders = $repository->getAllOrders();
-        return view('users.history.orders')->with(compact('user', 'orders'));
+        $showElement = false;
+        return view('users.history.orders')->with(compact('user', 'orders', 'showElement'));
     }
 
     public function showOrder(User $user, Order $order)

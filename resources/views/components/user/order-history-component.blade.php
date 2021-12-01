@@ -5,6 +5,13 @@
                 <a class="Order-title" href="{{route('users.order', [$user, $order])}}">
                     {!! __('profile.orders.order', ['id' => $order->id, 'date'=>$order->created_at->format('d.m.Y')]) !!}
                 </a>
+                @if($showElement)
+                    <div class="Account-editLink">
+                        <a href="{{ route('users.orders', $user) }}">
+                            {{ __('account_navigation.order_history') }}
+                        </a>
+                    </div>
+                @endif
             </div>
             <div class="row-block">
                 <x-info-component :title="__('checkout.delivery.type')" classes="Order-info_delivery">
@@ -29,14 +36,17 @@
 
                     @endif
                 </x-info-component>
-                @if($order->payment?->comment !== null)
-                    <x-info-component :title="__('profile.orders.pay.error')" classes="Order-info_error">
-                        {{
-                            $order->payment?->comment ?? ''
-                        }}
-                    </x-info-component>
+                @if(!$showElement)
+                    @if($order->payment?->comment !== null)
+                        <x-info-component :title="__('profile.orders.pay.error')" classes="Order-info_error">
+                            {{
+                                $order->payment?->comment ?? ''
+                            }}
+                        </x-info-component>
+                    @endif
                 @endif
             </div>
         </div>
     </div>
 </div>
+
