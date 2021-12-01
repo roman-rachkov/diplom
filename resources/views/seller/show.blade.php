@@ -21,7 +21,7 @@
                     </div>
                 </div>
 
-                <x-seller.popular_products :products="$popularProducts" :discounts="$discounts"/>
+                <x-seller.popular_products :productsDiscountsDTOs="$popularProductsDiscountsDTOs" />
 
              </div>
         </div>

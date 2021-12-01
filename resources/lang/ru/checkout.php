@@ -21,7 +21,7 @@ return [
         'title' => 'Телефон',
         'placeholder' => '+70000000000'
     ],
-    'mail' => [
+    'email' => [
         'title' => 'E-mail',
         'placeholder' => 'client@example.com'
     ],
