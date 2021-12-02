@@ -10,7 +10,7 @@
             <div class="Section-content">
                 <div class="Orders">
                     @forelse($orders as $order)
-                        <x-user.order-history-component :order="$order" :user="$user"/>
+                        <x-user.order-history-component :order="$order" :user="$user" :showElement="$showElement"/>
                     @empty
                         <p>{{__('profile.orders.noOne')}}</p>
                     @endforelse

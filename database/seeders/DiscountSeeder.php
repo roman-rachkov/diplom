@@ -7,6 +7,7 @@ use App\Models\Discount;
 use App\Models\DiscountGroup;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class DiscountSeeder extends Seeder
 {
@@ -17,9 +18,18 @@ class DiscountSeeder extends Seeder
      */
     public function run()
     {
-        Discount::factory([
-            'category_type' => Discount::CATEGORY_OTHER,
-        ])->has(
+        $validDiscountDates = [
+            'start_at' => Carbon::yesterday(),
+            'end_at' => Carbon::now()->addDays(30)
+        ];
+
+        Discount::factory(
+            array_merge(
+                [
+                    'category_type' => Discount::CATEGORY_OTHER,
+                ],
+                $validDiscountDates)
+        )->has(
             DiscountGroup::factory()
                 ->count(1)
                 ->afterCreating(function ($group) {
@@ -30,9 +40,13 @@ class DiscountSeeder extends Seeder
                 })
         )->count(10)->create();
 
-        Discount::factory([
-            'category_type' => Discount::CATEGORY_SET,
-        ])->count(10)->afterCreating(function ($discount) {
+        Discount::factory(
+            array_merge(
+                [
+                    'category_type' => Discount::CATEGORY_SET,
+                ],
+                $validDiscountDates)
+        )->count(10)->afterCreating(function ($discount) {
             DiscountGroup::factory([
                 'discount_id' => $discount
             ])

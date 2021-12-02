@@ -18,9 +18,9 @@
                        value="{{(old('phone') ?? auth()->user()?->phone) ?? ''}}"/>
             </div>
             <div class="form-group">
-                <label class="form-label" for="mail">{{__('checkout.mail.title')}}</label>
-                <input class="form-input" id="mail" name="email" type="text"
-                       data-validate="require" placeholder="{{__('checkout.mail.placeholder')}}"
+                <label class="form-label" for="email">{{__('checkout.mail.title')}}</label>
+                <input class="form-input" id="email" name="email" type="text"
+                       data-validate="require" placeholder="{{__('checkout.email.placeholder')}}"
                        value="{{(old('email') ?? auth()->user()?->email) ?? ''}}"/>
             </div>
         </div>

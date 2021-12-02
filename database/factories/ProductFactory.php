@@ -34,7 +34,7 @@ class ProductFactory extends Factory
             'sales_count' => $this->faker->numberBetween(1, 200),
             'manufacturer_id' => Manufacturer::factory(),
             'main_img_id' => Attachment::factory(),
-            'limited_edition' => $this->faker->boolean,
+            'limited_edition' => $this->faker->boolean(),
         ];
     }
 }

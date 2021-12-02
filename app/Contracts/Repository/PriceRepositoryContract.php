@@ -2,6 +2,8 @@
 
 namespace App\Contracts\Repository;
 
+use App\Models\Product;
+use App\Models\Seller;
 use Illuminate\Support\Collection;
 
 interface PriceRepositoryContract
@@ -11,4 +13,6 @@ interface PriceRepositoryContract
     public function getMinPrice(): float;
 
     public function getMaxPrice(): float;
+
+    public function getSellerProductPrice(Seller $seller, Product $product): float;
 }

@@ -62,7 +62,7 @@ services:
             LARAVEL_ECHO_SERVER_DEBUG: 'true'
             LARAVEL_ECHO_SERVER_DB: redis
             REDIS_HOST: redis
-            REDIS_PORT: '${FORWARD_REDIS_PORT:-6379}:6379'
+            REDIS_PORT: '${REDIS_PORT:-6379}:6379'
             REDIS_PREFIX: '${REDIS_PREFIX}'
             REDIS_DB: 0
         networks:

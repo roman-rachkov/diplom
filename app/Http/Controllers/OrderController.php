@@ -51,7 +51,6 @@ class OrderController extends Controller
         event(new Registered($user = $creator->create($request->all())));
 
         $guard->login($user);
-
         if ($request->json()) {
             return response()->json(['status' => (bool)$user]);
         }
@@ -78,7 +77,11 @@ class OrderController extends Controller
         return view('cart.step-four')->with(compact('data'));
     }
 
-    public function add(Request $request, PaymentsIntegratorServiceContract $payments, OrderRepositoryContract $orderRepository)
+    public function add(
+        Request $request,
+        PaymentsIntegratorServiceContract $payments,
+        OrderRepositoryContract $orderRepository
+    )
     {
         try {
             if (!session('order_data')) {
