@@ -27,11 +27,11 @@ abstract class AbstractDataReaderService implements DataReaderContract
             'slug' => 'required|max:255',
             'description' => 'required',
             'full_description' => 'required',
-            'limited_edition' => 'required',
-            'category_id' => 'required',
-            'seller_id' => 'required',
-            'manufacturer_id' => 'required',
-            'price' => 'required'
+            'limited_edition' => 'required|boolean',
+            'category_id' => 'required|integer|gt:0',
+            'seller_id' => 'required|integer|gt:0',
+            'manufacturer_id' => 'required|integer|gt:0',
+            'price' => 'required|numeric|gt:0'
         ]);
 
         if ($validator->fails()) {
