@@ -8,9 +8,4 @@ class Classic extends MethodType
     {
         return $price * (1 - $this->discountValue/100);
     }
-
-    public function getTextForBadge(): string
-    {
-        return '-' . $this->getBadgeValue() . '%' ;
-    }
 }

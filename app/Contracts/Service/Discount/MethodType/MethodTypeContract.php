@@ -6,5 +6,4 @@ interface MethodTypeContract
 {
     public function getPriceWithDiscount(?float $price): float;
 
-    public function getTextForBadge(): string;
 }

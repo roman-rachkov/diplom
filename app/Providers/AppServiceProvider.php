@@ -61,7 +61,6 @@ class AppServiceProvider extends ServiceProvider
             return 'Database\\Factories\\' . class_basename($class) . 'Factory';
         });
 
-        $this->app->singleton(CreatesNewUsers::class, CreateNewUserWithPhone::class);
         $this->app->singleton(UsersAvatarServiceContract::class, UsersAvatarService::class);
         $this->app->singleton(DeliveryCostServiceContract::class, DeliveryCostService::class);
         $this->app->singleton(AdminSettingsServiceContract::class, AdminSettingsService::class);

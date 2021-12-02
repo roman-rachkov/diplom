@@ -8,9 +8,4 @@ class Sum extends MethodType
     {
         return max($price - $this->discountValue, 1);
     }
-
-    public function getTextForBadge(): string
-    {
-        return '-' . $this->getBadgeValue() . '$';
-    }
 }

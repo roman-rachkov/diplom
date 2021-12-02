@@ -99,6 +99,10 @@ class OrderItemRepository implements OrderItemRepositoryContract
 
     public function getCartByCustomer(Customer $customer)
     {
-        return $customer->items()->where('order_id', null)->get();
+        return $customer
+            ->items()
+            ->where('order_id', null)
+            ->with('price.product')
+            ->get();
     }
 }

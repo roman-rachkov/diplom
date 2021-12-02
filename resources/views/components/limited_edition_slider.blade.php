@@ -1,4 +1,4 @@
-@props(['products', 'discounts'])
+@props(['productPriceDiscountDTO'])
 
 <div class="Slider Slider_carousel">
     <header class="Section-header Section-header_close">
@@ -9,9 +9,9 @@
         </div>
     </header>
     <div class="Slider-box Cards">
-        @foreach($products as $product)
+        @foreach($productPriceDiscountDTO as $dto)
             <div class="Slider-item">
-                <x-card :product="$product" :discounts="$discounts"/>
+                <x-card :dto="$dto"/>
             </div>
         @endforeach
     </div>

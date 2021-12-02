@@ -4,26 +4,20 @@ namespace App\Service\Product;
 
 use App\Contracts\Repository\ViewedProductsRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
+use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\Contracts\Service\Product\ViewedProductsServiceContract;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
 class ViewedProductsService implements ViewedProductsServiceContract
 {
-    private CustomerServiceContract $customerService;
-    private ViewedProductsRepositoryContract $viewedProductsRepository;
-    private ProductDiscountService $discountRepo;
 
     public function __construct(
-        CustomerServiceContract $customerService,
-        ViewedProductsRepositoryContract $viewedProductsRepository,
-        ProductDiscountService $discountRepo,
+        private CustomerServiceContract $customerService,
+        private ViewedProductsRepositoryContract $viewedProductsRepository,
+        private OtherDiscountServiceContract $discountService
     )
-    {
-        $this->customerService = $customerService;
-        $this->viewedProductsRepository = $viewedProductsRepository;
-        $this->discountRepo = $discountRepo;
-    }
+    {}
 
     public function add(Product $product): bool
     {
@@ -68,12 +62,11 @@ class ViewedProductsService implements ViewedProductsServiceContract
         return $this->getViewed()->count();
     }
 
-    public function getViewedProductsWithDiscount(int $limit): array
+    public function getViewedProductsDTOs(int $limit): array
     {
-        $viewedProducts = $this->getViewed()->take($limit);
-        $result['products'] = $viewedProducts->map( fn($viewed) => $viewed->product );
-        $result['discounts'] = $this->discountRepo->getCatalogDiscounts($result['products']);
+        $viewedProducts = $this->getViewed()->take($limit)->pluck('product');
+        return $this->discountService
+            ->getProductPriceDiscountDTOs($viewedProducts);
 
-        return $result;
     }
 }

@@ -18,7 +18,7 @@ class CustomerRepository implements CustomerRepositoryContract
         $this->model = $customer;
     }
 
-    public function getByHash($hash)
+    public function getByHash($hash): ?Customer
     {
         return Cache::tags(['customerService'])->remember(
             'customerService_user_id_' . $hash, 60 * 60 * 24, function () use ($hash) {
