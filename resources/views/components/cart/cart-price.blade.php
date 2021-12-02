@@ -6,14 +6,14 @@
     </strong>
     @if ($cartService->getCartCost() == $cartService->getTotalCost())
         <span class="Cart-price">
-            {{$cartService->getCartCost()}}$
+            <x-format-price :price="$cartService->getCartCost()" />
         </span>
     @else
         <span class="Cart-price">
-            {{$cartService->getTotalCost()}}$
+            <x-format-price :price="$cartService->getTotalCost()" />
         </span>
         <span class="Cart-price_old">
-            {{$cartService->getCartCost()}}$
+            <x-format-price :price="$cartService->getCartCost()" />
         </span>
     @endif
 </div>
