@@ -10,7 +10,6 @@ use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
 
 class CustomerService implements CustomerServiceContract
 {
@@ -36,6 +35,9 @@ class CustomerService implements CustomerServiceContract
             }
 
             if (auth()->user() && !auth()->user()->customer) {
+                if($this->repository->checkIsNotCustomerInDb(Cookie::get('customer_token'))) {
+                    $customer = $this->repository->createCustomer(Cookie::get('customer_token'));
+                }
                 $this->repository->setUserId(Cookie::get('customer_token'), auth()->user()->id);
             }
 
