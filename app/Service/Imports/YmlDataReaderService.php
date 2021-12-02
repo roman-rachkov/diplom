@@ -29,7 +29,7 @@ class YmlDataReaderService extends AbstractDataReaderService
         return collect();
     }
 
-    public function getSlugFromUrl(\SimpleXMLElement $url): string
+    protected function getSlugFromUrl(\SimpleXMLElement $url): string
     {
         $url = parse_url($url->__toString())['path'];
         return array_slice(explode('/', $url), -1)[0];
@@ -73,10 +73,8 @@ class YmlDataReaderService extends AbstractDataReaderService
             (int) $yml->attributes()['id']->__toString();
     }
 
-    protected function getLimitedEdition(\SimpleXMLElement $offer): string|bool
+    protected function getLimitedEdition(\SimpleXMLElement $offer):bool
     {
-        //TODO limited_edition форматом yandex не предусмотрен, если отсутствует такой тэг,
-        // то вернуть false или должна быть ошибка валидации?
         $results = [
             'true' => true,
             'false' => false,
@@ -86,6 +84,6 @@ class YmlDataReaderService extends AbstractDataReaderService
             return $results[$key];
         }
 
-        return '';
+        return false;
     }
 }
