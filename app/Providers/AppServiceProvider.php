@@ -19,6 +19,7 @@ use App\Contracts\Service\Product\HotOfferServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Contracts\Service\Product\ViewedProductsServiceContract;
 use App\Contracts\Service\SellerServiceContract;
+use App\Contracts\Service\StoreOrderHistoryServiceContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Models\Customer;
 use App\Orchid\Layouts\Discounts\GroupsLayout;
@@ -38,6 +39,7 @@ use App\Service\Product\ImportProductService;
 use App\Service\Product\ProductDiscountService;
 use App\Service\Product\ViewedProductsService;
 use App\Service\SellerService;
+use App\Service\StoreOrderHistoryService;
 use App\Service\UsersAvatarService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Cookie;
@@ -79,6 +81,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(HotOfferServiceContract::class, HotOfferService::class);
         $this->app->singleton(ProductsImportServiceContract::class, ImportProductService::class);
         $this->app->singleton(DataReaderFactoryServiceContract::class, DataReaderFactoryService::class);
+        $this->app->singleton(StoreOrderHistoryServiceContract::class, StoreOrderHistoryService::class);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Price;
 use App\Models\Product;
@@ -104,5 +105,18 @@ class OrderItemRepository implements OrderItemRepositoryContract
             ->where('order_id', null)
             ->with('price.product')
             ->get();
+    }
+
+    public function addHistoryPricesAndDiscounts(Order $order, Collection $cartItemsDTOs)
+    {
+        $cartItemsDTOs->each(function ($cartItemsDTO) use ($order){
+           $item = OrderItem::where([
+               ['order_id', $order->id],
+               ['price_id', $cartItemsDTO->price->id]
+           ])->get()->first();
+           $item->history_price = $cartItemsDTO->sumPrice;
+           $item->history_discount = $cartItemsDTO->sumPricesWithDiscount;
+           $item->save();
+        });
     }
 }

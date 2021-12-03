@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\DeliveryCostServiceContract;
+use App\Contracts\Service\Discount\CartDiscountServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\DTO\OrderDTO;
@@ -80,7 +82,9 @@ class OrderController extends Controller
     public function add(
         Request $request,
         PaymentsIntegratorServiceContract $payments,
-        OrderRepositoryContract $orderRepository
+        OrderRepositoryContract $orderRepository,
+        OrderItemRepositoryContract $orderItemRepository,
+        GetCartServiceContract $cart
     )
     {
         try {
@@ -91,7 +95,9 @@ class OrderController extends Controller
             $paymentsService = $payments->getPaymentsServiceById($data['payment']);
             unset($data['payment']);
             unset($data['payService']);
+            $cartItemDTOs = $cart->getCartItemsDTOs();
             $order = $orderRepository->add(OrderDTO::create($data));
+            $orderItemRepository->addHistoryPricesAndDiscounts($order, $cartItemDTOs);
             session(['order' => $order]);
             session(['payService' => $paymentsService]);
 

@@ -3,8 +3,10 @@
 namespace App\Contracts\Repository;
 
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Seller;
+use Illuminate\Support\Collection;
 
 interface OrderItemRepositoryContract
 {
@@ -17,5 +19,7 @@ interface OrderItemRepositoryContract
     public function remove(Product $product): bool;
 
     public function getCartByCustomer(Customer $customer);
+
+    public function addHistoryPricesAndDiscounts(Order $order, Collection $cartItemsDTOs);
 
 }

@@ -1,4 +1,6 @@
 <form action="{{route('order.add')}}" method="post">
+
+{{--    @dd(session('order_data'))--}}
     @csrf
     <div class="Order-block Order-block_OPEN" id="step4">
         <header class="Section-header Section-header_sm">

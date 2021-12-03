@@ -35,7 +35,6 @@ class GetCartService implements GetCartServiceContract
                     return $this->repository->getCartByCustomer($this->customer);
                 });
     }
-
     public function getCartItemsDTOs(): Collection
     {
         return $this->discountService->getCartItemsDTOs(

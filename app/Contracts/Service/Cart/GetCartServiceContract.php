@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Service\Cart;
 
+use App\Models\Customer;
 use Illuminate\Support\Collection;
 
 interface GetCartServiceContract
