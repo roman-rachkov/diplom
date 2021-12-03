@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Orchid\Screen\Repository;
+use phpDocumentor\Reflection\Types\Null_;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class CreateNewUserWithPhone implements CreatesNewUsers
 {
@@ -35,12 +37,15 @@ class CreateNewUserWithPhone implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $arr = [
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'permissions' => ["account" => "1"],
-            'phone' => $input['phone'] ?? null
-        ]);
+        ];
+
+        if (isset($input['phone'])) $arr['phone'] = $input['phone'] ;
+
+        return User::create($arr);
     }
 }

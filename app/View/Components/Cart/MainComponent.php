@@ -3,20 +3,23 @@
 namespace App\View\Components\Cart;
 
 use App\Contracts\Service\Cart\GetCartServiceContract;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class MainComponent extends Component
 {
-    public GetCartServiceContract $cartService;
+    public Collection $cartItemsDTOs;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(GetCartServiceContract $contract)
+    public function __construct(
+        public GetCartServiceContract $cartService,
+    )
     {
-        $this->cartService = $contract;
+        $this->cartItemsDTOs = $this->cartService->getCartItemsDTOs();
     }
 
     /**

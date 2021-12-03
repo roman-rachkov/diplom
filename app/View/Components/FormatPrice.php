@@ -2,24 +2,22 @@
 
 namespace App\View\Components;
 
-use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
-class TopProductsComponent extends Component
+class FormatPrice extends Component
 {
-
-    public Collection $products;
-    public Collection $discounts;
+    public string $price;
+    public string $currency;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(Collection $products, Collection $discounts)
+    public function __construct($price, $currency = '$')
     {
-        $this->products = $products;
-        $this->discounts = $discounts;
+        $this->currency = $currency;
+        $this->price = number_format((float)$price, 2, '.', ' ');
     }
 
     /**
@@ -29,6 +27,6 @@ class TopProductsComponent extends Component
      */
     public function render()
     {
-        return view('components.top-products-component');
+        return view('components.format-price');
     }
 }

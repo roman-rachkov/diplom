@@ -11,6 +11,6 @@ class DataReaderFactoryService implements DataReaderFactoryServiceContract
 
     public function getReaderByFile(File $file): DataReaderContract
     {
-        // TODO: Implement getReaderByData() method.
+        return new FakeDataReaderService();
     }
 }

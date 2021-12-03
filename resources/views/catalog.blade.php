@@ -10,7 +10,7 @@
             </div>
             <div class="Section-content">
                 <x-sort :request="$request" />
-                <x-catalog :products="$products" :discounts="$discounts" />
+                <x-catalog :productDiscountPriceDTOs="$productDiscountPriceDTOs" :productsPaginator="$productsPaginator" />
             </div>
         </div>
     </div>

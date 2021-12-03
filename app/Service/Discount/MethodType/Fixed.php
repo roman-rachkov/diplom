@@ -9,9 +9,4 @@ class Fixed extends MethodType
         return max($this->discountValue, 1);
     }
 
-    public function getTextForBadge(): string
-    {
-        return '-' . $this->getBadgeValue() . '$';
-    }
-
 }

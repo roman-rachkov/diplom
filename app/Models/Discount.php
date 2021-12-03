@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\FlushTagCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 
 class Discount extends Model
 {
-    use HasFactory, AsSource, SoftDeletes;
+    use HasFactory, AsSource, SoftDeletes, FlushTagCache;
 
     public const METHOD_CLASSIC = 'classic';
     public const METHOD_SUM = 'sum';
@@ -20,6 +20,12 @@ class Discount extends Model
     public const CATEGORY_OTHER = 'other';
     public const CATEGORY_SET = 'set';
     public const CATEGORY_CART = 'cart';
+
+    public static $tagsArr = [
+        'discounts',
+        'products',
+        'categories'
+    ];
 
     protected $fillable = [
         'value',
@@ -43,7 +49,7 @@ class Discount extends Model
         'end_at' => 'date',
     ];
 
-    public function discountGroups()
+    public function discountGroups(): HasMany
     {
         return $this->hasMany(DiscountGroup::class);
     }
