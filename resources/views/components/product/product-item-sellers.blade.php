@@ -15,7 +15,7 @@
                 <div class="Categories-splitProps">
                 </div>
                 <div class="Categories-block Categories-price">
-                    <strong>€&#32;{{$price->price}}</strong>
+                    <strong>${{$price->price}}</strong>
                 </div>
                 <div class="Categories-block Categories-button">
                     <button class="btn btn_primary"  type="submit">

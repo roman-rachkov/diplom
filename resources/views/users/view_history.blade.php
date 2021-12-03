@@ -5,11 +5,14 @@
             </h2>
         </header>
         <div class="Cards Cards_account">
-            @foreach($arrayProductsWithDiscount['products'] as $product)
-                <x-card :product="$product" :discounts="$arrayProductsWithDiscount['discounts']"/>
+            @foreach($viewedProductsDTOs as $dto)
+                <x-card :dto="$dto" />
             @endforeach
         </div>
-        <div class="Account-editLink Account-editLink_view"><a href="{{route('users.viewed_products', $user)}}">{{__('view_history.go_to_full_list')}}</a>
+        <div class="Account-editLink Account-editLink_view">
+            <a href="{{route('users.viewed_products', $user)}}">
+                {{__('view_history.go_to_full_list')}}
+            </a>
         </div>
     </div>
 </div>

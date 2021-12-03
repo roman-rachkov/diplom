@@ -1,14 +1,11 @@
 @extends('layout.master')
 
-@section('title', $product->name)
+@section('title', $productPriceDiscountDTO->product->name)
 
 @section('content')
     <x-product.product-item
-            :product="$product"
             :reviews="$reviews"
-            :avgPrice="$avgPrice"
-            :discount="$discount"
-            :avgDiscountPrice="$avgDiscountPrice"
+            :dto="$productPriceDiscountDTO"
             :reviewsCount="$reviewsCount"
     />
 @endsection

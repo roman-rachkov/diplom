@@ -109,7 +109,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
     {
         $price = $price ?? $product->prices->avg('price');
 
-        if ($discount = $this->repository->getMostWeightyProductDiscount($product)) {
+        if ($discount = $this->repository->getProductDiscount($product)) {
             return $this->getPriceWithDiscountByDiscountMethod(
                 $discount,
                 $price
@@ -122,7 +122,7 @@ class ProductDiscountService implements ProductDiscountServiceContract
 
     public function getDiscountTextForIcon(Product $product): bool|string
     {
-        if ($discount = $this->repository->getMostWeightyProductDiscount($product)) {
+        if ($discount = $this->repository->getProductDiscount($product)) {
 
             $value = round($discount->value);
 

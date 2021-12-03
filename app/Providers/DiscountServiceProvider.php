@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Contracts\Service\Discount\CartDiscountServiceContract;
 use App\Contracts\Service\Discount\MethodType\MethodTypeFactoryContract;
 use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\Models\Discount;
+use App\Service\Discount\CartDiscountService;
 use App\Service\Discount\MethodType\Classic;
 use App\Service\Discount\MethodType\Fixed;
 use App\Service\Discount\MethodType\MethodTypeFactory;
@@ -32,6 +34,7 @@ class DiscountServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->singleton(OtherDiscountServiceContract::class, OtherDiscountService::class);
+        $this->app->singleton(CartDiscountServiceContract::class, CartDiscountService::class);
         $this->app->singleton(MethodTypeFactoryContract::class, MethodTypeFactory::class);
         $this->app->singleton(Discount::METHOD_FIXED, Fixed::class);
         $this->app->singleton(Discount::METHOD_CLASSIC, Classic::class);

@@ -2,7 +2,7 @@
     <h2 class="Section-title">{{__('seller.popular-products')}}</h2>
 </header>
 <div class="Cards">
-    @foreach($products as $product)
-        <x-card :product="$product" :discounts="$discounts"/>
+    @foreach($productsDiscountsDTOs as $dto)
+        <x-card :dto="$dto" />
     @endforeach
 </div>

@@ -7,6 +7,7 @@
 
             @include('users.navigation')
 
+
             <div class="Section-content">
                 <div class="Account">
                     <div class="Account-group">
@@ -20,8 +21,7 @@
                             </div><a class="Account-editLink" href="{{route('users.edit', $user)}}">{{__('profile.edit')}}</a>
                         </div>
                     </div>
-
-                    @include('users.order_history')
+                    @includeWhen(!is_null($lastOrder), 'users.order_history')
 
                     @include('users.view_history')
 
