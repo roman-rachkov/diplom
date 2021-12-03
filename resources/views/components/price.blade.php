@@ -1,16 +1,16 @@
-@props(['price', 'priceWithDiscount'])
+@props(['price', 'priceWithDiscount', 'block' => "Card-cost", 'item' => "Card"])
 
-<div class="Card-cost">
+<div class="{{ $block }}">
     @if($priceWithDiscount)
-        <span class="Card-priceOld">
-            {{$price }}
+        <span class="{{ $item }}-priceOld">
+            <x-format-price :price="$price" />
         </span>
-        <span class="Card-price">
-            ${{$priceWithDiscount}}
+        <span class="{{ $item }}-price">
+            <x-format-price :price="$priceWithDiscount" />
         </span>
     @else
-        <span class="Card-price">
-            ${{$price}}
+        <span class="{{ $item }}-price">
+            <x-format-price :price="$price" />
         </span>
     @endif
 </div>
