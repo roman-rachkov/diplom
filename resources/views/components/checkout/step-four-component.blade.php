@@ -46,7 +46,10 @@
                     <x-checkout.product-component :dto="$dto"/>
                 @endforeach
                 <div class="Cart-total">
-                    <x-cart.cart-price :cartService="$cartService"/>
+                    <x-cart.cart-price
+                            :cost="$cartService->getCartCost()"
+                            :costWithDiscount="$cartService->getTotalCost()"
+                    />
                     <div class="Cart-block">
                         <button class="btn btn_primary btn_lg" type="submit">{{__('checkout.pay')}}</button>
                     </div>

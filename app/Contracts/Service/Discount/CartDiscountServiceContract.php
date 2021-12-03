@@ -12,4 +12,11 @@ interface CartDiscountServiceContract
         float $cartCost,
         string $customerId
     ): Collection;
+
+    public function getOrderItemsDTOs(
+        Collection $orderItems,
+        int $itemsQuantity,
+        float $itemsCost,
+        string $orderId
+    ): Collection;
 }

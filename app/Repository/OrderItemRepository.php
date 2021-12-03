@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
+use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
 use App\Models\Order;
@@ -12,6 +13,7 @@ use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class OrderItemRepository implements OrderItemRepositoryContract
 {
@@ -21,7 +23,11 @@ class OrderItemRepository implements OrderItemRepositoryContract
     /**
      * @param CustomerServiceContract $customerService
      */
-    public function __construct(CustomerServiceContract $customerService)
+    public function __construct(
+        protected CustomerServiceContract $customerService,
+        private AdminSettingsServiceContract $adminSettings
+
+    )
     {
         $this->customer = $customerService->getCustomer();
     }
@@ -118,5 +124,22 @@ class OrderItemRepository implements OrderItemRepositoryContract
            $item->history_discount = $cartItemsDTO->sumPricesWithDiscount;
            $item->save();
         });
+    }
+
+    public function getOrderItemsByOrder(Order $order): Collection
+    {
+        return Cache::tags(
+            [
+                'orderItems',
+                'orders',
+                'prices'
+            ])
+            ->remember(
+                'orderItems|order_id=' . $order->id,
+                $this->adminSettings->get('orderItemsCacheTime', 60 * 60 * 24),
+                function () use ($order) {
+                    return OrderItem::where('order_id', $order->id)
+                        ->with('price.product')->get();
+                });
     }
 }

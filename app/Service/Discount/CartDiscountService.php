@@ -21,6 +21,21 @@ class CartDiscountService implements CartDiscountServiceContract
     )
     {}
 
+    public function getOrderItemsDTOs(
+        Collection $orderItems,
+        int $itemsQuantity,
+        float $itemsCost,
+        string $orderId
+    ): Collection
+    {
+        return $this->getCartItemsDTOs(
+            $orderItems,
+            $itemsQuantity,
+            $itemsCost,
+            'order_id=' .$orderId
+        );
+    }
+
     public function getCartItemsDTOs(
         Collection $cart,
         int $cartQuantity,
@@ -28,36 +43,52 @@ class CartDiscountService implements CartDiscountServiceContract
         string $customerId
     ): Collection
     {
+        return $this->getDTOs(
+            $cart,
+            $cartQuantity,
+            $cartCost,
+            'customer_id=' . $customerId);
+    }
 
-        $cartDiscount = $this->discountRepository->getOnCartDiscount($customerId, $cartQuantity, $cartCost);
 
-        $setDiscountArray = $this->getSetDiscountArray($this->getCartProductsIds($cart));
+    protected function getDTOs(
+        Collection $items,
+        int        $quantity,
+        float      $cost,
+        string     $instanceCacheKey
+    ): Collection
+    {
+
+        $cartDiscount = $this->discountRepository
+            ->getOnCartDiscount($instanceCacheKey, $quantity, $cost);
+
+        $setDiscountArray = $this->getSetDiscountArray($this->getCartProductsIds($items));
 
         if(!is_null($setDiscountArray) && !is_null($cartDiscount)) {
 
             if ($setDiscountArray['weight'] > $cartDiscount->weight) {
                 return $this->createDTOs(
-                    $cart,
+                    $items,
                     $setDiscountArray['discount'],
                     $setDiscountArray['productIds']);
             } else {
-                return $this->createDTOs($cart, $cartDiscount);
+                return $this->createDTOs($items, $cartDiscount);
             }
         }
 
         if(!is_null($setDiscountArray)) {
             return $this->createDTOs(
-            $cart,
+            $items,
             $setDiscountArray['discount'],
             $setDiscountArray['productIds']);
         }
 
         if(!is_null($cartDiscount)) {
-            return $this->createDTOs($cart, $cartDiscount);
+            return $this->createDTOs($items, $cartDiscount);
         }
 
 
-        return $this->createDTOs($cart);
+        return $this->createDTOs($items);
     }
 
     protected function createDTOs(

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
+use App\Contracts\Service\OrderServiceContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Http\Requests\UpdateUserRequest;
 use App\Service\Product\ViewedProductsService;
@@ -20,6 +21,7 @@ class UserController extends Controller
     public function __construct(
         private UserRepositoryContract $userRepository,
         private ViewedProductsService $viewedProducts,
+        private OrderServiceContract $orderService
     )
     {}
 
@@ -63,6 +65,8 @@ class UserController extends Controller
 
     public function showOrder(User $user, Order $order)
     {
-        return view('users.history.single-order')->with(compact('user', 'order'));
+        $orderItemsDTOs = $this->orderService->getOrderItemsDTOs($order);
+        return view('users.history.single-order')
+            ->with(compact('user', 'order', 'orderItemsDTOs'));
     }
 }

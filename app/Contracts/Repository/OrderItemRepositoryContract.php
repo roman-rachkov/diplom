@@ -22,4 +22,6 @@ interface OrderItemRepositoryContract
 
     public function addHistoryPricesAndDiscounts(Order $order, Collection $cartItemsDTOs);
 
+    public function getOrderItemsByOrder(Order $order): Collection;
+
 }

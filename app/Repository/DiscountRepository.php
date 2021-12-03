@@ -50,7 +50,7 @@ class DiscountRepository implements DiscountRepositoryContract
     }
 
     public function getOnCartDiscount(
-        string $customerId,
+        string $cacheAdditionKey,
         int $productsQty,
         float $cartCost
     ): ?Discount
@@ -62,7 +62,7 @@ class DiscountRepository implements DiscountRepositoryContract
                 'categories'
             ]
         )->remember(
-            'cart_most_weight_discount|customer_id=' . $customerId,
+            'cart_most_weight_discount|' . $cacheAdditionKey,
             $this->getTtl(),
             function () use (
                 $productsQty,

@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Actions\CreateNewUserWithPhone;
 use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
@@ -12,6 +11,7 @@ use App\Contracts\Service\DeliveryCostServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Imports\DataReaderFactoryServiceContract;
 use App\Contracts\Service\Imports\ProductsImportServiceContract;
+use App\Contracts\Service\OrderServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\Contracts\Service\AddReviewServiceContract;
 use App\Contracts\Service\ImportSellerServiceContract;
@@ -19,10 +19,7 @@ use App\Contracts\Service\Product\HotOfferServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Contracts\Service\Product\ViewedProductsServiceContract;
 use App\Contracts\Service\SellerServiceContract;
-use App\Contracts\Service\StoreOrderHistoryServiceContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
-use App\Models\Customer;
-use App\Orchid\Layouts\Discounts\GroupsLayout;
 use App\Service\AdminSettingsService;
 use App\Service\Cart\AddCartService;
 use App\Service\Cart\GetCartService;
@@ -31,6 +28,7 @@ use App\Service\CustomerService;
 use App\Service\DeliveryCostService;
 use App\Service\FlashMessageService;
 use App\Service\Imports\DataReaderFactoryService;
+use App\Service\OrderService;
 use App\Service\Payment\PaymentsIntegratorService;
 use App\Service\AddReviewService;
 use App\Service\ImportSellerService;
@@ -39,16 +37,11 @@ use App\Service\Product\ImportProductService;
 use App\Service\Product\ProductDiscountService;
 use App\Service\Product\ViewedProductsService;
 use App\Service\SellerService;
-use App\Service\StoreOrderHistoryService;
 use App\Service\UsersAvatarService;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Orchid\Screen\Layout;
-use Orchid\Screen\LayoutFactory;
-use Orchid\Screen\Repository;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -81,7 +74,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(HotOfferServiceContract::class, HotOfferService::class);
         $this->app->singleton(ProductsImportServiceContract::class, ImportProductService::class);
         $this->app->singleton(DataReaderFactoryServiceContract::class, DataReaderFactoryService::class);
-        $this->app->singleton(StoreOrderHistoryServiceContract::class, StoreOrderHistoryService::class);
+        $this->app->singleton(OrderServiceContract::class, OrderService::class);
     }
 
     /**
