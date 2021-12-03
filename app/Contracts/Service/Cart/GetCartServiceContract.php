@@ -15,7 +15,7 @@ interface GetCartServiceContract
     /**
      * @return int
      */
-    public function getProductsQuantity(): int;
+    public function getCartProductsQuantity(): int;
 
     /**
      * @return float
@@ -23,5 +23,7 @@ interface GetCartServiceContract
     public function getTotalCost(): float;
 
     public function getCartCost(): float;
+
+    public function getCartItemsList(): Collection;
 
 }

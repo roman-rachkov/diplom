@@ -26,7 +26,14 @@ class OrderService implements OrderServiceContract
         return $this->getUnpaidOrderDTOs($order);
     }
 
-    protected function getPaidOrderDTOs(Order $order): Collection
+    public function addHistory(Order $order)
+    {
+        $dtos = $this->getUnpaidOrderDTOs($order);
+        $this->orderItemRepository->addHistoryPricesAndDiscounts($order,$dtos);
+
+    }
+
+    public function getPaidOrderDTOs(Order $order): Collection
     {
         $items = $this->getItems($order);
 
@@ -42,7 +49,7 @@ class OrderService implements OrderServiceContract
         });
     }
 
-    protected function getUnpaidOrderDTOs(Order $order): Collection
+    public function getUnpaidOrderDTOs(Order $order): Collection
     {
         $items = $this->getItems($order);;
 
@@ -54,7 +61,7 @@ class OrderService implements OrderServiceContract
         );
     }
 
-    protected function getItems(Order $order): Collection
+    public function getItems(Order $order): Collection
     {
         return $this->orderItemRepository->getOrderItemsByOrder($order);
     }

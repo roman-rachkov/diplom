@@ -8,4 +8,6 @@ use Illuminate\Support\Collection;
 interface OrderServiceContract
 {
     public function getOrderItemsDTOs(Order $order): Collection;
+
+    public function addHistory(Order $order);
 }

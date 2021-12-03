@@ -28,7 +28,7 @@ class CartDiscountService implements CartDiscountServiceContract
         string $orderId
     ): Collection
     {
-        return $this->getCartItemsDTOs(
+        return $this->getDTOs(
             $orderItems,
             $itemsQuantity,
             $itemsCost,
