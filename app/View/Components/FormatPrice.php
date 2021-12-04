@@ -17,7 +17,7 @@ class FormatPrice extends Component
     public function __construct($price, $currency = '$')
     {
         $this->currency = $currency;
-        $this->price = number_format((float)$price, 2, '.', ' ');
+        $this->price = number_format((float)$price, 2, '.', '&nbsp;');
     }
 
     /**

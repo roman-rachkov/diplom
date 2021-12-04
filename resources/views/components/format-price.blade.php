@@ -1,1 +1,1 @@
-{{ $currency }}{{ $price }}
+{{ $currency }}{!! $price !!}
