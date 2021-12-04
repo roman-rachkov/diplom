@@ -22,6 +22,8 @@ return [
         'action' => 'Действие',
     ],
     'message' => [
-        'successUploadFiles' => 'Файлы успешно зашружены'
+        'successUploadFiles' => 'Файлы успешно зашружены',
+        'successStartOneFileImport' => 'Файлы :filename успешно поставлен в очередь на импорт данных',
+        'successStartAllFileImport' => 'Все файлы успешно поставлен в очередь на импорт данных',
     ]
 ];

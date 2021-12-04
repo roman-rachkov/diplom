@@ -111,7 +111,7 @@ class ImportMainScreen extends Screen
     public function startImportForOneFile(Attachment $attachment)
     {
         ImportProducts::dispatch($attachment)->onQueue('import');
-        Toast::info(__('import.message.successUploadFiles'));
+        Toast::info(__('import.message.successStartOneFileImport', ['filename' => $attachment->original_name]));
     }
 
     public function starAllImport()
@@ -119,6 +119,7 @@ class ImportMainScreen extends Screen
         foreach (Attachment::where('disk', 'import-await')->get() as $file) {
             ImportProducts::dispatch($file)->onQueue('import');
         }
+        Toast::info(__('import.message.successStartAllFileImport'));
     }
 
     public function asyncQueue()
