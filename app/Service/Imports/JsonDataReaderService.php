@@ -22,7 +22,6 @@ class JsonDataReaderService extends AbstractDataReaderService
         if ($products === null) {
             throw new DataReaderException('Файл не может быть преобразован');
         }
-
         return $this->getProductImportDTOs($products);
 
     }

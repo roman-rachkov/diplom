@@ -14,7 +14,6 @@ class YmlDataReaderService extends AbstractDataReaderService
      */
     public function getData(): Collection
     {
-        Log::info('path ' . $this->file->getRealPath());
         $yml = simplexml_load_file($this->file->getRealPath());
 
         try {
