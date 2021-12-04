@@ -11,14 +11,15 @@
                 <div class="Compare-feature">
                     @if($dto->productPriceWithDiscount)
                         <strong class="Compare-priceOld">
-                            {{$dto->getPriceInDollars($dto->product->avg_price)}}
+
+                            <x-format-price :price="$dto->product->avg_price" />
                         </strong>
                         <strong class="Compare-price">
-                            {{$dto->getPriceInDollars($dto->productPriceWithDiscount)}}
+                            <x-format-price :price="$dto->productPriceWithDiscount" />
                         </strong>
                     @else
                         <strong class="Compare-price">
-                            {{$dto->getPriceInDollars($dto->product->avg_price)}}
+                            <x-format-price :price="$dto->product->avg_price" />
                         </strong>
                     @endif
                 </div>

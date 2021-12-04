@@ -11,7 +11,7 @@
             </a>
         </strong>
         <div class="Card-description">
-            <x-price :price="$dto->price" :priceWithDiscount="$dto->priceWithDiscount"/>
+            <x-price :price="$dto->price" :priceWithDiscount="$dto->priceWithDiscount" />
             <div class="Card-category">{{ $dto->product->category->name }}</div>
             <div class="Card-hover">
                 <a class="Card-btn" href="{{ route('product.show', $dto->product) }}">
