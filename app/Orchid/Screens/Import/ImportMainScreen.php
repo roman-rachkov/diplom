@@ -2,20 +2,25 @@
 
 namespace App\Orchid\Screens\Import;
 
+use App\Contracts\Service\Imports\DataReaderFactoryServiceContract;
+use App\Contracts\Service\Product\ImportProductServiceContract;
+use App\Jobs\ImportProducts;
 use App\Orchid\Layouts\Import\AwaitLayout;
 use App\Orchid\Layouts\Import\ErrorLayout;
 use App\Orchid\Layouts\Import\MonitoringLayout;
 use App\Orchid\Layouts\Import\SuccessLayout;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
-use Orchid\Attachment\File;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Queue;
+use Laravel\Horizon\RedisQueue;
+use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Upload;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Toast;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ImportMainScreen extends Screen
 {
@@ -29,7 +34,8 @@ class ImportMainScreen extends Screen
     public function __construct()
     {
         $this->name = __('import.mainscreen.title');
-        $this->description = __('import.mainscreen.description');
+        $this->description = __('import.mainscreen.description', ['queue' => Queue::size('import')]);
+        $this->hasQueue = Queue::size('import') === 0 ? true : false;
     }
 
     /**
@@ -63,7 +69,8 @@ class ImportMainScreen extends Screen
 
             Button::make(__('import.mainscreen.starAllImport'))
                 ->icon('control-play')
-                ->method('starAllImport'),
+                ->method('starAllImport')
+                ->canSee($this->hasQueue),
 
         ];
     }
@@ -96,21 +103,7 @@ class ImportMainScreen extends Screen
 
     public function getFileFromImportDir($storageName)
     {
-        $storage = Storage::disk($storageName);
-        $filesArr = $storage->allFiles();
-
-        return array_map( function ($path) use ($storage) {
-            $fullPath = $path;
-            $explode = explode('/', $path);
-            $fileName = $explode[count($explode) - 1];
-            $extention = explode('.', $fileName)[1];
-            return [
-                'path' => $fullPath,
-                'name' => $fileName,
-                'extention' => $extention,
-                'filetime' => $storage->lastModified($path),
-            ];
-        }, $filesArr);
+        return Attachment::where('disk', $storageName)->get();
     }
 
     public function uploadFilesForImport(Request $request)
@@ -118,8 +111,13 @@ class ImportMainScreen extends Screen
         Toast::info(__('import.message.successUploadFiles'));
     }
 
-    public function startImportForOneFile(Request $request)
+    public function startImportForOneFile(Attachment $attachment)
     {
+        ImportProducts::dispatch($attachment)->onQueue('import');
+    }
 
+    public function starAllImport(Request $request)
+    {
+        //
     }
 }

@@ -29,24 +29,22 @@ class AwaitLayout extends Table
         return [
             TD::make('title', __('import.tabs.tdTitle'))
                 ->render(function ($fileArr) {
-                    return $fileArr['name'];
+                    return $fileArr->original_name;
                 }),
 
             TD::make('createdTime', __('import.tabs.tdCreatedTime'))
                 ->render(function ($fileArr) {
-                    return Carbon::createFromTimestamp($fileArr['filetime'])->format('d-m-Y H:i');
+                    return $fileArr->created_at->format('d-m-Y H:i');
                 }),
 
 
             TD::make('createdTime', __('import.tabs.action'))
+                ->alignRight()
                 ->render(function ($fileArr) {
                     return Button::make(__('import.mainscreen.startImport'))
                                 ->method('startImportForOneFile')
                                 ->icon('control-play')
-                                ->parameters([
-                                    'path' => $fileArr['path'],
-                                    'extention' => $fileArr['extention'],
-                                ]);
+                                ->parameters([ 'id' => $fileArr->id ]);
                 }),
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Layouts\Import;
 
+use Illuminate\Support\Carbon;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -27,8 +28,13 @@ class SuccessLayout extends Table
         return [
             TD::make('title', __('import.tabs.tdTitle'))
                 ->render(function ($fileArr) {
-                    return $fileArr['name'];
-                })
+                    return $fileArr->original_name;
+                }),
+
+            TD::make('createdTime', __('import.tabs.tdCreatedTime'))
+                ->render(function ($fileArr) {
+                    return $fileArr->created_at->format('d-m-Y H:i');
+                }),
         ];
     }
 }
