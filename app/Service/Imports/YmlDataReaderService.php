@@ -4,6 +4,7 @@ namespace App\Service\Imports;
 
 use App\Exceptions\DataReaderException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class YmlDataReaderService extends AbstractDataReaderService
 {
@@ -13,6 +14,7 @@ class YmlDataReaderService extends AbstractDataReaderService
      */
     public function getData(): Collection
     {
+        Log::info('path ' . $this->file->getRealPath());
         $yml = simplexml_load_file($this->file->getRealPath());
 
         try {

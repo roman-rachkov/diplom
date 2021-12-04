@@ -10,8 +10,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Orchid\Attachment\Models\Attachment;
+use Orchid\Support\Facades\Toast;
 use Symfony\Component\HttpFoundation\File\File;
 
 class ImportProducts implements ShouldQueue
@@ -41,8 +43,21 @@ class ImportProducts implements ShouldQueue
             $importService->import( $dataReader->getReaderByFile(
                 new File( Storage::disk($this->file->disk)->path($this->file->physicalPath()))
             ));
-        } catch (\Exception $e) {
 
+            $awaitFile = Storage::disk('import-await')->get($this->file->physicalPath());
+            Storage::disk('import-success')->put( $this->file->path . $this->file->name . '.' .  $this->file->extension, $awaitFile);
+            $this->file->update(['disk' => 'import-success']);
+            Log::info('import success');
+        } catch (\Exception $e) {
+            $awaitFile = Storage::disk('import-await')->get($this->file->physicalPath());
+            Storage::disk('import-error')->put( $this->file->path . $this->file->name . '.' .  $this->file->extension, $awaitFile);
+            $this->file->update(['disk' => 'import-error']);
+            Log::info('import error ' . $e->getMessage());
         }
+    }
+
+    public function fail()
+    {
+
     }
 }

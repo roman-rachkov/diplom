@@ -12,6 +12,7 @@ use App\Orchid\Layouts\Import\SuccessLayout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Horizon\RedisQueue;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\Actions\Button;
@@ -93,7 +94,7 @@ class ImportMainScreen extends Screen
             Layout::modal('addImportFiles', Layout::rows([
                 Upload::make('file')
                     ->storage('import-await')
-                    ->acceptedFiles('application/json,.yml')
+                    ->acceptedFiles('.json,.xml')
             ]))->title(__('admin_config.editing'))
                 ->applyButton(__('import.mainscreen.uploadAllFile'))
                 ->method('uploadFilesForImport')
