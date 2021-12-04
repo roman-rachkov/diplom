@@ -23,7 +23,8 @@
     "orchid/platform": "^10.12",
     "predis/predis": "^1.1",
     "propaganistas/laravel-phone": "^4.3",
-    "ralouphie/mimey": "^1.0"
+    "ralouphie/mimey": "^1.0",
+    "ext-simplexml": "*"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^2.10",
