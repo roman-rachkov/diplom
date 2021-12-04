@@ -11,7 +11,7 @@ class DataReaderFactoryService implements DataReaderFactoryServiceContract
 {
     protected $readers = [
         'json' => JsonDataReaderService::class,
-        'xml' => YmlDataReaderServcie::class,
+        'xml' => YmlDataReaderService::class,
     ];
 
     public function getReaderByFile(File $file): DataReaderContract
