@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Mimey\MimeTypes;
 use Orchid\Attachment\Models\Attachment;
