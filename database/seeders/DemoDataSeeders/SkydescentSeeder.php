@@ -3,13 +3,19 @@
 namespace Database\Seeders\DemoDataSeeders;
 
 use App\Models\Category;
+use App\Models\Characteristic;
+use App\Models\CharacteristicValue;
 use App\Models\Manufacturer;
+use App\Models\Price;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\Seller;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Orchid\Attachment\Models\Attachment;
+use Orchid\Attachment\Models\Attachmentable;
 
 
 /**
@@ -19,7 +25,11 @@ class SkydescentSeeder extends Seeder
 {
     public function run()
     {
+        //Product::factory()->create(['limited_edition' => 1]);
+        Attachment::factory()->create();
+
         $this->seedNestedSetCategories();
+        $this->seedProduct();
     }
 
     protected function seedNestedSetCategories()
@@ -29,52 +39,58 @@ class SkydescentSeeder extends Seeder
             [
                 'name' => 'Бытовая техника',
                 'slug' => 'bytovaya_tekhnika',
-                'icon' => Attachment::factory()
-                    ->create($this->getAttachmentAttrsForIcon('oven.svg'))->id,
+                'icon_id' => Attachment::factory()
+                    ->create($this->getAttachmentAttrsForImg('icons/oven.svg'))->id,
                 'is_active' => 1,
                 'sort_index' => 33,
+                'image_id' => Attachment::factory()->create()->id,
                 'children' =>
                     [
                         [
                             'name' => 'Стиральные машины',
                             'slug' => 'stiralnie_mashiny',
-                            'icon' => Attachment::factory()
-                                ->create($this->getAttachmentAttrsForIcon('washer.svg'))->id,
+                            'icon_id' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForImg('icons/washer.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
+                            'image_id' => Attachment::factory()->create()->id,
                         ],
                         [
                             'name' => 'Миксеры',
                             'slug' => 'miksery',
-                            'icon' => Attachment::factory()
-                                ->create($this->getAttachmentAttrsForIcon('mixer.svg'))->id,
+                            'icon_id' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForImg('icons/mixer.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
+                            'image_id' => Attachment::factory()->create()->id,
                         ],
                         [
                             'name' => 'Чайники/Самовары',
                             'slug' => 'chainiki_samovary',
-                            'icon' => Attachment::factory()
-                                ->create($this->getAttachmentAttrsForIcon('kettle.svg'))->id,
+                            'icon_id' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForImg('icons/kettle.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
+                            'image_id' => Attachment::factory()->create()->id,
                         ],
                         [
                             'name' => 'Микроволновые печи',
                             'slug' => 'mikrovolnovki',
-                            'icon' => Attachment::factory()
-                                ->create($this->getAttachmentAttrsForIcon('microwave.svg'))->id,
+                            'icon_id' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForImg('icons/microwave.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
+                            'image_id' => Attachment::factory()->create()->id,
                             'children' =>
                                 [
                                     [
                                         'name' => 'Микроволновые печи c дефектом',
                                         'slug' => 'mikrovolnovki_s_defektom',
-                                        'icon' => Attachment::factory()
-                                            ->create($this->getAttachmentAttrsForIcon('discount.svg'))->id,
+                                        'icon_id' => Attachment::factory()
+                                            ->create($this->getAttachmentAttrsForImg('icons/discount.svg'))->id,
                                         'is_active' => 1,
                                         'sort_index' => 33,
+                                        'image_id' => Attachment::factory()->create()->id,
                                     ]
                                 ]
                         ]
@@ -83,71 +99,79 @@ class SkydescentSeeder extends Seeder
             [
                 'name' => 'Электроника',
                 'slug' => 'elektronika',
-                'icon' => Attachment::factory()
-                    ->create($this->getAttachmentAttrsForIcon('tv.svg'))->id,
+                'icon_id' => Attachment::factory()
+                    ->create($this->getAttachmentAttrsForImg('icons/tv.svg'))->id,
                 'is_active' => 1,
                 'sort_index' => 33,
+                'image_id' => Attachment::factory()->create()->id,
                 'children' =>
                     [
                         [
                             'name' => 'Телевизоры',
                             'slug' => 'televizory',
-                            'icon' => Attachment::factory()
-                                ->create($this->getAttachmentAttrsForIcon('tv.svg'))->id,
+                            'icon_id' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForImg('icons/tv.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
+                            'image_id' => Attachment::factory()->create()->id,
                         ],
                         [
                             'name' => 'Фотоаппараты',
                             'slug' => 'photoapparati',
-                            'icon' => Attachment::factory()
-                                ->create($this->getAttachmentAttrsForIcon('camera.svg'))->id,
+                            'icon_id' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForImg('icons/camera.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
+                            'image_id' => Attachment::factory()->create()->id,
                         ],
                         [
                             'name' => 'Смартфоны',
                             'slug' => 'mobilnie_telephony',
-                            'icon' => Attachment::factory()
-                                ->create($this->getAttachmentAttrsForIcon('smartphone.svg'))->id,
+                            'icon_id' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForImg('icons/smartphone.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
+                            'image_id' => Attachment::factory()->create()->id,
                         ],
                         [
                             'name' => 'Аудиосистемы',
                             'slug' => 'audiosystemy',
-                            'icon' => Attachment::factory()
-                                ->create($this->getAttachmentAttrsForIcon('audio_system.svg'))->id,
+                            'icon_id' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForImg('icons/audio_system.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
+                            'image_id' => Attachment::factory()->create()->id,
                             'children' =>
                                 [
                                     [
                                         'name' => 'Домашние аудиосистемы',
                                         'slug' => 'domashniye_audiosystemy',
-                                        'icon' => Attachment::factory()
-                                            ->create($this->getAttachmentAttrsForIcon('audio_system.svg'))->id,
+                                        'icon_id' => Attachment::factory()
+                                            ->create($this->getAttachmentAttrsForImg('icons/audio_system.svg'))->id,
                                         'is_active' => 1,
                                         'sort_index' => 33,
+                                        'image_id' => Attachment::factory()->create()->id,
                                         'children' =>
                                             [
                                                 [
                                                     'name' => 'Аудиосистемы с дефектом',
                                                     'slug' => 'domashniye_audiosystemy_s_defectom',
-                                                    'icon' => Attachment::factory()
-                                                        ->create($this->getAttachmentAttrsForIcon('discount.svg'))->id,
+                                                    'icon_id' => Attachment::factory()
+                                                        ->create($this->getAttachmentAttrsForImg('icons/discount.svg'))->id,
                                                     'is_active' => 1,
                                                     'sort_index' => 33,
+                                                    'image_id' => Attachment::factory()->create()->id,
                                                 ]
                                             ]
                                     ],
                                     [
                                         'name' => 'Наушники',
                                         'slug' => 'naushniki',
-                                        'icon' => Attachment::factory()
-                                            ->create($this->getAttachmentAttrsForIcon('headset.svg'))->id,
+                                        'icon_id' => Attachment::factory()
+                                            ->create($this->getAttachmentAttrsForImg('icons/headset.svg'))->id,
                                         'is_active' => 1,
                                         'sort_index' => 33,
+                                        'image_id' => Attachment::factory()->create()->id,
                                     ],
                                 ]
                         ],
@@ -178,45 +202,132 @@ class SkydescentSeeder extends Seeder
             'sort_index' => 10,
             'sales_count' => 200,
             'manufacturer_id' => $manufacturer->id,
-            'main_img_id' => Attachment::factory(),
+            'main_img_id' => Attachment::factory($this->getAttachmentAttrsForImg('seeder/skydescent/samovar_main.jpg')),
             'limited_edition' => 1,
             ])
             ->create();
 
-
+        $this->seedAdditionalImgsForProduct($product);
+        $this->seedSellersAndPricesForProduct($product);
 
         //Характеристики, значения характеристик
+        $this->seedCharacteristics($product);
 
         //Пользователи, отзывы
+        $this->seedReviews($product);
+
+        //Скидка на продукт
+
     }
 
-    public function seedSellersAndPricesForProduct(Product $product)
+    protected function seedAdditionalImgsForProduct($product)
+    {
+        $attachments = array_map(function ($attachment) use ($product){
+            return new Attachmentable(array_merge(
+                $attachment,
+                [
+                    'attachmentable_type' => Attachment::class,
+                    'attachmentable_id' => $product->id
+                ]
+            ));
+            },
+            [
+                [
+                    'attachment_id' => Attachment::factory()
+                    ->create($this->getAttachmentAttrsForImg('seeder/skydescent/samovar_1.jpg'))
+                    ->id
+                ],
+                [
+                    'attachment_id' => Attachment::factory()
+                        ->create($this->getAttachmentAttrsForImg('seeder/skydescent/samovar_2.jpg'))
+                        ->id
+                ],
+                [
+                    'attachment_id' => Attachment::factory()
+                        ->create($this->getAttachmentAttrsForImg('seeder/skydescent/samovar_3.jpg'))
+                        ->id
+                ]
+            ]
+        );
+
+        $product->additionalImages()->saveMany($attachments);
+    }
+
+    protected function seedCharacteristics(Product $product)
+    {
+        collect([
+            ['name' => 'Вес', 'measure' => 'гр.', 'value' => 4900],
+            ['name' => 'Материал', 'measure' => null, 'value' => 'латунь'],
+            ['name' => 'Объём', 'measure' => 'мл.', 'value' => 5000],
+            ['name' => 'цвет', 'measure' => null, 'value' => 'серебристый']
+
+        ])->each(function ($item) use ($product) {
+
+            $characteristic = Characteristic::factory()->create(['name' => $item['name'], 'measure' => $item['measure']]);
+            $product->category->characteristics()
+                ->save($characteristic);
+            $product->characteristicValues()
+                ->save(CharacteristicValue::factory()
+                    ->create(['characteristic_id' => $characteristic->id, 'value' => $item['value']])
+                );
+        }
+        );
+    }
+
+    protected function seedSellersAndPricesForProduct(Product $product)
     {
         //Продавцы, цены
         collect([
             ['name' => 'Самовар Град'],
             ['name' => 'Самовары.ру'],
             ['name' => 'Ваш самовар']
-        ])->each(function ($seller){
-            //Seller::factory()
-            });
+        ])->each(function ($seller) use ($product) {
+            Price::factory()
+                ->for(Seller::factory()
+                    ->create($seller))
+                ->for($product)->create(['price' => rand(200,300)]);
+        });
+
     }
 
-    protected function getAttachmentAttrsForIcon(string $img): array
+    protected function getAttachmentAttrsForImg(string $imgPath): array
     {
-        $iconsPath = 'icons/';
-        $fullPath = storage_path('app/public/') . $iconsPath . $img;
-        list($name, $extension) = explode('.', $img);
+        [
+            'dirname' => $imagePath,
+            'basename' => $img,
+            'extension' => $extension,
+            'filename' => $name,
+        ] = pathinfo($imgPath);
+
+        $fullPath = storage_path('app/public/') . $imgPath;
         return [
             'name' => $name,
             'original_name' => $img,
             'mime' => mime_content_type($fullPath),
             'extension' => $extension,
             'size' => stat($fullPath)['size'],
-            'path' => $iconsPath,
+            'path' => $imagePath . '/',
             'alt' => $img,
             'hash' => Hash::make($name),
             'user_id' => 1,
         ];
+    }
+
+    public function seedReviews($product)
+    {
+        collect([
+            ['review' => 'Превосходный самовар для всей семьи, очень рекомендую к покупке! Дров нужно совсем немного - порядка 5 кубов на один полный самовар!'],
+            ['review' => 'Всегда покупаю патроны в Тульском заводе, и конечно не мог не заметить, что они ещё и самвоары делают. Отличная вещь, оружейная латунь, прослужит долго!'],
+            ['review' => 'Советское качество, о чём тут можно ещё говорит, выдержит атомную войну!. Также его можно использовать и для приготовления крепиких напитков.'],
+            ['review' => 'Такой же самовар достался мне от деда, как увидел такой в продаже - купил своему сыну, теперь ходим друг к другу по очереди чай пить!'],
+            ['review' => 'Хорошая вещь! Из минусом - очень громоздкий и много дров уходит. Но эти минусы быстро забываются, когда сидишь у себя в доме и прьёшь горячий чаёк из него']
+        ])->map(function ($review) use ($product) {
+            return Review::factory()->create(array_merge($review, ['product_id' => $product->id]));
+        });
+    }
+
+    protected function seedDiscountForProduct($product)
+    {
+
     }
 }
