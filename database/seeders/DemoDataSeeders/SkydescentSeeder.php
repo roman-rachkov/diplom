@@ -183,7 +183,7 @@ class SkydescentSeeder extends Seeder
             ['name' => 'Самовары.ру'],
             ['name' => 'Ваш самовар']
         ])->each(function ($seller){
-            Seller::factory()
+           // Seller::factory()
             });
     }
 }

@@ -30,10 +30,10 @@ class CategoryListLayout extends Table
             TD::make('id', 'ID')
                 ->width('150')
                 ->render(function (Category $category) {
-                    return '<img src="' . asset('assets/img/icons/departments/'. $category->icon . '.svg"')
-                              . "alt='{$category->name}'
-                              class='mw-100 d-block img-fluid'>
-                            <span class='small text-muted mt-1 mb-0'># {$category->id}</span>";
+                    return "<img src='{$category->icon->getRelativeUrlAttribute()}'" .
+                        " alt='{$category->name}' class='mw-100 d-block img-fluid'>" .
+                        "<span class='small text-muted mt-1 mb-0'># {$category->id}</span>";
+
                 }),
 
             TD::make('name', __('admin.category.title'))
