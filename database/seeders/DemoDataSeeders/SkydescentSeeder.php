@@ -5,15 +5,20 @@ namespace Database\Seeders\DemoDataSeeders;
 use App\Models\Category;
 use App\Models\Characteristic;
 use App\Models\CharacteristicValue;
+use App\Models\ComparedProduct;
+use App\Models\Customer;
+use App\Models\Discount;
+use App\Models\DiscountGroup;
 use App\Models\Manufacturer;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\Seller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Attachment\Models\Attachmentable;
 
@@ -217,6 +222,7 @@ class SkydescentSeeder extends Seeder
         $this->seedReviews($product);
 
         //Скидка на продукт
+        $this->seedDiscountForProduct($product);
 
     }
 
@@ -313,7 +319,7 @@ class SkydescentSeeder extends Seeder
         ];
     }
 
-    public function seedReviews($product)
+    protected function seedReviews($product)
     {
         collect([
             ['review' => 'Превосходный самовар для всей семьи, очень рекомендую к покупке! Дров нужно совсем немного - порядка 5 кубов на один полный самовар!'],
@@ -328,6 +334,65 @@ class SkydescentSeeder extends Seeder
 
     protected function seedDiscountForProduct($product)
     {
+        $product->discountGroups()->save(DiscountGroup::factory()
+                ->for(Discount::factory()
+                    ->create([
+                        'title' => 'Скидка на самовары',
+                        'value' => 30,
+                        'method_type' => Discount::getMethodTypes()->random(),
+                        'category_type' => Discount::CATEGORY_OTHER,
+                        'weight' => 130,
+                        'minimal_cost' => 200,
+                        'maximum_cost' => 400,
+                        'minimum_qty' => 2,
+                        'maximum_qty' => 5,
+                        'start_at' => Carbon::yesterday(),
+                        'end_at' => Carbon::now()->addDays(20),
+                        'is_active' => 1,
+                        'description' => 'Скидка действут на самовары до дня всемирного чаепития'
+                    ])
+                )->create(['title' => 'скидки на самовары'])
+            );
+    }
+
+    protected function seedComparedProducts()
+    {
+        //Добавляем user
+        $customer = Customer::factory()
+            ->for(User::factory()->create(['name' => 'Самоваров Аркадий Петрович']))
+            ->create();
+
+        [
+            [
+                'name' => 'Чайник электрический инновационный',
+                'slug' => 'chainik_innovacionniy',
+                'category_id' => Category::where('slug', 'chainiki_samovary')->get()->first()->id,
+                'sort_index' => 7,
+                'sales_count' => 70,
+                'main_img_id' => Attachment::factory($this->getAttachmentAttrsForImg('seeder/skydescent/kettle.jpeg')),
+            ],
+            [
+                'name' => 'Телевизионный приёмник "Горизонт"',
+                'slug' => 'tv_horizont',
+                'category_id' => Category::where('slug', 'televizory')->get()->first()->id,
+                'sort_index' => 10,
+                'sales_count' => 20,
+                'main_img_id' => Attachment::factory($this->getAttachmentAttrsForImg('seeder/skydescent/horizont.jpg')),
+            ],
+            [
+                'name' => 'Большой адронный коллайдер',
+                'slug' => 'collider',
+                'category_id' => Category::where('slug', 'mikrovolnovki')->get()->first()->id,
+                'sort_index' => 10,
+                'sales_count' => 20,
+                'main_img_id' => Attachment::factory($this->getAttachmentAttrsForImg('seeder/skydescent/horizont.jpg')),
+            ]
+        ];
+
+//        ComparedProduct::factory()
+//            ->for($customer)
+//            ->for()
+
 
     }
 }
