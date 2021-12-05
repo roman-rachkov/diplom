@@ -1,4 +1,6 @@
 *
 !public/
-!import/
+!import/await/*
+!import/error/*
+!import/success/*
 !.gitignore
