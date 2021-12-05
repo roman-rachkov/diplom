@@ -1,4 +1,4 @@
 *
-!await/
-!error/
-!success/
+!await/.gitignore
+!error/.gitignore
+!success/.gitignore
