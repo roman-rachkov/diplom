@@ -7,6 +7,8 @@ use App\Models\Manufacturer;
 use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Orchid\Attachment\Models\Attachment;
 
 
@@ -23,12 +25,12 @@ class SkydescentSeeder extends Seeder
     protected function seedNestedSetCategories()
     {
         //Сидер, который создаёт вложенную структуру категорий
-        Attachment::factory()->create();
         $categories = [
             [
                 'name' => 'Бытовая техника',
                 'slug' => 'bytovaya_tekhnika',
-                'icon' => 7,
+                'icon' => Attachment::factory()
+                    ->create($this->getAttachmentAttrsForIcon('oven.svg'))->id,
                 'is_active' => 1,
                 'sort_index' => 33,
                 'children' =>
@@ -36,28 +38,32 @@ class SkydescentSeeder extends Seeder
                         [
                             'name' => 'Стиральные машины',
                             'slug' => 'stiralnie_mashiny',
-                            'icon' => 3,
+                            'icon' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForIcon('washer.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
                         ],
                         [
                             'name' => 'Миксеры',
                             'slug' => 'miksery',
-                            'icon' => 12,
+                            'icon' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForIcon('mixer.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
                         ],
                         [
                             'name' => 'Чайники/Самовары',
                             'slug' => 'chainiki_samovary',
-                            'icon' => 10,
+                            'icon' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForIcon('kettle.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
                         ],
                         [
                             'name' => 'Микроволновые печи',
                             'slug' => 'mikrovolnovki',
-                            'icon' => 9,
+                            'icon' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForIcon('microwave.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
                             'children' =>
@@ -65,7 +71,8 @@ class SkydescentSeeder extends Seeder
                                     [
                                         'name' => 'Микроволновые печи c дефектом',
                                         'slug' => 'mikrovolnovki_s_defektom',
-                                        'icon' => 4,
+                                        'icon' => Attachment::factory()
+                                            ->create($this->getAttachmentAttrsForIcon('discount.svg'))->id,
                                         'is_active' => 1,
                                         'sort_index' => 33,
                                     ]
@@ -76,7 +83,8 @@ class SkydescentSeeder extends Seeder
             [
                 'name' => 'Электроника',
                 'slug' => 'elektronika',
-                'icon' => 1,
+                'icon' => Attachment::factory()
+                    ->create($this->getAttachmentAttrsForIcon('tv.svg'))->id,
                 'is_active' => 1,
                 'sort_index' => 33,
                 'children' =>
@@ -84,28 +92,32 @@ class SkydescentSeeder extends Seeder
                         [
                             'name' => 'Телевизоры',
                             'slug' => 'televizory',
-                            'icon' => 1,
+                            'icon' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForIcon('tv.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
                         ],
                         [
                             'name' => 'Фотоаппараты',
                             'slug' => 'photoapparati',
-                            'icon' => 6,
+                            'icon' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForIcon('camera.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
                         ],
                         [
                             'name' => 'Смартфоны',
                             'slug' => 'mobilnie_telephony',
-                            'icon' => 8,
+                            'icon' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForIcon('smartphone.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
                         ],
                         [
                             'name' => 'Аудиосистемы',
                             'slug' => 'audiosystemy',
-                            'icon' => 5,
+                            'icon' => Attachment::factory()
+                                ->create($this->getAttachmentAttrsForIcon('audio_system.svg'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
                             'children' =>
@@ -113,7 +125,8 @@ class SkydescentSeeder extends Seeder
                                     [
                                         'name' => 'Домашние аудиосистемы',
                                         'slug' => 'domashniye_audiosystemy',
-                                        'icon' => 5,
+                                        'icon' => Attachment::factory()
+                                            ->create($this->getAttachmentAttrsForIcon('audio_system.svg'))->id,
                                         'is_active' => 1,
                                         'sort_index' => 33,
                                         'children' =>
@@ -121,7 +134,8 @@ class SkydescentSeeder extends Seeder
                                                 [
                                                     'name' => 'Аудиосистемы с дефектом',
                                                     'slug' => 'domashniye_audiosystemy_s_defectom',
-                                                    'icon' => 4,
+                                                    'icon' => Attachment::factory()
+                                                        ->create($this->getAttachmentAttrsForIcon('discount.svg'))->id,
                                                     'is_active' => 1,
                                                     'sort_index' => 33,
                                                 ]
@@ -130,7 +144,8 @@ class SkydescentSeeder extends Seeder
                                     [
                                         'name' => 'Наушники',
                                         'slug' => 'naushniki',
-                                        'icon' => 2,
+                                        'icon' => Attachment::factory()
+                                            ->create($this->getAttachmentAttrsForIcon('headset.svg'))->id,
                                         'is_active' => 1,
                                         'sort_index' => 33,
                                     ],
@@ -183,7 +198,25 @@ class SkydescentSeeder extends Seeder
             ['name' => 'Самовары.ру'],
             ['name' => 'Ваш самовар']
         ])->each(function ($seller){
-            Seller::factory()
+            //Seller::factory()
             });
+    }
+
+    protected function getAttachmentAttrsForIcon(string $img): array
+    {
+        $iconsPath = 'icons/';
+        $fullPath = storage_path('app/public/') . $iconsPath . $img;
+        list($name, $extension) = explode('.', $img);
+        return [
+            'name' => $name,
+            'original_name' => $img,
+            'mime' => mime_content_type($fullPath),
+            'extension' => $extension,
+            'size' => stat($fullPath)['size'],
+            'path' => $iconsPath,
+            'alt' => $img,
+            'hash' => Hash::make($name),
+            'user_id' => 1,
+        ];
     }
 }
