@@ -1,6 +1,6 @@
 *
 !public/
-!import/await/*
-!import/error/*
-!import/success/*
+!import/await/
+!import/error/
+!import/success/
 !.gitignore
