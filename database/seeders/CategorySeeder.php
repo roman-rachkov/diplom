@@ -3,7 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
+use Orchid\Attachment\Models\Attachment;
 
 class CategorySeeder extends Seeder
 {
