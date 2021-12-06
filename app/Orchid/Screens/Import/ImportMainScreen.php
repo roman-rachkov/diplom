@@ -45,8 +45,6 @@ class ImportMainScreen extends Screen
             'awaitFiles' => $this->getFileFromImportDir('import-await'),
             'successFiles' => $this->getFileFromImportDir('import-success'),
             'errorFiles' => $this->getFileFromImportDir('import-error'),
-            'monitoring' => [],
-
         ];
     }
 
@@ -84,7 +82,6 @@ class ImportMainScreen extends Screen
                 __('import.mainscreen.awaitImport') => [AwaitLayout::class],
                 __('import.mainscreen.successImport') => [SuccessLayout::class],
                 __('import.mainscreen.errorImport') => [ErrorLayout::class],
-                __('import.mainscreen.monitoringImport') => [MonitoringLayout::class],
             ]),
 
             Layout::modal('addImportFiles', Layout::rows([

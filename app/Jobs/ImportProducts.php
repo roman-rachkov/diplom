@@ -46,13 +46,11 @@ class ImportProducts implements ShouldQueue
             Storage::disk('import-success')->put( $this->file->path . $this->file->name . '.' .  $this->file->extension, $awaitFile);
             Storage::disk('import-await')->delete($this->file->physicalPath());
             $this->file->update(['disk' => 'import-success']);
-            Log::info('import success for file: ' . $this->file->path . $this->file->name . '.' .  $this->file->extension);
         } catch (\Exception $e) {
             $awaitFile = Storage::disk('import-await')->get($this->file->physicalPath());
             Storage::disk('import-error')->put( $this->file->path . $this->file->name . '.' .  $this->file->extension, $awaitFile);
             Storage::disk('import-await')->delete($this->file->physicalPath());
             $this->file->update(['disk' => 'import-error']);
-            Log::info('import fail: ' . $e->getMessage());
         }
     }
 }

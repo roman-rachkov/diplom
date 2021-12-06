@@ -3,6 +3,7 @@
 namespace App\Orchid\Layouts\Import;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Queue;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
@@ -26,6 +27,7 @@ class AwaitLayout extends Table
      */
     protected function columns(): array
     {
+
         return [
             TD::make('title', __('import.tabs.tdTitle'))
                 ->render(function ($fileArr) {
@@ -44,7 +46,8 @@ class AwaitLayout extends Table
                     return Button::make(__('import.mainscreen.startImport'))
                                 ->method('startImportForOneFile')
                                 ->icon('control-play')
-                                ->parameters([ 'id' => $fileArr->id ]);
+                                ->parameters([ 'id' => $fileArr->id ])
+                                ->canSee(Queue::size('import') === 0 ? true : false);
                 }),
         ];
     }
