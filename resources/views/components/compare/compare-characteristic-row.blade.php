@@ -7,7 +7,7 @@
     <div class="Compare-products">
         @foreach($characteristic->values as $value)
             <div class="Compare-product">
-                <div class="Compare-feature">{{$value . ' ' . $characteristic->measure}}
+                <div class="Compare-feature">{{ $value === '-' ? '_' : $value  . ' ' . $characteristic->measure}}
                 </div>
             </div>
         @endforeach

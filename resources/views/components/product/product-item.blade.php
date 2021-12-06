@@ -13,10 +13,7 @@
                 <x-discount.badge
                         :discount="$dto->discount"
                 />
-                <img
-                        src={{$dto->product->image->getRelativeUrlAttribute()}}
-                        alt={{$dto->product->image->alt}}
-                />
+                <img src={{ $dto->product->image->getRelativeUrlAttribute() }} alt={{ $dto->product->image->alt }}/>
             </div>
             <x-product.product-item-images
                     :images="$dto->product->attachment"
