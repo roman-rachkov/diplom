@@ -4,9 +4,11 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\File;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Orchid\Attachment\Models\Attachment;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class CategoryFactory extends Factory
 {
@@ -70,25 +72,31 @@ class CategoryFactory extends Factory
 
     protected function getAttachmentAttrsForIcon(string $img): array
     {
-        $iconsPath = 'icons/';
-        $fullPath = storage_path('app/public/') . $iconsPath . $img;
-        list($name, $extension) = explode('.', $img);
-        return [
-            'name' => $name,
-            'original_name' => $img,
-            'mime' => mime_content_type($fullPath),
-            'extension' => $extension,
-            'size' => stat($fullPath)['size'],
-            'path' => $iconsPath,
-            'alt' => $img,
-            'hash' => Hash::make($name),
-            'user_id' => 1,
-        ];
+        $basePath = resource_path('img/icons/categories/' . $img);
+
+        if (file_exists($basePath)) {
+            $path = 'icons/';
+            $storagePath = Storage::disk('public')->putFile($path, new File($basePath));
+
+            $file = new File(Storage::disk('public')->path($storagePath));
+            return [
+                'name' => explode('.', $file->getBasename())[0],
+                'original_name' => $file->getBasename(),
+                'mime' => $file->getMimeType(),
+                'extension' => $file->getExtension(),
+                'size' => $file->getSize(),
+                'path' => $path,
+                'alt' => $img,
+                'hash' => $file->hashName(),
+                'user_id' => 1,
+            ];
+        }
+        throw new FileNotFoundException('File ' . $basePath . ' not found', 404);
     }
 
     public function getIcons(): Collection
     {
-        return  collect([
+        return collect([
             'audio_system.svg',
             'camera.svg',
             'discount.svg',
@@ -101,7 +109,7 @@ class CategoryFactory extends Factory
             'smartphone.svg',
             'tv.svg',
             'washer.svg'
-        ])->map(function ($img){
+        ])->map(function ($img) {
             return $this->getAttachmentAttrsForIcon($img);
         });
     }
