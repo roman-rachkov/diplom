@@ -47,4 +47,9 @@ class FakeDataReaderService implements DataReaderContract
         });
         return $DTOCollection;
     }
+
+    public function getErrorsLog(): array
+    {
+        return [];
+    }
 }
