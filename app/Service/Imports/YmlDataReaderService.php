@@ -4,6 +4,7 @@ namespace App\Service\Imports;
 
 use App\Exceptions\DataReaderException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class YmlDataReaderService extends AbstractDataReaderService
 {
@@ -35,6 +36,11 @@ class YmlDataReaderService extends AbstractDataReaderService
         return array_slice(explode('/', $url), -1)[0];
     }
 
+    protected function getImagePathFromUrl(\SimpleXMLElement $picture): string
+    {
+         return parse_url($picture->__toString())['path'];
+    }
+
 
     protected function getProductImportDTOs(\SimpleXMLElement $offers): Collection
     {
@@ -56,6 +62,7 @@ class YmlDataReaderService extends AbstractDataReaderService
             'slug' => $this->getSlugFromUrl($offer->url),
             'description' => mb_substr($offer->description->__toString(), 0, 255),
             'full_description' => mb_substr($offer->description->__toString(), 0, 1000),
+            'image_path' => $this->getImagePathFromUrl($offer->picture),
             'limited_edition' =>  $this->getLimitedEdition($offer),
             'category_id' => $this->getYmlIdAttribute($offer->category),
             'seller_id' => $this->getYmlIdAttribute($offer->shop),

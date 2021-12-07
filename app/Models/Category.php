@@ -64,4 +64,9 @@ class Category extends Model
         return $this->morphToMany(DiscountGroup::class, 'discount_groupable');
     }
 
+    public function icon()
+    {
+        return $this->hasOne(Attachment::class, 'id', 'icon_id');
+    }
+
 }
