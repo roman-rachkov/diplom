@@ -12,7 +12,6 @@ use App\Models\User;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Orchid\Attachment\Models\Attachment;
@@ -49,6 +48,8 @@ class TmoiseenkoSeeder extends Seeder
             3598.14,
         ]);
 
+        $manuf = Attachment::factory($this->prepareAttachment('manufactureres.jpg'))->create();
+
         $sellersArr = [
             [
                 'name' => 'Продавец №1',
@@ -56,7 +57,7 @@ class TmoiseenkoSeeder extends Seeder
                 'email' => 'seller-1@sellers.ee',
                 'phone' => '1234567890',
                 'address' => '431568, г. Ишеевка, ул. Академика Несмеянова',
-                'logo_id' => Attachment::factory($this->prepareAttachment('manufactureres.jpg'))->create(),
+                'logo_id' => $manuf->id,
             ],
             [
                 'name' => 'Продавец №2',
@@ -64,7 +65,7 @@ class TmoiseenkoSeeder extends Seeder
                 'email' => 'seller-2@sellers.ee',
                 'phone' => '1234567890',
                 'address' => '659084, г. Вишневое, ул. Старонародная',
-                'logo_id' => Attachment::factory($this->prepareAttachment('manufactureres.jpg'))->create(),
+                'logo_id' => $manuf->id,
             ],
             [
                 'name' => 'Продавец №3',
@@ -72,13 +73,13 @@ class TmoiseenkoSeeder extends Seeder
                 'email' => 'seller-3@sellers.ee',
                 'phone' => '1234567890',
                 'address' => '369160, г. Подольск, ул. Хвойная, дом 25,',
-                'logo_id' => Attachment::factory($this->prepareAttachment('manufactureres.jpg'))->create(),
+                'logo_id' => $manuf->id,
             ],
         ];
 
         $sellersObj = [];
 
-        User::factory([
+        $user = User::factory([
             'name' => 'tmoiseenko',
             'email' => 'tmoiseenko@admin.com',
             'email_verified_at' => now(),
@@ -106,14 +107,14 @@ class TmoiseenkoSeeder extends Seeder
             'name' => 'Фабрика новогодних подарков',
             'email' => 'ded@moroz.ru',
             'address' => '162390, Россия, Вологодская область, город Великий Устюг, дом Деда Мороза.',
-            'logo_id' => Attachment::factory($this->prepareAttachment('manufactureres.jpg'))
+            'logo_id' => $manuf->id
         ])->create();
 
         $valentinesManufacturer = Manufacturer::factory([
             'name' => 'LoVe Factory',
             'email' => 'love@factory.ru',
             'address' => '555555, Россия.',
-            'logo_id' => Attachment::factory($this->prepareAttachment('manufactureres.jpg'))
+            'logo_id' => $manuf->id
         ])->create();
 
         $newYearCat = Category::factory([
@@ -125,7 +126,7 @@ class TmoiseenkoSeeder extends Seeder
         ])->create();
 
         $valentinesYearCat =  Category::factory([
-            'name' => 'Подарочние наборы',
+            'name' => 'Подарочные наборы',
             'slug' => "valentines_day",
             'icon_id' => Attachment::factory($this->prepareAttachment('icons/heart.png')),
             'sort_index' => 0,
@@ -163,18 +164,18 @@ class TmoiseenkoSeeder extends Seeder
         }
 
         foreach ($images['new_year'] as $image) {
-            $newProduct->additionalImages()->saveMany(new Attachmentable([
+            $newProduct->additionalImages()->save(new Attachmentable([
                 'attachmentable_type' => Attachment::class,
                 'attachmentable_id' => $newProduct->id,
-                'attachment_id' => Attachment::factory($this->prepareAttachment('products/' . $image)),
+                'attachment_id' => Attachment::factory($this->prepareAttachment('products/' . $image))->create()->id,
             ]));
         }
 
         foreach ($images['valentines'] as $image) {
-            $valentinesProduct->additionalImages()->saveMany(new Attachmentable([
+            $valentinesProduct->additionalImages()->save(new Attachmentable([
                 'attachmentable_type' => Attachment::class,
                 'attachmentable_id' => $valentinesProduct->id,
-                'attachment_id' => Attachment::factory($this->prepareAttachment('products/' . $image)),
+                'attachment_id' => Attachment::factory($this->prepareAttachment('products/' . $image))->create()->id,
             ]));
         }
 
@@ -216,7 +217,7 @@ class TmoiseenkoSeeder extends Seeder
             'button_text' => 'Узнать больше',
             'href' => 'https://laraveldiplomagroup01.mvsvolkov.ru/products/valentines_product',
             'is_active' => true,
-            'image_id' => Attachment::factory($this->prepareAttachment('banners/banner-1.jpg')),
+            'image_id' => Attachment::factory($this->prepareAttachment('banners/banner-3.jpg')),
         ])->create();
 
     }

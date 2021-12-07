@@ -15,9 +15,9 @@ class DemoDataSeeder extends Seeder
         $this->call(
             [
                 TmoiseenkoSeeder::class,
-//                TftpOSSeeder::class,
-//                Pakycb84Seeder::class,
-//                SkydescentSeeder::class,
+                TftpOSSeeder::class,
+                Pakycb84Seeder::class,
+                SkydescentSeeder::class,
             ]
         );
     }
