@@ -35,8 +35,9 @@ class SkydescentSeeder extends Seeder
     public function run()
     {
         $this->seedNestedSetCategories();
-        $this->seedProduct();
-        $this->seedComparedProductsAndPaidOrder();
+        //$this->seedProduct();
+        //$this->seedComparedProducts();
+        //$this->seedCartWitDiscount();
     }
 
     protected function seedNestedSetCategories()
@@ -344,7 +345,7 @@ class SkydescentSeeder extends Seeder
                         'value' => 30,
                         'method_type' => Discount::getMethodTypes()->random(),
                         'category_type' => Discount::CATEGORY_OTHER,
-                        'weight' => 130,
+                        'weight' => 12,
                         'minimal_cost' => 200,
                         'maximum_cost' => 400,
                         'minimum_qty' => 2,
@@ -358,26 +359,24 @@ class SkydescentSeeder extends Seeder
             );
     }
 
-    protected function seedComparedProductsAndPaidOrder()
+    protected function seedComparedProducts()
     {
         //Добавляем user
         $customer = Customer::factory()
-            ->for(User::factory()->create(['name' => 'Самоваров Аркадий Петрович', 'email' => 'samovarov@email.com']))
+            ->for(
+                User::factory()
+                    ->create(
+                        [
+                            'name' => 'Самоваров Аркадий Петрович',
+                            'email' => 'samovarov@email.com'
+                        ]))
             ->create();
 
-        $order = Order::factory()->create([
-            'customer_id' => $customer,
-            'full_name' => $customer->user->name,
-            'email' => $customer->user->email,
-        ]);
-
-        Payment::factory()->create(
-            [
-                'order_id' => $order->id,
-                'status' => 'succeeded',
-                'comment' => null,
-                'payed_at' => Carbon::yesterday()
-            ]);
+        $customer
+            ->user
+            ->avatar()
+            ->save(Attachment::factory(
+                $this->prepareAttachment('users/samovarov.jpg', date('Y/m/d') . '/')));
 
         collect([
             [
@@ -419,8 +418,7 @@ class SkydescentSeeder extends Seeder
                 'description' => 'В представлении не нуждается, с вероятностью 3% может создать антивещество',
                 'category_id' => Category::where('slug', 'mikrovolnovki')->get()->first()->id,
                 'main_img_id' => Attachment::factory($this->prepareAttachment('products/images/collider.jpg', date('Y/m/d') . '/')),
-                'price' => 1,
-                'discount' => 5,
+                'price' => 100,
                 'characteristics' => collect([
                     ['name' => 'Вес', 'measure' => 'гр.', 'value' => 'подсчёты ещё ведутся'],
                     ['name' => 'Протяженность', 'measure' => 'км', 'value' => 100],
@@ -429,21 +427,26 @@ class SkydescentSeeder extends Seeder
                     ['name' => 'Уникальность', 'measure' => null, 'value' => 'только на нашей площадке']
                 ])
             ]
-        ])->each(function ($item) use ($customer, $order) {
+        ])->each(function ($item) use ($customer) {
             $product = Product::factory()
                 ->hasPrices(1, ['price' => $item['price']])
                 ->create(array_slice($item, 0,5));
 
-            $product->discountGroups()
-                ->save(DiscountGroup::factory()
-                ->for(Discount::factory()
-                    ->create([
-                        'value' => $item['discount'],
-                        'category_type' => Discount::CATEGORY_OTHER,
-                        'is_active' => 1,
-                        'start_at' => Carbon::now(),
-                        'end_at' => Carbon::now()->addDays(10)
-                    ]))->create());
+
+            if(isset($item['discount'])) {
+                $product->discountGroups()
+                    ->save(DiscountGroup::factory()
+                        ->for(Discount::factory()
+                            ->create([
+                                'value' => $item['discount'],
+                                'category_type' => Discount::CATEGORY_OTHER,
+                                'is_active' => 1,
+                                'start_at' => Carbon::now(),
+                                'end_at' => Carbon::now()->addDays(10),
+                                'weight' => 10
+                            ]))->create());
+            }
+
 
             $characteristics = [];
 
@@ -476,17 +479,45 @@ class SkydescentSeeder extends Seeder
                 ->for($product)
                 ->for($customer)
                 ->create();
-
-             OrderItem::factory()
-                ->create([
-                    'order_id' => $order->id,
-                    'price_id' => $product->prices->first()->id,
-                    'quantity' => rand(1,10),
-                    'customer_id' => $customer->id,
-                ]);
         });
 
+    }
 
+    public function seedCartWitDiscount()
+    {
+        $onSetDiscount = Discount::factory()
+            ->create([
+            'title' => 'Самовар и коллайдер в пол цены',
+            'value' => 50,
+            'method_type' => Discount::METHOD_CLASSIC,
+            'category_type' => Discount::CATEGORY_SET,
+            'weight' => 100,
+            'minimal_cost' => 1,
+            'maximum_cost' => 5000,
+            'minimum_qty' => 1,
+            'maximum_qty' => 20,
+            'start_at' => Carbon::yesterday(),
+            'end_at' => Carbon::now()->addDays(20),
+            'is_active' => 1,
+            'description' => 'Скидка на самовары и коллайдеры'
+        ]);
 
+        $collider = Product::where('slug', 'collider')->first();
+        $collider->discountGroups()->save(DiscountGroup::factory()->for($onSetDiscount)->create());
+
+        $samovar = Product::where('slug', 'samovar_classic')->first();
+        $samovar->discountGroups()->save(DiscountGroup::factory()->for($onSetDiscount)->create());
+
+        $customer = User::where('email', 'samovarov@email.com')->first();
+
+        foreach ([$collider, $samovar] as $product) {
+            OrderItem::factory()
+                ->create([
+                    'order_id' => null,
+                    'price_id' => $product->prices->first(),
+                    'quantity' => rand(1,3),
+                    'customer_id' => $customer->id,
+                ]);
+        }
     }
 }
