@@ -2,7 +2,6 @@
 
 namespace Database\Seeders\DemoDataSeeders;
 
-use App\Http\Controllers\ProductsController;
 use App\Models\Category;
 use App\Models\Characteristic;
 use App\Models\CharacteristicValue;
@@ -11,6 +10,9 @@ use App\Models\Customer;
 use App\Models\Discount;
 use App\Models\DiscountGroup;
 use App\Models\Manufacturer;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Payment;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Review;
@@ -19,9 +21,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\File;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Attachment\Models\Attachmentable;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
@@ -34,13 +34,9 @@ class SkydescentSeeder extends Seeder
 {
     public function run()
     {
-        //Product::factory()->create(['limited_edition' => 1]);
-        Attachment::factory()->create();
-
         $this->seedNestedSetCategories();
         $this->seedProduct();
-        $this->seedComparedProducts();
-        //$this->test();
+        $this->seedComparedProductsAndPaidOrder();
     }
 
     protected function seedNestedSetCategories()
@@ -326,55 +322,6 @@ class SkydescentSeeder extends Seeder
         throw new FileNotFoundException('File ' . $basePath . ' not found', 404);
     }
 
-
-    protected function getAttachmentAttrsForImg(string $imgPath): array
-    {
-        [
-            'dirname' => $imagePath,
-            'basename' => $img,
-            'extension' => $extension,
-            'filename' => $name,
-        ] = pathinfo($imgPath);
-
-        $fullPath = storage_path('app/public/') . $imgPath;
-        return [
-            'name' => $name,
-            'original_name' => $img,
-            'mime' => mime_content_type($fullPath),
-            'extension' => $extension,
-            'size' => stat($fullPath)['size'],
-            'path' => $imagePath . '/',
-            'alt' => $img,
-            'hash' => Hash::make($name),
-            'user_id' => 1,
-        ];
-    }
-
-    protected function getAttachmentAttrsForIcon(string $img): array
-    {
-        $basePath = resource_path('img/icons/categories/' . $img);
-
-        if (file_exists($basePath)) {
-            $path = 'icons/';
-            $storagePath = Storage::disk('public')->putFile($path, new File($basePath));
-
-            $file = new File(Storage::disk('public')->path($storagePath));
-            return [
-                'name' => explode('.', $file->getBasename())[0],
-                'original_name' => $file->getBasename(),
-                'mime' => $file->getMimeType(),
-                'extension' => $file->getExtension(),
-                'size' => $file->getSize(),
-                'path' => $path,
-                'alt' => $img,
-                'hash' => $file->hashName(),
-                'user_id' => 1,
-            ];
-        }
-        throw new FileNotFoundException('File ' . $basePath . ' not found', 404);
-    }
-
-
     protected function seedReviews($product)
     {
         collect([
@@ -411,12 +358,26 @@ class SkydescentSeeder extends Seeder
             );
     }
 
-    protected function seedComparedProducts()
+    protected function seedComparedProductsAndPaidOrder()
     {
         //Добавляем user
         $customer = Customer::factory()
-            ->for(User::factory()->create(['name' => 'Самоваров Аркадий Петрович']))
+            ->for(User::factory()->create(['name' => 'Самоваров Аркадий Петрович', 'email' => 'samovarov@email.com']))
             ->create();
+
+        $order = Order::factory()->create([
+            'customer_id' => $customer,
+            'full_name' => $customer->user->name,
+            'email' => $customer->user->email,
+        ]);
+
+        Payment::factory()->create(
+            [
+                'order_id' => $order->id,
+                'status' => 'succeeded',
+                'comment' => null,
+                'payed_at' => Carbon::yesterday()
+            ]);
 
         collect([
             [
@@ -468,7 +429,7 @@ class SkydescentSeeder extends Seeder
                     ['name' => 'Уникальность', 'measure' => null, 'value' => 'только на нашей площадке']
                 ])
             ]
-        ])->each(function ($item) use ($customer) {
+        ])->each(function ($item) use ($customer, $order) {
             $product = Product::factory()
                 ->hasPrices(1, ['price' => $item['price']])
                 ->create(array_slice($item, 0,5));
@@ -515,6 +476,17 @@ class SkydescentSeeder extends Seeder
                 ->for($product)
                 ->for($customer)
                 ->create();
+
+             OrderItem::factory()
+                ->create([
+                    'order_id' => $order->id,
+                    'price_id' => $product->prices->first()->id,
+                    'quantity' => rand(1,10),
+                    'customer_id' => $customer->id,
+                ]);
         });
+
+
+
     }
 }
