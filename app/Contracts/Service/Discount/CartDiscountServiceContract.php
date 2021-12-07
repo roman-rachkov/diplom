@@ -10,6 +10,5 @@ interface CartDiscountServiceContract
         Collection $cart,
         int $cartQuantity,
         float $cartCost,
-        string $customerId
     ): Collection;
 }

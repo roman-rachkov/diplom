@@ -10,7 +10,7 @@ interface DiscountRepositoryContract
 {
     public function getProductDiscount(Product $product) : ?Discount;
 
-    public function getOnCartDiscount(string $customerId, int $productsQty, float $cartCost): ?Discount;
+    public function getOnCartDiscount(int $productsQty, float $cartCost): ?Discount;
 
     public function getOnSetDiscounts(): EloquentCollection;
 

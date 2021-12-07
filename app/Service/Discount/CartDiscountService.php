@@ -25,11 +25,10 @@ class CartDiscountService implements CartDiscountServiceContract
         Collection $cart,
         int $cartQuantity,
         float $cartCost,
-        string $customerId
     ): Collection
     {
-
-        $cartDiscount = $this->discountRepository->getOnCartDiscount($customerId, $cartQuantity, $cartCost);
+        $cartDiscount = $this->discountRepository
+            ->getOnCartDiscount($cartQuantity, $cartCost);
 
         $setDiscountArray = $this->getSetDiscountArray($this->getCartProductsIds($cart));
 
@@ -47,9 +46,9 @@ class CartDiscountService implements CartDiscountServiceContract
 
         if(!is_null($setDiscountArray)) {
             return $this->createDTOs(
-            $cart,
-            $setDiscountArray['discount'],
-            $setDiscountArray['productIds']);
+                $cart,
+                $setDiscountArray['discount'],
+                $setDiscountArray['productIds']);
         }
 
         if(!is_null($cartDiscount)) {

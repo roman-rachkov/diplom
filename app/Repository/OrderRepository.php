@@ -36,7 +36,7 @@ class OrderRepository implements OrderRepositoryContract
             'comment' => $DTO->comment,
         ]);
 
-        $order->items()->saveMany($this->cart->getItemsList());
+        $order->items()->saveMany($this->cart->getCartItemsList());
         return $order;
     }
 
