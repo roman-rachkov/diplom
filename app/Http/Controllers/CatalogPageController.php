@@ -7,32 +7,38 @@ use App\Contracts\Repository\PriceRepositoryContract;
 use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Repository\SellerRepositoryContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
 use App\Http\Requests\CatalogGetRequest;
-use App\Models\Category;
-use App\Models\Customer;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Service\Discount\OtherDiscountService;
 
 class CatalogPageController extends Controller
 {
     public function index(
         ProductRepositoryContract      $repo,
-        ProductDiscountServiceContract $discountRepo,
+        OtherDiscountService $discountService,
         PriceRepositoryContract        $prices,
         SellerRepositoryContract       $sellers,
         CatalogGetRequest              $request
     )
     {
         $sellers = $sellers->getAllSellers();
-        $products = $repo->getProductsForCatalogByCategory($request);
-        $discounts = $discountRepo->getCatalogDiscounts(collect($products->items()));
+        $productsPaginator = $repo->getProductsForCatalogByCategory($request);
+        $productDiscountPriceDTOs = $discountService
+            ->getProductPriceDiscountDTOs(collect($productsPaginator->items()));
         $minPrice = $prices->getMinPrice();
         $maxPrice = $prices->getMaxPrice();
-        return view('catalog', compact(
-            'products', 'discounts', 'sellers',
-            'maxPrice', 'minPrice', 'request',
+        return view(
+            'catalog',
+            compact(
+            'productsPaginator',
+            'productDiscountPriceDTOs',
+            'sellers',
+            'maxPrice',
+            'minPrice',
+            'request',
         ));
     }
 
@@ -40,6 +46,7 @@ class CatalogPageController extends Controller
         $slug,
         ProductRepositoryContract      $repo,
         ProductDiscountServiceContract $discountRepo,
+        OtherDiscountService $discountService,
         PriceRepositoryContract        $prices,
         CategoryRepositoryContract     $catRepo,
         CatalogGetRequest              $request
@@ -48,13 +55,20 @@ class CatalogPageController extends Controller
         $category = $catRepo->getCategoryBySlug($slug);
         $catIds = $repo->getProductsByCategory($category);
         $sellers = $repo->getSellersForProducts($category->id);
-        $products = $repo->getProductsForCatalogByCategory($request, $category->slug);
-        $discounts = $discountRepo->getCatalogDiscounts(collect($products->items()));
+        $productsPaginator = $repo->getProductsForCatalogByCategory($request, $category->slug);
+        $productDiscountPriceDTOs = $discountService
+            ->getProductPriceDiscountDTOs(collect($productsPaginator->items()));
         $minPrice = $prices->getMinPriceForCategory($catIds);
         $maxPrice = $prices->getMaxPriceForCategory($catIds);
-        return view('catalog', compact(
-            'products', 'discounts', 'sellers',
-            'maxPrice', 'minPrice', 'request',
+        return view(
+            'catalog',
+            compact(
+            'productsPaginator',
+            'productDiscountPriceDTOs',
+            'sellers',
+            'maxPrice',
+            'minPrice',
+            'request',
         ));
     }
 
@@ -71,10 +85,10 @@ class CatalogPageController extends Controller
     public function compare(
         CompareProductsServiceContract $compare,
         Product $product,
-        Customer $customer
+        CustomerServiceContract $customerService
     )
     {
-        if ($compare->add($product, $customer)) {
+        if ($compare->add($product, $customerService->getCustomer())) {
             return back()->with('success', __('catalog.success.product_add_compare'));
         } else {
             return back()->with('error', __('catalog.error.product_add_compare'));

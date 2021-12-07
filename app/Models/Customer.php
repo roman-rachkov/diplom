@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\FlushTagCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model
 {
-    use HasFactory;
+    use HasFactory, FlushTagCache;
+
+    public static $tagsArr = ['customerService'];
 
     protected $guarded = [];
 
@@ -20,11 +23,6 @@ class Customer extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
-    }
-
-    public function cart()
-    {
-        return $this->items()->where('order_id', null);
     }
 
     public function viewedProducts(): HasMany

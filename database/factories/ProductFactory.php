@@ -26,15 +26,15 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'description' => $this->faker->sentence(),
+            'description' => $this->faker->sentence(35),
+            'full_description' => $this->faker->paragraph(75),
             'slug' => $this->faker->slug(),
             'category_id' => Category::factory(),
             'sort_index' => $this->faker->numberBetween(1,100),
-            'limited' => $this->faker->boolean(90),
             'sales_count' => $this->faker->numberBetween(1, 200),
             'manufacturer_id' => Manufacturer::factory(),
             'main_img_id' => Attachment::factory(),
-            'limited_edition' => $this->faker->boolean,
+            'limited_edition' => $this->faker->boolean(),
         ];
     }
 }

@@ -1,34 +1,69 @@
-@props(['product', 'reviews', 'avgPrice', 'avgDiscountPrice', 'discount', 'reviewsCount'])
+@props(
+    [
+        'reviews',
+        'dto',
+        'discount',
+        'reviewsCount'
+    ])
 
 <div class="Product">
     <div class="ProductCard">
         <div class="ProductCard-look">
             <div class="ProductCard-photo">
-                <div class="ProductCard-sale">-{{ $discount }}%
-                </div><img src={{$product->image->getRelativeUrlAttribute()}} alt={{$product->image->alt}}/>
+                <x-discount.badge
+                        :discount="$dto->discount"
+                />
+                <img
+                        src={{$dto->product->image->getRelativeUrlAttribute()}}
+                        alt={{$dto->product->image->alt}}
+                />
             </div>
-            <x-product.product-item-images :images="$product->attachment"/>
+            <x-product.product-item-images
+                    :images="$dto->product->attachment"
+                    :mainImage="$dto->product->image"
+            />
         </div>
         <div class="ProductCard-desc">
             <div class="ProductCard-header">
-                <h2 class="ProductCard-title">{{$product->name}}</h2>
+                <h2 class="ProductCard-title">{{$dto->product->name}}</h2>
                 <div class="ProductCard-info">
                     <div class="ProductCard-cost">
-                        <div class="ProductCard-price">${{ $avgDiscountPrice }}</div>
-                        <div class="ProductCard-priceOld">${{ $avgPrice }}</div>
+                        @if($dto->priceWithDiscount)
+                            <div class="ProductCard-price">
+                                <x-format-price :price="$dto->priceWithDiscount" />
+                            </div>
+                            <div class="ProductCard-priceOld">
+                                <x-format-price :price="$dto->price" />
+                            </div>
+                        @else
+                            <div class="ProductCard-price">
+                                <x-format-price :price="$dto->price" />
+                            </div>
+                        @endif
                     </div>
-                    <form class="ProductCard-compare" method="post" action="{{route('product.addToComparison', $product)}}">
+                    <form
+                            class="ProductCard-compare"
+                            method="post"
+                            action="{{route('product.addToComparison', $dto->product)}}"
+                    >
                         @csrf
                         <button type="submit" class="btn btn_default">
-                            <img class="btn-icon" src={{asset("assets/img/icons/card/change.svg")}} alt="change.svg"/>
+                            <img class="btn-icon"
+                                 src={{asset("assets/img/icons/card/change.svg")}}
+                                 alt="change.svg"
+                            />
                         </button>
                     </form>
                 </div>
             </div>
             <div class="ProductCard-text">
-                {{$product->description}}
+                {!! $dto->product->description !!}
             </div>
-            <form class="ProductCard-cart" method="post" action="{{route('product.addToCart', $product)}}">
+            <form
+                    class="ProductCard-cart"
+                    method="post"
+                    action="{{route('product.addToCart', $dto->product)}}"
+            >
                 @csrf
                 <div class="ProductCard-cartElement ProductCard-cartElement_amount">
                     <div class="Amount Amount_product">
@@ -39,7 +74,11 @@
                 </div>
                 <div class="ProductCard-cartElement">
                     <button class="btn btn_primary" type="submit" >
-                        <img class="btn-icon" src={{asset("assets/img/icons/card/cart_white.svg")}} alt="cart_white.svg"/>
+                        <img
+                                class="btn-icon"
+                                src={{asset("assets/img/icons/card/cart_white.svg")}}
+                                alt="cart_white.svg"
+                        />
                         <span class="btn-content">{{__('product.buy_btn')}}</span>
                     </button>
                 </div>
@@ -63,44 +102,9 @@
         </div>
         <div class="Tabs-wrap">
             <div class="Tabs-block" id="description">
-                <h2>Megano Store Hystory
-                </h2>
-                <p>Lorem ipsum dolor sit amet, consectetuer&#32;
-                    <strong>adipiscing
-                    </strong>&#32;elit doli. Aenean commodo ligula eget dolor. Aenean massa.&#32;<a href="#">Cumtipsu</a>&#32;sociis natoque penatibus et magnis dis parturient montesti, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eutu, pretiumem.
-                </p><img class="pict pict_right" src={{asset("assets/img/content/home/bigGoods.png")}} alt="bigGoods.png"/>
-                <ul>
-                    <li>Lorem ipsum dolor sit amet, consectetuer
-                    </li>
-                    <li>adipiscing elit doli.&#32;<em>Aenean</em>&#32;commodo ligula
-                    </li>
-                    <li>eget dolor. Aenean massa. Cumtipsu sociis
-                    </li>
-                    <li>natoque penatibus et magnis dis parturient
-                    </li>
-                    <li>montesti, nascetur ridiculus mus. Donec
-                    </li>
-                    <li>quam felis, ultricies nec, pellentesque eutu
-                    </li>
-                </ul>
-                <div class="clearfix">
-                </div>
-                <div class="table">
-                    <table>
-                        <tr>
-                            <th>Табличка внутри описания</th>
-                            <th>Значение
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>ываыв</td>
-                            <td>llslssl
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                {!! $dto->product->full_description !!}
             </div>
-            <x-product.product-item-sellers :product="$product" :prices="$product->prices"/>
+            <x-product.product-item-sellers :product="$dto->product" :prices="$dto->product->prices"/>
             <div class="Tabs-block" id="addit">
                 <div class="Product-props">
                     <div class="Product-prop">
@@ -121,7 +125,7 @@
                     </div>
                 </div>
             </div>
-            <x-review.reviews :reviews="$reviews" :product="$product"/>
+            <x-review.reviews :reviews="$reviews" :product="$dto->product"/>
         </div>
     </div>
 </div>

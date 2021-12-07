@@ -3,7 +3,7 @@
 <div class="CategoriesButton-link">
     <a href="{{ route('catalog.category', ['slug' => $category->slug]) }}">
         <div class="CategoriesButton-icon">
-            <img src="{{ asset('assets/img/icons/departments/'. $category->icon . '.svg') }}" alt="{{$category->icon}}"/>
+            <img src="{{ $category->icon->getRelativeUrlAttribute() }}" alt="{{$category->icon->alt}}"/>
         </div>
         <span class="CategoriesButton-text">{{$category->name}}</span>
     </a>

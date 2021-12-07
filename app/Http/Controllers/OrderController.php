@@ -6,6 +6,7 @@ use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
+use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\DeliveryCostServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
@@ -50,7 +51,6 @@ class OrderController extends Controller
         event(new Registered($user = $creator->create($request->all())));
 
         $guard->login($user);
-
         if ($request->json()) {
             return response()->json(['status' => (bool)$user]);
         }
@@ -62,7 +62,7 @@ class OrderController extends Controller
         OrderConfirmRequest                $request,
         PaymentsServicesRepositoryContract $repository,
         GetCartServiceContract             $cart,
-        DeliveryCostServiceContract        $delivery
+        DeliveryCostServiceContract        $delivery,
     )
     {
         try {
@@ -77,7 +77,11 @@ class OrderController extends Controller
         return view('cart.step-four')->with(compact('data'));
     }
 
-    public function add(Request $request, PaymentsIntegratorServiceContract $payments, OrderRepositoryContract $orderRepository)
+    public function add(
+        Request $request,
+        PaymentsIntegratorServiceContract $payments,
+        OrderRepositoryContract $orderRepository
+    )
     {
         try {
             if (!session('order_data')) {

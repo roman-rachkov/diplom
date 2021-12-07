@@ -5174,3 +5174,15 @@ a.Cart-title {
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
 }
+
+.progress-status {
+    display: none;
+}
+
+.progress-status.active {
+    display: block;
+}
+
+.payment-error {
+    margin-top: 25px;
+}

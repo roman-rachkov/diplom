@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogPageController;
 use App\Http\Controllers\CompareProductsController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\MainPageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -29,7 +30,7 @@ use Tabuna\Breadcrumbs\Trail;
 
 Route::get('/', [MainPageController::class, 'index'])->name('banners');
 
-Route::get('/discounts', function () {})->name('discounts.index');
+Route::get('/discounts', [DiscountController::class, 'index'])->name('discounts.index');
 
 Route::get('/products/{slug}', [ProductsController::class, 'show'])
     ->name('product.show');
@@ -75,18 +76,18 @@ Route::prefix('users')->middleware(['auth'])->group(function () {
     Route::get('/{user}/viewed_products', [ViewedProductsController::class, 'viewedProducts'])->name('users.viewed_products');
 });
 
-Route::get('sellers/{id}', [SellerController::class, 'show']);
+Route::get('sellers/{id}', [SellerController::class, 'show'])->name('sellers.show');
 
 
 Route::prefix('checkout')->group(function () {
 
-    Route::post('/repay/{order}', [OrderController::class, 'repay'])->name('order.repay');
+    Route::post('/repay/{order}', [OrderController::class, 'repay'])->name('order.repay.post');
     Route::get('/repay/{order}', [OrderController::class, 'repayForm'])->name('order.repay');
     Route::prefix('/user')->group(function () {
         Route::get('/{email}', [OrderController::class, 'checkUserEmail'])->name('order.checkUser');
         Route::post('/', [OrderController::class, 'registerUser'])->name('order.registerUser');
     });
-    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::post('/confirm', [OrderController::class, 'confirm'])->name('order.confirm.post');
     Route::view('/confirm', 'cart.step-four')->name('order.confirm');
     Route::post('/', [OrderController::class, 'add'])->name('order.add');
     Route::get('/', [OrderController::class, 'index'])->name('order.index');

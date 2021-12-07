@@ -3,22 +3,26 @@
 namespace App\View\Components\Checkout;
 
 use App\Contracts\Service\Cart\GetCartServiceContract;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class StepFourComponent extends Component
 {
-    public $inputs;
-    public GetCartServiceContract $cartService;
+    public array $inputs;
+    public Collection $cartItemsDTOs;
+
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($inputs, GetCartServiceContract $contract)
+    public function __construct(
+        $inputs,
+        public GetCartServiceContract $cartService)
     {
         $this->inputs = $inputs;
-        $this->cartService = $contract;
+        $this->cartItemsDTOs = $this->cartService->getCartItemsDTOs();
     }
 
     /**

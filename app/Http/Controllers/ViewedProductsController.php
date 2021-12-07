@@ -23,9 +23,9 @@ class ViewedProductsController extends Controller
     public function viewedProducts($user): View
     {
         $limit = $this->adminSettings->get('userViewProductCount', 20);
-        $arrayProductsWithDiscount = $this->viewedProducts->getViewedProductsWithDiscount($limit);
+        $viewedProductsDTOs = $this->viewedProducts->getViewedProductsDTOs($limit);
 
-        return view('products.history_viewed', compact('arrayProductsWithDiscount', 'user'));
+        return view('products.history_viewed', compact('viewedProductsDTOs', 'user'));
     }
 
 }

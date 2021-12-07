@@ -6,6 +6,8 @@ use App\Contracts\Repository\ProductRepositoryContract;
 use App\Contracts\Repository\ReviewRepositoryContract;
 use App\Contracts\Service\AddReviewServiceContract;
 use App\Contracts\Service\Cart\AddCartServiceContract;
+use App\Contracts\Service\CustomerServiceContract;
+use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Product\CompareProductsServiceContract;
 use App\Contracts\Service\Product\ProductDiscountServiceContract;
@@ -45,7 +47,7 @@ class ProductsController extends Controller
      * @return Application|Factory|View
      */
     public function show(
-        ProductDiscountServiceContract $discountService,
+        OtherDiscountServiceContract $discountService,
         AddReviewServiceContract $reviewService,
         string $slug,
         ViewedProductsServiceContract $viewedProductsService
@@ -53,10 +55,8 @@ class ProductsController extends Controller
     {
         $product = $this->productRepository->find($slug);
         if (is_null($product)) abort(404);
-        $discount = $discountService->getProductDiscounts($product);
-        $avgPrice = round($product->prices->avg('price'), 2);
-        $avgDiscountPrice = round($avgPrice * (1 - $discount),2);
-        $discount = intval($discount * 100);
+
+        $productPriceDiscountDTO = $discountService->getProductPriceDiscountDTO($product);
         $reviewsCount = $reviewService->getReviewsCount($product);
         $reviews = $this->reviewRepository->getPaginatedReviews($product->id, 3, 1);
 
@@ -64,13 +64,11 @@ class ProductsController extends Controller
 
         return view(
             'products.show',
-            compact(
-                'product',
-                'avgDiscountPrice',
-                'avgPrice',
-                'discount',
-            'reviewsCount',
-            'reviews')
+                compact(
+                    'productPriceDiscountDTO',
+                    'reviewsCount',
+                    'reviews'
+                )
         );
     }
 
@@ -96,14 +94,14 @@ class ProductsController extends Controller
     }
 
     public function addToComparison(
-        Customer $customer,
+        CustomerServiceContract $customerService,
         CompareProductsServiceContract $compareService,
         string $slug
     ): RedirectResponse
     {
         $product = $this->productRepository->find($slug);
 
-        if ($compareService->add($product, $customer)) {
+        if ($compareService->add($product, $customerService->getCustomer())) {
             $this->flashService->flash(__('add_to_comparison_service.on_add_success_msg'));
         } else {
             $this->flashService->flash(__('add_to_comparison_service.on_error_msg'), 'danger');

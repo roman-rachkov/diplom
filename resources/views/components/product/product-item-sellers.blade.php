@@ -7,13 +7,15 @@
                 @csrf
                 <div class="Categories-block Categories-block_info">
                     <div class="Categories-info">
-                        <strong>{{$price->seller->name}}</strong>
+                        <a class="" href="{{ route('sellers.show', $price->seller->id) }}">
+                            <strong>{{$price->seller->name}}</strong>
+                        </a>
                     </div>
                 </div>
                 <div class="Categories-splitProps">
                 </div>
                 <div class="Categories-block Categories-price">
-                    <strong>€&#32;{{$price->price}}</strong>
+                    <strong>${{$price->price}}</strong>
                 </div>
                 <div class="Categories-block Categories-button">
                     <button class="btn btn_primary"  type="submit">

@@ -43,22 +43,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const paymentForm = document.querySelector('form.Payment');
-    paymentForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        let data = new FormData;
-        Array.prototype.forEach.call(paymentForm.querySelectorAll('[name]'), function (field) {
-            data.append(field.name, field.value);
-        });
-
-        paymentForm.style.display = 'none';
-        document.querySelector('.ProgressPayment').style.display = 'block';
-        axios.post(this.action, data)
-            .then(response => {
-                if (response.data.status) {
-                    checkPaymentStatus(response.data.paymentId);
-                }
+    if(paymentForm) {
+        paymentForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            let data = new FormData;
+            Array.prototype.forEach.call(paymentForm.querySelectorAll('[name]'), function (field) {
+                data.append(field.name, field.value);
             });
-    });
+
+            paymentForm.style.display = 'none';
+            document.querySelector('.ProgressPayment').style.display = 'block';
+            axios.post(this.action, data)
+                .then(response => {
+                    if (response.data.status) {
+                        checkPaymentStatus(response.data.paymentId);
+                    }
+                });
+        });
+    }
 
     function updateProduct(item, data) {
         axios.put(item.closest('[data-link]').dataset.link, data)
@@ -79,14 +81,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setPaymentStatus(payment) {
         const element = document.querySelector('.ProgressPayment');
-        element.innerHTML = '';
-        const header = document.createElement('h3');
-        header.textContent = "Статус оплаты: " + payment.status
-        header.style.textAlign = "center";
-        element.appendChild(header);
-        const message = document.createElement('p');
-        message.textContent = "Комментарий к оплате: " + payment.comment
-        element.appendChild(message);
+
+        let statusEl = document.querySelector('.' + payment.status)
+        let paymentError = document.querySelector('.payment-error')
+        let paymentErrorMessage = document.querySelector('.payment-error span')
+        if (payment.comment != null) {
+            paymentErrorMessage.innerHTML = payment.comment
+            paymentError.classList.add('active')
+        }
+        document.querySelector('.ProgressPayment-icon').remove()
+        document.querySelector('.ProgressPayment-title.default').remove()
+        statusEl.classList.add('active')
     }
 
     //Add to cart on compare page
@@ -125,7 +130,7 @@ $(document).ready($ => {
                 password: form.find('input[name=password]').val(),
                 password_confirmation: form.find('input[name=password_confirmation]').val(),
                 name: form.find('input[name=name]').val(),
-                email: form.find('input[name=mail]').val(),
+                email: form.find('input[name=email]').val(),
                 phone: form.find('input[name=phone]').mask(),
             })
                 .then(json => {

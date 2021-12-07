@@ -17,11 +17,15 @@
 
             <div class="Section-column">
 
-                <x-limited_deals :product="$dayOfferProduct" :discount="$dayOfferDiscount" :time="$dayOfferTime"/>
+                <x-limited_deals
+                        :dto="$dayOfferProductDiscountDTO"
+                        :time="$dayOfferTime"/>
 
             </div>
             <div class="Section-content">
-                <x-top-products-component :products="$topProducts" :discounts="$discounts"/>
+                <x-top-products-component
+                        :productPricesWithDiscountsDTO="$topProductsDiscountsDTO"
+                />
             </div>
         </div>
     </div>
@@ -30,7 +34,7 @@
         <div class="wrap">
             <div class="Section-content">
 
-                <x-hot_offers_slider/>
+                <x-hot_offers_slider :offers="$hotOffers"/>
 
             </div>
         </div>
@@ -44,7 +48,9 @@
             </div>
             <div class="Section-content">
 
-                <x-limited_edition_slider :products="$limitedEditionProduct" :discounts="$limitedEditionDiscounts"/>
+                <x-limited_edition_slider
+                        :productPriceDiscountDTO="$limitedEditionProductDiscountsDTO"
+                />
 
             </div>
         </div>

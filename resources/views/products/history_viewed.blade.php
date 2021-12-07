@@ -10,8 +10,8 @@
 
             <div class="Section-content">
                 <div class="Cards">
-                    @foreach($arrayProductsWithDiscount['products'] as $product)
-                        <x-card :product="$product" :discounts="$arrayProductsWithDiscount['discounts']"/>
+                    @foreach($viewedProductsDTOs as $dto)
+                        <x-card :dto="$dto" />
                     @endforeach
                 </div>
             </div>

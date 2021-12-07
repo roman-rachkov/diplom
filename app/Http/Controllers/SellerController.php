@@ -3,20 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repository\SellerRepositoryContract;
+use App\Contracts\Service\Discount\OtherDiscountServiceContract;
+use App\Contracts\Service\SellerServiceContract;
+use Illuminate\View\View;
 
 class SellerController extends Controller
 {
-    public $sellerRepository;
+    public function __construct(
+        private SellerRepositoryContract $sellerRepository,
+        private SellerServiceContract $sellerService,
+        private OtherDiscountServiceContract $discountService,
+    )
+    {}
 
-    public function __construct(SellerRepositoryContract $sellerRepository)
-    {
-        $this->sellerRepository = $sellerRepository;
-    }
-
-    public function show($id)
+    public function show($id): View
     {
         $seller = $this->sellerRepository->find($id);
 
-        return view('seller.show', compact('seller'));
+        $popularProducts = $this->sellerService->getPopularProducts($seller);
+
+        $popularProductsDiscountsDTOs = $this->discountService->getProductPriceDiscountDTOs($popularProducts, $seller);
+
+        return view('seller.show', compact('seller', 'popularProductsDiscountsDTOs'));
     }
 }
