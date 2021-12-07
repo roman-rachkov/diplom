@@ -10,7 +10,6 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Service\Product\ViewedProductsService;
 use App\Models\Order;
 use App\Models\User;
-use App\Service\UsersAvatarService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -21,7 +20,6 @@ class UserController extends Controller
     public function __construct(
         private UserRepositoryContract $userRepository,
         private ViewedProductsService $viewedProducts,
-        private OrderServiceContract $orderService
     )
     {}
 
@@ -65,8 +63,12 @@ class UserController extends Controller
 
     public function showOrder(User $user, Order $order)
     {
-        $orderItemsDTOs = $this->orderService->getOrderItemsDTOs($order);
+        $orderService = app()->makeWith(
+            OrderServiceContract::class,
+            ['order' => $order]);
+        $orderItemsDTOs = $orderService->getOrderItemsDTOs();
+
         return view('users.history.single-order')
-            ->with(compact('user', 'order', 'orderItemsDTOs'));
+            ->with(compact('user', 'order', 'orderItemsDTOs', 'orderService'));
     }
 }

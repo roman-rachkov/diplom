@@ -32,8 +32,7 @@ class PaymentController extends Controller
 
     public function complete(
         Request $request,
-        PaymentsIntegratorServiceContract $paymentsService,
-        OrderServiceContract $orderService
+        PaymentsIntegratorServiceContract $paymentsService
     )
     {
         $data = $request->validate(['payment' => 'exists:payments,id']);
@@ -46,10 +45,11 @@ class PaymentController extends Controller
 
 
         if($status) {
-            Log::debug('ADD_HISTORY');
-            $orderService->addHistory(
-                    $paymentsService->getPaymentById($data['payment'])->order
-                );
+            Log::debug('PAYMENT=Success');
+            $orderService = app()->makeWith(
+                OrderServiceContract::class,
+                ['order' => $paymentsService->getPaymentById($data['payment'])->order]);
+            $orderService->addHistory();
         }
 
         return response()->json(['status' => $status]);

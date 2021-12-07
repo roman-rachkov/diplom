@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
-use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
 use App\Models\Order;
@@ -24,8 +23,7 @@ class OrderItemRepository implements OrderItemRepositoryContract
      * @param CustomerServiceContract $customerService
      */
     public function __construct(
-        protected CustomerServiceContract $customerService,
-        private AdminSettingsServiceContract $adminSettings
+        protected CustomerServiceContract $customerService
 
     )
     {
@@ -104,42 +102,27 @@ class OrderItemRepository implements OrderItemRepositoryContract
         }
     }
 
-    public function getCartByCustomer(Customer $customer)
+    public function getCartByCustomer(Customer $customer, ?Order $order)
     {
         return $customer
             ->items()
-            ->where('order_id', null)
+            ->where('order_id', $order?->id)
             ->with('price.product')
             ->get();
     }
 
     public function addHistoryPricesAndDiscounts(Order $order, Collection $cartItemsDTOs)
     {
-        $cartItemsDTOs->each(function ($cartItemsDTO) use ($order){
-           $item = OrderItem::where([
-               ['order_id', $order->id],
-               ['price_id', $cartItemsDTO->price->id]
-           ])->get()->first();
-           $item->history_price = $cartItemsDTO->sumPrice;
-           $item->history_discount = $cartItemsDTO->sumPricesWithDiscount;
-           $item->save();
-        });
-    }
 
-    public function getOrderItemsByOrder(Order $order): Collection
-    {
-        return Cache::tags(
-            [
-                'orderItems',
-                'orders',
-                'prices'
-            ])
-            ->remember(
-                'orderItems|order_id=' . $order->id,
-                $this->adminSettings->get('orderItemsCacheTime', 60 * 60 * 24),
-                function () use ($order) {
-                    return OrderItem::where('order_id', $order->id)
-                        ->with('price.product')->get();
-                });
+        $items = OrderItem::whereHas('price', function ($query) use ($cartItemsDTOs){
+            $query->whereIn('id', $cartItemsDTOs->pluck('price.id')->all());
+        })->where('order_id', $order->id)->get();
+
+        $items->each(function ($item) use ($cartItemsDTOs) {
+            $dto = $cartItemsDTOs->firstWhere('price.id', $item->price_id);
+            $item->history_price = $dto->sumPrice;
+            $item->history_discount = $dto->sumPricesWithDiscount;
+            $item->save();
+        });
     }
 }

@@ -2,12 +2,13 @@
 
 namespace App\Contracts\Service;
 
+use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Models\Order;
 use Illuminate\Support\Collection;
 
 interface OrderServiceContract
 {
-    public function getOrderItemsDTOs(Order $order): Collection;
+    public function getOrderItemsDTOs(): Collection;
 
-    public function addHistory(Order $order);
+    public function addHistory();
 }

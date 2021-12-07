@@ -18,10 +18,7 @@ interface OrderItemRepositoryContract
 
     public function remove(Product $product): bool;
 
-    public function getCartByCustomer(Customer $customer);
+    public function getCartByCustomer(Customer $customer, ?Order $order);
 
     public function addHistoryPricesAndDiscounts(Order $order, Collection $cartItemsDTOs);
-
-    public function getOrderItemsByOrder(Order $order): Collection;
-
 }

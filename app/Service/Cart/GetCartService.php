@@ -17,13 +17,20 @@ class GetCartService implements GetCartServiceContract
     protected Customer $customer;
 
     public function __construct(
-        CustomerServiceContract $customerService,
+        protected CustomerServiceContract $customerService,
         protected AdminSettingsServiceContract $settings,
         protected CartDiscountServiceContract $discountService,
-        private OrderItemRepositoryContract $orderItemRepository
+        private OrderItemRepositoryContract $orderItemRepository,
+        private ?Order $order = null
     )
     {
         $this->customer = $customerService->getCustomer();
+    }
+
+    public function setOrder(Order $order)
+    {
+        $this->order = $order;
+        $this->customer = $order->customer;
     }
 
 
@@ -33,7 +40,6 @@ class GetCartService implements GetCartServiceContract
             $this->getCartItemsList(),
             $this->getCartProductsQuantity(),
             $this->getCartCost(),
-            $this->customer->id
         );
     }
 
@@ -42,9 +48,11 @@ class GetCartService implements GetCartServiceContract
         return $this->getCartItemsList()->sum('quantity');
     }
 
-    public function getTotalCost(): float
+    public function getTotalCost(?Collection $cartItemsDTOs = null): float
     {
-        return  $this->getCartItemsDTOs()->reduce(function ($carry,$item){
+        $dtos = is_null($cartItemsDTOs) ? $this->getCartItemsDTOs() : $cartItemsDTOs;
+
+        return  $dtos->reduce(function ($carry,$item){
             return $item->sumPricesWithDiscount ?
                 $carry + $item->sumPricesWithDiscount :
                 $carry + $item->sumPrice;
@@ -56,48 +64,6 @@ class GetCartService implements GetCartServiceContract
         return $this->getCartItemsList()->sum('sum');
     }
 
-    public function getOrderItemsDTOs(Order $order): Collection
-    {
-        if ($order->payment?->payed_at != null) {
-            return $this->getPaidOrderDTOs($order);
-        }
-
-        return $this->getUnpaidOrderDTOs($order);
-    }
-
-    protected function getPaidOrderDTOs(Order $order): Collection
-    {
-        $items = $this->getOrderItems($order);
-
-        return $items->map(function ($item) {
-            return CartItemDTO::create(
-                [
-                    $item->price->product,
-                    $item->price,
-                    $item->quantity,
-                    $item->history_price,
-                    $item->history_discount
-                ]);
-        });
-    }
-
-    protected function getUnpaidOrderDTOs(Order $order): Collection
-    {
-        $items = $this->getOrderItems($order);;
-
-        return $this->discountService->getOrderItemsDTOs(
-            $items,
-            $items->sum('quantity'),
-            $items->sum('sum'),
-            $order->id
-        );
-    }
-
-    protected function getOrderItems(Order $order): Collection
-    {
-        return $this->orderItemRepository->getOrderItemsByOrder($order);
-    }
-
     public function getCartItemsList(): Collection
     {
         return cache()
@@ -106,7 +72,12 @@ class GetCartService implements GetCartServiceContract
                 'cart-' . $this->customer->id . '-items',
                 $this->settings->get('cartCacheLifeTime', 20 * 60),
                 function () {
-                    return $this->orderItemRepository->getCartByCustomer($this->customer);
+                    return $this->orderItemRepository->getCartByCustomer($this->customer, $this->order);
                 });
+    }
+
+    public function getCustomer()
+    {
+        return $this->customer;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Contracts\Repository\OrderItemRepositoryContract;
+use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\Discount\CartDiscountServiceContract;
 use App\Contracts\Service\OrderServiceContract;
 use App\DTO\CartItemDTO;
@@ -13,29 +14,33 @@ class OrderService implements OrderServiceContract
 {
     public function __construct(
         private CartDiscountServiceContract $discountService,
-        private OrderItemRepositoryContract $orderItemRepository
+        private OrderItemRepositoryContract $orderItemRepository,
+        private GetCartServiceContract      $cart,
+        private Order $order
     )
-    {}
-
-    public function getOrderItemsDTOs(Order $order): Collection
     {
-        if ($order->payment?->payed_at != null) {
-            return $this->getPaidOrderDTOs($order);
+        $this->cart->setOrder($this->order);
+    }
+
+    public function getOrderItemsDTOs(): Collection
+    {
+        if ($this->order->payment?->payed_at != null) {
+            return $this->getPaidOrderDTOs();
         }
 
-        return $this->getUnpaidOrderDTOs($order);
+        return $this->getUnpaidOrderDTOs();
     }
 
-    public function addHistory(Order $order)
+    public function addHistory()
     {
-        $dtos = $this->getUnpaidOrderDTOs($order);
-        $this->orderItemRepository->addHistoryPricesAndDiscounts($order,$dtos);
+        $dtos = $this->getUnpaidOrderDTOs();
+        $this->orderItemRepository->addHistoryPricesAndDiscounts($this->order,$dtos);
 
     }
 
-    public function getPaidOrderDTOs(Order $order): Collection
+    protected function getPaidOrderDTOs(): Collection
     {
-        $items = $this->getItems($order);
+        $items = $this->getItems();
 
         return $items->map(function ($item) {
             return CartItemDTO::create(
@@ -49,20 +54,30 @@ class OrderService implements OrderServiceContract
         });
     }
 
-    public function getUnpaidOrderDTOs(Order $order): Collection
+    public function getUnpaidOrderDTOs(): Collection
     {
-        $items = $this->getItems($order);;
+        $items = $this->getItems();
 
-        return $this->discountService->getOrderItemsDTOs(
+        return $this->discountService->getCartItemsDTOs(
             $items,
             $items->sum('quantity'),
             $items->sum('sum'),
-            $order->id
         );
     }
 
-    public function getItems(Order $order): Collection
+    public function getItems(): Collection
     {
-        return $this->orderItemRepository->getOrderItemsByOrder($order);
+        return $this->cart->getCartItemsList();
     }
+
+    public function getCartCost(): float
+    {
+        return $this->getOrderItemsDTOs()->sum('sumPrice');
+    }
+
+    public function getTotalCost(): float
+    {
+        return $this->cart->getTotalCost($this->getOrderItemsDTOs());
+    }
+
 }

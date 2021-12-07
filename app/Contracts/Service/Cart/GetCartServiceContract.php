@@ -3,6 +3,7 @@
 namespace App\Contracts\Service\Cart;
 
 use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Support\Collection;
 
 interface GetCartServiceContract
@@ -20,10 +21,12 @@ interface GetCartServiceContract
     /**
      * @return float
      */
-    public function getTotalCost(): float;
+    public function getTotalCost(?Collection $cartItemsDTOs = null): float;
 
     public function getCartCost(): float;
 
     public function getCartItemsList(): Collection;
+
+    public function setOrder(Order $order);
 
 }

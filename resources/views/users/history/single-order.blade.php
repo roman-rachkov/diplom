@@ -3,7 +3,6 @@
 @section('title', __('account_navigation.order_history'))
 
 @section('content')
-    @dd($orderItemsDTOs)
     <div class="Section Section_column Section_columnLeft">
         <div class="wrap">
             @include('users.navigation')
@@ -72,8 +71,8 @@
                             @endforeach
                             <div class="Cart-total">
                                 <x-cart.cart-price
-                                        :cost="$orderItemsDTOs->sum('sumPrice')"
-                                        :costWithDiscount="$orderItemsDTOs->sum('sumPricesWithDiscount')"
+                                        :cost="$orderService->getCartCost()"
+                                        :costWithDiscount="$orderService->getTotalCost()"
                                 />
                                 @if($order->payment?->payed_at === null)
                                     <div class="Cart-block">
