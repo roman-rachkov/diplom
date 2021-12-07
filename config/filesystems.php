@@ -47,6 +47,27 @@ return [
             'visibility' => 'public',
         ],
 
+        'import-await' => [
+            'driver' => 'local',
+            'root' => storage_path('app/import/await'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'import-error' => [
+            'driver' => 'local',
+            'root' => storage_path('app/import/error'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'import-success' => [
+            'driver' => 'local',
+            'root' => storage_path('app/import/success'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

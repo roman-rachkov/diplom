@@ -1,0 +1,5 @@
+*
+!.gitignore
+!await/.gitignore
+!error/.gitignore
+!success/.gitignore
