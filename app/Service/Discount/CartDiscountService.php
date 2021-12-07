@@ -3,11 +3,9 @@
 namespace App\Service\Discount;
 
 use App\Contracts\Repository\DiscountRepositoryContract;
-use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\Discount\CartDiscountServiceContract;
 use App\Contracts\Service\Discount\OtherDiscountServiceContract;
 use App\DTO\CartItemDTO;
-use App\Models\Customer;
 use App\Models\Discount;
 use App\Models\OrderItem;
 use Illuminate\Support\Collection;
@@ -90,7 +88,7 @@ class CartDiscountService implements CartDiscountServiceContract
         return $productPriceDiscountDTOs;
     }
 
-    protected function getSetDiscountArray(Collection $productIds)
+    public function getSetDiscountArray(Collection $productIds)
     {
         return $this->discountRepository
             ->getOnSetDiscounts()
@@ -151,7 +149,7 @@ class CartDiscountService implements CartDiscountServiceContract
         return round($item->quantity *
             $this->productDiscountService->getProductPriceWithDiscount(
                 $item->price->product,
-                $this->countSumPrice($item),
+                $item->price->price,
                 $discount
         ), 2);
     }

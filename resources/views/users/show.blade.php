@@ -13,7 +13,7 @@
                     <div class="Account-group">
                         <div class="Account-column">
                             <div class="Account-avatar">
-                                <img src="{{ $user->avatar->url ?? asset('assets/img/no_image.png') }}" alt="card.jpg"/>
+                                <img src="{{ $user->avatar->getRelativeUrlAttribute() ?? asset('assets/img/no_image.png') }}" alt="card.jpg"/>
                             </div>
                         </div>
                         <div class="Account-column">

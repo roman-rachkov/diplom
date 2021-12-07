@@ -45,7 +45,6 @@ class PaymentController extends Controller
 
 
         if($status) {
-            Log::debug('PAYMENT=Success');
             $orderService = app()->makeWith(
                 OrderServiceContract::class,
                 ['order' => $paymentsService->getPaymentById($data['payment'])->order]);

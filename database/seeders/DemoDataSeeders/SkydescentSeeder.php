@@ -19,11 +19,13 @@ use App\Models\Review;
 use App\Models\Seller;
 use App\Models\User;
 use Carbon\Carbon;
+use Database\Seeders\PaymentsServiceSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Attachment\Models\Attachmentable;
+use Orchid\Platform\Models\Role;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 
@@ -34,11 +36,48 @@ class SkydescentSeeder extends Seeder
 {
     public function run()
     {
+        //$this->call([PaymentsServiceSeeder::class]);
+        //$user = User::find(1);
+        //$user = $this->seedUser();
+        //Attachment::factory()->create();
         $this->seedNestedSetCategories();
         //$this->seedProduct();
-        //$this->seedComparedProducts();
-        //$this->seedCartWitDiscount();
+        //$this->seedComparedProducts($user);
+        //$this->seedCartWitDiscount($user);
     }
+
+    protected function seedUser()
+    {
+       return  User::factory()
+           ->has(Attachment::factory($this->prepareAttachment('users/samovarov.jpg',
+                 date('Y/m/d') . '/')))
+           ->has(Role::factory([
+               'slug' => 'administrator',
+               'name' => 'Администратор',
+               'permissions' => [
+                   'platform.index' => 1,
+                   'platform.systems.roles' => 1,
+                   'platform.systems.users' => 1,
+                   'platform.systems.attachment' => 1,
+                   'platform.systems.settings' => 1,
+                   'platform.systems.import' => 1,
+                   'platform.elements.banners' => 1,
+                   'platform.elements.category' => 1,
+                   'platform.elements.products' => 1,
+                   'platform.elements.sellers' => 1,
+                   'platform.elements.discounts' => 1,
+                   'platform.elements.orders' => 1,
+               ],
+           ]))
+             ->create(
+                [
+                    'name' => 'Самоваров Аркадий Петрович',
+                    'email' => 'samovarov@email.com',
+                    'email_verified_at' => now(),
+                    'phone' => '99988877711'
+                ]);
+    }
+
 
     protected function seedNestedSetCategories()
     {
@@ -51,7 +90,7 @@ class SkydescentSeeder extends Seeder
                     ->create($this->prepareAttachment('categories/icons/oven.svg', 'icons/'))->id,
                 'is_active' => 1,
                 'sort_index' => 33,
-                'image_id' => Attachment::factory()->create()->id,
+                'image_id' => Attachment::first()->id,
                 'children' =>
                     [
                         [
@@ -61,7 +100,7 @@ class SkydescentSeeder extends Seeder
                                 ->create($this->prepareAttachment('categories/icons/washer.svg', 'icons/'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
-                            'image_id' => Attachment::factory()->create()->id,
+                            'image_id' => Attachment::first()->id,
                         ],
                         [
                             'name' => 'Миксеры',
@@ -70,7 +109,7 @@ class SkydescentSeeder extends Seeder
                                 ->create($this->prepareAttachment('categories/icons/mixer.svg', 'icons/'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
-                            'image_id' => Attachment::factory()->create()->id,
+                            'image_id' => Attachment::first()->id,
                         ],
                         [
                             'name' => 'Чайники/Самовары',
@@ -79,7 +118,7 @@ class SkydescentSeeder extends Seeder
                                 ->create($this->prepareAttachment('categories/icons/kettle.svg', 'icons/'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
-                            'image_id' => Attachment::factory()->create()->id,
+                            'image_id' => Attachment::first()->id,
                         ],
                         [
                             'name' => 'Микроволновые печи',
@@ -88,7 +127,7 @@ class SkydescentSeeder extends Seeder
                                 ->create($this->prepareAttachment('categories/icons/microwave.svg', 'icons/'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
-                            'image_id' => Attachment::factory()->create()->id,
+                            'image_id' => Attachment::first()->id,
                             'children' =>
                                 [
                                     [
@@ -98,7 +137,7 @@ class SkydescentSeeder extends Seeder
                                             ->create($this->prepareAttachment('categories/icons/discount.svg', 'icons/'))->id,
                                         'is_active' => 1,
                                         'sort_index' => 33,
-                                        'image_id' => Attachment::factory()->create()->id,
+                                        'image_id' => Attachment::first()->id,
                                     ]
                                 ]
                         ]
@@ -111,7 +150,7 @@ class SkydescentSeeder extends Seeder
                     ->create($this->prepareAttachment('categories/icons/tv.svg', 'icons/'))->id,
                 'is_active' => 1,
                 'sort_index' => 33,
-                'image_id' => Attachment::factory()->create()->id,
+                'image_id' => Attachment::first()->id,
                 'children' =>
                     [
                         [
@@ -121,7 +160,7 @@ class SkydescentSeeder extends Seeder
                                 ->create($this->prepareAttachment('categories/icons/tv.svg', 'icons/'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
-                            'image_id' => Attachment::factory()->create()->id,
+                            'image_id' => Attachment::first()->id,
                         ],
                         [
                             'name' => 'Фотоаппараты',
@@ -130,7 +169,7 @@ class SkydescentSeeder extends Seeder
                                 ->create($this->prepareAttachment('categories/icons/camera.svg', 'icons/'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
-                            'image_id' => Attachment::factory()->create()->id,
+                            'image_id' => Attachment::first()->id,
                         ],
                         [
                             'name' => 'Смартфоны',
@@ -139,7 +178,7 @@ class SkydescentSeeder extends Seeder
                                 ->create($this->prepareAttachment('categories/icons/smartphone.svg', 'icons/'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
-                            'image_id' => Attachment::factory()->create()->id,
+                            'image_id' => Attachment::first()->id,
                         ],
                         [
                             'name' => 'Аудиосистемы',
@@ -148,7 +187,7 @@ class SkydescentSeeder extends Seeder
                                 ->create($this->prepareAttachment('categories/icons/audio_system.svg', 'icons/'))->id,
                             'is_active' => 1,
                             'sort_index' => 33,
-                            'image_id' => Attachment::factory()->create()->id,
+                            'image_id' => Attachment::first()->id,
                             'children' =>
                                 [
                                     [
@@ -158,7 +197,7 @@ class SkydescentSeeder extends Seeder
                                             ->create($this->prepareAttachment('categories/icons/audio_system.svg', 'icons/'))->id,
                                         'is_active' => 1,
                                         'sort_index' => 33,
-                                        'image_id' => Attachment::factory()->create()->id,
+                                        'image_id' => Attachment::first()->id,
                                         'children' =>
                                             [
                                                 [
@@ -168,7 +207,7 @@ class SkydescentSeeder extends Seeder
                                                         ->create($this->prepareAttachment('categories/icons/discount.svg', 'icons/'))->id,
                                                     'is_active' => 1,
                                                     'sort_index' => 33,
-                                                    'image_id' => Attachment::factory()->create()->id,
+                                                    'image_id' => Attachment::first()->id,
                                                 ]
                                             ]
                                     ],
@@ -179,7 +218,7 @@ class SkydescentSeeder extends Seeder
                                             ->create($this->prepareAttachment('categories/icons/headset.svg', 'icons/'))->id,
                                         'is_active' => 1,
                                         'sort_index' => 33,
-                                        'image_id' => Attachment::factory()->create()->id,
+                                        'image_id' => Attachment::first()->id,
                                     ],
                                 ]
                         ],
@@ -197,7 +236,7 @@ class SkydescentSeeder extends Seeder
             'name' => 'АО «Тульский патронный завод»',
             'email' => 'tpz@tulammo.ru',
             'address' => 'Россия, 300004, Тула, ул. Марата, 47-б',
-            'logo_id' => Attachment::factory()
+            'logo_id' => Attachment::first()->id
         ])
             ->create();
 
@@ -287,13 +326,15 @@ class SkydescentSeeder extends Seeder
     {
         //Продавцы, цены
         collect([
-            ['name' => 'Самовар Град'],
-            ['name' => 'Самовары.ру'],
-            ['name' => 'Ваш самовар']
+            ['name' => 'Самовар Град', 'logo_id' => Attachment::factory()
+                ->create($this->prepareAttachment('sellers/images/samovar_paint.jpeg', date('Y/m/d') . '/'))],
+            ['name' => 'Самовары.ру', 'logo_id' => Attachment::factory()
+                ->create($this->prepareAttachment('sellers/images/samovar_rospis.jpeg', date('Y/m/d') . '/'))],
+            ['name' => 'Ваш самовар', 'logo_id' => Attachment::factory()
+                ->create($this->prepareAttachment('sellers/images/samovar_run.jpeg', date('Y/m/d') . '/'))]
         ])->each(function ($seller) use ($product) {
             Price::factory()
-                ->for(Seller::factory()
-                    ->create($seller))
+                ->for(Seller::factory()->create(array_merge($seller, ['logo_id' => Attachment::first()->id])))
                 ->for($product)->create(['price' => rand(200,300)]);
         });
 
@@ -359,24 +400,22 @@ class SkydescentSeeder extends Seeder
             );
     }
 
-    protected function seedComparedProducts()
+    protected function seedComparedProducts($user)
     {
         //Добавляем user
         $customer = Customer::factory()
-            ->for(
-                User::factory()
-                    ->create(
-                        [
-                            'name' => 'Самоваров Аркадий Петрович',
-                            'email' => 'samovarov@email.com'
-                        ]))
+            ->for($user)
             ->create();
 
         $customer
             ->user
             ->avatar()
-            ->save(Attachment::factory(
-                $this->prepareAttachment('users/samovarov.jpg', date('Y/m/d') . '/')));
+            ->save(
+                Attachment::factory()
+                    ->create(
+                        $this->prepareAttachment('users/samovarov.jpg',
+                            date('Y/m/d') . '/')
+                    ));
 
         collect([
             [
@@ -385,6 +424,8 @@ class SkydescentSeeder extends Seeder
                 'description' => 'Инновационные решения этого чайника захватывают',
                 'category_id' => Category::where('slug', 'chainiki_samovary')->get()->first()->id,
                 'main_img_id' => Attachment::factory($this->prepareAttachment('products/images/kettle.jpeg', date('Y/m/d') . '/')),
+                'seller' => ['name' => 'Kettle Company', 'logo_id' => Attachment::factory()
+                    ->create($this->prepareAttachment('sellers/images/kettle_company.jpeg', date('Y/m/d') . '/'))],
                 'price' => 50,
                 'discount' => 10,
                 'characteristics' => collect([
@@ -401,6 +442,8 @@ class SkydescentSeeder extends Seeder
                 'description' => 'Классика не стареет!',
                 'category_id' => Category::where('slug', 'televizory')->get()->first()->id,
                 'main_img_id' => Attachment::factory($this->prepareAttachment('products/images/horizont.jpg', date('Y/m/d') . '/')),
+                'seller' => ['name' => 'Horizont', 'logo_id' => Attachment::factory()
+                    ->create($this->prepareAttachment('sellers/images/horizont_company.png', date('Y/m/d') . '/'))],
                 'price' => 100,
                 'discount' => 15,
                 'characteristics' => collect([
@@ -418,6 +461,8 @@ class SkydescentSeeder extends Seeder
                 'description' => 'В представлении не нуждается, с вероятностью 3% может создать антивещество',
                 'category_id' => Category::where('slug', 'mikrovolnovki')->get()->first()->id,
                 'main_img_id' => Attachment::factory($this->prepareAttachment('products/images/collider.jpg', date('Y/m/d') . '/')),
+                'seller' => ['name' => 'CERN', 'logo_id' => Attachment::factory()
+                    ->create($this->prepareAttachment('sellers/images/cern_logo.jpeg', date('Y/m/d') . '/'))],
                 'price' => 100,
                 'characteristics' => collect([
                     ['name' => 'Вес', 'measure' => 'гр.', 'value' => 'подсчёты ещё ведутся'],
@@ -429,7 +474,9 @@ class SkydescentSeeder extends Seeder
             ]
         ])->each(function ($item) use ($customer) {
             $product = Product::factory()
-                ->hasPrices(1, ['price' => $item['price']])
+                ->has(
+                    Price::factory(['price' => $item['price']])
+                        ->for(Seller::factory($item['seller'])))
                 ->create(array_slice($item, 0,5));
 
 
@@ -483,7 +530,7 @@ class SkydescentSeeder extends Seeder
 
     }
 
-    public function seedCartWitDiscount()
+    public function seedCartWitDiscount($user)
     {
         $onSetDiscount = Discount::factory()
             ->create([
@@ -508,13 +555,12 @@ class SkydescentSeeder extends Seeder
         $samovar = Product::where('slug', 'samovar_classic')->first();
         $samovar->discountGroups()->save(DiscountGroup::factory()->for($onSetDiscount)->create());
 
-        $customer = User::where('email', 'samovarov@email.com')->first();
+        $customer = Customer::where('user_id', $user->id)->first();
 
         foreach ([$collider, $samovar] as $product) {
-            OrderItem::factory()
-                ->create([
+            OrderItem::create([
                     'order_id' => null,
-                    'price_id' => $product->prices->first(),
+                    'price_id' => $product->prices->first()->id,
                     'quantity' => rand(1,3),
                     'customer_id' => $customer->id,
                 ]);

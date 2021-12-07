@@ -12,6 +12,7 @@ use App\Models\Discount;
 use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class OtherDiscountService implements OtherDiscountServiceContract
 {
@@ -55,6 +56,7 @@ class OtherDiscountService implements OtherDiscountServiceContract
     ): bool|float
     {
         if ($discount = $this->getCurrentDiscount($product, $discount)) {
+
             return $this
                 ->methodTypeFactory
                 ->create($discount)
@@ -66,6 +68,7 @@ class OtherDiscountService implements OtherDiscountServiceContract
 
     protected function getCurrentDiscount(Product $product, ?Discount $discount): ?Discount
     {
+
        return is_null($discount) ?  $this->repository->getProductDiscount($product) : $discount;
     }
 
