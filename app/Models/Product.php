@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
 use Orchid\Attachment\Models\Attachment;
@@ -90,7 +91,7 @@ class Product extends Model
         return $this->hasOne(Attachment::class, 'id', 'main_img_id');
     }
 
-    public function additionalImages()
+    public function additionalImages(): MorphMany
     {
         return $this->morphMany(Attachmentable::class, 'attachmentable');
     }
