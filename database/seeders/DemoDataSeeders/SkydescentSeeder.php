@@ -19,6 +19,7 @@ use App\Models\Review;
 use App\Models\Seller;
 use App\Models\User;
 use Carbon\Carbon;
+use Database\Seeders\OrderSeeder;
 use Database\Seeders\PaymentsServiceSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\File;
@@ -36,11 +37,12 @@ class SkydescentSeeder extends Seeder
 {
     public function run()
     {
-        //$this->call([PaymentsServiceSeeder::class]);
         //$user = $this->seedUser();
+        //Customer::factory()->create();
+        //$this->call([PaymentsServiceSeeder::class, OrderSeeder::class]);
         //$this->seedNestedSetCategories();
         //$this->seedProduct();
-        $user = User::find(5);
+        $user = User::where('email', 'samovarov@email.com')->first();
         //$this->seedComparedProducts($user);
         $this->seedCartWitDiscount($user);
     }
@@ -76,6 +78,7 @@ class SkydescentSeeder extends Seeder
                     'phone' => '999888777'
                 ]);
     }
+
 
 
     protected function seedNestedSetCategories()
