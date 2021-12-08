@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Manufacturer;
 use App\Models\Product;
 use Orchid\Attachment\Models\Attachment;
 use Illuminate\Database\Seeder;
@@ -24,6 +25,7 @@ class ProductSeeder extends Seeder
             Product::factory(rand(3, 10))->create([
                 'main_img_id' => $attachments->random()->id,
                 'category_id' => $cat->id,
+                'manufacturer_id' => Manufacturer::factory()->create(['logo_id' => $attachments->random()->id])
             ])->each(function (Product $product) use ($attachments) {
                 $new = [];
                 foreach ($attachments->random(3) as $item) {
