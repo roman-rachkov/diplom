@@ -106,7 +106,7 @@ Route::screen('config', \App\Orchid\Screens\ConfigurationScreen::class)
             ->push(__('admin.settings.Name'));
     });
 
-Route::screen('import', \App\Orchid\Screens\ImportScreen::class)
+Route::screen('import', \App\Orchid\Screens\Import\ImportMainScreen::class)
     ->name('platform.import')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
