@@ -10,7 +10,7 @@
             <div class="Section-content">
                 <div class="row row_verticalCenter row_maxHalf">
                     <div class="row-block">
-                        <div class="pict"><img src="{{asset($seller->logo->path)}}" alt="bigGoods.png"/>
+                        <div class="pict"><img src="{{asset($seller->logo->getRelativeUrlAttribute())}}" alt="bigGoods.png"/>
                         </div>
                     </div>
                     <div class="row-block">
