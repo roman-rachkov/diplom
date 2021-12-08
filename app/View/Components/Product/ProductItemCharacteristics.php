@@ -28,14 +28,18 @@ class ProductItemCharacteristics extends Component
             ->category
             ->characteristics
             ->map(function ($characteristic) {
+
+                $value = $this
+                    ->product
+                    ->characteristicValues
+                    ->firstWhere('characteristic_id', $characteristic->id)?->value;
+
+                if (!is_null($value)) $value = $value . ' ' . $characteristic->measure;
+
                return
                    [
                        'name' => $characteristic->name,
-                       'measure' => $characteristic->measure,
-                       'value' => $this->product
-                           ->characteristicValues
-                           ->firstWhere('characteristic_id', $characteristic->id)
-                           ->value
+                       'value' => $value
                    ];
             });
     }

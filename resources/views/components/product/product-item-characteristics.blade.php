@@ -3,7 +3,9 @@
         @foreach($characteristics as $characteristic)
             <div class="Product-prop">
                 <strong>{{$characteristic['name']}}</strong>
-                <span> {{$characteristic['value'] . ' ' . $characteristic['measure']}}</span>
+                @if(!is_null($characteristic['value']))
+                    <span> {{$characteristic['value']}}</span>
+                @endif
             </div>
         @endforeach
     </div>
