@@ -37,13 +37,13 @@ class SkydescentSeeder extends Seeder
 {
     public function run()
     {
-        //$user = $this->seedUser();
-        //Customer::factory()->create();
-        //$this->call([PaymentsServiceSeeder::class, OrderSeeder::class]);
-        //$this->seedNestedSetCategories();
-        //$this->seedProduct();
+        $user = $this->seedUser();
+        Customer::factory()->create();
+        $this->call([PaymentsServiceSeeder::class, OrderSeeder::class]);
+        $this->seedNestedSetCategories();
+        $this->seedProduct();
         $user = User::where('email', 'samovarov@email.com')->first();
-        //$this->seedComparedProducts($user);
+        $this->seedComparedProducts($user);
         $this->seedCartWitDiscount($user);
     }
 
