@@ -33,7 +33,7 @@ class DiscountRepositoryTest extends TestCase
         $productsQty = rand(10,20);
         $cartCost =  $this->faker->randomFloat($nbMaxDecimals = 2, $min = 2000, $max = 10000);
 
-        $onCartDiscount = $this->repo->getOnCartDiscount($customerId, $productsQty, $cartCost);
+        $onCartDiscount = $this->repo->getOnCartDiscount('customer_id=' . $customerId, $productsQty, $cartCost);
 
         $weight = is_null($onCartDiscount) ? 10 : $onCartDiscount->weight;
 
@@ -49,7 +49,7 @@ class DiscountRepositoryTest extends TestCase
 
         $this->assertEquals(
             $validDiscountId,
-            $this->repo->getOnCartDiscount($customerId, $productsQty, $cartCost)->id
+            $this->repo->getOnCartDiscount('customer_id=' . $customerId, $productsQty, $cartCost)->id
         );
     }
 

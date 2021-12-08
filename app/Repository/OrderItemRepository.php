@@ -5,12 +5,14 @@ namespace App\Repository;
 use App\Contracts\Repository\OrderItemRepositoryContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class OrderItemRepository implements OrderItemRepositoryContract
 {
@@ -20,7 +22,10 @@ class OrderItemRepository implements OrderItemRepositoryContract
     /**
      * @param CustomerServiceContract $customerService
      */
-    public function __construct(CustomerServiceContract $customerService)
+    public function __construct(
+        protected CustomerServiceContract $customerService
+
+    )
     {
         $this->customer = $customerService->getCustomer();
     }
@@ -97,12 +102,27 @@ class OrderItemRepository implements OrderItemRepositoryContract
         }
     }
 
-    public function getCartByCustomer(Customer $customer)
+    public function getCartByCustomer(Customer $customer, ?Order $order)
     {
         return $customer
             ->items()
-            ->where('order_id', null)
+            ->where('order_id', $order?->id)
             ->with('price.product')
             ->get();
+    }
+
+    public function addHistoryPricesAndDiscounts(Order $order, Collection $cartItemsDTOs)
+    {
+
+        $items = OrderItem::whereHas('price', function ($query) use ($cartItemsDTOs){
+            $query->whereIn('id', $cartItemsDTOs->pluck('price.id')->all());
+        })->where('order_id', $order->id)->get();
+
+        $items->each(function ($item) use ($cartItemsDTOs) {
+            $dto = $cartItemsDTOs->firstWhere('price.id', $item->price_id);
+            $item->history_price = $dto->sumPrice;
+            $item->history_discount = $dto->sumPricesWithDiscount;
+            $item->save();
+        });
     }
 }

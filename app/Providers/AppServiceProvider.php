@@ -12,6 +12,7 @@ use App\Contracts\Service\DeliveryCostServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\Imports\DataReaderFactoryServiceContract;
 use App\Contracts\Service\Imports\ProductsImportServiceContract;
+use App\Contracts\Service\OrderServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\Contracts\Service\AddReviewServiceContract;
 use App\Contracts\Service\ImportSellerServiceContract;
@@ -30,12 +31,12 @@ use App\Service\CustomerService;
 use App\Service\DeliveryCostService;
 use App\Service\FlashMessageService;
 use App\Service\Imports\DataReaderFactoryService;
+use App\Service\OrderService;
 use App\Service\Imports\ProductsImportService;
 use App\Service\Payment\PaymentsIntegratorService;
 use App\Service\AddReviewService;
 use App\Service\ImportSellerService;
 use App\Service\Product\HotOfferService;
-//use App\Service\Product\ImportProductService;
 use App\Service\Product\ProductDiscountService;
 use App\Service\Product\ViewedProductsService;
 use App\Service\SellerService;
@@ -80,6 +81,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(HotOfferServiceContract::class, HotOfferService::class);
         $this->app->singleton(ProductsImportServiceContract::class, ProductsImportService::class);
         $this->app->singleton(DataReaderFactoryServiceContract::class, DataReaderFactoryService::class);
+        $this->app->singleton(OrderServiceContract::class, OrderService::class);
     }
 
     /**
