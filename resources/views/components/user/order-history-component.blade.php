@@ -25,7 +25,15 @@
                     {{$order->payment->paymentsService->name ?? ''}}
                 </x-info-component>
                 <x-info-component :title="__('profile.orders.totalCost')">
-                    <span class="Order-price">{{$order->total}}$</span>
+                    @if($order->payment?->payed_at != null)
+                        <span class="Order-price">
+                            <x-format-price :price="$order->total" />
+                        </span>
+                    @else
+                        <span class="Order-price">
+                            <x-format-price :price="$orderService->getTotalCost()" />
+                        </span>
+                    @endif
                 </x-info-component>
                 <x-info-component :title="__('profile.orders.status')" classes="Order-info_status">
                     @if($order->payment?->payed_at != null)
