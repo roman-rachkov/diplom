@@ -36,11 +36,12 @@ class SkydescentSeeder extends Seeder
 {
     public function run()
     {
-        $this->call([PaymentsServiceSeeder::class]);
-        $user = $this->seedUser();
-        $this->seedNestedSetCategories();
-        $this->seedProduct();
-        $this->seedComparedProducts($user);
+        //$this->call([PaymentsServiceSeeder::class]);
+        //$user = $this->seedUser();
+        //$this->seedNestedSetCategories();
+        //$this->seedProduct();
+        $user = User::find(5);
+        //$this->seedComparedProducts($user);
         $this->seedCartWitDiscount($user);
     }
 
@@ -403,7 +404,7 @@ class SkydescentSeeder extends Seeder
         //Добавляем user
 
 
-        $customer = Customer::where('user_id', $user->id)->first ?:
+        $customer = Customer::where('user_id', $user->id)->first() ?:
             Customer::factory()
             ->for($user)
             ->create();
