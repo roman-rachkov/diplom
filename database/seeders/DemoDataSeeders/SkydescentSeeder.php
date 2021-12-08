@@ -36,14 +36,12 @@ class SkydescentSeeder extends Seeder
 {
     public function run()
     {
-        //$this->call([PaymentsServiceSeeder::class]);
-        //$user = User::find(1);
-        //$user = $this->seedUser();
-        //Attachment::factory()->create();
+        $this->call([PaymentsServiceSeeder::class]);
+        $user = $this->seedUser();
         $this->seedNestedSetCategories();
-        //$this->seedProduct();
-        //$this->seedComparedProducts($user);
-        //$this->seedCartWitDiscount($user);
+        $this->seedProduct();
+        $this->seedComparedProducts($user);
+        $this->seedCartWitDiscount($user);
     }
 
     protected function seedUser()
@@ -74,7 +72,7 @@ class SkydescentSeeder extends Seeder
                     'name' => 'Самоваров Аркадий Петрович',
                     'email' => 'samovarov@email.com',
                     'email_verified_at' => now(),
-                    'phone' => '99988877711'
+                    'phone' => '999888777'
                 ]);
     }
 
@@ -403,7 +401,10 @@ class SkydescentSeeder extends Seeder
     protected function seedComparedProducts($user)
     {
         //Добавляем user
-        $customer = Customer::factory()
+
+
+        $customer = Customer::where('user_id', $user->id)->first ?:
+            Customer::factory()
             ->for($user)
             ->create();
 
@@ -462,7 +463,7 @@ class SkydescentSeeder extends Seeder
                 'category_id' => Category::where('slug', 'mikrovolnovki')->get()->first()->id,
                 'main_img_id' => Attachment::factory($this->prepareAttachment('products/images/collider.jpg', date('Y/m/d') . '/')),
                 'seller' => ['name' => 'CERN', 'logo_id' => Attachment::factory()
-                    ->create($this->prepareAttachment('sellers/images/cern_logo.jpeg', date('Y/m/d') . '/'))],
+                    ->create($this->prepareAttachment('sellers/images/cern_logo.png', date('Y/m/d') . '/'))],
                 'price' => 100,
                 'characteristics' => collect([
                     ['name' => 'Вес', 'measure' => 'гр.', 'value' => 'подсчёты ещё ведутся'],
