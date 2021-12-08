@@ -53,8 +53,8 @@ class SkydescentSeeder extends Seeder
            ->has(Attachment::factory($this->prepareAttachment('users/samovarov.jpg',
                  date('Y/m/d') . '/')))
            ->has(Role::factory([
-               'slug' => 'administrator',
-               'name' => 'Администратор',
+               'slug' => 'samovarov_admin',
+               'name' => 'Самоваров_admin',
                'permissions' => [
                    'platform.index' => 1,
                    'platform.systems.roles' => 1,
