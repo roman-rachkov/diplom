@@ -48,7 +48,7 @@ class CustomerRepository implements CustomerRepositoryContract
 
     public function getCustomerCartByHash($hash): Collection
     {
-        return app(OrderItemRepositoryContract::class)->getCartByCustomer($this->getByHash($hash));
+        return app(OrderItemRepositoryContract::class)->getCartByCustomer($this->getByHash($hash), null);
     }
 
     public function removeCustomerByHash($hash)
