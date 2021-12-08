@@ -24,14 +24,14 @@ class CustomerService implements CustomerServiceContract
     {
         return Cache::store('array')->rememberForever('customerService', function () {
 
+            if (auth()->user() && auth()->user()->customer) {
+                return auth()->user()->customer;
+            }
+
             if (!Cookie::get('customer_token')) {
                 $customer = $this->repository->createCustomer();
                 Cookie::queue('customer_token', $customer->hash);
                 return $customer;
-            }
-
-            if (auth()->user() && auth()->user()->customer) {
-                return auth()->user()->customer;
             }
 
             if (auth()->user() && !auth()->user()->customer) {
