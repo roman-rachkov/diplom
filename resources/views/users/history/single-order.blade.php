@@ -66,16 +66,14 @@
                             </div>
                         </div>
                         <div class="Cart Cart_order">
-                            @foreach($order->items as $item)
-                                <x-user.order-history-product-component :item="$item"/>
+                            @foreach($orderItemsDTOs as $dto)
+                                <x-user.order-history-product-component :dto="$dto"/>
                             @endforeach
                             <div class="Cart-total">
-                                <div class="Cart-block Cart-block_total">
-                                    <strong class="Cart-title">{{__('cart.total')}}:<span
-                                            class="Cart-price">200.99$</span><span
-                                            class="Cart-price_old">{{$order->total}}$</span>
-                                    </strong>
-                                </div>
+                                <x-cart.cart-price
+                                        :cost="$orderService->getCartCost()"
+                                        :costWithDiscount="$orderService->getTotalCost()"
+                                />
                                 @if($order->payment?->payed_at === null)
                                     <div class="Cart-block">
                                         <a class="btn btn_primary btn_lg" href="{{route('order.repay', $order)}}">{{__('payment.pay')}}</a>

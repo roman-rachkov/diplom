@@ -29,4 +29,14 @@ class Customer extends Model
     {
         return $this->hasMany(ViewedProduct::class);
     }
+
+    public function comparedProducts(): HasMany
+    {
+        return $this->hasMany(ComparedProduct::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

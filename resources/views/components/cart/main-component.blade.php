@@ -8,7 +8,10 @@
                     <x-cart.product-component :dto="$dto"/>
                 @endforeach
                 <div class="Cart-total">
-                    <x-cart.cart-price :cartService="$cartService"/>
+                    <x-cart.cart-price
+                            :cost="$cartService->getCartCost()"
+                            :costWithDiscount="$cartService->getTotalCost()"
+                    />
                     <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{route('order.index')}}">{{__('cart.checkout')}}</a>
                     </div>
                 </div>

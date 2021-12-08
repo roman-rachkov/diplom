@@ -59,9 +59,7 @@ class CompareProductsService implements CompareProductsServiceContract
 
     public function getCount(Customer $customer): int
     {
-        return $this->repository
-            ->getComparedProducts($customer)
-            ->count();
+        return $this->get($customer)['products']->count();
     }
 
 
@@ -127,4 +125,5 @@ class CompareProductsService implements CompareProductsServiceContract
 
            return collect($characteristicDTOs);
     }
+
 }

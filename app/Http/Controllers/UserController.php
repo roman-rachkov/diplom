@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
+use App\Contracts\Service\OrderServiceContract;
 use App\Contracts\Service\UsersAvatarServiceContract;
 use App\Http\Requests\UpdateUserRequest;
 use App\Service\Product\ViewedProductsService;
 use App\Models\Order;
 use App\Models\User;
-use App\Service\UsersAvatarService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -63,6 +63,12 @@ class UserController extends Controller
 
     public function showOrder(User $user, Order $order)
     {
-        return view('users.history.single-order')->with(compact('user', 'order'));
+        $orderService = app()->makeWith(
+            OrderServiceContract::class,
+            ['order' => $order]);
+        $orderItemsDTOs = $orderService->getOrderItemsDTOs();
+
+        return view('users.history.single-order')
+            ->with(compact('user', 'order', 'orderItemsDTOs', 'orderService'));
     }
 }

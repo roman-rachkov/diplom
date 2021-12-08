@@ -13,10 +13,7 @@
                 <x-discount.badge
                         :discount="$dto->discount"
                 />
-                <img
-                        src={{$dto->product->image->getRelativeUrlAttribute()}}
-                        alt={{$dto->product->image->alt}}
-                />
+                <img src={{ $dto->product->image->getRelativeUrlAttribute() }} alt={{ $dto->product->image->alt }}/>
             </div>
             <x-product.product-item-images
                     :images="$dto->product->attachment"
@@ -105,26 +102,7 @@
                 {!! $dto->product->full_description !!}
             </div>
             <x-product.product-item-sellers :product="$dto->product" :prices="$dto->product->prices"/>
-            <div class="Tabs-block" id="addit">
-                <div class="Product-props">
-                    <div class="Product-prop">
-                        <strong>Lorem
-                        </strong><span> Pfizer</span>
-                    </div>
-                    <div class="Product-prop">
-                        <strong>ipsum
-                        </strong><span> Lorem ipsum dolor sit</span>
-                    </div>
-                    <div class="Product-prop">
-                        <strong>dolor sit
-                        </strong><span> 5 ans</span>
-                    </div>
-                    <div class="Product-prop">
-                        <strong>psum dolo
-                        </strong><span> 2–3 jours</span>
-                    </div>
-                </div>
-            </div>
+            <x-product.product-item-characteristics :product="$dto->product"/>
             <x-review.reviews :reviews="$reviews" :product="$dto->product"/>
         </div>
     </div>
