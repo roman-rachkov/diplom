@@ -63,7 +63,7 @@ class ProductRepository implements ProductRepositoryContract
 
         if ($request->getSearch()) {
             $key .= '_search_' . $request->getSearch();
-            $query->where('name', '=', $request->getSearch());
+            $query->where('name', 'like', '%' . $request->getSearch() . '%');
         }
 
         if ($request->getOrderBy()) {
