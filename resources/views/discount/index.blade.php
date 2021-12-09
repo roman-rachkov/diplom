@@ -10,7 +10,7 @@
                 @foreach($discounts as $discount)
                 <div class="Card">
                     <a class="Card-picture" href="#">
-                        <img src="{{$discount->image->getRelativeUrlAttribute() ?? ''}}" alt="{{$discount->image->alt}}"/>
+                        <img src="{{$discount->image?->getRelativeUrlAttribute() ?? ''}}" alt="{{$discount->image?->alt ?? ''}}"/>
                     </a>
 
                     <x-discount.data :discount="$discount"/>
