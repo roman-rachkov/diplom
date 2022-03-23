@@ -7,7 +7,9 @@ use App\Contracts\Service\AdminSettingsServiceContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
 use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\Discount\CartDiscountServiceContract;
+use App\DTO\CartItemDTO;
 use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Support\Collection;
 
 class GetCartService implements GetCartServiceContract
@@ -15,45 +17,42 @@ class GetCartService implements GetCartServiceContract
     protected Customer $customer;
 
     public function __construct(
-        protected OrderItemRepositoryContract $repository,
-        CustomerServiceContract $customerService,
+        protected CustomerServiceContract $customerService,
         protected AdminSettingsServiceContract $settings,
-        protected CartDiscountServiceContract $discountService
+        protected CartDiscountServiceContract $discountService,
+        private OrderItemRepositoryContract $orderItemRepository,
+        private ?Order $order = null
     )
     {
         $this->customer = $customerService->getCustomer();
     }
 
-    public function getItemsList(): Collection
+    public function setOrder(Order $order)
     {
-        return cache()
-            ->tags(['cart', 'orderItems'])
-            ->remember(
-                'cart-' . $this->customer->id . '-items',
-                $this->settings->get('cartCacheLifeTime', 20 * 60),
-                function () {
-                    return $this->repository->getCartByCustomer($this->customer);
-                });
+        $this->order = $order;
+        $this->customer = $order->customer;
     }
+
 
     public function getCartItemsDTOs(): Collection
     {
         return $this->discountService->getCartItemsDTOs(
-            $this->getItemsList(),
-            $this->getProductsQuantity(),
+            $this->getCartItemsList(),
+            $this->getCartProductsQuantity(),
             $this->getCartCost(),
-            $this->customer->id
         );
     }
 
-    public function getProductsQuantity(): int
+    public function getCartProductsQuantity(): int
     {
-        return $this->getItemsList()->sum('quantity');
+        return $this->getCartItemsList()->sum('quantity');
     }
 
-    public function getTotalCost(): float
+    public function getTotalCost(?Collection $cartItemsDTOs = null): float
     {
-        return  $this->getCartItemsDTOs()->reduce(function ($carry,$item){
+        $dtos = is_null($cartItemsDTOs) ? $this->getCartItemsDTOs() : $cartItemsDTOs;
+
+        return  $dtos->reduce(function ($carry,$item){
             return $item->sumPricesWithDiscount ?
                 $carry + $item->sumPricesWithDiscount :
                 $carry + $item->sumPrice;
@@ -62,6 +61,23 @@ class GetCartService implements GetCartServiceContract
 
     public function getCartCost(): float
     {
-        return $this->getItemsList()->sum('sum');
+        return $this->getCartItemsList()->sum('sum');
+    }
+
+    public function getCartItemsList(): Collection
+    {
+        return cache()
+            ->tags(['cart', 'orderItems'])
+            ->remember(
+                'cart-' . $this->customer->id . '-items',
+                $this->settings->get('cartCacheLifeTime', 20 * 60),
+                function () {
+                    return $this->orderItemRepository->getCartByCustomer($this->customer, $this->order);
+                });
+    }
+
+    public function getCustomer()
+    {
+        return $this->customer;
     }
 }

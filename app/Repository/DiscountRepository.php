@@ -50,34 +50,19 @@ class DiscountRepository implements DiscountRepositoryContract
     }
 
     public function getOnCartDiscount(
-        string $customerId,
         int $productsQty,
         float $cartCost
     ): ?Discount
     {
-        return Cache::tags(
-            [
-                'discounts',
-                'products',
-                'categories'
-            ]
-        )->remember(
-            'cart_most_weight_discount|customer_id=' . $customerId,
-            $this->getTtl(),
-            function () use (
+
+        return
+            $this->getDiscountQueryFilter(
+                Discount::CATEGORY_CART,
                 $productsQty,
-                $cartCost,
-            ) {
-                    return
-                        $this->getDiscountQueryFilter(
-                            Discount::CATEGORY_CART,
-                            $productsQty,
-                            $cartCost
-                        )
-                        ->orderByDesc('weight')
-                        ->first();
-            }
-        );
+                $cartCost
+            )
+            ->orderByDesc('weight')
+            ->first();
 
     }
 

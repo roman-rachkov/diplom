@@ -8,7 +8,7 @@
     <div class="Section">
         <div class="wrap">
 
-            <x-banners_home/>
+{{--            <x-banners_home/>--}}
 
         </div>
     </div>

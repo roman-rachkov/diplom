@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Service\OrderServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
 use App\Http\Requests\PaymentFormRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -28,7 +30,10 @@ class PaymentController extends Controller
         return view('payment.waiting')->with(compact('order', 'payment'));
     }
 
-    public function complete(Request $request, PaymentsIntegratorServiceContract $paymentsService)
+    public function complete(
+        Request $request,
+        PaymentsIntegratorServiceContract $paymentsService
+    )
     {
         $data = $request->validate(['payment' => 'exists:payments,id']);
 
@@ -37,6 +42,15 @@ class PaymentController extends Controller
         } catch (\Throwable $e) {
             abort($e->getCode(), $e->getMessage());
         }
+
+
+        if($status) {
+            $orderService = app()->makeWith(
+                OrderServiceContract::class,
+                ['order' => $paymentsService->getPaymentById($data['payment'])->order]);
+            $orderService->addHistory();
+        }
+
         return response()->json(['status' => $status]);
 
     }

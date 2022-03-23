@@ -6,7 +6,6 @@ use App\Contracts\Repository\OrderRepositoryContract;
 use App\Contracts\Repository\PaymentsServicesRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Service\Cart\GetCartServiceContract;
-use App\Contracts\Service\CustomerServiceContract;
 use App\Contracts\Service\DeliveryCostServiceContract;
 use App\Contracts\Service\FlashMessageServiceContract;
 use App\Contracts\Service\PaymentsIntegratorServiceContract;
@@ -25,7 +24,7 @@ class OrderController extends Controller
     public function __construct()
     {
         $this->middleware(function (Request $request, Closure $next) {
-            if (app(GetCartServiceContract::class)->getProductsQuantity() <= 0) {
+            if (app(GetCartServiceContract::class)->getCartProductsQuantity() <= 0) {
                 return redirect()->route('cart.index');
             }
             return $next($request);
@@ -80,7 +79,7 @@ class OrderController extends Controller
     public function add(
         Request $request,
         PaymentsIntegratorServiceContract $payments,
-        OrderRepositoryContract $orderRepository
+        OrderRepositoryContract $orderRepository,
     )
     {
         try {
