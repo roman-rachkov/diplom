@@ -32,7 +32,7 @@
 Проект разрабатывался с 15 августа 2021 года по 7 декабря 2021 года.
 Все участники выполняли задачи дипломного проекта в условиях полной занятости на основной работе.
 
-Team-lead: <a href="https://github.com/mvsvolkov">mvsvolkov</a>
+Team-lead: <a href="https://github.com/mvsvolkov">Михаил Волков</a>
 
 Команда:
 - <a href="https://github.com/Skydescent">Калашников Крилл</a>
